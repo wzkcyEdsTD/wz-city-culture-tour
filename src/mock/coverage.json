@@ -1,0 +1,92 @@
+[
+  {
+    "id": 1,
+    "label": "自然灾害",
+    "children": [
+      {
+        "id": 5,
+        "dataName": "pg_wzyjdb:mountain_flood_ditch",
+        "label": "山洪沟",
+        "url": "http://10.36.234.83:8090/iserver/services/map-ZIRANZH_SHIZHENG_DAOLU/rest/maps/SHANHONGGOU_S"
+      },
+      {
+        "id": 6,
+        "dataName": "pg_wzyjdb:reservoir",
+        "label": "易涝点/水库",
+        "url": "http://10.36.234.83:8090/iserver/services/map-ZIRANZH_SHIZHENG_DAOLU/rest/maps/SHUIKU_S"
+      },
+      {
+        "id": 7,
+        "dataName": "natural_disaster_dangerous_area",
+        "label": "山洪灾害危险区",
+        "url": "http://10.36.234.83:8090/iserver/services/map-ZIRANZH_SHIZHENG_DAOLU/rest/maps/SHZHWXQ"
+      },
+      {
+        "id": 8,
+        "dataName": "",
+        "label": "小流域",
+        "url": "http://10.36.234.83:8090/iserver/services/map-ZIRANZH_SHIZHENG_DAOLU/rest/maps/XIAOLIUYU_S"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "label": "救灾减灾",
+    "children": [
+      {
+        "id": 5,
+        "dataName": "pg_wzyjdb:mountain_flood_ditch",
+        "label": "应急避难场所",
+        "url": "http://10.36.234.83:8090/iserver/services/map-ZIRANZH_SHIZHENG_DAOLU/rest/maps/SHANHONGGOU_S"
+      },
+      {
+        "id": 6,
+        "dataName": "pg_wzyjdb:reservoir",
+        "label": "危化类专家",
+        "url": "http://10.36.234.83:8090/iserver/services/map-ZIRANZH_SHIZHENG_DAOLU/rest/maps/SHUIKU_S"
+      },
+      {
+        "id": 7,
+        "dataName": "natural_disaster_dangerous_area",
+        "label": "电器类专家",
+        "url": "http://10.36.234.83:8090/iserver/services/map-ZIRANZH_SHIZHENG_DAOLU/rest/maps/SHZHWXQ"
+      },
+      {
+        "id": 8,
+        "dataName": "",
+        "label": "矿山类专家",
+        "url": "http://10.36.234.83:8090/iserver/services/map-ZIRANZH_SHIZHENG_DAOLU/rest/maps/XIAOLIUYU_S"
+      },
+      {
+        "id": 9,
+        "dataName": "",
+        "label": "防汛类专家",
+        "url": "http://10.36.234.83:8090/iserver/services/map-ZIRANZH_SHIZHENG_DAOLU/rest/maps/XIAOLIUYU_S"
+      },
+      {
+        "id": 10,
+        "dataName": "",
+        "label": "机械类专家",
+        "url": "http://10.36.234.83:8090/iserver/services/map-ZIRANZH_SHIZHENG_DAOLU/rest/maps/XIAOLIUYU_S"
+      },
+      {
+        "id": 11,
+        "dataName": "",
+        "label": "综合类专家",
+        "url": "http://10.36.234.83:8090/iserver/services/map-ZIRANZH_SHIZHENG_DAOLU/rest/maps/XIAOLIUYU_S"
+      },
+      {
+        "id": 12,
+        "dataName": "",
+        "label": "减灾救灾专家",
+        "url": "http://10.36.234.83:8090/iserver/services/map-ZIRANZH_SHIZHENG_DAOLU/rest/maps/XIAOLIUYU_S"
+      },
+      {
+        "id": 13,
+        "dataName": "",
+        "label": "地震地质专家",
+        "url": "http://10.36.234.83:8090/iserver/services/map-ZIRANZH_SHIZHENG_DAOLU/rest/maps/XIAOLIUYU_S"
+      }
+    ]
+  }
+]

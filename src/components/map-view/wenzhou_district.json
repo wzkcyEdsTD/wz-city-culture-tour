@@ -1,0 +1,16 @@
+{"type":"FeatureCollection", "features": [
+{"type":"Feature","geometry":{"type":"Point","coordinates":[119.9136487543552,27.55]},"properties":{"NAME":"泰顺县","CODE":"330329","FID_1":0}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[120.45,27.40]},"properties":{"NAME":"苍南县","CODE":"330327","FID_1":1}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[120.02096135014362,27.794617731003854]},"properties":{"NAME":"文成县","CODE":"330328","FID_1":2}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[120.44880408731507,27.63907772869693]},"properties":{"NAME":"平阳县","CODE":"330326","FID_1":3}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[120.50,27.82]},"properties":{"NAME":"瑞安市","CODE":"330381","FID_1":4}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[120.57964076586997,27.950341174604638]},"properties":{"NAME":"瓯海区","CODE":"330304","FID_1":5}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[120.81,27.84]},"properties":{"NAME":"经开区","CODE":"330371","FID_1":6}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[121.18,27.839985959593417]},"properties":{"NAME":"洞头区","CODE":"330305","FID_1":7}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[120.60,28.07780957393547]},"properties":{"NAME":"鹿城区","CODE":"330302","FID_1":8}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[120.65363143244812,28.338067568496675]},"properties":{"NAME":"永嘉县","CODE":"330324","FID_1":9}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[121.01236703731516,28.25]},"properties":{"NAME":"乐清市","CODE":"330382","FID_1":10}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[120.63,27.50]},"properties":{"NAME":"龙港市","CODE":"330383","FID_1":11}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[120.8179425091865,27.885]},"properties":{"NAME":"龙湾区","CODE":"330303","FID_1":13}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[120.90,27.953543493179364]},"properties":{"NAME":"瓯江口","CODE":"330372","FID_1":14}}
+]}

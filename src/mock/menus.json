@@ -1,0 +1,15 @@
+[
+  {
+    "id": 13,
+    "name": "一张图",
+    "district": "泰顺县,苍南县,平阳县,鹿城区,龙湾区,瓯海区,洞头区,乐清市,瑞安市,龙港市,永嘉县,文成县,温州市,经开区,瓯江口,测试区",
+    "districtCode": "330329,330327,330326,330302,330303,330304,330305,330382,330381,330383,330324,330328,3303,330371,330372",
+    "districtHide": null,
+    "districtCodeHide": null,
+    "url": "map",
+    "createTime": null,
+    "modifyTime": null,
+    "isPermitted": 1,
+    "isHided": 0
+  }
+]

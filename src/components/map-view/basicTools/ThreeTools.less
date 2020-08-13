@@ -1,0 +1,100 @@
+:root {
+  --arrowleft : 25%;
+  --closeright: 0;
+}
+
+.ThreeToTop {
+  top: 70px !important;
+  bottom: unset!important;
+}
+
+.ThreeDContainer {
+  position: fixed;
+  bottom  : 30px;
+  left    : 0;
+  right   : 0;
+  margin  : 0 auto;
+
+  .tframe {
+    overflow       : hidden;
+    display        : flex;
+    align-items    : center;
+    justify-content: center;
+    padding        : 0 10px;
+    background     : rgba(11, 20, 35, 0.8);
+    border         : 1px solid rgba(81, 161, 201, 0.6);
+  }
+
+  .el-button {
+    height          : 30px;
+    line-height     : 30px;
+    padding         : 0 18px;
+    background-color: #003354;
+    border          : 2px solid #00687d;
+    border-radius   : 4px;
+    color           : #2e7ecc;
+  }
+
+  .elformbtn {
+    // background-color: #003354;
+    color        : rgba(0, 220, 234, 1);
+    border       : 1px solid rgba(0, 242, 255, 1);
+    border-radius: 2px;
+    opacity      : 0.6;
+  }
+
+  .el-input__inner {
+    color           : #C0C4CC;
+    background-color: #003354;
+    border          : 1px solid #1087DD;
+  }
+
+  .el-input.is-disabled .el-input__inner {
+    background-color: #003354;
+    border-color    : #1087DD;
+  }
+
+  .el-form {
+    width        : 100%;
+    margin-top   : 10px;
+    margin-bottom: 10px;
+  }
+
+  .elformbtns {
+    >.el-form-item__content {
+      margin-left: 0 !important;
+    }
+  }
+
+  .el-form-item__label {
+    color: #0DD4F2;
+  }
+
+  .ThreeDContainer .el-input {
+    width: 88%;
+  }
+
+  .el-input {
+    width: 88%;
+  }
+
+  .el-checkbox {
+    width              : 88%;
+    color              : #C0C4CC;
+    // background-color: #003354;
+    // border: 1px solid #1087DD;
+  }
+
+  .el-select {
+    width: 100%;
+  }
+
+  .el-form-item {
+    margin-bottom: 0px;
+    color        : rgba(0, 242, 255, 1);
+  }
+}
+
+.select-option .el-select-dropdown__list .hover {
+  background-color: #5AB4FF !important;
+}

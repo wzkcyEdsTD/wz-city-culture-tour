@@ -1,0 +1,201 @@
+.switchBtn {
+  position: absolute;
+  right: 100px;
+  top: 100px;
+  z-index: 9;
+}
+#rightMap {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  right: 0px;
+}
+#base-map {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  // background-color: white;
+  background-color: "#204f77";
+}
+.mapboxgl-popup-content {
+  position: relative;
+  color: black;
+  background: white;
+  border-radius: 0.03rem;
+  box-shadow: 0 0.01rem 0.02rem rgba(0, 0, 0, 0.1);
+  padding: 0.1rem 0.1rem 0.15rem;
+  pointer-events: auto;
+}
+/deep/ .mapboxgl-canvas {
+  top: 0;
+  left: 0;
+}
+.search.collapse {
+  left: 0.5rem;
+}
+.meter-box.collapse {
+  left: 0.1rem;
+}
+/*弹出的提示框*/
+/deep/ .pop-tip {
+  position: relative;
+  font-size: 0.16rem;
+  padding-bottom: 0.3rem;
+  width: 370px;
+  > p:first-child {
+    font-size: 0.2rem;
+    line-height: 0.3rem;
+    padding-right: 0.25rem;
+    margin-bottom: 10px;
+    color: #7acdfd;
+  }
+  > p {
+    display: flex;
+    line-height: 0.35rem;
+    padding-right: 0rem;
+    margin-bottom: 5px;
+  }
+  > div {
+    line-height: 0.3rem;
+    display: flex;
+    > p:nth-child(1) {
+      padding-right: 15px;
+    }
+    > p:nth-child(2) {
+      width: calc(370px - 1.3rem);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+    }
+  }
+}
+/deep/ .pop-tip-juhe {
+  position: relative;
+  min-width: 1.5rem;
+  padding-bottom: 0;
+  > p {
+    font-size: 0.2rem;
+    margin-bottom: 0.2rem;
+  }
+  .pop-top-box {
+    font-size: 0.16rem;
+    max-height: 1.5rem;
+    overflow: auto;
+    margin-bottom: -0.2rem;
+    padding-top: 0.05rem;
+    > div {
+      clear: both;
+      > span {
+        display: block;
+        line-height: 0.26rem;
+        padding-right: 0.2rem;
+        float: left;
+      }
+      > b {
+        color: #ffea00;
+        display: block;
+        line-height: 0.26rem;
+        float: left;
+      }
+    }
+  }
+}
+/deep/ .pop-measure {
+  position: relative;
+  font-size: 0.16rem;
+  padding-bottom: 0.1rem;
+}
+/deep/ .pop-tip-title {
+  color: #58a7db;
+  font-size: 0.16rem;
+  line-height: 0.2rem;
+  margin-bottom: 0.05rem;
+}
+/deep/ .pop-body {
+  display: flex;
+  align-items: flex-start;
+  span:nth-child(1) {
+    display: inline-block;
+  }
+  span:nth-child(2) {
+    display: inline-block;
+    width: 350px;
+    text-overflow: -o-ellipsis-lastline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    text-align: justify;
+  }
+}
+/deep/ .pop-tip-more {
+  position: absolute;
+  bottom: -0.2rem;
+  left: 0;
+  font-size: 0.14rem;
+  line-height: 0.14rem;
+  display: block;
+  cursor: pointer;
+}
+/deep/ .pop-tip-list {
+  position: absolute;
+  bottom: -0.24rem;
+  left: 0.95rem;
+  font-size: 0.14rem;
+  line-height: 0.14rem;
+  display: block;
+  cursor: pointer;
+}
+/deep/ .pop-tip-analyse {
+  position: absolute;
+  bottom: -0.25rem;
+  font-size: 0.14rem;
+  line-height: 0.2rem;
+  border: 0.01rem solid #2090c5;
+  padding: 0.02rem 0.3rem;
+  background: #0a4c6e;
+  cursor: pointer;
+}
+/deep/ .pop-tip-around {
+  position: absolute;
+  display: inline-block;
+  margin-left: 60%;
+  bottom: -0.25rem;
+  font-size: 0.14rem;
+  line-height: 0.2rem;
+  border: 0.01rem solid #2090c5;
+  padding: 0.02rem 0.05rem;
+  background: #0a4c6e;
+  cursor: pointer;
+}
+/deep/ .pop-tip-nearby {
+  position: absolute;
+  display: inline-block;
+  margin-left: 80%;
+  bottom: -0.25rem;
+  font-size: 0.14rem;
+  line-height: 0.2rem;
+  border: 0.01rem solid #2090c5;
+  padding: 0.02rem 0.05rem;
+  background: #0a4c6e;
+  cursor: pointer;
+}
+.legend-box {
+  position: absolute;
+  bottom: 0.05rem;
+  right: 4rem;
+  z-index: 2;
+  width: 1.8rem;
+  min-height: 0.4rem;
+  transition: all 0.3s linear;
+  &.collapse {
+    right: 0.14rem;
+  }
+  &.splitScreen {
+    right: 0.14rem;
+  }
+}

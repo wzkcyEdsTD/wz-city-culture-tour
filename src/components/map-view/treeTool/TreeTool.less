@@ -1,0 +1,182 @@
+.coverage {
+  position: absolute;
+  bottom  : 40px;
+  left    : 50px;
+
+  .treeFilterInput {
+    position       : absolute;
+    right          : 25px;
+    top            : 12px;
+    width          : 40%;
+    height         : 40px;
+    display        : flex;
+    align-items    : center;
+    justify-content: center;
+
+    .el-input__inner {
+      background: none;
+      border    : 1px solid #449bf6;
+      color     : white;
+    }
+  }
+
+  .layerTreeContainer {
+    height  : calc(100% - 110px);
+    overflow: hidden auto;
+
+    .el-tree-node__expand-icon {
+      color    : #449bf6;
+      font-size: 18px;
+    }
+
+    .el-tree-node__expand-icon.is-leaf {
+      color: transparent;
+    }
+
+    .el-tree-node__label {
+      color: white;
+      text-shadow: #449bf6 1px 0 0, #449bf6 0 1px 0, #449bf6 -1px 0 0,
+        #449bf6 0 -1px 0;
+    }
+
+    .el-tree-node:focus>.el-tree-node__content {
+      background: none;
+    }
+
+    .el-tree-node__content:hover {
+      background: none;
+    }
+
+    .el-checkbox__input.is-checked .el-checkbox__inner,
+    .el-checkbox__input.is-indeterminate .el-checkbox__inner {
+      background-color: #0adffa;
+      border-color    : #0adffa;
+    }
+
+    .el-checkbox__inner::after {
+      border     : 1px solid black;
+      border-left: 0;
+      border-top : 0;
+    }
+
+    .el-checkbox__inner::before {
+      background-color: black !important;
+    }
+  }
+
+  .mapboxgl-popup-content {
+    min-width : 405px;
+    height    : auto;
+    background: rgba(13, 20, 34, 0.9);
+    border    : 2px solid #01cfff;
+    padding   : 0px;
+
+    .mapboxgl-popup-close-button {
+      line-height : 35px;
+      font-size   : 20px;
+      color       : #0de0c1;
+      margin-right: 10px;
+    }
+
+    .pop-tip {
+      .pop-tip-title {
+        margin       : 0;
+        color        : #fff;
+        line-height  : 40px;
+        max-width    : 400px;
+        height       : 40px;
+        padding      : 0 25px;
+        font-size    : 20px;
+        overflow     : hidden;
+        text-overflow: ellipsis;
+        white-space  : nowrap;
+        border-bottom: 1px solid #00e3f1;
+      }
+
+      .pop-tip-table {
+        margin   : 5px 10px;
+        color    : #fff;
+        font-size: 16px;
+
+        .pop-tip-table-title {
+          color        : #21e077;
+          overflow     : hidden;
+          text-overflow: ellipsis;
+          white-space  : nowrap;
+        }
+      }
+
+      .pop-tip-bottom {
+        width      : 100%;
+        // position: absolute;
+        height     : 40px;
+
+        .pop-tip-more {
+          position     : absolute;
+          color        : #00e3f1;
+          padding      : 2px 10px;
+          border       : 1px solid #00e3f1;
+          border-radius: 25px;
+          margin-left  : 10px;
+        }
+
+        .pop-tip-analyse {
+          position     : absolute;
+          color        : #00e3f1;
+          right        : 0;
+          padding      : 2px 10px;
+          border       : 1px solid #00e3f1;
+          border-radius: 25px;
+          margin-right : 10px;
+        }
+
+        .pop-tip-more:hover {
+          color           : #fff;
+          cursor          : pointer;
+          background-color: #00e3f1;
+        }
+
+        .pop-tip-analyse:hover {
+          color           : #fff;
+          cursor          : pointer;
+          background-color: #00e3f1;
+        }
+      }
+    }
+  }
+
+  .mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip,
+  .mapboxgl-popup-anchor-top .mapboxgl-popup-tip {
+    border-top-color   : #01cfff;
+    border-bottom-color: #01cfff;
+  }
+
+  .mapboxgl-popup {
+    max-width: 100% !important;
+  }
+
+  .el-popover {
+    height         : 440px;
+    background     : url("../../../common/images/popover.png") no-repeat;
+    background-size: 100% 100%;
+    border         : none !important;
+    bottom         : 16px;
+    left           : 30px;
+
+    .el-popover__title {
+      margin-bottom: 10px;
+      padding      : 10px;
+      font-size    : 16px;
+      border-bottom: 1px solid #449bf6;
+      color        : white;
+      font-size    : 18px;
+      line-height  : 20px;
+      text-shadow  : #449bf6 1px 0 0, #449bf6 0 1px 0, #449bf6 -1px 0 0,
+        #449bf6 0 -1px 0;
+    }
+  }
+
+  .el-tree {
+    background: none;
+  }
+}

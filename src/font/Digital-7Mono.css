@@ -1,0 +1,10 @@
+@charset "UTF-8";
+
+@font-face {
+  font-family: "Digital-7Mono";
+  src: url("Digital-7Mono.woff2") format("woff2"),
+       url("Digital-7Mono.ttf") format("truetype"),
+       url("Digital-7Mono.eot") format("embedded-opentype");
+  font-weight: normal;
+  font-style: normal;
+}
