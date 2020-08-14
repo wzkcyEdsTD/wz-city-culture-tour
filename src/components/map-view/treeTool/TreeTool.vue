@@ -1,10 +1,10 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-07 10:57:45
- * @LastEditTime: 2020-08-13 15:25:19
+ * @LastEditTime: 2020-08-14 09:01:59
  * @LastEditors: eds
  * @Description:
- * @FilePath: \旅游\src\components\map-view\treeTool\TreeTool.vue
+ * @FilePath: \wz-city-culture-tour\src\components\map-view\treeTool\TreeTool.vue
 -->
 <template>
   <div class="coverage">
@@ -169,7 +169,6 @@ export default {
               name: node.id,
               viewer: this.viewer,
             });
-            console.log(mvtMap);
             const layerReadyPromise = mvtMap.readyPromise;
             Cesium.when(layerReadyPromise, (data) => {
               mvtMap.setLayoutProperty(

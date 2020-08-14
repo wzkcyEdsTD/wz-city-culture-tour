@@ -60,7 +60,7 @@ export const ServiceUrl = {
     "http://10.36.234.83:8090/iserver/services/3D-dem/rest/realspace/datas/dem@2018dem",
   // 温州白模
   WZBaimo:
-    "http://10.36.217.240:8098/iserver/services/3D-mongodb-RESLCModelbaimo/rest/realspace/datas/RES_LC_Model@baimo/config",
+    "http://10.36.217.240:8098/iserver/services/3D-mongodb-RESLCModelYH/rest/realspace/datas/RES_LC_Model_YH/config",
   // 三维影像地图
   // SWImage: 'http://10.36.234.83:8098/iserver/services/3D-YX_2019_SW/rest/realspace/datas/YX_2019_SW',
   SWImage:

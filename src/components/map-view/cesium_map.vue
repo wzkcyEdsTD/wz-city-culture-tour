@@ -1,10 +1,10 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-07 09:41:22
- * @LastEditTime: 2020-08-13 11:56:41
+ * @LastEditTime: 2020-08-14 09:44:12
  * @LastEditors: eds
  * @Description:
- * @FilePath: \旅游\src\components\map-view\cesium_map.vue
+ * @FilePath: \wz-city-culture-tour\src\components\map-view\cesium_map.vue
 -->
 <template>
   <div class="cesiumContainer">
@@ -119,12 +119,39 @@ export default {
         name: "mapMvt",
         viewer: this.viewer,
       });
-      console.log(mapMvt)
-      // this.viewer.scene.addS3MTilesLayerByScp(ServiceUrl.WZBaimo, {
-      //   name: "baimo",
-      // });
+      const baimoPromise = this.viewer.scene.addS3MTilesLayerByScp(
+        ServiceUrl.WZBaimo,
+        {
+          name: "baimo",
+        }
+      );
+      Cesium.when(baimoPromise, async (layers) => {
+        this.viewer.scene.layers.find(
+          "baimo"
+        ).style3D.fillForeColor = new Cesium.Color.fromCssColorString(
+          "rgba(162, 169, 183, 0.9)"
+        );
+      });
+      this.addPointLight();
+      this.cameraMove();
       // 移除缓冲圈
       $(".cesium-widget-credits").hide();
+      fn && fn();
+      window.earth = this.viewer;
+    },
+    addPointLight() {
+      const position = new Cesium.Cartesian3(
+        -2876658.347784866,
+        4840022.695245349,
+        2996644.580693739
+      );
+      const options = {
+        intensity: 1,
+      };
+      const directionalLight_v = new Cesium.DirectionalLight(position, options);
+      this.viewer.scene.addLightSource(directionalLight_v);
+    },
+    cameraMove() {
       this.viewer.scene.camera.setView({
         destination: {
           x: -2885689.43805791,
@@ -137,8 +164,6 @@ export default {
           roll: 0,
         },
       });
-      fn && fn();
-      window.earth = this.viewer;
     },
   },
 };
