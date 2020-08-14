@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-07 09:41:22
- * @LastEditTime: 2020-08-14 09:44:12
+ * @LastEditTime: 2020-08-14 10:47:31
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\map-view\cesium_map.vue
@@ -126,13 +126,13 @@ export default {
         }
       );
       Cesium.when(baimoPromise, async (layers) => {
-        this.viewer.scene.layers.find(
-          "baimo"
-        ).style3D.fillForeColor = new Cesium.Color.fromCssColorString(
+        const LAYER = this.viewer.scene.layers.find("baimo");
+        LAYER.style3D.fillForeColor = new Cesium.Color.fromCssColorString(
           "rgba(162, 169, 183, 0.9)"
         );
+        LAYER.visibleDistanceMax = 1500;
       });
-      this.addPointLight();
+      // this.addPointLight();
       this.cameraMove();
       // 移除缓冲圈
       $(".cesium-widget-credits").hide();

@@ -1,10 +1,10 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-12 15:17:46
- * @LastEditTime: 2020-08-12 22:17:00
+ * @LastEditTime: 2020-08-14 10:45:48
  * @LastEditors: eds
  * @Description:
- * @FilePath: \旅游\src\components\map-view\extraModel\NanTangModel.vue
+ * @FilePath: \wz-city-culture-tour\src\components\map-view\extraModel\NanTangModel.vue
 -->
 <template>
   <div class="nanTangModel"></div>
@@ -74,6 +74,7 @@ export default {
         );
         Cesium.when(promise, async (layers) => {
           const layer = this.viewer.scene.layers.find(LAYER_NAME);
+          layer.visibleDistanceMax = 1400;
         });
       }
     },
