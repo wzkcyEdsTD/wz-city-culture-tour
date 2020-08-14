@@ -1,10 +1,10 @@
 /*
  * @Author: eds
  * @Date: 2020-07-29 16:10:06
- * @LastEditTime: 2020-08-12 20:27:51
+ * @LastEditTime: 2020-08-14 11:07:57
  * @LastEditors: eds
  * @Description:
- * @FilePath: \旅游\src\config\server\cesiumTreeOption.js
+ * @FilePath: \wz-city-culture-tour\src\config\server\cesiumTreeOption.js
  */
 const SERVER_HOST = "http://10.36.217.240:8098/iserver/services";
 const SERVER_SUFFIX = "/restjsr/v1/vectortile/maps";
@@ -21,7 +21,7 @@ const TOUR_TOPIC = [
     map: "/永嘉旅游景点地图"
   },
   {
-    label: "精品民宿",
+    label: "温州民宿",
     url: `${SERVER_HOST}/map-mongodbMvt-WenZhouMinSu${SERVER_SUFFIX}`,
     map: "/温州民宿"
   },

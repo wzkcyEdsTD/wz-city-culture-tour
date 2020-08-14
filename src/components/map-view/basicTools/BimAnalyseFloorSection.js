@@ -1,10 +1,10 @@
 /*
  * @Author: eds
  * @Date: 2020-07-28 11:19:46
- * @LastEditTime: 2020-08-07 10:17:05
+ * @LastEditTime: 2020-08-14 11:03:03
  * @LastEditors: eds
  * @Description:
- * @FilePath: \wzsjjt-bd-visual\src\components\map-view\basicTools\BimAnalyseFloorSection.js
+ * @FilePath: \wz-city-culture-tour\src\components\map-view\basicTools\BimAnalyseFloorSection.js
  */
 import { BimSourceURL } from "config/server/mapConfig";
 const { SCENE_DATA_URL } = BimSourceURL;
@@ -36,6 +36,7 @@ const do_SQL_QUERY = (datasetNames, bimHash, selectedFloors_number) => {
       SCENE_DATA_URL,
       {
         eventListeners: {
+          //  调用成功
           processCompleted: queryEventArgs => {
             const selectedFeatures = queryEventArgs.originResult.features;
             const feature = selectedFeatures[0];
@@ -55,6 +56,7 @@ const do_SQL_QUERY = (datasetNames, bimHash, selectedFloors_number) => {
                   : []
             });
           },
+          //  调用失败
           processFailed: () => {
             resolve({});
           }
