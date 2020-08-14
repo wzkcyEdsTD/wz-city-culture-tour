@@ -1,10 +1,10 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-12 14:32:09
- * @LastEditTime: 2020-08-12 21:21:03
+ * @LastEditTime: 2020-08-14 11:22:28
  * @LastEditors: eds
  * @Description:
- * @FilePath: \旅游\src\components\map-view\commonFrame\popup.vue
+ * @FilePath: \wz-city-culture-tour\src\components\map-view\commonFrame\popup.vue
 -->
 <template>
   <div id="trackPopUp" v-show="shallPop">
@@ -57,7 +57,7 @@ const data = {
     <th>13600</th>
   </tr>
 </table></div>`,
-  default: `<div><img style="width:300px;" src="/static/images/nantang.jpg"/><ul>${Object.keys(
+  default: `<div><img style="width:300px;" src="/static/images/nantang.png"/><ul>${Object.keys(
     mvtObj
   )
     .map((v) => `<li style="width:300px;"><strong>${v}</strong> : <span>${mvtObj[v]}</span></li>`)
