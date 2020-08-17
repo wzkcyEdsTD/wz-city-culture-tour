@@ -49,22 +49,6 @@ const Cesium = window.Cesium;
 // import { BimSourceURL } from "config/server/mapConfig";
 // const { SCENE_DATA_URL } = BimSourceURL;
 
-/**
- * 2020/8/17
- * 服务名映射
- */
-const serverHash = {
-  爱国义务教育基地: "爱国主义教育基地",
-  百姓健身房: "百姓健身房",
-  温州民宿: "温州民宿",
-  精品农家乐: "温州农家乐",
-  旅游景点: "永嘉旅游景点地图",
-  市区阅读: "温州市阅读",
-  文化礼堂: "文化礼堂",
-  文化生活: "温州文化生活",
-  夜光经济: "夜景",
-};
-
 export default {
   name: "TreeTool",
   data() {
@@ -82,6 +66,7 @@ export default {
       handler: undefined,
       picked: null,
       pickedAttr: null,
+      entityMap: {},
     };
   },
   computed: {
@@ -111,19 +96,8 @@ export default {
       this.viewer.scene.postRender.addEventListener(() => {
         if (!that.picked || !that.viewer) return;
         if (
-          ~[
-            "people",
-            "vr",
-            "爱国义务教育基地",
-            "百姓健身房",
-            "温州民宿",
-            "精品农家乐",
-            "旅游景点",
-            "市区阅读",
-            "文化礼堂",
-            "文化生活",
-            "夜光经济",
-          ].indexOf(that.picked.name) ||
+          ~["people", "vr"].indexOf(that.picked.name) ||
+          (that.picked.id && that.picked.id.split("@")[1]) ||
           that.picked.primitive._position
         ) {
           const position = that.picked._position
@@ -146,35 +120,18 @@ export default {
       this.viewer.selectedEntityChanged.addEventListener((entity) => {
         if (!this.viewer) return;
         const selectedEntity = this.viewer.selectedEntity;
-        if (
-          selectedEntity &&
-          (~["people", "vr"].indexOf(selectedEntity.name) ||
-            (selectedEntity.primitive &&
-              selectedEntity.primitive._position &&
-              !selectedEntity.primitive._isS3MB))
-        ) {
-          console.log(selectedEntity, this.tileLayers["精品民宿"]);
+        if (selectedEntity && ~["people", "vr"].indexOf(selectedEntity.name)) {
           this.picked = selectedEntity;
-          this.getPickedFeature(selectedEntity.id.split("_")[0]);
         } else if (
           selectedEntity &&
-          (~[
-            "爱国义务教育基地",
-            "百姓健身房",
-            "温州民宿",
-            "精品农家乐",
-            "旅游景点",
-            "市区阅读",
-            "文化礼堂",
-            "文化生活",
-            "夜光经济",
-          ].indexOf(selectedEntity.name) ||
-            (selectedEntity.primitive &&
-              selectedEntity.primitive._position &&
-              !selectedEntity.primitive._isS3MB))
+          selectedEntity.id &&
+          selectedEntity.id.split("@")[1]
         ) {
           this.picked = selectedEntity;
-          this.getPOIPickedFeature(selectedEntity.name, selectedEntity.id);
+          this.getPOIPickedFeature(
+            selectedEntity.id.split("@")[2],
+            selectedEntity.id.split("@")[0]
+          );
         } else {
           this.picked = null;
         }
@@ -190,25 +147,26 @@ export default {
      * 2020/8/16
      * 旅游专题数据
      */
-    getPOIPickedFeature(datasetName, SMID) {
+    getPOIPickedFeature(datasetName, SMID, node) {
       const that = this;
       var getFeatureParam, getFeatureBySQLService, getFeatureBySQLParams;
       getFeatureParam = new SuperMap.REST.FilterParameter({
-        attributeFilter: `SMID = ${SMID}`,
+        attributeFilter: `SMID ${SMID == null ? `>= 1` : `= ${SMID}`}`,
       });
       getFeatureBySQLParams = new SuperMap.REST.GetFeaturesBySQLParameters({
         queryParameter: getFeatureParam,
         toIndex: -1,
-        datasetNames: [`172.20.83.196_swdata:${serverHash[datasetName]}`],
+        datasetNames: [`172.20.83.196_swdata:${datasetName}`],
       });
       var url =
         "http://172.20.83.223:8090/iserver/services/data-SW_Data/rest/data";
       getFeatureBySQLService = new SuperMap.REST.GetFeaturesBySQLService(url, {
         eventListeners: {
           processCompleted: (res) => {
-            console.log(res);
-            if (res.result.featureCount) {
-              that.pickedAttr = res.result.features[0].attributes;
+            if (SMID != null && res.result.featureCount) {
+              this.pickedAttr = res.result.features[0].attributes;
+            } else {
+              this.completed(res, node);
             }
           },
           processFailed: (msg) => {
@@ -219,144 +177,49 @@ export default {
       getFeatureBySQLService.processAsync(getFeatureBySQLParams);
     },
 
-    getPickedFeature(SMID) {
-      var getFeatureParam, getFeatureBySQLService, getFeatureBySQLParams;
-      getFeatureParam = new SuperMap.REST.FilterParameter({
-        attributeFilter: `SMID = ${SMID}`,
+    // 查询完成
+    completed(res, node) {
+      const poiEntityCollection = new Cesium.CustomDataSource(node.id);
+      this.viewer.dataSources.add(poiEntityCollection).then((datasource) => {
+        this.entityMap[node.id] = datasource;
       });
-      getFeatureBySQLParams = new SuperMap.REST.GetFeaturesBySQLParameters({
-        queryParameter: getFeatureParam,
-        toIndex: -1,
-        datasetNames: ["172.20.83.196_swdata:温州民宿"],
+
+      const features = res.result.features;
+
+      features.map((item) => {
+        poiEntityCollection.entities.add(
+          new Cesium.Entity({
+            id: `${item.attributes.SMID}@${node.icon}@${node.dataset}`,
+            position: Cesium.Cartesian3.fromDegrees(
+              item.geometry.x,
+              item.geometry.y,
+              48
+            ),
+            billboard: {
+              image: `/static/images/${node.icon}.png`,
+              width: 44,
+              height: 48,
+            },
+            name: node.id,
+          })
+        );
       });
-      var url =
-        "http://172.20.83.223:8090/iserver/services/data-SW_Data/rest/data";
-      getFeatureBySQLService = new SuperMap.REST.GetFeaturesBySQLService(url, {
-        eventListeners: {
-          processCompleted: (result) => {
-            console.log(result);
-          },
-          processFailed: (msg) => {
-            console.log(msg);
-          },
-        },
-      });
-      getFeatureBySQLService.processAsync(getFeatureBySQLParams);
     },
+
     filterNode(value, data) {
       return !value ? true : data.label.indexOf(value) !== -1;
     },
 
     checkChange(node, checked, c) {
       if (checked) {
-        if (node.type == "mvt" && node.map) {
-          const url = node.url + node.map;
-          const LAYER = this.tileLayers[node.id];
-
-          let DS;
-          if (this.viewer.dataSources.length) {
-            const len = this.viewer.dataSources.length;
-
-            for (let i = 0; i < len; i++) {
-              const ds = this.viewer.dataSources.get(i);
-              if (ds.name == node.id) DS = ds;
-            }
+        if (node.type == "mvt" && node.map && node.icon) {
+          if (node.id && this.entityMap[node.id]) {
+            this.entityMap[node.id].show = true;
+            return;
           }
 
-          if (LAYER) {
-            LAYER.show = true;
-          } else if (DS) {
-            DS.show = true;
-          } else {
-            if (
-              ~[
-                "爱国义务教育基地",
-                "百姓健身房",
-                "温州民宿",
-                "精品农家乐",
-                "旅游景点",
-                "市区阅读",
-                "文化礼堂",
-                "文化生活",
-                "夜光经济",
-              ].indexOf(node.id)
-            ) {
-              /**
-               * 2020/8/17
-               * 专题集合添加
-               */
-              const poiEntityCollection = new Cesium.CustomDataSource(node.id);
-              this.viewer.dataSources.add(poiEntityCollection);
-
-              let getFeatureParam,
-                getFeatureBySQLService,
-                getFeatureBySQLParams;
-              getFeatureParam = new SuperMap.REST.FilterParameter({
-                attributeFilter: `SMID >= 1`,
-              });
-              getFeatureBySQLParams = new SuperMap.REST.GetFeaturesBySQLParameters(
-                {
-                  queryParameter: getFeatureParam,
-                  toIndex: -1,
-                  datasetNames: [`172.20.83.196_swdata:${serverHash[node.id]}`],
-                }
-              );
-              var url =
-                "http://172.20.83.223:8090/iserver/services/data-SW_Data/rest/data";
-              getFeatureBySQLService = new SuperMap.REST.GetFeaturesBySQLService(
-                url,
-                {
-                  eventListeners: {
-                    processCompleted: (res) => {
-                      console.log(res);
-                      if (res.result.featureCount) {
-                        const features = res.result.features;
-
-                        features.map((item, index) => {
-                          poiEntityCollection.entities.add(
-                            new Cesium.Entity({
-                              id: item.attributes.SMID,
-                              position: Cesium.Cartesian3.fromDegrees(
-                                item.geometry.x,
-                                item.geometry.y,
-                                48
-                              ),
-                              billboard: {
-                                image: `/static/images/${node.id}.png`,
-                                width: 44,
-                                height: 48,
-                              },
-                              name: node.id,
-                            })
-                          );
-                        });
-                      }
-                    },
-                    processFailed: (msg) => {
-                      console.log(msg);
-                    },
-                  },
-                }
-              );
-
-              getFeatureBySQLService.processAsync(getFeatureBySQLParams);
-            } else {
-              const mvtMap = this.viewer.scene.addVectorTilesMap({
-                url,
-                name: node.id,
-                viewer: this.viewer,
-              });
-              const layerReadyPromise = mvtMap.readyPromise;
-              Cesium.when(layerReadyPromise, (data) => {
-                mvtMap.setLayoutProperty(
-                  mvtMap.mapboxStyle.layers[0].id,
-                  "text-field",
-                  "{ADDRESS}"
-                );
-                this.tileLayers[node.id] = mvtMap;
-              });
-            }
-          }
+          // 专题集合添加
+          this.getPOIPickedFeature(node.dataset, null, node);
         } else if (node.type == "model") {
           node.componentEvent &&
             node.componentKey &&
@@ -379,27 +242,16 @@ export default {
             ? this.viewer.scene.layers.find(node.id)
             : this.tileLayers[node.id];
         LAYER && (LAYER.show = false);
+
+        // dataSources 实体集合隐藏
         if (
-          ~[
-            "爱国义务教育基地",
-            "百姓健身房",
-            "温州民宿",
-            "精品农家乐",
-            "旅游景点",
-            "市区阅读",
-            "文化礼堂",
-            "文化生活",
-            "夜光经济",
-          ].indexOf(node.id)
+          node.icon &&
+          this.entityMap[node.id] &&
+          this.viewer.dataSources.length
         ) {
-          if (this.viewer.dataSources.length) {
-            const len = this.viewer.dataSources.length;
-            for (let i = 0; i < len; i++) {
-              const ds = this.viewer.dataSources.get(i);
-              if (ds.name == node.id) ds.show = false;
-            }
-          }
+          this.entityMap[node.id].show = false;
         }
+
         node.componentEvent &&
           this.$bus.$emit(node.componentEvent, { value: null });
       }
