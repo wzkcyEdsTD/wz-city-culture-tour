@@ -12,6 +12,7 @@
 
 <script>
 const Cesium = window.Cesium;
+import
 import { mapGetters, mapActions } from "vuex";
 
 export default {
