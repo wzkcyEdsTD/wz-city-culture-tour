@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-12 15:17:46
- * @LastEditTime: 2020-08-17 09:09:13
+ * @LastEditTime: 2020-08-17 11:07:13
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\map-view\extraModel\NanTangModel.vue
@@ -36,7 +36,7 @@ export default {
     this.viewer.entities.removeAll();
     this.SetIsInfoFrame(false);
     this.$bus.$emit("cesium-3d-switch", { value: true });
-    this.clearNanTangModel();
+    this.closeNanTangModel();
     this.viewer = undefined;
   },
   methods: {
