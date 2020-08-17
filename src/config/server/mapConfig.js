@@ -59,6 +59,8 @@ export const ServiceUrl = {
   WZDem:
     "http://10.36.234.83:8090/iserver/services/3D-dem/rest/realspace/datas/dem@2018dem",
   // 温州白模
+  // WZBaimo:
+  //   "http://10.36.198.91:8098/iserver/services/3D-mongodb-RESPYQSY/rest/realspace/datas/RES_PY_QSY/config",
   WZBaimo:
     "http://10.36.217.240:8098/iserver/services/3D-mongodb-RESLCModelYH/rest/realspace/datas/RES_LC_Model_YH/config",
   // 三维影像地图

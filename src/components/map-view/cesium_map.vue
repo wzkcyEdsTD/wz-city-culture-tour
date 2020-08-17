@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-07 09:41:22
- * @LastEditTime: 2020-08-14 10:47:31
+ * @LastEditTime: 2020-08-14 17:45:26
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\map-view\cesium_map.vue
@@ -75,7 +75,7 @@ export default {
       this.$bus.$off("cesium-3d-switch");
       this.$bus.$on("cesium-3d-switch", ({ value }) => {
         const _LAYER_ = this.viewer.scene.layers.find("baimo");
-        _LAYER_.visible = value;
+        // _LAYER_.visible = value;
       });
       this.$bus.$off("cesium-3d-mapType");
       this.$bus.$on("cesium-3d-mapType", ({ value }) => {
@@ -128,9 +128,11 @@ export default {
       Cesium.when(baimoPromise, async (layers) => {
         const LAYER = this.viewer.scene.layers.find("baimo");
         LAYER.style3D.fillForeColor = new Cesium.Color.fromCssColorString(
-          "rgba(162, 169, 183, 0.9)"
+          "rgba(216, 218, 224, 1)"
         );
-        LAYER.visibleDistanceMax = 1500;
+        LAYER.style3D.lineColor = { alpha: 1, blue: 0, green: 0, red: 1 };
+        LAYER.style3D.lineWidth = 2;
+        LAYER.visibleDistanceMin = 1450;
       });
       // this.addPointLight();
       this.cameraMove();

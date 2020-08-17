@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-12 15:17:46
- * @LastEditTime: 2020-08-14 10:45:48
+ * @LastEditTime: 2020-08-17 09:09:13
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\map-view\extraModel\NanTangModel.vue
@@ -68,13 +68,13 @@ export default {
         _LAYER_.visible = true;
       } else {
         const promise = this.viewer.scene.addS3MTilesLayerByScp(
-          `${SERVER_HOST}/3D-mongodb-JMLCDNJD/rest/realspace/datas/JM_LCDNJD/config`,
-          // "http://10.36.217.240:8098/iserver/services/3D-mongodb/rest/realspace/datas/JM_LC_2012_1/config",
+          // `${SERVER_HOST}/3D-mongodb-JMLCDNJD/rest/realspace/datas/JM_LCDNJD/config`,
+          "http://10.36.217.240:8098/iserver/services/3D-mongodb/rest/realspace/datas/JM_LC_2012_1/config",
           { name: LAYER_NAME }
         );
         Cesium.when(promise, async (layers) => {
           const layer = this.viewer.scene.layers.find(LAYER_NAME);
-          layer.visibleDistanceMax = 1400;
+          layer.visibleDistanceMax = 1500;
         });
       }
     },
