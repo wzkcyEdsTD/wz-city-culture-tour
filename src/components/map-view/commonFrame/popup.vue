@@ -27,42 +27,6 @@
 </template>
 
 <script>
-const mvtObj = {
-  名称: "鹿城区南塘街-夜景",
-  地址: "鹿城区南塘街",
-  简介:
-    "	南塘风貌街是一条集休闲、时尚、餐饮、娱乐、文化于一体的商业街区，沿南塘河而建。与白鹿洲公园近在咫尺。这里不仅一年四季风景如画，而且美食琳琅满目，有高档酒店，咖啡美食，日韩料理等。茶余饭后，或泛舟南塘河，或逛逛街区，都不失悠然自得。",
-  类型: "观光旅游,人文景观,夜景",
-};
-const data = {
-  vr:
-    "<div style='height:700px;width:1100px;'><iframe style='width:100%;height:100%' src='https://720yun.com/t/3nqw9w9889fo6e741g'></div>",
-  people: `<div><table style='border:1;' border="1">
-  <tr>
-    <th>时间</th>
-    <th>当前人数</th>
-    <th>顺势承载客流量</th>
-    <th>当天承载客流量</th>
-  </tr>
-  <tr>
-    <td>8.11晚9:20</td>
-    <td>1436</td>
-    <th>5900</th>
-    <th>13600</th>
-  </tr>
-  <tr>
-    <td>8.12早9:30</td>
-    <th>200</th>
-    <th>5900</th>
-    <th>13600</th>
-  </tr>
-</table></div>`,
-  default: `<div><img style="width:300px;" src="/static/images/nantang.png"/><ul>${Object.keys(
-    mvtObj
-  )
-    .map((v) => `<li style="width:300px;"><strong>${v}</strong> : <span>${mvtObj[v]}</span></li>`)
-    .join("")}</ul></div>`,
-};
 export default {
   data() {
     return {
@@ -74,20 +38,76 @@ export default {
     };
   },
   mounted() {
+    const that = this;
+
+    this.mvtObj = {
+      名称: "鹿城区南塘街-夜景",
+      地址: "鹿城区南塘街",
+      类型: "观光旅游,人文景观,夜景",
+    };
+    this.data = {
+      vr:
+        "<div style='height:700px;width:1100px;'><iframe style='width:100%;height:100%' src='https://720yun.com/t/3nqw9w9889fo6e741g'></div>",
+      people: `<div><table style='border:1;' border="1">
+        <tr>
+          <th>时间</th>
+          <th>当前人数</th>
+          <th>顺势承载客流量</th>
+          <th>当天承载客流量</th>
+        </tr>
+        <tr>
+          <td>8.11晚9:20</td>
+          <td>1436</td>
+          <th>5900</th>
+          <th>13600</th>
+        </tr>
+        <tr>
+          <td>8.12早9:30</td>
+          <th>200</th>
+          <th>5900</th>
+          <th>13600</th>
+        </tr>
+      </table></div>`,
+      default: `<div><ul>${Object.keys(that.mvtObj)
+        .map(
+          (v) =>
+            `<li style="width:300px;"><strong>${v}</strong> : <span>${that.mvtObj[v]}</span></li>`
+        )
+        .join("")}</ul></div>`,
+    };
+
     this.eventRegsiter();
   },
   methods: {
     eventRegsiter() {
+      const that = this;
       this.$bus.$off("cesium-3d-mvt");
-      this.$bus.$on("cesium-3d-mvt", ({ pickResult, pointToWindow, name }) => {
-        this.htmlContent = data[name] || data.default;
-        this.x = pointToWindow.x - $("#trackPopUpContent").width() / 2;
-        this.y = pointToWindow.y - $("#trackPopUpContent").height();
-        this.picked = pickResult;
-        this.$nextTick(() => {
-          this.shallPop = true;
-        });
-      });
+      this.$bus.$on(
+        "cesium-3d-mvt",
+        ({ pickResult, pointToWindow, name, attrs }) => {
+          if (attrs) {
+            this.mvtObj.名称 = attrs.NAME;
+            this.mvtObj.地址 = attrs.ADDRESS;
+            this.mvtObj.类型 = attrs.STYLENAME || attrs.LB || attrs.TYPE;
+
+            this.data.default = `<div><ul>${Object.keys(that.mvtObj)
+              .map(
+                (v) =>
+                  `<li style="width:300px;"><strong>${v}</strong> : <span>${that.mvtObj[v]}</span></li>`
+              )
+              .join("")}</ul></div>`;
+          }
+
+          this.htmlContent = this.data[name] || this.data.default;
+          this.x = pointToWindow.x - $("#trackPopUpContent").width() / 2;
+          this.y = pointToWindow.y - $("#trackPopUpContent").height();
+          this.picked = pickResult;
+
+          this.$nextTick(() => {
+            this.shallPop = true;
+          });
+        }
+      );
     },
     closePopup() {
       this.$bus.$emit("cesium-3d-mvt-down");
