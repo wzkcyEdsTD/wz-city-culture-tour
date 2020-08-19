@@ -69,7 +69,6 @@ export default {
     },
     'currentCheck'(currentCheck) {
       if('bigdata-raster'===currentCheck) {
-        // console.log('111')
         $('#basic').removeAttr('checked');
         $('#dark').attr('checked', 'checked');
       }
