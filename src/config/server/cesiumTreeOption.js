@@ -50,6 +50,15 @@ const TOUR_TOPIC = [{
     map: "/夜景",
     icon: "夜光经济",
     dataset: "夜景"
+  },
+  {
+    label: "精品旅游路线",
+    // url: `${SERVER_HOST}/map-mongodbMvt-YeJing${SERVER_SUFFIX}`,
+    map: "/精品旅游路线",
+    icon: "精品旅游路线",
+    // dataset: "精品旅游路线",
+    componentEvent: "cesium-3d-event",
+    componentKey: "line1",
   }
 ];
 // 文化专题

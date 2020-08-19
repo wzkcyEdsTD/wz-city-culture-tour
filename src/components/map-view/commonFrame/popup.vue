@@ -68,6 +68,7 @@ export default {
           <th>13600</th>
         </tr>
       </table></div>`,
+      travel: "<div><img src='src' alt='图片'/><p>简介：123</p></div>",
       default: `<div><ul>${Object.keys(that.mvtObj)
         .map(
           (v) =>
@@ -85,7 +86,9 @@ export default {
       this.$bus.$on(
         "cesium-3d-mvt",
         ({ pickResult, pointToWindow, name, attrs }) => {
+          console.log('oncesium-3d-mvt')
           if (attrs) {
+            console.log(999)
             this.mvtObj.名称 = attrs.NAME;
             this.mvtObj.地址 = attrs.ADDRESS;
             this.mvtObj.类型 = attrs.STYLENAME || attrs.LB || attrs.TYPE;

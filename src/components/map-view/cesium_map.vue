@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-07 09:41:22
- * @LastEditTime: 2020-08-18 15:42:41
+ * @LastEditTime: 2020-08-14 17:45:26
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\map-view\cesium_map.vue
@@ -15,6 +15,7 @@
       <VisualizationAnalyse ref="visualizationanalyse" v-if="showSubTool == '3t2'" />
       <SectionAnalyse ref="sectionanalyse" v-if="showSubTool == '3t3'" />
       <NanTangModel v-if="showSubFrame == '3d1'" />
+      <TravelLines v-if="showSubFrame == 'line1'" />
       <InfoFrame ref="infoframe" />
       <Popup ref="popup" :mapLoaded="mapLoaded" />
     </div>
@@ -28,6 +29,7 @@ import Coverage from "./treeTool/TreeTool";
 import VisualizationAnalyse from "./basicTools/VisualizationAnalyse";
 import SectionAnalyse from "./basicTools/SectionAnalyse";
 import NanTangModel from "./extraModel/NanTangModel";
+import TravelLines from "./extraModel/TravelLines";
 import CesiumMapTool from "./basicTools/CesiumMapTool";
 import InfoFrame from "./commonFrame/InfoFrame";
 import Popup from "./commonFrame/popup";
@@ -50,6 +52,7 @@ export default {
     VisualizationAnalyse,
     SectionAnalyse,
     NanTangModel,
+    TravelLines,
     CesiumMapTool,
     InfoFrame,
     Popup,
@@ -128,12 +131,10 @@ export default {
       Cesium.when(baimoPromise, async (layers) => {
         const LAYER = this.viewer.scene.layers.find("baimo");
         LAYER.style3D.fillForeColor = new Cesium.Color.fromCssColorString(
-          "rgba(255, 255, 255, 1)"
+          "rgba(216, 218, 224, 1)"
         );
-        LAYER.style3D.lineColor = { alpha: 0.8, blue: 0, green: 0, red: 0 };
-        LAYER.style3D.lineWidth = 0.5;
-        LAYER.style3D.fillStyle = Cesium.FillStyle.Fill_And_WireFrame;
-        LAYER.wireFrameMode = Cesium.WireFrameType.Sketch;
+        LAYER.style3D.lineColor = { alpha: 1, blue: 0, green: 0, red: 1 };
+        LAYER.style3D.lineWidth = 2;
         LAYER.visibleDistanceMin = 1450;
       });
       // this.addPointLight();

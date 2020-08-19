@@ -96,7 +96,7 @@ export default {
       this.viewer.scene.postRender.addEventListener(() => {
         if (!that.picked || !that.viewer) return;
         if (
-          ~["people", "vr"].indexOf(that.picked.name) ||
+          ~["people", "vr", "travel"].indexOf(that.picked.name) ||
           (that.picked.id && that.picked.id.split("@")[1]) ||
           that.picked.primitive._position
         ) {
@@ -120,7 +120,7 @@ export default {
       this.viewer.selectedEntityChanged.addEventListener((entity) => {
         if (!this.viewer) return;
         const selectedEntity = this.viewer.selectedEntity;
-        if (selectedEntity && ~["people", "vr"].indexOf(selectedEntity.name)) {
+        if (selectedEntity && ~["people", "vr", "travel"].indexOf(selectedEntity.name)) {
           this.picked = selectedEntity;
         } else if (
           selectedEntity &&
@@ -219,7 +219,12 @@ export default {
           }
 
           // 专题集合添加
-          this.getPOIPickedFeature(node.dataset, null, node);
+          if(node.label == "精品旅游路线") {
+            console.log('精品旅游路线')
+            this.$bus.$emit(node.componentEvent, { value: node.componentKey });
+          } else {
+            this.getPOIPickedFeature(node.dataset, null, node);
+          }
         } else if (node.type == "model") {
           node.componentEvent &&
             node.componentKey &&
