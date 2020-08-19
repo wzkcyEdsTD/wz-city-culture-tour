@@ -13,11 +13,14 @@ import router from "./router";
 import store from "./store";
 // import './router/permission.js'
 import "./font/Digital-7Mono.css";
+import "./font/YouSheBiaoTiHei.css";
+import "./font/PingFang.css";
 import * as filters from "./filters"; // 全局过滤器
 import ElementUI from "element-ui";
 // import echarts from 'echarts'
 // import VueAwesomeSwiper from 'vue-awesome-swiper'
 import VueBus from "vue-bus";
+
 // import 'jquery'/* eslint-disable */
 // if (process.env.NODE_ENV !== 'production') {
 // require('../mock')

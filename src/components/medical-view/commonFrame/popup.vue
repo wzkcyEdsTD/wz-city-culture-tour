@@ -1,0 +1,265 @@
+<!--
+ * @Author: eds
+ * @Date: 2020-08-12 14:32:09
+ * @LastEditTime: 2020-08-14 11:22:28
+ * @LastEditors: eds
+ * @Description:
+ * @FilePath: \wz-city-culture-tour\src\components\map-view\commonFrame\popup.vue
+-->
+<template>
+  <div id="trackPopUp" v-show="shallPop">
+    <div
+      v-for="(item, index) in popList"
+      :key="index"
+      :id="`trackPopUpContent_${index}`"
+      class="leaflet-popup"
+      :style="{transform:`translate3d(${item.x}px,${item.y}px, 0)`}"
+    >
+      <div class="popup-tip-container">
+        <div class="popup-tip-inner">
+          <div class="tip-name">{{ item.shortname }}</div>
+          <div class="tip-num">
+            <table border="0">
+              <tbody>
+                <!-- <tr>
+                  <td>名称</td>
+                  <td>{{ item.name }}</td>
+                </tr>-->
+                <tr>
+                  <td>等级</td>
+                  <td>{{ item.grade }}</td>
+                </tr>
+                <tr>
+                  <td>人数</td>
+                  <td>{{ item.num }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <!-- <a class="leaflet-popup-close-button" href="#" @click="closePopup">×</a> -->
+      <!-- <div class="leaflet-popup-content-wrapper">
+        <div></div>
+        <div id="trackPopUpLink" class="leaflet-popup-content">
+          <div class="leaflet-popup-content" v-html="item.htmlContent"></div>
+        </div>
+      </div>
+      <div class="leaflet-popup-tip-container">
+        <div class="leaflet-popup-tip"></div>
+      </div>-->
+    </div>
+  </div>
+</template>
+
+<script>
+import { getAccessToken, getFarebr } from "api/fetch";
+export default {
+  data() {
+    return {
+      shallPop: false,
+      x: 0,
+      y: 0,
+      picked: {},
+      popList: [],
+      htmlContent: "",
+      numHash: {},
+    };
+  },
+  async mounted() {
+    const that = this;
+    this.eventRegsiter();
+
+    /**
+     * 2020/8/19
+     * 请求发热数据
+     */
+    const accessToken = await getAccessToken();
+    const result = await getFarebr(accessToken.data.access_token);
+    this.numHash = result.data.data.ranking_data;
+
+    const res = result.data.data.ranking_data;
+
+    const sObj = {};
+
+    res.map((item) => {
+      if (!sObj[item.name]) {
+        sObj[item.name] = parseInt(item.value);
+      }
+    });
+
+    this.numHash = sObj;
+  },
+  methods: {
+    eventRegsiter() {
+      const that = this;
+      this.$bus.$off("cesium-3d-mvt");
+      this.$bus.$on("cesium-3d-mvt", ({ scene, pickedList, pointList }) => {
+        // console.log("list", pickedList, pointList);
+
+        that.popList = [];
+
+        if (pickedList.length) {
+          pickedList.map((item, index) => {
+            if (pointList[index]) {
+              that.popList.push({
+                id: item.id,
+                name: item.attributes.NAME,
+                grade: item.attributes.GRADE,
+                shortname: item.attributes.SHORTNAME,
+                num: that.numHash[item.attributes.SHORTNAME] || 0,
+                x:
+                  pointList[index].x -
+                  $(`#trackPopUpContent_${index}`).width() / 2,
+                y:
+                  pointList[index].y -
+                  $(`#trackPopUpContent_${index}`).height(),
+              });
+            }
+          });
+        }
+
+        this.$nextTick(() => {
+          this.shallPop = true;
+        });
+      });
+    },
+    closePopup() {
+      this.$bus.$emit("cesium-3d-mvt-down");
+      this.shallPop = false;
+      this.picked = {};
+    },
+  },
+};
+</script>
+
+<style>
+.leaflet-popup {
+  position: absolute;
+  text-align: center;
+  top: -20px;
+  left: 0;
+  z-index: 99999;
+}
+
+.popup-tip-container {
+  position: relative;
+  width: 160px;
+  height: 100px;
+  background-image: url("../../../common/images/pop_bg.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.popup-tip-inner {
+  position: absolute;
+  left: 10px;
+  top: 7px;
+  height: 50px;
+  display: flex;
+  color: #fff;
+}
+
+.tip-name {
+  width: 60px;
+  height: 100%;
+  padding: 0 2px;
+  position: relative;
+  font-family: YouSheBiaoTiHei;
+  font-size: 14px;
+  text-shadow: 0 2px 2px #000;
+  display: flex;
+  align-items: center;
+}
+
+.tip-name::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -1px;
+  transform: translate(0, -50%);
+  height: 100%;
+  width: 1px;
+  background-color: #fff;
+  opacity: 0.43;
+}
+
+.tip-num {
+  padding: 0px 2px;
+}
+
+.tip-num table {
+  height: 100%;
+  border-collapse: separate;
+  border-spacing: 0px 4px;
+  font-size: 10px;
+}
+
+.tip-num table tbody tr td {
+  font-family: PingFang;
+}
+
+.tip-num table tbody tr td:first-child {
+  width: 30px;
+  font-weight: bolder;
+  vertical-align: middle;
+}
+
+.tip-num table tbody tr td:last-child {
+  text-align: left;
+  vertical-align: middle;
+}
+
+.leaflet-popup-close-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 4px 4px 0 0;
+  text-align: center;
+  width: 18px;
+  height: 14px;
+  font: 16px/14px Tahoma, Verdana, sans-serif;
+  color: #c3c3c3;
+  text-decoration: none;
+  font-weight: bold;
+  background: transparent;
+}
+
+.leaflet-popup-content-wrapper {
+  text-align: center;
+  /* max-height: 200px; */
+  overflow-y: auto;
+  background: white;
+  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.4);
+  padding: 1px;
+  text-align: left;
+  border-radius: 12px;
+}
+
+.leaflet-popup-content {
+  margin: 13px 19px;
+  line-height: 1.4;
+}
+
+.leaflet-popup-tip-container {
+  margin: 0 auto;
+  width: 40px;
+  height: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.leaflet-popup-tip {
+  background: white;
+  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.4);
+  width: 17px;
+  height: 17px;
+  padding: 1px;
+  margin: -10px auto 0;
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+</style>

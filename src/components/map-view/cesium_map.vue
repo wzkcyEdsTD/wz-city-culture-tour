@@ -107,7 +107,8 @@ export default {
       const that = this;
       this.viewer = new Cesium.Viewer("cesiumContainer", {
         infoBox: false,
-        selectionIndicator: true,
+        // 隐藏绿框标识
+        selectionIndicator: false,
         // terrainProvider: new Cesium.CesiumTerrainProvider({
         //   url: ServiceUrl.YJDem,
         // }),

@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper no-print">
-    <div class="title_first">城市大脑·文化旅游</div>
+    <div class="title_first">{{ titleFirst }}</div>
     <div class="nav1" :class="{'nofull':ulWidth < boxWidth}">
       <div class="nav-box">
         <ul ref="ul" :style="{'width':ulWidth+'px'}">
@@ -138,6 +138,7 @@ export default {
       }
     };
     return {
+      titleFirst: "城市大脑·文化旅游",
       ulWidth: 999999,
       boxWidth: 999999,
       movenum: 100,
@@ -350,6 +351,13 @@ export default {
   },
   watch: {
     $route(to, from) {
+      /**
+       * 2020/8/18
+       * 根据路由修改标题
+       */
+      if(to.meta.title){
+        this.titleFirst = to.meta.title
+      }
       this.$nextTick(() => {
         this.routerUrl = to.fullPath;
       });

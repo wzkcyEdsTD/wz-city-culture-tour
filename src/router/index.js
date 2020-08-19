@@ -11,10 +11,9 @@ import Router from "vue-router";
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   mode: "hash",
-  routes: [
-    {
+  routes: [{
       path: "/",
       redirect: "Map"
     },
@@ -26,7 +25,27 @@ export default new Router({
     {
       path: "/map", // 风险一张图
       name: "Map",
+      meta: {
+        title: "城市大脑·文化旅游"
+      },
       component: resolve => require(["page/map/map"], resolve)
-    }
+    },
+    {
+      path: "/medical", // 医疗
+      name: "Medical",
+      meta: {
+        title: "城市大脑·医疗生活"
+      },
+      component: resolve => require(["page/medical/medical"], resolve)
+    },
   ]
-});
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.title) {
+    document.title = to.meta.title;
+  }
+  next()
+})
+
+export default router;

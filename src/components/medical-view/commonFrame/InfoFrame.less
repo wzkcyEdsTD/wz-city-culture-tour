@@ -1,0 +1,84 @@
+.bimframe {
+  position  : fixed;
+  top       : 100px;
+  bottom    : 40px;
+  overflow  : hidden;
+  right     : 30px;
+  width     : 320px;
+  background: rgba(11, 20, 35, 0.8);
+  border    : 1px solid rgba(81, 161, 201, 0.6);
+  color     : white;
+  box-sizing: border-box;
+  padding   : 10px;
+
+  ._bimframe_ {
+    position: relative;
+    height  : 100%;
+    overflow-y: auto;
+
+    .video {
+      margin: 10px 0;
+      width : 100%;
+      line-height: 20px;
+
+      video {
+        width : 100%;
+        height: 240px;
+      }
+
+      p {
+        line-height: 40px;
+      }
+    }
+
+    .close {
+      position: absolute;
+      right   : 4px;
+      top     : 0;
+      width   : 0.2rem;
+      height  : 0.2rem;
+      display : block;
+      .bg-image("../../../page/map/images/zoom-in");
+      transform : rotate(-45deg);
+      transition: all 0.1s linear;
+      cursor    : pointer;
+      z-index   : 10;
+
+      &:hover {
+        transform: rotate(45deg);
+      }
+    }
+
+    /deep/.is-active {
+      color: #409EFF !important;
+    }
+
+    /deep/.el-tabs--top {
+      display       : flex;
+      flex-direction: column;
+      height        : 100%;
+      overflow      : hidden;
+
+      /deep/.el-tabs__header {
+        .el-tabs__item {
+          color: aliceblue;
+        }
+      }
+
+      /deep/.el-tabs__content {
+        flex      : 1;
+        overflow-y: scroll;
+
+        table {
+          tr {
+            border-bottom: 1px #fff solid;
+          }
+
+          td {
+            line-height: 28px;
+          }
+        }
+      }
+    }
+  }
+}

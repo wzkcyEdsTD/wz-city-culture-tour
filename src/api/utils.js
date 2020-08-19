@@ -22,96 +22,96 @@ function count() {
 
 const countNum = count()
 // 请求发送拦截，把数据发送给后台之前做些什么......
-axios.interceptors.request.use((config) => {
-  config.baseURL = ''
-  config.withCredentials = true // 允许携带token ,这个是解决跨域产生的相关问题
-  config.timeout = 60000
-  const token = sessionStorage.getItem('access_token')
-  if (token) {
-    // return config
-    config.headers = {
-      'access-token': token,
-      'Content-Type': 'application/x-www-form-urlencoded'
-    }
-  }
-  if (config.url === 'refresh') {
-    config.headers = {
-      'refresh-token': sessionStorage.getItem('refresh_token'),
-      'Content-Type': 'application/x-www-form-urlencoded'
-    }
-  }
-  if (!config.headers['X-Requested-With']) {
-    config.headers['X-Requested-With'] = 'XMLHttpRequest'
-  }
-  return config
-}, function(error) {
-  return Promise.reject(error)
-})
+// axios.interceptors.request.use((config) => {
+//   config.baseURL = ''
+//   config.withCredentials = true // 允许携带token ,这个是解决跨域产生的相关问题
+//   config.timeout = 60000
+//   const token = sessionStorage.getItem('access_token')
+//   if (token) {
+//     // return config
+//     config.headers = {
+//       'access-token': token,
+//       'Content-Type': 'application/x-www-form-urlencoded'
+//     }
+//   }
+//   if (config.url === 'refresh') {
+//     config.headers = {
+//       'refresh-token': sessionStorage.getItem('refresh_token'),
+//       'Content-Type': 'application/x-www-form-urlencoded'
+//     }
+//   }
+//   if (!config.headers['X-Requested-With']) {
+//     config.headers['X-Requested-With'] = 'XMLHttpRequest'
+//   }
+//   return config
+// }, function(error) {
+//   return Promise.reject(error)
+// })
 // 请求返回拦截，把数据返回到页面之前做些什么...
-axios.interceptors.response.use((response) => {
-  // countNum()
-  // console.log(document.getElementsByClassName('el-message').length)
-  if (response.data.success) {
-    // 成功的情况 直接返回
-    if (response.data.code === '403') {
-      countNum.addNum()
-      if (countNum.getNum() === 1) {
-        MessageBox.alert('用户身份已失效，请重新登录', '提示', {
-          confirmButtonText: '确定',
-          showClose: 'false',
-          callback: action => {
-            window.location.href = 'http://' + window.location.host + '/logout'
-          }
-        })
-      }
-    }
-    return response.data.result
-  } else {
-    if (response.data.code === '403') {
-      countNum.addNum()
-      if (countNum.getNum() === 1) {
-        MessageBox.alert('用户身份已失效，请重新登录', '提示', {
-          confirmButtonText: '确定',
-          showClose: 'false',
-          callback: action => {
-            window.location.href = 'http://' + window.location.host + '/logout'
-          }
-        })
-      }
-    } else {
-      // Message.error({
-      //   message: response.data.message,
-      //   showClose: true,
-      //   offset: [80],
-      //   duration: 1000
-      // })
-    }
-    return response.data
-  }
-  // return Promise.reject(data.message)
-}, function(error) {
-  console.log(error)
-  if (error.data.code === '403') {
-    countNum.addNum()
-    if (countNum.getNum() === 1) {
-      MessageBox.alert('用户身份已失效，请重新登录', '提示', {
-        confirmButtonText: '确定',
-        showClose: 'false',
-        callback: action => {
-          window.location.href = 'http://' + window.location.host + '/logout'
-        }
-      })
-    }
-  } else {
-    // Message.error({
-    //   message: error.message,
-    //   showClose: true,
-    //   offset: [80],
-    //   duration: 1000
-    // })
-  }
-  return Promise.reject(error)
-})
+// axios.interceptors.response.use((response) => {
+//   // countNum()
+//   // console.log(document.getElementsByClassName('el-message').length)
+//   if (response.data.success) {
+//     // 成功的情况 直接返回
+//     if (response.data.code === '403') {
+//       countNum.addNum()
+//       if (countNum.getNum() === 1) {
+//         MessageBox.alert('用户身份已失效，请重新登录', '提示', {
+//           confirmButtonText: '确定',
+//           showClose: 'false',
+//           callback: action => {
+//             window.location.href = 'http://' + window.location.host + '/logout'
+//           }
+//         })
+//       }
+//     }
+//     return response.data.result
+//   } else {
+//     if (response.data.code === '403') {
+//       countNum.addNum()
+//       if (countNum.getNum() === 1) {
+//         MessageBox.alert('用户身份已失效，请重新登录', '提示', {
+//           confirmButtonText: '确定',
+//           showClose: 'false',
+//           callback: action => {
+//             window.location.href = 'http://' + window.location.host + '/logout'
+//           }
+//         })
+//       }
+//     } else {
+//       // Message.error({
+//       //   message: response.data.message,
+//       //   showClose: true,
+//       //   offset: [80],
+//       //   duration: 1000
+//       // })
+//     }
+//     return response.data
+//   }
+//   // return Promise.reject(data.message)
+// }, function(error) {
+//   console.log(error)
+//   if (error.data.code === '403') {
+//     countNum.addNum()
+//     if (countNum.getNum() === 1) {
+//       MessageBox.alert('用户身份已失效，请重新登录', '提示', {
+//         confirmButtonText: '确定',
+//         showClose: 'false',
+//         callback: action => {
+//           window.location.href = 'http://' + window.location.host + '/logout'
+//         }
+//       })
+//     }
+//   } else {
+//     // Message.error({
+//     //   message: error.message,
+//     //   showClose: true,
+//     //   offset: [80],
+//     //   duration: 1000
+//     // })
+//   }
+//   return Promise.reject(error)
+// })
 // var oldRequest = axios.request
 // axios.request = function request(config) {
 //   var self = this
