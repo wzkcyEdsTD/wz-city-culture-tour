@@ -68,6 +68,5 @@ Cesium.Material._materialCache.addMaterial(Cesium.Material.PolylineTrailLinkType
         return true;
     }
 });
-Cesium.PolylineTrailLinkMaterialProperty = PolylineTrailLinkMaterialProperty;
 
 
