@@ -11,7 +11,21 @@
     <div class="_bimframe_">
       <i class="close" @click="closeBimFrame"></i>
       <div>
-        <!-- 医院详情框，未写 -->
+        <header>
+          <span class="title">第六人民医院</span>
+        </header>
+        <section>
+          <span class="section-title">今日病情指标</span>
+        </section>
+        <section>
+          <span class="section-title">今日就诊指标</span>
+        </section>
+        <section>
+          <span class="section-title">今日医保指标</span>
+        </section>
+        <section>
+          <span class="section-title">医院简介</span>
+        </section>
       </div>
     </div>
   </div>
@@ -23,10 +37,7 @@ import { mapGetters, mapActions } from "vuex";
 export default {
   name: "InfoFrame",
   data() {
-    return {
-      rtmpURL:
-        "http://10.36.226.3:8089/video/index.html?url=rtmp://172.20.23.37:1935/service/PuId-ChannelNo=127905000100000001-003569&PlayMethod=0&StreamingType=1&NetType=1&FCode=9",
-    };
+    return {};
   },
   computed: {
     ...mapGetters("map", ["isInfoFrame"]),

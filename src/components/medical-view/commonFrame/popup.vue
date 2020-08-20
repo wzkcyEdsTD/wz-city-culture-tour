@@ -27,7 +27,7 @@
                 </tr>
                 <tr>
                   <td>人数</td>
-                  <td>{{ item.num }}</td>
+                  <td>{{ item.feverNum }}</td>
                 </tr>
               </tbody>
             </table>
@@ -39,40 +39,15 @@
 </template>
 
 <script>
-import { getAccessToken, getFarebr } from "api/fetch";
 export default {
   data() {
     return {
       shallPop: false,
       popList: [],
-      numHash: {},
     };
   },
   async mounted() {
-    const that = this;
     this.eventRegsiter();
-
-    /**
-     * 2020/8/19
-     * 请求发热数据
-     */
-    const accessToken = await getAccessToken();
-    const result = await getFarebr(accessToken.data.access_token);
-    this.numHash = result.data.data.ranking_data;
-
-    const res = result.data.data.ranking_data;
-
-    const sObj = {};
-
-    res.map((item) => {
-      if (!sObj[item.name]) {
-        sObj[item.name] = parseInt(item.value);
-      }
-    });
-
-    this.numHash = sObj;
-
-    // console.log(sObj);
   },
   methods: {
     eventRegsiter() {
@@ -92,7 +67,7 @@ export default {
                 name: item.attributes.NAME,
                 grade: that.fixGrade(item.attributes.DEFINING_T),
                 shortname: item.attributes.SHORTNAME,
-                num: that.numHash[item.attributes.SHORTNAME] || 0,
+                feverNum: item.feverNum || 0,
                 x:
                   pointList[index].x -
                   $(`#trackPopUpContent_${index}`).width() / 2,
