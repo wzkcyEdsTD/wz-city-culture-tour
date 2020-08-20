@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-07 09:41:22
- * @LastEditTime: 2020-08-14 17:45:26
+ * @LastEditTime: 2020-08-20 15:08:40
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\map-view\cesium_map.vue
@@ -29,7 +29,7 @@ import Coverage from "./treeTool/TreeTool";
 import VisualizationAnalyse from "./basicTools/VisualizationAnalyse";
 import SectionAnalyse from "./basicTools/SectionAnalyse";
 import NanTangModel from "./extraModel/NanTangModel";
-import TravelLines from "./extraModel/TravelLines";
+import TravelLines from "./extraModel/TravelLines.vue";
 import CesiumMapTool from "./basicTools/CesiumMapTool";
 import InfoFrame from "./commonFrame/InfoFrame";
 import Popup from "./commonFrame/popup";
