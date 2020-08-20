@@ -17,7 +17,7 @@ export default {
     this.viewer = window.earth;
   },
   async mounted() {
-    this.addEntities()
+    this.addEntities();
     this.eventRegsiter();
     this.cameraMove();
     // this.SetIsInfoFrame(true);
@@ -50,20 +50,25 @@ export default {
     },
     //  初始化路线
     addEntities() {
-      console.log('addEntities')
-      let points = [{
-        x: 120.70002497229238,
-        y: 28.00924299663466
-      }, {
-        x: 120.70016953457684,
-        y: 28.002895673631237
-      }, {
-        x: 120.6982307176173,
-        y: 27.994187416355338
-      }, {
-        x: 120.69475177895151,
-        y: 27.98618703177324
-      }]
+      console.log("addEntities");
+      let points = [
+        {
+          x: 120.70002497229238,
+          y: 28.00924299663466,
+        },
+        {
+          x: 120.70016953457684,
+          y: 28.002895673631237,
+        },
+        {
+          x: 120.6982307176173,
+          y: 27.994187416355338,
+        },
+        {
+          x: 120.69475177895151,
+          y: 27.98618703177324,
+        },
+      ];
       let linePoints = [
         120.70002497229238,
         28.00924299663466,
@@ -72,12 +77,12 @@ export default {
         120.6982307176173,
         27.994187416355338,
         120.69475177895151,
-        27.98618703177324
-      ]
+        27.98618703177324,
+      ];
       points.forEach((item) => {
         this.drawPoint(item);
-      })
-      this.drawPolyline(linePoints)
+      });
+      this.drawPolyline(linePoints);
     },
 
     drawPoint(point) {
@@ -88,9 +93,9 @@ export default {
           pixelSize: 10,
           outlineColor: Cesium.Color.YELLOW,
           outlineWidth: 3,
-          disableDepthTestDistance: Number.POSITIVE_INFINITY
+          disableDepthTestDistance: Number.POSITIVE_INFINITY,
         },
-        name: 'travel',
+        name: "travel",
       });
     },
 
@@ -98,15 +103,19 @@ export default {
       this.viewer.entities.add({
         name: "polyline",
         polyline: {
-            positions: Cesium.Cartesian3.fromDegreesArray(linePoints),
-            width: 8,
-            material: new Cesium.PolylineOutlineMaterialProperty({
-                color: Cesium.Color.YELLOW,
-                outlineWidth: 2,
-                outlineColor: Cesium.Color.BLACK,
-            }),
-            clampToGround: true,
-            material: new Cesium.PolylineTrailLinkMaterialProperty(Cesium.Color.WHITE, 3000, 1)
+          positions: Cesium.Cartesian3.fromDegreesArray(linePoints),
+          width: 8,
+          material: new Cesium.PolylineOutlineMaterialProperty({
+            color: Cesium.Color.YELLOW,
+            outlineWidth: 2,
+            outlineColor: Cesium.Color.BLACK,
+          }),
+          clampToGround: true,
+          material: new Cesium.PolylineTrailLinkMaterialProperty(
+            Cesium.Color.WHITE,
+            3000,
+            1
+          ),
         },
       });
     },

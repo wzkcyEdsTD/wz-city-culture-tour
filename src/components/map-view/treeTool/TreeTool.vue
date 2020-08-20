@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-07 10:57:45
- * @LastEditTime: 2020-08-14 09:01:59
+ * @LastEditTime: 2020-08-20 15:26:05
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\map-view\treeTool\TreeTool.vue
@@ -183,9 +183,7 @@ export default {
       this.viewer.dataSources.add(poiEntityCollection).then((datasource) => {
         this.entityMap[node.id] = datasource;
       });
-
       const features = res.result.features;
-
       features.map((item) => {
         poiEntityCollection.entities.add(
           new Cesium.Entity({
@@ -220,7 +218,6 @@ export default {
 
           // 专题集合添加
           if(node.label == "精品旅游路线") {
-            console.log('精品旅游路线')
             this.$bus.$emit(node.componentEvent, { value: node.componentKey });
           } else {
             this.getPOIPickedFeature(node.dataset, null, node);
