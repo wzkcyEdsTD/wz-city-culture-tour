@@ -49,7 +49,7 @@ const Cesium = window.Cesium;
 // import { BimSourceURL } from "config/server/mapConfig";
 // const { SCENE_DATA_URL } = BimSourceURL;
 
-// import { getAccessToken, getFarebr } from "api/fetch";
+import { getAccessToken, getFarebr } from "api/fetch";
 
 export default {
   name: "TreeTool",
@@ -71,7 +71,6 @@ export default {
       pickedAttr: null,
       entityMap: {},
       pickAttrs: [],
-
     };
   },
   computed: {
@@ -89,6 +88,22 @@ export default {
   },
   async mounted() {
     this.eventRegsiter_ex();
+
+    const accessToken = await getAccessToken();
+    const result = await getFarebr(accessToken.data.access_token);
+    this.numHash = result.data.data.ranking_data;
+
+    const res = result.data.data.ranking_data;
+
+    const feverObj = {};
+
+    res.map((item) => {
+      if (!feverObj[item.name]) {
+        feverObj[item.name] = parseInt(item.value);
+      }
+    });
+
+    this.feverObj = feverObj;
   },
   beforeDestroy() {
     this.handler && this.handler.destroy();
@@ -221,6 +236,19 @@ export default {
     // 查询完成
     completed(res, node) {
       const that = this;
+      /**
+       * 2020/8/20
+       * 筛选显示气泡框
+       */
+      const poiLabelEntityCollection = new Cesium.CustomDataSource(
+        `${node.id}_label`
+      );
+      this.viewer.dataSources
+        .add(poiLabelEntityCollection)
+        .then((datasource) => {
+          this.entityMap[`${node.id}_label`] = datasource;
+        });
+
       const poiEntityCollection = new Cesium.CustomDataSource(node.id);
       this.viewer.dataSources.add(poiEntityCollection).then((datasource) => {
         this.entityMap[node.id] = datasource;
@@ -228,30 +256,53 @@ export default {
 
       const features = res.result.features;
 
+      const labelList = [];
+
       features.map((item) => {
-        poiEntityCollection.entities.add(
-          new Cesium.Entity({
-            id: `${item.attributes.SMID}@${node.icon}@${node.dataset}`,
-            position: Cesium.Cartesian3.fromDegrees(
-              item.geometry.x,
-              item.geometry.y,
-              48
-            ),
-            /* billboard: {
-              image: `/static/images/${node.icon}.png`,
-              width: 48,
-              height: 52,
-            }, */
-            name: node.id,
-            attributes: item.attributes,
-            geometry: item.geometry,
-          })
-        );
+        if (~Object.keys(that.feverObj).indexOf(item.attributes.SHORTNAME)) {
+          poiLabelEntityCollection.entities.add(
+            new Cesium.Entity({
+              id: `${item.attributes.SMID}@${node.icon}@${node.dataset}`,
+              position: Cesium.Cartesian3.fromDegrees(
+                item.geometry.x,
+                item.geometry.y,
+                48
+              ),
+              name: node.id,
+              feverNum: that.feverObj[item.attributes.SHORTNAME],
+              attributes: item.attributes,
+              geometry: item.geometry,
+            })
+          );
+        } else {
+          poiEntityCollection.entities.add(
+            new Cesium.Entity({
+              id: `${item.attributes.SMID}@${node.icon}@${node.dataset}`,
+              position: Cesium.Cartesian3.fromDegrees(
+                item.geometry.x,
+                item.geometry.y,
+                48
+              ),
+              billboard: {
+                image: `/static/images/${node.icon}.png`,
+                width: 48,
+                height: 52,
+              },
+              /* label: {
+                text: item.attributes.NAME,
+                font: "6px",
+              }, */
+              name: node.id,
+              // attributes: item.attributes,
+              geometry: item.geometry,
+            })
+          );
+        }
       });
 
       this.pickedList = [
         ...this.pickedList,
-        ...poiEntityCollection.entities.values,
+        ...poiLabelEntityCollection.entities.values,
       ];
     },
 
@@ -264,10 +315,14 @@ export default {
         if (node.type == "mvt" && node.map && node.icon) {
           if (node.id && this.entityMap[node.id]) {
             this.entityMap[node.id].show = true;
-            this.pickedList = [
-              ...this.pickedList,
-              ...this.entityMap[node.id].entities.values,
-            ];
+
+            if (this.entityMap[`${node.id}_label`]) {
+              this.entityMap[`${node.id}_label`].show = true;
+              this.pickedList = [
+                ...this.pickedList,
+                ...this.entityMap[`${node.id}_label`].entities.values,
+              ];
+            }
             return;
           }
 
@@ -304,10 +359,13 @@ export default {
         ) {
           this.entityMap[node.id].show = false;
 
+          this.entityMap[`${node.id}_label`] &&
+            (this.entityMap[`${node.id}_label`].show = false);
+
           this.pickedList = [];
 
           Object.values(this.entityMap).map((item) => {
-            if (item.show) {
+            if (item.show && item.includes("_label")) {
               this.pickedList = [...this.pickedList, ...item.entities.values];
             }
           });
