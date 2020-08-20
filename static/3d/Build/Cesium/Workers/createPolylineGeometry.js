@@ -20,56 +20,7 @@
  * Portions licensed separately.
  * See https://github.com/AnalyticalGraphicsInc/cesium/blob/master/LICENSE.md for full licensing details.
  */
-define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-52d9479f', './BoundingSphere-ab31357a', './RuntimeError-7c184ac0', './WebGLConstants-4c11ee5f', './ComponentDatatype-919a7463', './GeometryAttribute-133f0436', './PrimitiveType-97893bc7', './FeatureDetection-bac17d71', './Transforms-93a668f1', './GeometryAttributes-1c7ce91d', './IndexDatatype-18a8cae6', './IntersectionTests-afd4a13d', './Plane-68b37818', './VertexFormat-7f136973', './arrayRemoveDuplicates-aafa59fd', './ArcType-66bc286a', './EllipsoidRhumbLine-c9b776a6', './EllipsoidGeodesic-0654a7af', './PolylinePipeline-8bfd9bca', './Color-b1821df1'], function (when, Check, _Math, Cartesian2, BoundingSphere, RuntimeError, WebGLConstants, ComponentDatatype, GeometryAttribute, PrimitiveType, FeatureDetection, Transforms, GeometryAttributes, IndexDatatype, IntersectionTests, Plane, VertexFormat, arrayRemoveDuplicates, ArcType, EllipsoidRhumbLine, EllipsoidGeodesic, PolylinePipeline, Color) { 'use strict';
-
-    /**
-         * Logs a deprecation message to the console.  Use this function instead of
-         * <code>console.log</code> directly since this does not log duplicate messages
-         * unless it is called from multiple workers.
-         *
-         * @exports deprecationWarning
-         *
-         * @param {String} identifier The unique identifier for this deprecated API.
-         * @param {String} message The message to log to the console.
-         *
-         * @example
-         * // Deprecated function or class
-         * function Foo() {
-         *    deprecationWarning('Foo', 'Foo was deprecated in Cesium 1.01.  It will be removed in 1.03.  Use newFoo instead.');
-         *    // ...
-         * }
-         *
-         * // Deprecated function
-         * Bar.prototype.func = function() {
-         *    deprecationWarning('Bar.func', 'Bar.func() was deprecated in Cesium 1.01.  It will be removed in 1.03.  Use Bar.newFunc() instead.');
-         *    // ...
-         * };
-         *
-         * // Deprecated property
-         * Object.defineProperties(Bar.prototype, {
-         *     prop : {
-         *         get : function() {
-         *             deprecationWarning('Bar.prop', 'Bar.prop was deprecated in Cesium 1.01.  It will be removed in 1.03.  Use Bar.newProp instead.');
-         *             // ...
-         *         },
-         *         set : function(value) {
-         *             deprecationWarning('Bar.prop', 'Bar.prop was deprecated in Cesium 1.01.  It will be removed in 1.03.  Use Bar.newProp instead.');
-         *             // ...
-         *         }
-         *     }
-         * });
-         *
-         * @private
-         */
-        function deprecationWarning(identifier, message) {
-            //>>includeStart('debug', pragmas.debug);
-            if (!when.defined(identifier) || !when.defined(message)) {
-                throw new Check.DeveloperError('identifier and message are required.');
-            }
-            //>>includeEnd('debug');
-
-            Transforms.oneTimeWarning(identifier, message);
-        }
+define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-52d9479f', './BoundingSphere-ab31357a', './RuntimeError-7c184ac0', './WebGLConstants-4c11ee5f', './ComponentDatatype-919a7463', './GeometryAttribute-758ae3c6', './PrimitiveType-97893bc7', './FeatureDetection-bac17d71', './Transforms-7f7cdb70', './GeometryAttributes-1c7ce91d', './IndexDatatype-18a8cae6', './IntersectionTests-afd4a13d', './Plane-68b37818', './VertexFormat-7f136973', './arrayRemoveDuplicates-aafa59fd', './ArcType-66bc286a', './EllipsoidRhumbLine-c9b776a6', './EllipsoidGeodesic-0654a7af', './PolylinePipeline-8bfd9bca', './Color-b1821df1'], function (when, Check, _Math, Cartesian2, BoundingSphere, RuntimeError, WebGLConstants, ComponentDatatype, GeometryAttribute, PrimitiveType, FeatureDetection, Transforms, GeometryAttributes, IndexDatatype, IntersectionTests, Plane, VertexFormat, arrayRemoveDuplicates, ArcType, EllipsoidRhumbLine, EllipsoidGeodesic, PolylinePipeline, Color) { 'use strict';
 
     var scratchInterpolateColorsArray = [];
 
@@ -176,7 +127,7 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
 
             this._followSurface = when.defaultValue(options.followSurface, true);
             if (when.defined(options.followSurface)) {
-                deprecationWarning('PolylineGeometry.followSurface', 'PolylineGeometry.followSurface is deprecated and will be removed in Cesium 1.55. Use PolylineGeometry.arcType instead.');
+                Transforms.deprecationWarning('PolylineGeometry.followSurface', 'PolylineGeometry.followSurface is deprecated and will be removed in Cesium 1.55. Use PolylineGeometry.arcType instead.');
                 options.arcType = options.followSurface ? ArcType.ArcType.GEODESIC : ArcType.ArcType.NONE;
             }
             this._arcType = when.defaultValue(options.arcType, ArcType.ArcType.GEODESIC);

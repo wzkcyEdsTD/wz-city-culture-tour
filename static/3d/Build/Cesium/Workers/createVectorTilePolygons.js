@@ -20,7 +20,7 @@
  * Portions licensed separately.
  * See https://github.com/AnalyticalGraphicsInc/cesium/blob/master/LICENSE.md for full licensing details.
  */
-define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-52d9479f', './BoundingSphere-ab31357a', './RuntimeError-7c184ac0', './WebGLConstants-4c11ee5f', './FeatureDetection-bac17d71', './Transforms-93a668f1', './AttributeCompression-4a5b893f', './IndexDatatype-18a8cae6', './IntersectionTests-afd4a13d', './Plane-68b37818', './createTaskProcessorWorker', './EllipsoidTangentPlane-b778e576', './OrientedBoundingBox-5c8f5550', './Color-b1821df1'], function (when, Check, _Math, Cartesian2, BoundingSphere, RuntimeError, WebGLConstants, FeatureDetection, Transforms, AttributeCompression, IndexDatatype, IntersectionTests, Plane, createTaskProcessorWorker, EllipsoidTangentPlane, OrientedBoundingBox, Color) { 'use strict';
+define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-52d9479f', './BoundingSphere-ab31357a', './RuntimeError-7c184ac0', './WebGLConstants-4c11ee5f', './FeatureDetection-bac17d71', './Transforms-7f7cdb70', './AttributeCompression-4a5b893f', './IndexDatatype-18a8cae6', './IntersectionTests-afd4a13d', './Plane-68b37818', './createTaskProcessorWorker', './EllipsoidTangentPlane-f5357d2c', './OrientedBoundingBox-8a446a45', './Color-b1821df1'], function (when, Check, _Math, Cartesian2, BoundingSphere, RuntimeError, WebGLConstants, FeatureDetection, Transforms, AttributeCompression, IndexDatatype, IntersectionTests, Plane, createTaskProcessorWorker, EllipsoidTangentPlane, OrientedBoundingBox, Color) { 'use strict';
 
     var scratchCenter = new Cartesian2.Cartesian3();
     var scratchEllipsoid = new Cartesian2.Ellipsoid();

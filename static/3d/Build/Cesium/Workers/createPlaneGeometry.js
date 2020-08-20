@@ -20,7 +20,7 @@
  * Portions licensed separately.
  * See https://github.com/AnalyticalGraphicsInc/cesium/blob/master/LICENSE.md for full licensing details.
  */
-define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-52d9479f', './BoundingSphere-ab31357a', './RuntimeError-7c184ac0', './WebGLConstants-4c11ee5f', './ComponentDatatype-919a7463', './GeometryAttribute-133f0436', './PrimitiveType-97893bc7', './FeatureDetection-bac17d71', './Transforms-93a668f1', './GeometryAttributes-1c7ce91d', './VertexFormat-7f136973'], function (when, Check, _Math, Cartesian2, BoundingSphere, RuntimeError, WebGLConstants, ComponentDatatype, GeometryAttribute, PrimitiveType, FeatureDetection, Transforms, GeometryAttributes, VertexFormat) { 'use strict';
+define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-52d9479f', './BoundingSphere-ab31357a', './RuntimeError-7c184ac0', './WebGLConstants-4c11ee5f', './ComponentDatatype-919a7463', './GeometryAttribute-758ae3c6', './PrimitiveType-97893bc7', './FeatureDetection-bac17d71', './Transforms-7f7cdb70', './GeometryAttributes-1c7ce91d', './VertexFormat-7f136973'], function (when, Check, _Math, Cartesian2, BoundingSphere, RuntimeError, WebGLConstants, ComponentDatatype, GeometryAttribute, PrimitiveType, FeatureDetection, Transforms, GeometryAttributes, VertexFormat) { 'use strict';
 
     /**
          * Describes geometry representing a plane centered at the origin, with a unit width and length.

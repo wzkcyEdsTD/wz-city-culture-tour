@@ -20,7 +20,7 @@
  * Portions licensed separately.
  * See https://github.com/AnalyticalGraphicsInc/cesium/blob/master/LICENSE.md for full licensing details.
  */
-define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-52d9479f', './BoundingSphere-ab31357a', './RuntimeError-7c184ac0', './WebGLConstants-4c11ee5f', './ComponentDatatype-919a7463', './FeatureDetection-bac17d71', './Transforms-93a668f1', './AttributeCompression-4a5b893f', './IndexDatatype-18a8cae6', './IntersectionTests-afd4a13d', './Plane-68b37818', './WebMercatorProjection-65629b9f', './createTaskProcessorWorker', './EllipsoidTangentPlane-b778e576', './OrientedBoundingBox-5c8f5550', './TerrainEncoding-f6db33b5'], function (when, Check, _Math, Cartesian2, BoundingSphere, RuntimeError, WebGLConstants, ComponentDatatype, FeatureDetection, Transforms, AttributeCompression, IndexDatatype, IntersectionTests, Plane, WebMercatorProjection, createTaskProcessorWorker, EllipsoidTangentPlane, OrientedBoundingBox, TerrainEncoding) { 'use strict';
+define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-52d9479f', './BoundingSphere-ab31357a', './RuntimeError-7c184ac0', './WebGLConstants-4c11ee5f', './ComponentDatatype-919a7463', './FeatureDetection-bac17d71', './Transforms-7f7cdb70', './AttributeCompression-4a5b893f', './IndexDatatype-18a8cae6', './IntersectionTests-afd4a13d', './Plane-68b37818', './WebMercatorProjection-65629b9f', './createTaskProcessorWorker', './EllipsoidTangentPlane-f5357d2c', './OrientedBoundingBox-8a446a45', './TerrainEncoding-f6db33b5'], function (when, Check, _Math, Cartesian2, BoundingSphere, RuntimeError, WebGLConstants, ComponentDatatype, FeatureDetection, Transforms, AttributeCompression, IndexDatatype, IntersectionTests, Plane, WebMercatorProjection, createTaskProcessorWorker, EllipsoidTangentPlane, OrientedBoundingBox, TerrainEncoding) { 'use strict';
 
     /**
          * Provides terrain or other geometry for the surface of an ellipsoid.  The surface geometry is
@@ -254,15 +254,15 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
         /**
          * @private
          */
-        TerrainProvider.addSkirtIndices = function(westIndicesSouthToNorth, southIndicesEastToWest, eastIndicesNorthToSouth, northIndicesWestToEast, vertexCount, indices, offset) {
+        TerrainProvider.addSkirtIndices = function(westIndicesSouthToNorth, southIndicesEastToWest, eastIndicesNorthToSouth, northIndicesWestToEast, vertexCount, indices, offset, edgeMap) {
             var vertexIndex = vertexCount;
-            offset = addSkirtIndices(westIndicesSouthToNorth, vertexIndex, indices, offset);
+            offset = addSkirtIndices(westIndicesSouthToNorth, vertexIndex, indices, offset, edgeMap);
             vertexIndex += westIndicesSouthToNorth.length;
-            offset = addSkirtIndices(southIndicesEastToWest, vertexIndex, indices, offset);
+            offset = addSkirtIndices(southIndicesEastToWest, vertexIndex, indices, offset, edgeMap);
             vertexIndex += southIndicesEastToWest.length;
-            offset = addSkirtIndices(eastIndicesNorthToSouth, vertexIndex, indices, offset);
+            offset = addSkirtIndices(eastIndicesNorthToSouth, vertexIndex, indices, offset, edgeMap);
             vertexIndex += eastIndicesNorthToSouth.length;
-            addSkirtIndices(northIndicesWestToEast, vertexIndex, indices, offset);
+            addSkirtIndices(northIndicesWestToEast, vertexIndex, indices, offset, edgeMap);
         };
 
         function getEdgeIndices(width, height) {
@@ -312,12 +312,17 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
             }
         }
 
-        function addSkirtIndices(edgeIndices, vertexIndex, indices, offset) {
+        function addSkirtIndices(edgeIndices, vertexIndex, indices, offset, edgeMap) {
+            var hasEdgeMap = when.defined(edgeMap);
             var previousIndex = edgeIndices[0];
 
             var length = edgeIndices.length;
             for (var i = 1; i < length; ++i) {
                 var index = edgeIndices[i];
+
+                if(hasEdgeMap && !edgeMap[previousIndex + '_' + index]){
+                    continue ;
+                }
 
                 indices[offset++] = previousIndex;
                 indices[offset++] = index;
@@ -597,7 +602,8 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
         vertexBufferIndex += parameters.eastIndices.length * vertexStride;
         addSkirt(vertexBuffer, vertexBufferIndex, northIndicesWestToEast, encoding, heights, uvs, octEncodedNormals, ellipsoid, rectangle, parameters.northSkirtHeight, exaggeration, southMercatorY, oneOverMercatorHeight, northLongitudeOffset, northLatitudeOffset);
 
-        TerrainProvider.addSkirtIndices(westIndicesSouthToNorth, southIndicesEastToWest, eastIndicesNorthToSouth, northIndicesWestToEast, quantizedVertexCount, indexBuffer, parameters.indices.length);
+        var edgeMap = createEdgeMap(parameters.indices, uBuffer, vBuffer, parameters.level);
+        TerrainProvider.addSkirtIndices(westIndicesSouthToNorth, southIndicesEastToWest, eastIndicesNorthToSouth, northIndicesWestToEast, quantizedVertexCount, indexBuffer, parameters.indices.length, edgeMap);
 
         transferableObjects.push(vertexBuffer.buffer, indexBuffer.buffer);
 
@@ -618,6 +624,45 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
             encoding : encoding,
             indexCountWithoutSkirts : parameters.indices.length
         };
+    }
+
+    function createEdgeMap(indices, uBuffer, vBuffer, level) {
+        if(level < 12){
+            return undefined;
+        }
+
+        var edgeMap = {};
+        var len = indices.length / 3;
+        for(var i = 0;i < len;i += 3){
+            var i0 = indices[i];
+            var i1 = indices[i + 1];
+            var i2 = indices[i + 2];
+            if( (uBuffer[i0] === maxShort && uBuffer[i1] === maxShort) ||
+                (uBuffer[i0] === 0 && uBuffer[i1] === 0) ||
+                (vBuffer[i0] === maxShort && vBuffer[i1] === maxShort) ||
+                (vBuffer[i0] === 0 && vBuffer[i1] === 0) ){
+                edgeMap[i0 + '_' + i1] = 1;
+                edgeMap[i1 + '_' + i0] = 1;
+            }
+
+            if( (uBuffer[i1] === maxShort && uBuffer[i2] === maxShort) ||
+                (uBuffer[i1] === 0 && uBuffer[i2] === 0) ||
+                (vBuffer[i1] === maxShort && vBuffer[i2] === maxShort) ||
+                (vBuffer[i1] === 0 && vBuffer[i2] === 0) ){
+                edgeMap[i1 + '_' + i2] = 1;
+                edgeMap[i2 + '_' + i1] = 1;
+            }
+
+            if( (uBuffer[i2] === maxShort && uBuffer[i0] === maxShort) ||
+                (uBuffer[i2] === 0 && uBuffer[i0] === 0) ||
+                (vBuffer[i2] === maxShort && vBuffer[i0] === maxShort) ||
+                (vBuffer[i2] === 0 && vBuffer[i0] === 0) ){
+                edgeMap[i2 + '_' + i0] = 1;
+                edgeMap[i0 + '_' + i2] = 1;
+            }
+        }
+
+        return edgeMap;
     }
 
     function findMinMaxSkirts(edgeIndices, edgeHeight, heights, uvs, rectangle, ellipsoid, toENU, minimum, maximum) {

@@ -20,7 +20,7 @@
  * Portions licensed separately.
  * See https://github.com/AnalyticalGraphicsInc/cesium/blob/master/LICENSE.md for full licensing details.
  */
-define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-52d9479f', './BoundingSphere-ab31357a', './RuntimeError-7c184ac0', './WebGLConstants-4c11ee5f', './ComponentDatatype-919a7463', './PrimitiveType-97893bc7', './FeatureDetection-bac17d71', './createTaskProcessorWorker', './BoundingRectangle-dae1b1ac', './Color-b1821df1', './pako_inflate-8ea163f9', './S3MCompressType-56422ce8'], function (when, Check, _Math, Cartesian2, BoundingSphere, RuntimeError, WebGLConstants, ComponentDatatype, PrimitiveType, FeatureDetection, createTaskProcessorWorker, BoundingRectangle, Color, pako_inflate, S3MCompressType) { 'use strict';
+define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-52d9479f', './BoundingSphere-ab31357a', './RuntimeError-7c184ac0', './WebGLConstants-4c11ee5f', './ComponentDatatype-919a7463', './PrimitiveType-97893bc7', './FeatureDetection-bac17d71', './createTaskProcessorWorker', './BoundingRectangle-dae1b1ac', './Color-b1821df1', './pako_inflate-8ea163f9', './S3MCompressType-9a50b1c3'], function (when, Check, _Math, Cartesian2, BoundingSphere, RuntimeError, WebGLConstants, ComponentDatatype, PrimitiveType, FeatureDetection, createTaskProcessorWorker, BoundingRectangle, Color, pako_inflate, S3MCompressType) { 'use strict';
 
     function Bound3D(left, bottom, right, top, minHeight, maxHeight) {
         this.left = left;

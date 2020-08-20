@@ -16485,7 +16485,7 @@ define(['./when-a55a8a4c', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
         if(subclasses[layer.type]){
             return new subclasses[layer.type](layer);
         }
-        else {
+        else{
             return null;
         }
     }
@@ -16610,7 +16610,7 @@ define(['./when-a55a8a4c', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
         };
 
         for (var source in layerIndex.familiesBySource) {
-            if (source == "") continue;
+            //if (source == "") continue;
             var layerFamilies = layerIndex.familiesBySource[source];
             for (var sourceLayerId in layerFamilies) {
                 var sourceLayer = vectorTile.layers[sourceLayerId];
