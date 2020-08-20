@@ -88,16 +88,7 @@ export default {
     this.viewer.scene.globe.depthTestAgainstTerrain = false;
   },
   async mounted() {
-    this.eventRegsiter();
-
-    /**
-     * 2020/8/19
-     * 请求发热数据
-     */
-    // const accessToken = await getAccessToken();
-    // console.log(accessToken);
-    // const result = await getFarebr(accessToken.data.access_token);
-    // console.log(result.data.data);
+    this.eventRegsiter_ex();
   },
   beforeDestroy() {
     this.handler && this.handler.destroy();
@@ -105,6 +96,7 @@ export default {
     this.viewer = undefined;
   },
   methods: {
+    // 获取当前视野范围
     getCurrentExtent(ctx) {
       var extent = {};
       var scene = ctx.viewer.scene;
@@ -154,15 +146,10 @@ export default {
         if (!that.pickedList || !that.viewer) return;
 
         const extent = this.getCurrentExtent(that);
-        // console.log(extent)
 
         const pointList = [];
-        const attrList = [];
 
         const newList = [];
-
-        const aa = [];
-        const aap = [];
 
         that.pickedList.map((item) => {
           if (item.geometry) {
@@ -172,7 +159,6 @@ export default {
               item.geometry.x <= extent.xmax &&
               item.geometry.y <= extent.ymax
             ) {
-              aa.push(item);
               const position = item._position
                 ? item._position._value
                 : item.primitive._position;
@@ -187,58 +173,14 @@ export default {
           }
         });
 
-        // console.log(aa);
-
         that.$bus.$emit("cesium-3d-mvt", {
           scene: that.viewer.scene,
           pickedList: newList,
           pointList,
         });
-
-        // if (
-        //   ~["people", "vr"].indexOf(that.picked.name) ||
-        //   (that.picked.id && that.picked.id.split("@")[1]) ||
-        //   that.picked.primitive._position
-        // ) {
-        //   /* const position = that.picked._position
-        //     ? that.picked._position._value
-        //     : that.picked.primitive._position;
-        //   const pointToWindow = Cesium.SceneTransforms.wgs84ToWindowCoordinates(
-        //     that.viewer.scene,
-        //     position
-        //   ); */
-        //   that.$bus.$emit("cesium-3d-mvt", {
-        //     pickList: that.pickedList,
-        //   });
-        // }
       });
     },
     eventRegsiter() {
-      /* this.viewer.selectedEntityChanged.addEventListener((entity) => {
-        if (!this.viewer) return;
-        const selectedEntity = this.viewer.selectedEntity;
-        if (selectedEntity && ~["people", "vr"].indexOf(selectedEntity.name)) {
-          this.picked = selectedEntity;
-        } else if (
-          selectedEntity &&
-          selectedEntity.id &&
-          selectedEntity.id.split("@")[1]
-        ) {
-          this.picked = selectedEntity;
-          this.getPOIPickedFeature(
-            selectedEntity.id.split("@")[2],
-            selectedEntity.id.split("@")[0]
-          );
-        } else {
-          this.picked = null;
-        }
-      });
-      this.eventRegsiter_ex();
-      this.$bus.$off("cesium-3d-mvt-down");
-      this.$bus.$on("cesium-3d-mvt-down", () => {
-        this.picked = null;
-      }); */
-
       this.eventRegsiter_ex();
     },
 
@@ -264,10 +206,6 @@ export default {
           processCompleted: (res) => {
             if (SMID != null && res.result.featureCount) {
               this.pickedAttr = res.result.features[0].attributes;
-
-              /* res.result.features.map((item) => {
-                that.pickAttrs.push(item.attributes);
-              }); */
             } else {
               this.completed(res, node);
             }

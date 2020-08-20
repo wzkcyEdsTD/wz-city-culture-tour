@@ -21,10 +21,6 @@
           <div class="tip-num">
             <table border="0">
               <tbody>
-                <!-- <tr>
-                  <td>名称</td>
-                  <td>{{ item.name }}</td>
-                </tr>-->
                 <tr>
                   <td>等级</td>
                   <td>{{ item.grade }}</td>
@@ -38,16 +34,6 @@
           </div>
         </div>
       </div>
-      <!-- <a class="leaflet-popup-close-button" href="#" @click="closePopup">×</a> -->
-      <!-- <div class="leaflet-popup-content-wrapper">
-        <div></div>
-        <div id="trackPopUpLink" class="leaflet-popup-content">
-          <div class="leaflet-popup-content" v-html="item.htmlContent"></div>
-        </div>
-      </div>
-      <div class="leaflet-popup-tip-container">
-        <div class="leaflet-popup-tip"></div>
-      </div>-->
     </div>
   </div>
 </template>
@@ -58,11 +44,7 @@ export default {
   data() {
     return {
       shallPop: false,
-      x: 0,
-      y: 0,
-      picked: {},
       popList: [],
-      htmlContent: "",
       numHash: {},
     };
   },
@@ -89,6 +71,8 @@ export default {
     });
 
     this.numHash = sObj;
+
+    // console.log(sObj);
   },
   methods: {
     eventRegsiter() {
@@ -101,11 +85,12 @@ export default {
 
         if (pickedList.length) {
           pickedList.map((item, index) => {
+            // console.log(item);
             if (pointList[index]) {
               that.popList.push({
                 id: item.id,
                 name: item.attributes.NAME,
-                grade: item.attributes.GRADE,
+                grade: that.fixGrade(item.attributes.DEFINING_T),
                 shortname: item.attributes.SHORTNAME,
                 num: that.numHash[item.attributes.SHORTNAME] || 0,
                 x:
@@ -124,10 +109,22 @@ export default {
         });
       });
     },
+
+    /**
+     * 2020/8/20
+     * 等级展示（目前先展示三甲医院）
+     */
+    fixGrade(defining) {
+      if (~defining.indexOf("三级甲等")) {
+        return "三级甲等";
+      } else {
+        return "";
+      }
+    },
+
     closePopup() {
       this.$bus.$emit("cesium-3d-mvt-down");
       this.shallPop = false;
-      this.picked = {};
     },
   },
 };
@@ -208,58 +205,5 @@ export default {
 .tip-num table tbody tr td:last-child {
   text-align: left;
   vertical-align: middle;
-}
-
-.leaflet-popup-close-button {
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 4px 4px 0 0;
-  text-align: center;
-  width: 18px;
-  height: 14px;
-  font: 16px/14px Tahoma, Verdana, sans-serif;
-  color: #c3c3c3;
-  text-decoration: none;
-  font-weight: bold;
-  background: transparent;
-}
-
-.leaflet-popup-content-wrapper {
-  text-align: center;
-  /* max-height: 200px; */
-  overflow-y: auto;
-  background: white;
-  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.4);
-  padding: 1px;
-  text-align: left;
-  border-radius: 12px;
-}
-
-.leaflet-popup-content {
-  margin: 13px 19px;
-  line-height: 1.4;
-}
-
-.leaflet-popup-tip-container {
-  margin: 0 auto;
-  width: 40px;
-  height: 20px;
-  position: relative;
-  overflow: hidden;
-}
-
-.leaflet-popup-tip {
-  background: white;
-  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.4);
-  width: 17px;
-  height: 17px;
-  padding: 1px;
-  margin: -10px auto 0;
-  -webkit-transform: rotate(45deg);
-  -moz-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  -o-transform: rotate(45deg);
-  transform: rotate(45deg);
 }
 </style>

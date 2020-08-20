@@ -15,7 +15,7 @@
       <VisualizationAnalyse ref="visualizationanalyse" v-if="showSubTool == '3t2'" />
       <SectionAnalyse ref="sectionanalyse" v-if="showSubTool == '3t3'" />
       <NanTangModel v-if="showSubFrame == '3d1'" />
-      <InfoFrame ref="infoframe" />
+      <InfoFrame ref="infoframe" v-if="isInfoFrame" />
       <Popup ref="popup" :mapLoaded="mapLoaded" />
     </div>
   </div>
@@ -43,6 +43,7 @@ export default {
       imagelayer: undefined,
       datalayer: undefined,
       viewer: undefined,
+      isInfoFrame: false,
     };
   },
   components: {
