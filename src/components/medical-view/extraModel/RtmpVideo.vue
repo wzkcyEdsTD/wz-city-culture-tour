@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-12 15:17:46
- * @LastEditTime: 2020-08-20 19:25:26
+ * @LastEditTime: 2020-08-20 19:53:33
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\extraModel\RtmpVideo.vue
@@ -23,15 +23,10 @@ export default {
     return {
       doRtmpListFrame: false,
       RtmpVideoURL: undefined,
-      //  cesium Object
-      viewer: undefined,
     };
   },
   computed: {
     ...mapGetters("map", ["rtmpList"]),
-  },
-  created() {
-    this.viewer = window.earth;
   },
   async mounted() {
     this.initBimScene();
