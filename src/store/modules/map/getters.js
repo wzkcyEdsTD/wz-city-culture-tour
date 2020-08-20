@@ -1,10 +1,10 @@
 /*
  * @Author: eds
  * @Date: 2020-07-01 15:22:07
- * @LastEditTime: 2020-08-12 15:39:01
+ * @LastEditTime: 2020-08-20 19:22:23
  * @LastEditors: eds
  * @Description:
- * @FilePath: \旅游\src\store\modules\map\getters.js
+ * @FilePath: \wz-city-culture-tour\src\store\modules\map\getters.js
  */
 // 获取state
 export const collapse1 = state => state.collapse1;
@@ -23,3 +23,4 @@ export const forceBimIDS = state => state.forceBimIDS;
 export const forceBimData = state => state.forceBimData;
 export const forceRoomData = state => state.forceRoomData;
 export const isInfoFrame = state => state.isInfoFrame;
+export const rtmpList = state => state.rtmpList;

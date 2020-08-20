@@ -1,5 +1,10 @@
 import * as types from "./mutation-types";
 import router from "../../../router/index";
+//  设置监控视频
+export const SetRtmpList = function({ commit }, data) {
+  commit(types.SET_RTMP_LIST, data);
+};
+//  设置弹窗显隐
 export const SetIsInfoFrame = function({ commit }, data) {
   commit(types.SET_IS_INFO_FRAME, data);
 };

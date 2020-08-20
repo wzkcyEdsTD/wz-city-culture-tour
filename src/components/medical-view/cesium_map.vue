@@ -1,10 +1,10 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-07 09:41:22
- * @LastEditTime: 2020-08-14 17:45:26
+ * @LastEditTime: 2020-08-20 19:26:14
  * @LastEditors: eds
  * @Description:
- * @FilePath: \wz-city-culture-tour\src\components\map-view\cesium_map.vue
+ * @FilePath: \wz-city-culture-tour\src\components\medical-view\cesium_map.vue
 -->
 <template>
   <div class="cesiumContainer">
@@ -17,6 +17,7 @@
       <NanTangModel v-if="showSubFrame == '3d1'" />
       <InfoFrame ref="infoframe" v-if="isInfoFrame" />
       <Popup ref="popup" :mapLoaded="mapLoaded" />
+      <RtmpVideo />
     </div>
   </div>
 </template>
@@ -31,6 +32,7 @@ import NanTangModel from "./extraModel/NanTangModel";
 import CesiumMapTool from "./basicTools/CesiumMapTool";
 import InfoFrame from "./commonFrame/InfoFrame";
 import Popup from "./commonFrame/popup";
+import RtmpVideo from "./extraModel/RtmpVideo";
 const Cesium = window.Cesium;
 import { mapActions } from "vuex";
 
@@ -54,6 +56,7 @@ export default {
     CesiumMapTool,
     InfoFrame,
     Popup,
+    RtmpVideo,
   },
   mounted() {
     this.init3DMap(() => {
@@ -76,6 +79,7 @@ export default {
       this.$bus.$off("cesium-3d-switch");
       this.$bus.$on("cesium-3d-switch", ({ value }) => {
         const _LAYER_ = this.viewer.scene.layers.find("baimo");
+        _LAYER_.visibleDistanceMin = !value ? 1450 : 0;
         // _LAYER_.visible = value;
       });
       this.$bus.$off("cesium-3d-mapType");
@@ -107,9 +111,6 @@ export default {
         infoBox: false,
         // 隐藏绿框标识
         selectionIndicator: false,
-        // terrainProvider: new Cesium.CesiumTerrainProvider({
-        //   url: ServiceUrl.YJDem,
-        // }),
       });
       this.datalayer = this.viewer.imageryLayers.addImageryProvider(
         new Cesium.SuperMapImageryProvider({
@@ -132,9 +133,11 @@ export default {
         LAYER.style3D.fillForeColor = new Cesium.Color.fromCssColorString(
           "rgba(216, 218, 224, 1)"
         );
-        LAYER.style3D.lineColor = { alpha: 1, blue: 0, green: 0, red: 1 };
-        LAYER.style3D.lineWidth = 2;
-        LAYER.visibleDistanceMin = 1450;
+        LAYER.style3D.lineColor = { alpha: 0.9, blue: 0, green: 0, red: 0 };
+        LAYER.style3D.lineWidth = 0.5;
+        //  草图模式
+        LAYER.style3D.fillStyle = Cesium.FillStyle.Fill_And_WireFrame;
+        LAYER.wireFrameMode = Cesium.WireFrameType.Sketch;
       });
       // this.addPointLight();
       this.cameraMove();

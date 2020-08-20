@@ -1,10 +1,10 @@
 /*
  * @Author: eds
  * @Date: 2020-07-01 15:22:07
- * @LastEditTime: 2020-08-12 09:14:38
+ * @LastEditTime: 2020-08-20 19:21:51
  * @LastEditors: eds
  * @Description:
- * @FilePath: \旅游\src\store\modules\map\state.js
+ * @FilePath: \wz-city-culture-tour\src\store\modules\map\state.js
  */
 const state = {
   collapse1: false, // 折叠左侧
@@ -28,6 +28,8 @@ const state = {
   forceBimData: [],
   forceRoomData: [],
   //  info
-  isInfoFrame : false
+  isInfoFrame: false,
+  //  rtmpVideo
+  rtmpList: []
 };
 export default state;

@@ -1,16 +1,19 @@
 /*
  * @Author: eds
  * @Date: 2020-07-01 15:22:07
- * @LastEditTime: 2020-08-12 15:39:52
+ * @LastEditTime: 2020-08-20 19:22:56
  * @LastEditors: eds
  * @Description:
- * @FilePath: \旅游\src\store\modules\map\mutations.js
+ * @FilePath: \wz-city-culture-tour\src\store\modules\map\mutations.js
  */
 // 定义修改操作
 import * as types from "./mutation-types";
 
 const mutations = {
-  [types.SET_IS_INFO_FRAME](state,bool){
+  [types.SET_RTMP_LIST](state, data) {
+    state.rtmpList = data;
+  },
+  [types.SET_IS_INFO_FRAME](state, bool) {
     state.isInfoFrame = bool;
   },
   [types.SET_COLLAPSE1](state, bool) {

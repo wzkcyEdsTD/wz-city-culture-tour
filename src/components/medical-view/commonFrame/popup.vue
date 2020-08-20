@@ -1,10 +1,10 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-12 14:32:09
- * @LastEditTime: 2020-08-14 11:22:28
+ * @LastEditTime: 2020-08-20 19:34:07
  * @LastEditors: eds
  * @Description:
- * @FilePath: \wz-city-culture-tour\src\components\map-view\commonFrame\popup.vue
+ * @FilePath: \wz-city-culture-tour\src\components\medical-view\commonFrame\popup.vue
 -->
 <template>
   <div id="trackPopUp" v-show="shallPop">
@@ -125,6 +125,26 @@ export default {
     closePopup() {
       this.$bus.$emit("cesium-3d-mvt-down");
       this.shallPop = false;
+    },
+
+    /**
+     * 人口缓冲区（直接pop组件里画）
+     * 开专门的缓冲区collection
+     */
+    doCircleBuffer() {},
+    /**
+     * @param {string} id?:string 有id去id 没有id去全部
+     * 关闭周边人口按钮触发
+     */
+    clearCircleBuffer(id) {
+      //  code
+    },
+    /**
+     * 仅传参数给RtmpVideo组件,不参与后续功能
+     * @param {object} 该医疗点的对象信息
+     */
+    doVideoRtmp(obj) {
+      this.$bus.$emit("cesium-3d-rtmpFetch", { obj });
     },
   },
 };

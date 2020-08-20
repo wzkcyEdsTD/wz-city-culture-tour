@@ -1,10 +1,10 @@
 /*
  * @Author: eds
  * @Date: 2020-07-01 15:22:07
- * @LastEditTime: 2020-08-12 15:39:23
+ * @LastEditTime: 2020-08-20 19:22:13
  * @LastEditors: eds
  * @Description:
- * @FilePath: \旅游\src\store\modules\map\mutation-types.js
+ * @FilePath: \wz-city-culture-tour\src\store\modules\map\mutation-types.js
  */
 export const SET_COLLAPSE1 = "SET_COLLAPSE1";
 export const SET_COLLAPSE2 = "SET_COLLAPSE2";
@@ -23,3 +23,4 @@ export const SET_FORCE_BIM_IDS = "SET_FORCE_BIM_IDS";
 export const SET_FORCE_BIM_DATA = "SET_FORCE_BIM_DATA";
 export const SET_FORCE_ROOM_DATA = "SET_FORCE_ROOM_DATA";
 export const SET_IS_INFO_FRAME = "SET_IS_INFO_FRAME";
+export const SET_RTMP_LIST = "SET_RTMP_LIST";
