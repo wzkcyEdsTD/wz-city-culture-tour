@@ -64,12 +64,12 @@ export default {
     eventRegsiter() {
       const that = this;
       this.$bus.$off("cesium-3d-rtmpFetch");
-      this.$bus.$on("cesium-3d-rtmpFetch", async (geometry) => {
+      this.$bus.$on("cesium-3d-rtmpFetch", async (item) => {
         //  code fetch rtmpURLs
         this.RtmpForcePoint = item;
         const accessToken = await getAccessToken();
         const result = await getRtmpVideoList(
-          geometry,
+          item.geometry,
           accessToken.data.access_token
         );
         this.SetRtmpList(result);

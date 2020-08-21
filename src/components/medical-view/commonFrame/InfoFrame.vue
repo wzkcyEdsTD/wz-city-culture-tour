@@ -12,7 +12,7 @@
       <i class="close" @click="closeBimFrame"></i>
       <div>
         <header>
-          <span class="title">第六人民医院</span>
+          <span class="title">{{ name }}</span>
         </header>
         <section v-for="(item, index) in indexEnums" :key="index">
           <span class="section-title">{{ item.label }}</span>
@@ -26,12 +26,15 @@
                   </tr>
                   <tr>
                     <td>
-                      <span class="item-num">{{ _item.num }}</span>
+                      <span
+                        class="item-num"
+                      >{{ numObj.hasOwnProperty(_item.num) ? numObj[_item.num] :_item.num }}</span>
                       <span class="item-unit">{{ _item.unit }}</span>
                     </td>
-                    <td
-                      :style="{ color: _item.ratio >= 0 ? '#04b72d' : '#fc5453' }"
-                    >{{ _item.ratio }}{{ _item.unit }}</td>
+                    <td :style="{ color: _item.ratio >= 0 ? '#04b72d' : '#fc5453' }">
+                      <span>{{ _item.ratio >= 0 ? `+${_item.ratio}` : _item.ratio }}{{ _item.unit }}</span>
+                      <i :class="[ _item.ratio >= 0 ? 'ratio-up' : 'ratio-down' ]"></i>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -41,10 +44,15 @@
         <section>
           <span class="section-title">医院简介</span>
           <div>
-            <span class="address">地址：地址地址地址地址地址地址地址地址地址地址地址地址</span>
-            <span
-              class="summary"
-            >乐清东敏中西医结合医院是经市卫生局审批的一家以中西医结合为特色的医院。设有急珍科.内科.外科.儿科.妇产科.骨伤科..推拿理疗科.（椎间盘突出科）.中医内科，中西医结合科。配有500毫</span>
+            <span class="address">地址：{{ address || `暂无地址` }}</span>
+            <span class="summary">{{ summary || `暂无简介` }}</span>
+          </div>
+          <div class="imgs">
+            <ul>
+              <li v-for="(item, index) in imgHash[name]" :key="index">
+                <img :src="`/static/images/医院/${item}`" />
+              </li>
+            </ul>
           </div>
         </section>
       </div>
@@ -55,15 +63,18 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 
+import { imgHash } from "./config";
+
 export default {
   name: "InfoFrame",
   data() {
     return {
+      imgHash,
       indexEnums: [
         {
           label: "今日病情指标",
           data: [
-            { label: "发热病人数", num: 421, ratio: -32, unit: "人" },
+            { label: "发热病人数", num: "feverNum", ratio: -32, unit: "人" },
             { label: "肿瘤病人数", num: 3283, ratio: -12, unit: "人" },
             { label: "传染病人数", num: 52316, ratio: -222, unit: "人" },
             { label: "120接警数", num: 2336, ratio: -232, unit: "次" },
@@ -86,10 +97,33 @@ export default {
           ],
         },
       ],
+      indexOption: {},
     };
   },
   computed: {
     ...mapGetters("map", ["isInfoFrame"]),
+    name() {
+      if (this.indexOption && this.indexOption.attributes)
+        return this.indexOption.attributes.SHORTNAME;
+      else return "";
+    },
+    address() {
+      if (this.indexOption && this.indexOption.attributes)
+        return this.indexOption.attributes.ADDRESS;
+      else return "";
+    },
+    summary() {
+      if (this.indexOption && this.indexOption.attributes)
+        return this.indexOption.attributes.SUMMARY;
+      else return "";
+    },
+    numObj() {
+      if (this.indexOption && this.indexOption.feverNum)
+        return {
+          feverNum: this.indexOption.feverNum,
+        };
+      else return {};
+    },
   },
   beforeDestroy() {
     this.closeBimFrame();

@@ -22,14 +22,15 @@ export default {
   },
   methods: {
     eventRegsiter() {
+      const that = this;
       this.$bus.$off("cesium-3d-population-circle");
       this.$bus.$on(
         "cesium-3d-population-circle",
         ({ doDraw, id, geometry }) => {
           !doDraw
-            ? removePopulationCircle(id)
+            ? that.removePopulationCircle(id)
             : id && geometry
-            ? drawPopulationCircle(id, geometry)
+            ? that.drawPopulationCircle(id, geometry)
             : undefined;
         }
       );

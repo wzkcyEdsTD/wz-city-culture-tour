@@ -25,3 +25,4 @@ export const forceRoomData = state => state.forceRoomData;
 export const isInfoFrame = state => state.isInfoFrame;
 export const rtmpList = state => state.rtmpList;
 export const feverList = state => state.feverList;
+export const hospitalList = state => state.hospitalList;

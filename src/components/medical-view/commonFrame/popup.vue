@@ -17,7 +17,7 @@
     >
       <div class="popup-tip-container">
         <div class="popup-tip-inner">
-          <div class="tip-name">{{ item.shortname }}</div>
+          <div class="tip-name" @click="showDetail(item)">{{ item.shortname }}</div>
           <div class="tip-num">
             <table border="0">
               <tbody>
@@ -32,6 +32,10 @@
               </tbody>
             </table>
           </div>
+        </div>
+        <div class="right-btns">
+          <span @click="doVideoRtmp({id: item.id, geometry: item.geometry})">直达现场</span>
+          <span @click="doCircleBuffer(item)">周边人口</span>
         </div>
       </div>
     </div>
@@ -54,13 +58,10 @@ export default {
       const that = this;
       this.$bus.$off("cesium-3d-mvt");
       this.$bus.$on("cesium-3d-mvt", ({ scene, pickedList, pointList }) => {
-        // console.log("list", pickedList, pointList);
-
         that.popList = [];
 
         if (pickedList.length) {
           pickedList.map((item, index) => {
-            // console.log(item);
             if (pointList[index]) {
               that.popList.push({
                 id: item.id,
@@ -68,6 +69,8 @@ export default {
                 grade: that.fixGrade(item.attributes.DEFINING_T),
                 shortname: item.attributes.SHORTNAME,
                 feverNum: item.feverNum || 0,
+                attributes: item.attributes,
+                geometry: item.geometry,
                 x:
                   pointList[index].x -
                   $(`#trackPopUpContent_${index}`).width() / 2,
@@ -102,11 +105,27 @@ export default {
       this.shallPop = false;
     },
 
+    showDetail(obj) {
+      console.log(obj);
+      this.$parent.isInfoFrame = true;
+      this.$parent.$refs.infoframe.indexOption = obj;
+    },
+
     /**
      * 人口缓冲区（直接pop组件里画）
      * 开专门的缓冲区collection
      */
-    doCircleBuffer() {},
+    doCircleBuffer(obj) {
+      console.log(obj);
+      this.$bus.$emit("cesium-3d-population-circle", {
+        doDraw: true,
+        id: obj.id,
+        geometry: {
+          lng: obj.geometry.x,
+          lat: obj.geometry.y,
+        },
+      });
+    },
     /**
      * @param {string} id?:string 有id去id 没有id去全部
      * 关闭周边人口按钮触发
@@ -132,19 +151,20 @@ export default {
   top: -20px;
   left: 0;
   z-index: 99999;
+  cursor: pointer;
 }
 
 .popup-tip-container {
   position: relative;
   width: 160px;
-  height: 100px;
+  height: 130px;
   background-image: url("../../../common/images/pop_bg.png");
   background-size: 100% 100%;
   background-repeat: no-repeat;
 }
 
 .popup-tip-inner {
-  position: absolute;
+  position: relative;
   left: 10px;
   top: 7px;
   height: 50px;
@@ -200,5 +220,28 @@ export default {
 .tip-num table tbody tr td:last-child {
   text-align: left;
   vertical-align: middle;
+}
+
+.right-btns {
+  width: 160px;
+  color: #fff;
+  margin-top: 7px;
+  padding: 0 5px 0 10px;
+}
+
+.right-btns span {
+  font-family: YouSheBiaoTiHei;
+  font-size: 13px;
+  display: block;
+  width: 70px;
+  float: left;
+  padding: 2px;
+}
+
+.right-btns span:first-child {
+  background-image: linear-gradient(0deg, #24b3ed 0%, transparent 100%);
+}
+.right-btns span:last-child {
+  background-image: linear-gradient(0deg, #df5252 0%, transparent 100%);
 }
 </style>
