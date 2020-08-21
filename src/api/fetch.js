@@ -18,7 +18,7 @@ export const getAccessToken = async () => {
     });
 };
 
-// 发热病人数
+// 发热病人数 100004005
 export const getFarebr = async token => {
   return axios
     .request({
@@ -26,7 +26,7 @@ export const getFarebr = async token => {
       method: "post",
       headers: {
         Authorization: `${token}`
-      }
+      },
     })
     .then(res => {
       return Promise.resolve(res);
@@ -34,14 +34,34 @@ export const getFarebr = async token => {
 };
 
 /**
- * 获取视频列表
+ * 获取视频列表 100006019
  * @param {*} param0
  * @param {*} token
  */
 export const getRtmpVideoList = async (geometry, token) => {
   return axios
     .request({
-      url: "/data/100004005",
+      url: "/data/100006019",
+      method: "post",
+      headers: {
+        Authorization: `${token}`
+      },
+      data: { ...geometry }
+    })
+    .then(res => {
+      return Promise.resolve(res);
+    });
+};
+
+/**
+ * 获取视频列表 100007059
+ * @param {*} param0
+ * @param {*} token
+ */
+export const getPopulation = async (geometry, token) => {
+  return axios
+    .request({
+      url: "/data/100007059",
       method: "post",
       headers: {
         Authorization: `${token}`
