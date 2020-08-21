@@ -24,3 +24,4 @@ export const SET_FORCE_BIM_DATA = "SET_FORCE_BIM_DATA";
 export const SET_FORCE_ROOM_DATA = "SET_FORCE_ROOM_DATA";
 export const SET_IS_INFO_FRAME = "SET_IS_INFO_FRAME";
 export const SET_RTMP_LIST = "SET_RTMP_LIST";
+export const SET_FEVER_LIST = "SET_FEVER_LIST";
