@@ -53,7 +53,7 @@ export default {
       imagelayer: undefined,
       datalayer: undefined,
       viewer: undefined,
-      isInfoFrame: false,
+      isInfoFrame: true,
     };
   },
   components: {
