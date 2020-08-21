@@ -26,8 +26,34 @@
           :filter-node-method="filterNode"
           default-expand-all
           @check-change="checkChange"
-        />
+        >
+          <span class="custom-tree-node" slot-scope="{ node, data }">
+            <span>{{ node.label }}</span>
+            <span v-if="node.label == '救护场所'">
+              <i class="icon-search" @click="showSearchBox(data)"></i>
+            </span>
+          </span>
+        </el-tree>
       </div>
+    </el-popover>
+    <el-popover
+      placement="right-end"
+      width="280"
+      trigger="click"
+      class="layerPopover"
+      v-model="serachBoxVisible"
+    >
+      <div class="searchHeader">
+        <el-input v-model="searchText" class="searchFilterInput" placeholder="温州附近的医院有哪些？" size="small" />
+        <i class="icon-common icon-clear" @click="clearSearch()"></i>
+        <!-- <el-divider direction="vertical"></el-divider> -->
+        <i class="icon-common icon-back" @click="back()"></i>
+        <!-- <el-divider direction="vertical"></el-divider> -->
+        <i class="icon-common icon-search" @click="search()"></i>
+      </div>
+      <ul>
+        <li>123</li>
+      </ul>
     </el-popover>
     <img
       slot="reference"
@@ -36,7 +62,7 @@
       :src="avatar"
       width="59px"
       height="60px"
-      @click="visible = !visible"
+      @click="toogleVisible"
     />
   </div>
 </template>
@@ -57,7 +83,9 @@ export default {
     return {
       rotateIn: true,
       visible: true,
+      serachBoxVisible: false,
       filterText: "",
+      searchText: "",
       data: CESIUM_TREE_OPTION,
       imageLayer: {},
       avatar: require("common/images/coverage.png"),
@@ -375,6 +403,18 @@ export default {
           this.$bus.$emit(node.componentEvent, { value: null });
       }
     },
+
+    toogleVisible() {
+      this.serachBoxVisible = false
+      this.visible = !this.visible
+    },
+
+    showSearchBox(nodeData) {
+      console.log('data', nodeData)
+      this.visible = false
+      this.serachBoxVisible = true
+    },
+
     // 三维定位
     setview(cameraSight) {
       window.earth.scene.camera.setView({
