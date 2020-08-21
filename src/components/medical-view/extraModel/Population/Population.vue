@@ -68,10 +68,10 @@ export default {
       circleEntity.label = {
         text: `时间:${result.task_time}\n人数:${result.data}人`,
         color: Cesium.Color.fromCssColorString("#fff"),
-        font: "normal 16px MicroSoft YaHei",
+        font: "normal 18px MicroSoft YaHei",
         // verticalOrigin: Cesium.VerticalOrigin.TOP,
         distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 10000),
-        eyeOffset: new Cesium.Cartesian3(0.0, -170.0, 5.0),
+        eyeOffset: new Cesium.Cartesian3(0.0, -170.0, -10),
         scaleByDistance: new Cesium.NearFarScalar(5000, 1, 10000, 0.5),
       };
       this.populationCircleList[circleEntity.name] = circleEntity;
@@ -84,7 +84,7 @@ export default {
     removePopulationCircle(id) {
       id
         ? this.entityCollection.entities.removeById(
-            this.populationCircleList[id]
+            this.populationCircleList[id].id
           )
         : this.entityCollection.entities.removeAll();
     },
