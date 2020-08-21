@@ -1,7 +1,15 @@
 <!--
  * @Author: eds
+ * @Date: 2020-08-20 18:52:41
+ * @LastEditTime: 2020-08-21 11:51:22
+ * @LastEditors: eds
+ * @Description:
+ * @FilePath: \wz-city-culture-tour\src\components\medical-view\cesium_map.vue
+-->
+<!--
+ * @Author: eds
  * @Date: 2020-07-07 09:41:22
- * @LastEditTime: 2020-08-20 19:26:14
+ * @LastEditTime: 2020-08-21 10:39:11
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\cesium_map.vue
@@ -32,7 +40,7 @@ import NanTangModel from "./extraModel/NanTangModel";
 import CesiumMapTool from "./basicTools/CesiumMapTool";
 import InfoFrame from "./commonFrame/InfoFrame";
 import Popup from "./commonFrame/popup";
-import RtmpVideo from "./extraModel/RtmpVideo";
+import RtmpVideo from "./extraModel/RtmpVideo/RtmpVideo";
 const Cesium = window.Cesium;
 import { mapActions } from "vuex";
 
