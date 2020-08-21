@@ -26,7 +26,7 @@ export const getFarebr = async token => {
       method: "post",
       headers: {
         Authorization: `${token}`
-      },
+      }
     })
     .then(res => {
       return Promise.resolve(res);
@@ -54,7 +54,7 @@ export const getRtmpVideoList = async (geometry, token) => {
 };
 
 /**
- * 获取视频列表 100007059
+ * 获取实施人口 100007059
  * @param {*} param0
  * @param {*} token
  */
@@ -66,7 +66,7 @@ export const getPopulation = async (geometry, token) => {
       headers: {
         Authorization: `${token}`
       },
-      data: { ...geometry }
+      data: { ...geometry, type: 2 }
     })
     .then(res => {
       return Promise.resolve(res);
