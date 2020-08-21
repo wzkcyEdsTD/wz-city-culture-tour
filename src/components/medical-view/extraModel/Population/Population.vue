@@ -3,6 +3,7 @@
 </template>
 
 <script>
+import { getAccessToken, getPopulation } from "api/fetch";
 const Cesium = window.Cesium;
 
 export default {
@@ -48,17 +49,31 @@ export default {
      * @param {geometry!} 没geometry不画
      * @param {radius?} 单位[米] 先默认 不屌他
      */
-    drawPopulationCircle(id, { lng, lat }, raidus = 500) {
+    async drawPopulationCircle(id, { lng, lat }, raidus = 500) {
       const circleEntity = new Cesium.Entity({
         position: Cesium.Cartesian3.fromDegrees(lng, lat),
         ellipse: {
           semiMinorAxis: raidus,
           semiMajorAxis: raidus,
-          height: 5.0,
+          height: 4,
           material: Cesium.Color.GREEN.withAlpha(0.5),
         },
         name: id,
       });
+      const accessToken = await getAccessToken();
+      const result = await getPopulation(
+        { lng, lat },
+        accessToken.data.access_token
+      );
+      circleEntity.label = {
+        text: `时间:${result.task_time}\n人数:${result.data}人`,
+        color: Cesium.Color.fromCssColorString("#fff"),
+        font: "normal 16px MicroSoft YaHei",
+        // verticalOrigin: Cesium.VerticalOrigin.TOP,
+        distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 10000),
+        eyeOffset: new Cesium.Cartesian3(0.0, -170.0, 5.0),
+        scaleByDistance: new Cesium.NearFarScalar(5000, 1, 10000, 0.5),
+      };
       this.populationCircleList[circleEntity.name] = circleEntity;
       this.entityCollection.entities.add(circleEntity);
     },

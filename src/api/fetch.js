@@ -49,10 +49,28 @@ export const getRtmpVideoList = async (geometry, token) => {
       data: { ...geometry }
     })
     .then(res => {
-      return Promise.resolve(res);
+      return Promise.resolve(res.data.data);
     });
 };
 
+/**
+ * 获取视频真实地址 100006020
+ * @param {*} mp_id
+ */
+export const getRtmpVideoURL = async (mp_id, token) => {
+  return axios
+    .request({
+      url: "/data/100006020",
+      method: "post",
+      headers: {
+        Authorization: `${token}`
+      },
+      data: { mp_id }
+    })
+    .then(res => {
+      return Promise.resolve(res.data.data);
+    });
+};
 /**
  * 获取实施人口 100007059
  * @param {*} param0
@@ -69,6 +87,6 @@ export const getPopulation = async (geometry, token) => {
       data: { ...geometry, type: 2 }
     })
     .then(res => {
-      return Promise.resolve(res);
+      return Promise.resolve(res.data);
     });
 };
