@@ -27,10 +27,10 @@
           default-expand-all
           @check-change="checkChange"
         >
-          <span class="custom-tree-node" slot-scope="{ node, data }">
+          <span class="custom-tree-node" slot-scope="{ node }">
             <span>{{ node.label }}</span>
             <span v-if="node.label == '救护场所'">
-              <i class="icon-search" @click="showSearchBox(data)"></i>
+              <i class="icon-search" @click="showSearchBox"></i>
             </span>
           </span>
         </el-tree>
@@ -44,15 +44,26 @@
       v-model="serachBoxVisible"
     >
       <div class="searchHeader">
-        <el-input v-model="searchText" class="searchFilterInput" placeholder="温州附近的医院有哪些？" size="small" />
-        <i class="icon-common icon-clear" @click="clearSearch()"></i>
-        <!-- <el-divider direction="vertical"></el-divider> -->
-        <i class="icon-common icon-back" @click="back()"></i>
-        <!-- <el-divider direction="vertical"></el-divider> -->
-        <i class="icon-common icon-search" @click="search()"></i>
+        <el-input v-model="searchText" class="searchFilterInput" placeholder="温州附近的医院有哪些？" size="small" @keyup.enter.native="searchFilter" />
+        <div class="button-container">
+          <i class="icon-common icon-clear" @click="searchClear"></i>
+          <i class="icon-common icon-back" @click="backToTree"></i>
+          <i class="icon-common icon-search" @click="searchFilter"></i>
+        </div>
       </div>
-      <ul>
-        <li>123</li>
+      <ul class="result-list">
+        <li class="result-item" v-for="item in hospitalList" :key="item.orderNo">
+          <div class="left">
+            <p class="name">{{item.name}}</p>
+            <div class="address">
+              <i class="icon-position"></i>
+              <span>温州市xxxx</span>
+            </div>
+          </div>
+          <div class="right">
+            <input id="custom-checkbox" type="checkbox" :checked="hospitalChecked.indexOf(item.name)>=0" @click="checkedOne(item)">
+          </div>
+        </li>
       </ul>
     </el-popover>
     <img
@@ -84,6 +95,9 @@ export default {
       serachBoxVisible: false,
       filterText: "",
       searchText: "",
+      hospitalList: [],
+      hospitalChecked: [],
+      // checkedHospitalList: [],
       data: CESIUM_TREE_OPTION,
       imageLayer: {},
       avatar: require("common/images/coverage.png"),
@@ -104,6 +118,14 @@ export default {
     filterText(val) {
       this.$refs.tree.filter(val);
     },
+    searchText(val) {
+      if (val === '') {
+        this.hospitalList = this.feverList
+      }
+    },
+    // checkedHospitalList(val) {
+    //   console.log(val)
+    // }
   },
   created() {
     this.viewer = window.earth;
@@ -115,7 +137,9 @@ export default {
 
     await this.SetFeverList();
     const feverObj = {};
+    this.hospitalList = this.feverList
 
+    console.log(this.hospitalList)
     this.feverList.map((item) => {
       if (!feverObj[item.name]) {
         feverObj[item.name] = parseInt(item.value);
@@ -179,7 +203,7 @@ export default {
       const that = this;
       this.viewer.scene.postRender.addEventListener(() => {
         if (!that.pickedList || !that.viewer) return;
-
+        
         const extent = this.getCurrentExtent(that);
 
         const pointList = [];
@@ -203,7 +227,9 @@ export default {
               );
 
               pointList.push(pointToWindow);
+              // console.log('pointList', pointList)
               newList.push(item);
+              // console.log('newList', newList)
             }
           }
         });
@@ -275,6 +301,7 @@ export default {
       });
 
       const features = res.result.features;
+      console.log('features', features)
 
       const labelList = [];
 
@@ -324,6 +351,8 @@ export default {
         ...this.pickedList,
         ...poiLabelEntityCollection.entities.values,
       ];
+      console.log('pickedList', this.pickedList)
+      console.log('this.entityMap', this.entityMap)
     },
 
     filterNode(value, data) {
@@ -331,6 +360,7 @@ export default {
     },
 
     checkChange(node, checked, c) {
+      console.log(666, node, checked, c)
       if (checked) {
         if (node.type == "mvt" && node.map && node.icon) {
           if (node.id && this.entityMap[node.id]) {
@@ -401,10 +431,64 @@ export default {
       this.visible = !this.visible
     },
 
-    showSearchBox(nodeData) {
-      console.log('data', nodeData)
+    showSearchBox() {
+      this.$refs.tree.setCheckedKeys(['医疗资源']);
+      this.hospitalList = this.feverList  // 初始化搜索列表
       this.visible = false
       this.serachBoxVisible = true
+    },
+
+    searchClear() {
+      this.searchText = ''
+    },
+
+    backToTree() {
+      this.serachBoxVisible = false
+      this.visible = true
+    },
+
+    searchFilter() {
+      console.log(this.searchText)
+      this.hospitalList = this.feverList.filter((item) => {
+        return item.name.indexOf(this.searchText) >= 0
+      })
+      // console.log('hospitalList', this.hospitalList)
+    },
+
+    checkedOne(item) {
+      console.log('checkedOne', item)
+      let idIndex = this.hospitalChecked.indexOf(item.name)
+      if (idIndex >= 0) {
+        // 如果已经包含了该id, 则去除(单选按钮由选中变为非选中状态)
+        this.hospitalChecked.splice(idIndex, 1)
+      } else {
+        // 选中该checkbox
+        console.log('666')
+        this.hospitalChecked = []
+        this.hospitalChecked.push(item.name)
+        let checkedEntity = this.pickedList.filter((entity) => {
+          return item.name === entity._attributes.SHORTNAME
+        })[0]
+        console.log('checkedEntity', checkedEntity)
+
+        this.viewer.entities.add(
+            new Cesium.Entity({
+              // id: `${item.attributes.SMID}@${node.icon}@${node.dataset}`,
+              position: Cesium.Cartesian3.fromDegrees(
+                checkedEntity.geometry.x,
+                checkedEntity.geometry.y,
+                48
+              ),
+            })
+        );
+
+        // this.viewer.flyTo(checkedEntity, {
+        //     duration: 5,
+        //     offset: new Cesium.HeadingPitchRange(0.0, Cesium.Math.toRadians(-20.0))
+        // });
+      }
+      console.log('hospitalChecked', this.hospitalChecked)
+      // this.hospitalChecked = item.value
     },
 
     // 三维定位
