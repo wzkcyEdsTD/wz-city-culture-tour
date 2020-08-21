@@ -4,7 +4,7 @@
   bottom: 40px;
   overflow: hidden;
   right: 30px;
-  width: 320px;
+  width: 350px;
   background: rgba(11, 20, 35, 0.8);
   // border    : 1px solid rgba(81, 161, 201, 0.6);
   color: white;
@@ -16,7 +16,7 @@
     height: 100%;
     overflow-y: auto;
 
-    
+
     .close {
       position: absolute;
       right: 4px;
@@ -45,6 +45,10 @@
       text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.64);
     }
 
+    section {
+      margin-bottom: 15px;
+    }
+
 
     .section-title {
       display: block;
@@ -53,6 +57,85 @@
       letter-spacing: 0px;
       color: #ffffff;
       text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.64);
+      margin-bottom: 6px;
+    }
+
+    .block-outside {
+
+      width: 100%;
+
+      .block {
+        display: inline-block;
+        width: 49%;
+
+        table {
+          width: 100%;
+
+          td {
+            font-family: PingFang;
+            font-size: 14px;
+            vertical-align: middle;
+            padding: 6px 0;
+          }
+
+          tr:first-child td:first-child {
+            // color: #00ffeb;
+            width: 60%;
+          }
+
+          tr:first-child td:last-child {
+            // color: #00ffeb;
+            // width: 60%;
+            font-size: 12px;
+            -webkit-transform-origin-x: 0;
+            -webkit-transform: scale(0.92);
+          }
+
+          tr:last-child td:first-child {
+            color: #00ffeb;
+
+            .item-num {
+              font-size: 18px;
+            }
+
+            .item-unit {
+              font-size: 12px;
+              -webkit-transform-origin-x: 0;
+              -webkit-transform: scale(0.92);
+            }
+          }
+
+          tr:last-child td:last-child {
+            font-size: 12px;
+            -webkit-transform-origin-x: 0;
+            -webkit-transform: scale(0.83);
+          }
+
+        }
+
+
+
+      }
+
+      .block:nth-child(even){
+        margin-left: 2%;
+      }
+
+      .block:nth-child(1) {
+        float: left;
+      }
+    }
+
+    .address,
+    .summary {
+      display: block;
+      font-family: PingFang;
+      font-size: 14px;
+      line-height: 18px;
+    }
+
+    .address {
+      margin: 15px 0;
     }
 
 
@@ -63,6 +146,7 @@
 
 
 
-    
+
+
   }
 }

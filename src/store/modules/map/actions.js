@@ -1,5 +1,15 @@
 import * as types from "./mutation-types";
 import router from "../../../router/index";
+import { getAccessToken, getFarebr } from "../../../api/fetch";
+
+//  设置发热数据
+export const SetFeverList = async function({ commit }, data) {
+  const accessToken = await getAccessToken();
+  const result = await getFarebr(accessToken.data.access_token);
+  const res = result.data.data.ranking_data;
+  commit(types.SET_FEVER_LIST, res);
+};
+
 //  设置监控视频
 export const SetRtmpList = function({ commit }, data) {
   commit(types.SET_RTMP_LIST, data);

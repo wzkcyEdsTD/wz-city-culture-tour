@@ -75,8 +75,6 @@ const Cesium = window.Cesium;
 // import { BimSourceURL } from "config/server/mapConfig";
 // const { SCENE_DATA_URL } = BimSourceURL;
 
-import { getAccessToken, getFarebr } from "api/fetch";
-
 export default {
   name: "TreeTool",
   data() {
@@ -94,15 +92,13 @@ export default {
       //  cesium Object
       viewer: undefined,
       handler: undefined,
-      picked: null,
       pickedList: [],
       pickedAttr: null,
       entityMap: {},
-      pickAttrs: [],
     };
   },
   computed: {
-    ...mapGetters(["map"]),
+    ...mapGetters("map", ["feverList"]),
   },
   watch: {
     filterText(val) {
@@ -117,15 +113,10 @@ export default {
   async mounted() {
     this.eventRegsiter_ex();
 
-    const accessToken = await getAccessToken();
-    const result = await getFarebr(accessToken.data.access_token);
-    this.numHash = result.data.data.ranking_data;
-
-    const res = result.data.data.ranking_data;
-
+    await this.SetFeverList();
     const feverObj = {};
 
-    res.map((item) => {
+    this.feverList.map((item) => {
       if (!feverObj[item.name]) {
         feverObj[item.name] = parseInt(item.value);
       }
@@ -139,6 +130,7 @@ export default {
     this.viewer = undefined;
   },
   methods: {
+    ...mapActions("map", ["SetFeverList"]),
     // 获取当前视野范围
     getCurrentExtent(ctx) {
       var extent = {};
