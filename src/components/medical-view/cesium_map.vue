@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-20 18:52:41
- * @LastEditTime: 2020-08-21 11:51:22
+ * @LastEditTime: 2020-08-21 14:32:45
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\cesium_map.vue
@@ -25,7 +25,8 @@
       <NanTangModel v-if="showSubFrame == '3d1'" />
       <InfoFrame ref="infoframe" v-if="isInfoFrame" />
       <Popup ref="popup" :mapLoaded="mapLoaded" />
-      <RtmpVideo />
+      <RtmpVideo v-if="mapLoaded"/>
+      <Population v-if="mapLoaded"/>
     </div>
   </div>
 </template>
@@ -41,6 +42,7 @@ import CesiumMapTool from "./basicTools/CesiumMapTool";
 import InfoFrame from "./commonFrame/InfoFrame";
 import Popup from "./commonFrame/popup";
 import RtmpVideo from "./extraModel/RtmpVideo/RtmpVideo";
+import Population from "./extraModel/Population/Population";
 const Cesium = window.Cesium;
 import { mapActions } from "vuex";
 
@@ -65,6 +67,7 @@ export default {
     InfoFrame,
     Popup,
     RtmpVideo,
+    Population
   },
   mounted() {
     this.init3DMap(() => {
