@@ -8,10 +8,12 @@
     <div class="cesium-map" v-if="currentMapType == 'cesiumMap'">
       <CesiumMap />
     </div>
+    <m-bottom></m-bottom>
   </div>
 </template>
 <script>
 import MapCenterBtn from "./modules/map-center-btn/map-center-btn";
+import MBottom from "components/m-bottom/m-bottom";
 import CesiumMap from "components/medical-view/cesium_map";
 import { mapGetters, mapActions } from "vuex";
 
@@ -41,6 +43,7 @@ export default {
   components: {
     MapCenterBtn,
     CesiumMap,
+    MBottom
   },
   watch: {},
 };
