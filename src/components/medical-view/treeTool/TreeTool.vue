@@ -315,8 +315,8 @@ export default {
                 30
               ),
               point : {
-                color : Cesium.Color.WHITE.withAlpha(0.9),
-                outlineColor : Cesium.Color.WHITE.withAlpha(0.9),
+                color : Cesium.Color.WHITE.withAlpha(0.1),
+                outlineColor : Cesium.Color.WHITE.withAlpha(0.1),
               },
               name: node.id,
               feverNum: that.feverObj[item.attributes.SHORTNAME],
