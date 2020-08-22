@@ -147,6 +147,7 @@ export default {
     });
 
     this.feverObj = feverObj;
+    console.log(feverObj);
   },
   beforeDestroy() {
     this.handler && this.handler.destroy();
@@ -301,12 +302,10 @@ export default {
       });
 
       const features = res.result.features;
-      console.log('features', features)
-
-      const labelList = [];
+      const sArr = Object.keys(that.feverObj);
 
       features.map((item) => {
-        if (~Object.keys(that.feverObj).indexOf(item.attributes.SHORTNAME)) {
+        if (~sArr.indexOf(item.attributes.SHORTNAME)) {
           poiLabelEntityCollection.entities.add(
             new Cesium.Entity({
               id: `${item.attributes.SMID}@${node.icon}@${node.dataset}`,
@@ -340,7 +339,6 @@ export default {
                 font: "6px",
               }, */
               name: node.id,
-              // attributes: item.attributes,
               geometry: item.geometry,
             })
           );

@@ -10,6 +10,9 @@
 import * as types from "./mutation-types";
 
 const mutations = {
+  [types.SET_HOSPITAL_LIST](state, data) {
+    state.hospitalList = data;
+  },
   [types.SET_FEVER_LIST](state, data) {
     state.feverList = data;
   },

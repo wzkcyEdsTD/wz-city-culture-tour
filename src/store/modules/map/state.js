@@ -31,8 +31,11 @@ const state = {
   isInfoFrame: false,
   //  rtmpVideo
   rtmpList: [],
-  
+
   // 发热数据
-  feverList: []
+  feverList: [],
+
+  // 医院
+  hospitalList: []
 };
 export default state;

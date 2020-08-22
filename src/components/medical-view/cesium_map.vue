@@ -23,7 +23,7 @@
       <VisualizationAnalyse ref="visualizationanalyse" v-if="showSubTool == '3t2'" />
       <SectionAnalyse ref="sectionanalyse" v-if="showSubTool == '3t3'" />
       <NanTangModel v-if="showSubFrame == '3d1'" />
-      <InfoFrame ref="infoframe" v-if="isInfoFrame" />
+      <InfoFrame ref="infoframe" v-show="isInfoFrame" />
       <Popup ref="popup" :mapLoaded="mapLoaded" />
       <RtmpVideo v-if="mapLoaded"/>
       <Population v-if="mapLoaded"/>
@@ -55,7 +55,7 @@ export default {
       imagelayer: undefined,
       datalayer: undefined,
       viewer: undefined,
-      isInfoFrame: true,
+      isInfoFrame: false,
     };
   },
   components: {
