@@ -1,6 +1,7 @@
 <template>
   <div class="header-wrapper">
     <div class="header">
+      <img class="bg-img" src="./images/header.png" alt="">
       <div class="info">
         <div class="time-container">
           <div class="time">15:49:52</div>
@@ -65,9 +66,11 @@ export default {
   );
 }
 .header {
-  width: 100%;
-  height: 100%;
-  .bg-image("./images/header");
+  text-align: center;
+  .bg-img {
+    height: 0.53rem;
+    margin: 0 auto;
+  }
   .info {
     position: absolute;
     top: 12%;
