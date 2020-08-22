@@ -10,7 +10,7 @@
   <div class="coverage">
     <el-popover
       placement="right-end"
-      title="图层选择"
+      title="资源图层"
       width="280"
       trigger="click"
       class="layerPopover"
@@ -29,7 +29,7 @@
         >
           <span class="custom-tree-node" slot-scope="{ node }">
             <span>{{ node.label }}</span>
-            <span v-if="node.label == '救护场所'">
+            <span v-if="node.label == '医疗场所'">
               <i class="icon-search" @click="showSearchBox"></i>
             </span>
           </span>
@@ -314,9 +314,9 @@ export default {
                 item.geometry.y,
                 30
               ),
-              point : {
-                color : Cesium.Color.WHITE.withAlpha(0.1),
-                outlineColor : Cesium.Color.WHITE.withAlpha(0.1),
+              point: {
+                color: Cesium.Color.WHITE.withAlpha(0.1),
+                outlineColor: Cesium.Color.WHITE.withAlpha(0.1),
               },
               name: node.id,
               feverNum: that.feverObj[item.attributes.SHORTNAME],
@@ -335,19 +335,17 @@ export default {
               ),
               billboard: {
                 image: `/static/images/${node.icon}.png`,
-                width: 48,
-                height: 52,
+                width: node.icon_size == 0 ? 48 : 32,
+                height: node.icon_size == 0 ? 52 : 35,
               },
               label: {
-                text: item.attributes.SHORTNAME,
+                text: item.attributes.SHORTNAME || item.attributes.NAME,
                 font: "10px",
-                // fillColor: new Cesium.Color(252, 84, 83, 1),
-                // scale: 0.7,
                 distanceDisplayCondition: new Cesium.DistanceDisplayCondition(
                   0,
                   2000
                 ),
-                pixelOffset : new Cesium.Cartesian2(0, -40),
+                pixelOffset: new Cesium.Cartesian2(0, -40),
               },
               name: node.id,
               geometry: item.geometry,
@@ -422,7 +420,7 @@ export default {
           this.pickedList = [];
 
           Object.values(this.entityMap).map((item) => {
-            if (item.show && item.includes("_label")) {
+            if (item.show && item.name.includes("_label")) {
               this.pickedList = [...this.pickedList, ...item.entities.values];
             }
           });
@@ -473,7 +471,7 @@ export default {
         this.hospitalChecked.push(item.attributes.SHORTNAME);
 
         // 移动到对应实例位置
-        this.viewer.zoomTo(item)
+        this.viewer.zoomTo(item);
       }
       // console.log('hospitalChecked', this.hospitalChecked)
     },
