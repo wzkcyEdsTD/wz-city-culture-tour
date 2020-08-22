@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
- * @Date: 2020-08-12 15:17:46
- * @LastEditTime: 2020-08-22 19:19:41
+ * @Date: 2020-08-20 09:03:10
+ * @LastEditTime: 2020-08-22 21:10:19
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\extraModel\NanTangModel.vue
@@ -12,6 +12,7 @@
 
 <script>
 const Cesium = window.Cesium;
+import { ServiceUrl } from "config/server/mapConfig";
 import { mapGetters, mapActions } from "vuex";
 const SERVER_HOST = "http://10.36.217.240:8098/iserver/services";
 const LAYER_NAME = "南塘精细三维";
@@ -68,8 +69,7 @@ export default {
         _LAYER_.visible = true;
       } else {
         const promise = this.viewer.scene.addS3MTilesLayerByScp(
-          // `${SERVER_HOST}/3D-mongodb-JMLCDNJD/rest/realspace/datas/JM_LCDNJD/config`,
-          "http://10.36.217.240:8098/iserver/services/3D-mongodb/rest/realspace/datas/JM_LC_2012_1/config",
+          ServiceUrl.WZMODEL,
           { name: LAYER_NAME }
         );
         Cesium.when(promise, async (layers) => {
