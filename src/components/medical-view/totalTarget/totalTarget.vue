@@ -56,7 +56,7 @@ export default {
 <style scoped lang="less">
 .wrapper {
   position: absolute;
-  top: 10px;
+  top: 20px;
   left: 50px;
   z-index: 200000;
     
