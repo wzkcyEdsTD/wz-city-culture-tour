@@ -77,7 +77,6 @@
     }
 
     .block-outside {
-
       width: 100%;
 
       .block {
@@ -122,7 +121,6 @@
             font-size: 12px;
             -webkit-transform-origin-x: 0;
             -webkit-transform: scale(0.83);
-
 
             .ratio-up,
             .ratio-down {
@@ -169,16 +167,40 @@
 
     .imgs {
       overflow-x: auto;
-      height: 100px;
+      overflow-y: hidden;
+      white-space: nowrap;
+      margin: 15px 0;
+      padding: 20px 0;
 
       li {
-        float: left;
+        display: inline-block;
+        list-style: none;
+        margin: 0 10px;
 
-        img {
-          height: 100px;
+        &:first-child {
+          margin-left: 0;
+        }
+
+        &:last-child {
+          margin-right: 0;
+        }
+
+        a {
+          img {
+            height: 100px;
+          }
         }
       }
+    }
 
+    .imgs::-webkit-scrollbar {
+      width: 3px;
+      background: rgba(37, 136, 178, .6);
+    }
+
+    .imgs::-webkit-scrollbar-thumb {
+      background-color: #00ffeb;
+      box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.5);
     }
   }
 }

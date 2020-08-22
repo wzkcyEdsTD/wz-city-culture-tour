@@ -44,7 +44,13 @@
       v-model="serachBoxVisible"
     >
       <div class="searchHeader">
-        <el-input v-model="searchText" class="searchFilterInput" placeholder="温州附近的医院有哪些？" size="small" @keyup.enter.native="searchFilter" />
+        <el-input
+          v-model="searchText"
+          class="searchFilterInput"
+          placeholder="温州附近的医院有哪些？"
+          size="small"
+          @keyup.enter.native="searchFilter"
+        />
         <div class="button-container">
           <i class="icon-common icon-clear" @click="searchClear"></i>
           <i class="icon-common icon-back" @click="backToTree"></i>
@@ -52,16 +58,20 @@
         </div>
       </div>
       <ul class="result-list">
-        <li class="result-item" v-for="item in hospitalList" :key="item.orderNo">
+        <li class="result-item" v-for="item in hospitalList" :key="item.attributes.SMID">
           <div class="left">
-            <p class="name">{{item.name}}</p>
+            <p class="name">{{item.attributes.SHORTNAME}}</p>
             <div class="address">
               <i class="icon-position"></i>
-              <span>温州市xxxx</span>
+              <span>{{item.attributes.ADDRESS}}</span>
             </div>
           </div>
           <div class="right">
-            <input id="custom-checkbox" type="checkbox" :checked="hospitalChecked.indexOf(item.name)>=0" @click="checkedOne(item)">
+            <input
+              type="checkbox"
+              :checked="hospitalChecked.indexOf(item.attributes.SHORTNAME)>=0"
+              @click="checkedOne(item)"
+            />
           </div>
         </li>
       </ul>
@@ -97,7 +107,6 @@ export default {
       searchText: "",
       hospitalList: [],
       hospitalChecked: [],
-      // checkedHospitalList: [],
       data: CESIUM_TREE_OPTION,
       imageLayer: {},
       avatar: require("common/images/coverage.png"),
@@ -119,13 +128,10 @@ export default {
       this.$refs.tree.filter(val);
     },
     searchText(val) {
-      if (val === '') {
-        this.hospitalList = this.feverList
+      if (val === "") {
+        this.hospitalList = this.pickedList;
       }
     },
-    // checkedHospitalList(val) {
-    //   console.log(val)
-    // }
   },
   created() {
     this.viewer = window.earth;
@@ -135,9 +141,7 @@ export default {
 
     await this.SetFeverList();
     const feverObj = {};
-    this.hospitalList = this.feverList
 
-    console.log(this.hospitalList)
     this.feverList.map((item) => {
       if (!feverObj[item.name]) {
         feverObj[item.name] = parseInt(item.value);
@@ -226,9 +230,7 @@ export default {
               );
 
               pointList.push(pointToWindow);
-              // console.log('pointList', pointList)
               newList.push(item);
-              // console.log('newList', newList)
             }
           }
         });
@@ -310,8 +312,12 @@ export default {
               position: Cesium.Cartesian3.fromDegrees(
                 item.geometry.x,
                 item.geometry.y,
-                48
+                30
               ),
+              point : {
+                color : Cesium.Color.WHITE.withAlpha(0.9),
+                outlineColor : Cesium.Color.WHITE.withAlpha(0.9),
+              },
               name: node.id,
               feverNum: that.feverObj[item.attributes.SHORTNAME],
               attributes: item.attributes,
@@ -325,17 +331,24 @@ export default {
               position: Cesium.Cartesian3.fromDegrees(
                 item.geometry.x,
                 item.geometry.y,
-                48
+                30
               ),
               billboard: {
                 image: `/static/images/${node.icon}.png`,
                 width: 48,
                 height: 52,
               },
-              /* label: {
-                text: item.attributes.NAME,
-                font: "6px",
-              }, */
+              label: {
+                text: item.attributes.SHORTNAME,
+                font: "10px",
+                // fillColor: new Cesium.Color(252, 84, 83, 1),
+                // scale: 0.7,
+                distanceDisplayCondition: new Cesium.DistanceDisplayCondition(
+                  0,
+                  2000
+                ),
+                pixelOffset : new Cesium.Cartesian2(0, -40),
+              },
               name: node.id,
               geometry: item.geometry,
             })
@@ -347,8 +360,7 @@ export default {
         ...this.pickedList,
         ...poiLabelEntityCollection.entities.values,
       ];
-      console.log('pickedList', this.pickedList)
-      console.log('this.entityMap', this.entityMap)
+      this.hospitalList = this.pickedList;
     },
 
     filterNode(value, data) {
@@ -356,7 +368,6 @@ export default {
     },
 
     checkChange(node, checked, c) {
-      console.log(666, node, checked, c)
       if (checked) {
         if (node.type == "mvt" && node.map && node.icon) {
           if (node.id && this.entityMap[node.id]) {
@@ -423,68 +434,77 @@ export default {
     },
 
     toogleVisible() {
-      this.serachBoxVisible = false
-      this.visible = !this.visible
+      this.serachBoxVisible = false;
+      this.visible = !this.visible;
     },
 
     showSearchBox() {
-      this.$refs.tree.setCheckedKeys(['医疗资源']);
-      this.hospitalList = this.feverList  // 初始化搜索列表
-      this.visible = false
-      this.serachBoxVisible = true
+      this.$refs.tree.setCheckedKeys(["医疗资源"]);
+      // console.log('showSearchBox', this.hospitalList)
+      this.visible = false;
+      this.serachBoxVisible = true;
     },
 
     searchClear() {
-      this.searchText = ''
+      this.searchText = "";
     },
 
     backToTree() {
-      this.serachBoxVisible = false
-      this.visible = true
+      this.searchClear();
+      this.serachBoxVisible = false;
+      this.visible = true;
     },
 
     searchFilter() {
-      console.log(this.searchText)
-      this.hospitalList = this.feverList.filter((item) => {
-        return item.name.indexOf(this.searchText) >= 0
-      })
-      // console.log('hospitalList', this.hospitalList)
+      this.hospitalList = this.pickedList.filter((item) => {
+        return item.attributes.SHORTNAME.indexOf(this.searchText) >= 0;
+      });
     },
 
     checkedOne(item) {
-      console.log('checkedOne', item)
-      let idIndex = this.hospitalChecked.indexOf(item.name)
+      // console.log('checkedOne', item)
+      let idIndex = this.hospitalChecked.indexOf(item.attributes.SHORTNAME);
       if (idIndex >= 0) {
         // 如果已经包含了该id, 则去除(单选按钮由选中变为非选中状态)
-        this.hospitalChecked.splice(idIndex, 1)
+        this.hospitalChecked.splice(idIndex, 1);
       } else {
         // 选中该checkbox
-        console.log('666')
-        this.hospitalChecked = []
-        this.hospitalChecked.push(item.name)
-        let checkedEntity = this.pickedList.filter((entity) => {
-          return item.name === entity._attributes.SHORTNAME
-        })[0]
-        console.log('checkedEntity', checkedEntity)
+        this.hospitalChecked = [];
+        this.hospitalChecked.push(item.attributes.SHORTNAME);
 
-        this.viewer.entities.add(
-            new Cesium.Entity({
-              // id: `${item.attributes.SMID}@${node.icon}@${node.dataset}`,
-              position: Cesium.Cartesian3.fromDegrees(
-                checkedEntity.geometry.x,
-                checkedEntity.geometry.y,
-                48
-              ),
-            })
-        );
-
-        // this.viewer.flyTo(checkedEntity, {
-        //     duration: 5,
-        //     offset: new Cesium.HeadingPitchRange(0.0, Cesium.Math.toRadians(-20.0))
-        // });
+        let entity = new Cesium.Entity({
+          id: `flyTmp${item.attributes.SMID}`,
+          position: Cesium.Cartesian3.fromDegrees(
+            item.geometry.x,
+            item.geometry.y,
+            48
+          ),
+          point: {
+            pixelSize: 10,
+            color: Cesium.Color.WHITE.withAlpha(0.9),
+            outlineColor: Cesium.Color.WHITE.withAlpha(0.9),
+            outlineWidth: 1,
+          },
+        });
+        this.viewer.entities.add(entity);
+        let flyPromise = this.viewer.flyTo(entity, {
+          offset: {
+            heading: Cesium.Math.toRadians(0.0),
+            pitch: Cesium.Math.toRadians(-25),
+          },
+        });
+        flyPromise
+          .then((flyPromise) => {
+            if (flyPromise) {
+              // 移除
+              entity && (this.viewer.entities.remove(entity), (entity = null));
+            }
+          })
+          .otherwise((error) => {
+            console.log(error);
+          });
       }
-      console.log('hospitalChecked', this.hospitalChecked)
-      // this.hospitalChecked = item.value
+      // console.log('hospitalChecked', this.hospitalChecked)
     },
 
     // 三维定位

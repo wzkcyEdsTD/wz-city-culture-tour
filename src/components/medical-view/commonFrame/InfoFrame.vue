@@ -50,7 +50,9 @@
           <div class="imgs">
             <ul>
               <li v-for="(item, index) in imgHash[name]" :key="index">
-                <img :src="`/static/images/医院/${item}`" />
+                <a>
+                  <img :src="`/static/images/医院/${item}`" />
+                </a>
               </li>
             </ul>
           </div>
@@ -97,7 +99,11 @@ export default {
           ],
         },
       ],
-      indexOption: {},
+      indexOption: {
+        attributes: {
+          SHORTNAME: "平阳县人民医院",
+        },
+      },
     };
   },
   computed: {
@@ -122,7 +128,10 @@ export default {
         return {
           feverNum: this.indexOption.feverNum,
         };
-      else return {};
+      else
+        return {
+          feverNum: 0,
+        };
     },
   },
   beforeDestroy() {
