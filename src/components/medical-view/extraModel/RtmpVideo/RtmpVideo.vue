@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
- * @Date: 2020-08-12 15:17:46
- * @LastEditTime: 2020-08-21 16:04:00
+ * @Date: 2020-08-21 18:30:30
+ * @LastEditTime: 2020-08-22 16:10:13
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\extraModel\RtmpVideo\RtmpVideo.vue
@@ -11,7 +11,7 @@
     <div class="rtmpListFrame" v-if="doRtmpListFrame">
       <header>
         <span>现场视频</span> /
-        <span>{{RtmpForcePoint.SHORTNAME}}</span>
+        <span>{{RtmpForcePoint.shortname}}</span>
         <i class="close" @click="closeRtmpVideoFrame"></i>
       </header>
       <div class="rtmpVideoContent">
@@ -22,15 +22,22 @@
               v-for="(item,index) in rtmpList"
               :class="[forceRtmpVideo == item.mp_name ? 'rtmp_active' : '']"
               :key="index"
-              @click="openRtmpVideoFrame(item.mp_name,item.mp_id)"
+              @click="openRtmpVideoFrame(item)"
             >
-              <span></span>
+              <span>
+                <input
+                  id="custom-checkbox"
+                  type="checkbox"
+                  :checked="forceRtmpVideo===item.mp_name"
+                  @click="checkUniqueVideo(item)"
+                />
+              </span>
               <span>{{item.mp_name}}</span>
             </li>
           </ul>
         </div>
         <div class="rtmpVideoFrame">
-          <iframe v-if="RtmpVideoURL" :src="RtmpVideoURL" />
+          <flv v-if="RtmpVideoURL" :url="RtmpVideoURL"/>
           <p v-if="!RtmpVideoURL">无视频内容</p>
         </div>
       </div>
@@ -42,7 +49,8 @@
 const Cesium = window.Cesium;
 import { mapGetters, mapActions } from "vuex";
 import { getAccessToken, getRtmpVideoList, getRtmpVideoURL } from "api/fetch";
-const RTMP_FRAME_URL = "http://10.36.226.3:8089/video/index.html?url=";
+import flv from "./Flv";
+
 export default {
   data() {
     return {
@@ -51,6 +59,9 @@ export default {
       forceRtmpVideo: undefined, //  正在看的视频名
       RtmpForcePoint: {}, //  保存点击的entity属性
     };
+  },
+  components: {
+    flv,
   },
   computed: {
     ...mapGetters("map", ["rtmpList"]),
@@ -73,6 +84,7 @@ export default {
           accessToken.data.access_token
         );
         this.SetRtmpList(result);
+        result.length && this.openRtmpVideoFrame(result[0]);
         this.doRtmpListFrame = true;
       });
     },
@@ -80,11 +92,21 @@ export default {
      * 赋值 开视频
      * @param {object} item
      */
-    async openRtmpVideoFrame(mp_name, mp_id) {
+    async openRtmpVideoFrame({ mp_name, mp_id }) {
       this.forceRtmpVideo = mp_name;
       const accessToken = await getAccessToken();
       const url = await getRtmpVideoURL(mp_id, accessToken.data.access_token);
-      this.RtmpVideoURL = RTMP_FRAME_URL + url.rtmp;
+      this.RtmpVideoURL = undefined;
+      this.$nextTick(() => {
+        this.RtmpVideoURL = url.flv;
+      });
+    },
+    /**
+     * 保持单一选中
+     * @param {object} item 视频单例
+     */
+    checkUniqueVideo({ mp_name }) {
+      this.forceRtmpVideo = mp_name;
     },
     /**
      * 关frame 清状态
@@ -180,10 +202,6 @@ export default {
         flex: 1;
         box-sizing: border-box;
         padding: 30px 24px 30px 12px;
-        > iframe {
-          height: 100%;
-          width: 100%;
-        }
       }
     }
   }

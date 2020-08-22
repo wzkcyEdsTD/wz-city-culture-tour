@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-20 18:52:41
- * @LastEditTime: 2020-08-21 14:32:45
+ * @LastEditTime: 2020-08-22 16:03:53
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\cesium_map.vue
@@ -123,6 +123,7 @@ export default {
         // 隐藏绿框标识
         selectionIndicator: false,
       });
+      this.viewer.scene.globe.depthTestAgainstTerrain = false;
       this.datalayer = this.viewer.imageryLayers.addImageryProvider(
         new Cesium.SuperMapImageryProvider({
           url: ServiceUrl.DataImage,
@@ -142,7 +143,7 @@ export default {
       Cesium.when(baimoPromise, async (layers) => {
         const LAYER = this.viewer.scene.layers.find("baimo");
         LAYER.style3D.fillForeColor = new Cesium.Color.fromCssColorString(
-          "rgba(216, 218, 224, 1)"
+          "rgba(28, 85, 140, 1)"
         );
         LAYER.style3D.lineColor = { alpha: 0.9, blue: 0, green: 0, red: 0 };
         LAYER.style3D.lineWidth = 0.5;

@@ -1,3 +1,11 @@
+<!--
+ * @Author: eds
+ * @Date: 2020-08-21 18:30:30
+ * @LastEditTime: 2020-08-22 15:41:33
+ * @LastEditors: eds
+ * @Description:
+ * @FilePath: \wz-city-culture-tour\src\components\medical-view\extraModel\Population\Population.vue
+-->
 <template>
   <div class="population"></div>
 </template>
@@ -57,7 +65,10 @@ export default {
           semiMinorAxis: raidus,
           semiMajorAxis: raidus,
           height: 4,
-          material: Cesium.Color.GREEN.withAlpha(0.5),
+          material: Cesium.Color.WHITE.withAlpha(0.2),
+          outline: true,
+          outlineWidth: 2,
+          outlineColor: Cesium.Color.WHITE,
         },
         name: id,
       });

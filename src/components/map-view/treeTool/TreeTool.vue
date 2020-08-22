@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-07 10:57:45
- * @LastEditTime: 2020-08-20 15:26:05
+ * @LastEditTime: 2020-08-22 16:03:43
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\map-view\treeTool\TreeTool.vue
@@ -79,8 +79,6 @@ export default {
   },
   created() {
     this.viewer = window.earth;
-    // 完整显示图标
-    this.viewer.scene.globe.depthTestAgainstTerrain = false;
   },
   mounted() {
     this.eventRegsiter();

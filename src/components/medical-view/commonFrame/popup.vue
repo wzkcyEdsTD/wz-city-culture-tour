@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-12 14:32:09
- * @LastEditTime: 2020-08-21 09:10:03
+ * @LastEditTime: 2020-08-22 11:10:30
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\commonFrame\popup.vue
@@ -34,7 +34,7 @@
           </div>
         </div>
         <div class="right-btns">
-          <span @click="doVideoRtmp({id: item.id, geometry: item.geometry})">直达现场</span>
+          <span @click="doVideoRtmp(item)">直达现场</span>
           <span @click="doCircleBuffer(item)">周边人口</span>
         </div>
       </div>
@@ -135,10 +135,14 @@ export default {
     },
     /**
      * 仅传参数给RtmpVideo组件,不参与后续功能
-     * @param {object} 该医疗点的对象信息
+     * @param {object} param0 该医疗点的对象信息
      */
-    doVideoRtmp(obj) {
-      this.$bus.$emit("cesium-3d-rtmpFetch", { obj });
+    doVideoRtmp({ shortname, geometry }) {
+      const { x, y } = geometry;
+      this.$bus.$emit("cesium-3d-rtmpFetch", {
+        shortname,
+        geometry: { lng: x, lat: y },
+      });
     },
   },
 };

@@ -1,10 +1,10 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-07 10:57:45
- * @LastEditTime: 2020-08-14 09:01:59
+ * @LastEditTime: 2020-08-22 16:03:30
  * @LastEditors: eds
  * @Description:
- * @FilePath: \wz-city-culture-tour\src\components\map-view\treeTool\TreeTool.vue
+ * @FilePath: \wz-city-culture-tour\src\components\medical-view\treeTool\TreeTool.vue
 -->
 <template>
   <div class="coverage">
@@ -129,8 +129,6 @@ export default {
   },
   created() {
     this.viewer = window.earth;
-    // 完整显示图标
-    this.viewer.scene.globe.depthTestAgainstTerrain = false;
   },
   async mounted() {
     this.eventRegsiter_ex();
@@ -204,7 +202,7 @@ export default {
       const that = this;
       this.viewer.scene.postRender.addEventListener(() => {
         if (!that.pickedList || !that.viewer) return;
-        
+
         const extent = this.getCurrentExtent(that);
 
         const pointList = [];
