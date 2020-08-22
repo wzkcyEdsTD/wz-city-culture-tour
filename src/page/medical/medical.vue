@@ -1,10 +1,10 @@
 <template>
   <div class="page-map">
-    <MapCenterBtn
+    <!-- <MapCenterBtn
       ref="mapCenterBtn"
       class="no-print"
       @setMapTollBar="setMapTollBar"
-    ></MapCenterBtn>
+    ></MapCenterBtn> -->
     <div class="cesium-map" v-if="currentMapType == 'cesiumMap'">
       <CesiumMap />
     </div>

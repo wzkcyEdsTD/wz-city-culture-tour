@@ -7,11 +7,14 @@
       <router-view />
       <!--      </keep-alive>-->
     </div>
+    <m-bottom></m-bottom>
   </div>
 </template>
 
 <script>
-import MHeader from "components/m-header/m-header";
+// import MHeader from "components/m-header/m-header";
+import MHeader from "components/m-header/m-header4";
+import MBottom from "components/m-bottom/m-bottom";
 import Loading from "components/loading/loading";
 import { getUserInfo } from "./api/public/public";
 import { mapGetters, mapActions, mapState } from "vuex";
@@ -21,7 +24,8 @@ export default {
   name: "App",
   components: {
     MHeader,
-    Loading
+    Loading,
+    MBottom
   },
   data() {
     return {
@@ -90,7 +94,7 @@ body {
 #app {
   width: 100%;
   height: 100%;
-  .bg-image("common/images/bg");
+  // .bg-image("common/images/bg");
 }
 #app > .content {
   position: absolute;
