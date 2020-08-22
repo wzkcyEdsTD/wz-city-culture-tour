@@ -61,7 +61,7 @@
             </div>
           </div>
           <div class="right">
-            <input id="custom-checkbox" type="checkbox" :checked="hospitalChecked.indexOf(item.name)>=0" @click="checkedOne(item)">
+            <input type="checkbox" :checked="hospitalChecked.indexOf(item.name)>=0" @click="checkedOne(item)">
           </div>
         </li>
       </ul>
@@ -471,17 +471,38 @@ export default {
         })[0]
         console.log('checkedEntity', checkedEntity)
 
-        this.viewer.entities.add(
-            new Cesium.Entity({
-              // id: `${item.attributes.SMID}@${node.icon}@${node.dataset}`,
-              position: Cesium.Cartesian3.fromDegrees(
-                checkedEntity.geometry.x,
-                checkedEntity.geometry.y,
-                48
-              ),
-            })
-        );
-
+        let entity = new Cesium.Entity({
+          id: `flyTmp${checkedEntity.attributes.SMID}`,
+          position: Cesium.Cartesian3.fromDegrees(
+            checkedEntity.geometry.x,
+            checkedEntity.geometry.y,
+            48
+          ),
+          point : {
+            pixelSize : 10,
+            color : Cesium.Color.WHITE.withAlpha(0.9),
+            outlineColor : Cesium.Color.WHITE.withAlpha(0.9),
+            outlineWidth : 1
+          }
+        });
+        // console.log(entity)
+        this.viewer.entities.add(entity);
+        let flyPromise = this.viewer.flyTo(entity, {
+            offset : {
+                heading : Cesium.Math.toRadians(0.0),
+                pitch : Cesium.Math.toRadians(-25),
+            }
+        });
+        flyPromise.then((flyPromise) => {
+          console.log('flyPromise')
+          if (flyPromise) {
+              // 移除
+              console.log(888)
+              entity && (this.viewer.entities.remove(entity), entity = null);
+          }
+        }).otherwise((error) => {
+            console.log(error);
+        });
         // this.viewer.flyTo(checkedEntity, {
         //     duration: 5,
         //     offset: new Cesium.HeadingPitchRange(0.0, Cesium.Math.toRadians(-20.0))
