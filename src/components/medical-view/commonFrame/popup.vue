@@ -34,8 +34,8 @@
           </div>
         </div>
         <div class="right-btns">
-          <span @click="doVideoRtmp(item)"></span>
-          <span @click="doCircleBuffer(item)"></span>
+          <span @click="doVideoRtmp(item)">直达现场</span>
+          <span @click="doCircleBuffer(item)">周边人口</span>
         </div>
       </div>
     </div>
@@ -241,45 +241,29 @@ export default {
 .right-btns {
   width: 160px;
   color: #fff;
-  margin-top: 7px;
-  padding-left: 5px;
+  margin-top: 14px;
+  padding-left: 19px;
 }
 
 .right-btns span {
   font-family: YouSheBiaoTiHei;
-  font-size: 13px;
+  font-size: 14px;
   display: block;
-  width: 75px;
-  height: 25px;
+  width: 63px;
+  height: 20px;
+  line-height: 20px;
+  letter-spacing: 1px;
   float: left;
   padding: 2px;
 }
 
 .right-btns span:first-child {
-  /* background-image: linear-gradient(0deg, #24b3ed 0%, transparent 100%); */
-
-  /* background: linear-gradient(135deg, transparent 0px, #24b3ed 0) top left,
-    linear-gradient(-135deg, transparent 0px, #24b3ed 0) top right,
-    linear-gradient(-45deg, transparent 0px, #24b3ed 0) bottom right,
-    linear-gradient(45deg, transparent 5px, #24b3ed 0) bottom left;
-  background-size: 50% 50%;
-  background-repeat: no-repeat; */
-
   background-image: url("../../../common/images/rtmpVideo.png");
   background-size: 100% 100%;
   background-repeat: no-repeat;
 }
 
 .right-btns span:last-child {
-  /* background-image: linear-gradient(0deg, #df5252 0%, transparent 100%); */
-
-  /* background: linear-gradient(135deg, transparent 0px, #df5252 0) top left,
-    linear-gradient(-135deg, transparent 0px, #df5252 0) top right,
-    linear-gradient(-45deg, transparent 5px, #df5252 0) bottom right,
-    linear-gradient(45deg, transparent 0px, #df5252 0) bottom left;
-  background-size: 50% 50%;
-  background-repeat: no-repeat; */
-
   background-image: url("../../../common/images/population.png");
   background-size: 100% 100%;
   background-repeat: no-repeat;

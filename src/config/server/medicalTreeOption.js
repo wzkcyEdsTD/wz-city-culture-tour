@@ -1,35 +1,45 @@
 /*
  * @Author: eds
  * @Date: 2020-07-29 16:10:06
- * @LastEditTime: 2020-08-22 21:52:17
+ * @LastEditTime: 2020-08-22 22:10:11
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\config\server\medicalTreeOption.js
  */
-const SERVER_HOST = "https://ditu.wzcitybrain.com/iserver/services";
+const SERVER_HOST = "http://10.36.217.240:8098/iserver/services";
 const SERVER_SUFFIX = "/restjsr/v1/vectortile/maps";
 // 旅游专题
 const TOUR_TOPIC = [
   {
-    label: "救护场所",
+    label: "医疗场所",
     url: `${SERVER_HOST}/map-mongodbMvt-WenZhouNongJiaYue${SERVER_SUFFIX}`,
-    map: "/救护场所",
+    map: "/医疗场所",
     icon: "救护场所",
+    icon_size: 0,
     dataset: "JZJZNL_YLJH_JHCS"
+  },
+  {
+    label: "百姓健身房",
+    url: `${SERVER_HOST}/map-mongodbMvt-BaiXingJianShenFang${SERVER_SUFFIX}`,
+    map: "/百姓健身房",
+    icon: "百姓健身房",
+    icon_size: 1,
+    dataset: "百姓健身房"
+  },
+  {
+    label: "城市书房",
+    url: `${SERVER_HOST}/map-mongodbMvt-WenZhouShiYueDu${SERVER_SUFFIX}`,
+    map: "/温州市阅读",
+    icon: "市区阅读",
+    icon_size: 1,
+    dataset: "温州市阅读"
   }
-  // {
-  //   label: "旅游景点",
-  //   url: `${SERVER_HOST}/map-mongodbMvt-YongJiaLvYouJingDianDiTu${SERVER_SUFFIX}`,
-  //   map: "/永嘉旅游景点地图",
-  //   icon: "旅游景点",
-  //   dataset: "永嘉旅游景点地图"
-  // },
 ];
 
 const MODEL_3D_FINE = [
   {
-    label: "南塘精细三维",
-    url: `${SERVER_HOST}/3D-mongodb-JMLC20121/rest/realspace/datas/JM_LC_2012_1/config`,
+    label: "精细三维",
+    url: `${SERVER_HOST}/3D-mongodb-JMLCDNJD/rest/realspace/datas/JM_LCDNJD/config`,
     componentEvent: "cesium-3d-event",
     componentKey: "3d1",
     action: "SetIsInfoFrame"

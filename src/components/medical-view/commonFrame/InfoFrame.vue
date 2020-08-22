@@ -76,26 +76,26 @@ export default {
         {
           label: "今日病情指标",
           data: [
-            { label: "发热病人数", num: "feverNum", ratio: -32, unit: "人" },
-            { label: "肿瘤病人数", num: 3283, ratio: -12, unit: "人" },
-            { label: "传染病人数", num: 52316, ratio: -222, unit: "人" },
-            { label: "120接警数", num: 2336, ratio: -232, unit: "次" },
+            { label: "发热病人数", num: "feverNum", ratio: -22, unit: "人" },
+            { label: "肿瘤病人数", num: 888, ratio: -22, unit: "人" },
+            { label: "传染病人数", num: 888, ratio: -22, unit: "人" },
+            { label: "120接警数", num: 888, ratio: -22, unit: "次" },
           ],
         },
         {
           label: "今日就诊指标",
           data: [
-            { label: "门诊费用", num: 4921, ratio: -32, unit: "万元" },
-            { label: "住院费用", num: 1280, ratio: -12, unit: "万元" },
-            { label: "120接警数", num: 2336, ratio: -232, unit: "次" },
-            { label: "住院人数", num: 3283, ratio: 42, unit: "万元" },
+            { label: "门诊费用", num: 888, ratio: -22, unit: "万元" },
+            { label: "住院费用", num: 888, ratio: -22, unit: "万元" },
+            { label: "住院床位数", num: 888, ratio: -22, unit: "床" },
+            { label: "住院人数", num: 888, ratio: 22, unit: "人" },
           ],
         },
         {
           label: "今日医保指标",
           data: [
-            { label: "医保就医人数", num: 421, ratio: -32, unit: "人" },
-            { label: "医保支付额", num: 200, ratio: -12, unit: "万元" },
+            { label: "医保就医人数", num: 888, ratio: -22, unit: "人" },
+            { label: "医保支付额", num: 888, ratio: -22, unit: "万元" },
           ],
         },
       ],

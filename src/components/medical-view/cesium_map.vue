@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-20 18:52:41
- * @LastEditTime: 2020-08-22 20:22:07
+ * @LastEditTime: 2020-08-22 22:24:27
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\cesium_map.vue
@@ -90,7 +90,7 @@ export default {
       this.$bus.$off("cesium-3d-switch");
       this.$bus.$on("cesium-3d-switch", ({ value }) => {
         const _LAYER_ = this.viewer.scene.layers.find("baimo");
-        _LAYER_.visibleDistanceMin = !value ? 1300 : 0;
+        _LAYER_.visibleDistanceMin = !value ? 400 : 0;
         // _LAYER_.visible = value;
       });
       this.$bus.$off("cesium-3d-mapType");
