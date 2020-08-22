@@ -106,7 +106,7 @@ export default {
     },
 
     showDetail(obj) {
-      console.log(obj);
+      console.log('showDetail', obj);
       this.$parent.isInfoFrame = true;
       this.$parent.$refs.infoframe.indexOption = obj;
     },
