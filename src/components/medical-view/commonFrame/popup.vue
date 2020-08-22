@@ -34,8 +34,8 @@
           </div>
         </div>
         <div class="right-btns">
-          <span @click="doVideoRtmp(item)">直达现场</span>
-          <span @click="doCircleBuffer(item)">周边人口</span>
+          <span @click="doVideoRtmp(item)"></span>
+          <span @click="doCircleBuffer(item)"></span>
         </div>
       </div>
     </div>
