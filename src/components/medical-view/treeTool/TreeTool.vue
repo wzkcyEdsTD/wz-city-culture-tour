@@ -472,37 +472,8 @@ export default {
         this.hospitalChecked = [];
         this.hospitalChecked.push(item.attributes.SHORTNAME);
 
-        let entity = new Cesium.Entity({
-          id: `flyTmp${item.attributes.SMID}`,
-          position: Cesium.Cartesian3.fromDegrees(
-            item.geometry.x,
-            item.geometry.y,
-            48
-          ),
-          point: {
-            pixelSize: 10,
-            color: Cesium.Color.WHITE.withAlpha(0.9),
-            outlineColor: Cesium.Color.WHITE.withAlpha(0.9),
-            outlineWidth: 1,
-          },
-        });
-        this.viewer.entities.add(entity);
-        let flyPromise = this.viewer.flyTo(entity, {
-          offset: {
-            heading: Cesium.Math.toRadians(0.0),
-            pitch: Cesium.Math.toRadians(-25),
-          },
-        });
-        flyPromise
-          .then((flyPromise) => {
-            if (flyPromise) {
-              // 移除
-              entity && (this.viewer.entities.remove(entity), (entity = null));
-            }
-          })
-          .otherwise((error) => {
-            console.log(error);
-          });
+        // 移动到对应实例位置
+        this.viewer.zoomTo(item)
       }
       // console.log('hospitalChecked', this.hospitalChecked)
     },
