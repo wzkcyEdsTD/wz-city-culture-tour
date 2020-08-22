@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-21 18:30:30
- * @LastEditTime: 2020-08-22 15:41:33
+ * @LastEditTime: 2020-08-22 16:52:24
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\extraModel\Population\Population.vue
@@ -52,6 +52,30 @@ export default {
         this.entityCollection = circleEntityCollection;
       });
     },
+    async drawPopulationScan(
+      doScan,
+      id,
+      { lng, lat } = {},
+      radius = 500,
+      period = 2.0
+    ) {
+      if (!doScan) return (this.viewer.scene.scanEffect.show = false);
+      this.viewer.scene.scanEffect.show = true; //开启扫描效果
+      this.viewer.scene.scanEffect.mode = Cesium.ScanEffectMode.CIRCLE; //利用圆环扫描效果
+      this.viewer.scene.scanEffect.centerPostion = new Cesium.Cartesian3.fromDegrees(
+        lng,
+        lat,
+        30
+      );
+      this.viewer.scene.scanEffect.speed = radius / period;
+      this.viewer.scene.scanEffect.period = 2.0;
+      this.viewer.scene.scanEffect.color = Cesium.Color.WHITE;
+
+      this.viewer.scene.colorCorrection.saturation = 3.9;
+      this.viewer.scene.colorCorrection.brightness = 0.8;
+      this.viewer.scene.colorCorrection.contrast = 1.0;
+      this.viewer.scene.colorCorrection.hue = 0.0;
+    },
     /**
      * 画缓冲区
      * @param {string!|number!} 没id不画
@@ -60,12 +84,12 @@ export default {
      */
     async drawPopulationCircle(id, { lng, lat }, raidus = 500) {
       const circleEntity = new Cesium.Entity({
-        position: Cesium.Cartesian3.fromDegrees(lng, lat),
+        position: Cesium.Cartesian3.fromDegrees(lng, lat, 0),
         ellipse: {
           semiMinorAxis: raidus,
           semiMajorAxis: raidus,
-          height: 4,
-          material: Cesium.Color.WHITE.withAlpha(0.2),
+          // height: 4,
+          material: Cesium.Color.WHITE.withAlpha(0.0),
           outline: true,
           outlineWidth: 2,
           outlineColor: Cesium.Color.WHITE,
@@ -88,6 +112,7 @@ export default {
       };
       this.populationCircleList[circleEntity.name] = circleEntity;
       this.entityCollection.entities.add(circleEntity);
+      this.drawPopulationScan(true, id, { lng, lat });
     },
     /**
      * 删缓冲区
@@ -99,6 +124,7 @@ export default {
             this.populationCircleList[id].id
           )
         : this.entityCollection.entities.removeAll();
+      this.drawPopulationScan(false);
     },
   },
 };

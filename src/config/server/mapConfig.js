@@ -93,9 +93,10 @@ export const ServiceUrl = {
   // mvt矢量服务
   // YJMVT:
   //   "http://10.36.234.83:8098/iserver/services/map-mvt-XZQHYJ/restjsr/v1/vectortile/maps/XZQH_YJ"
-  YJMVT:
-    "http://10.36.217.240:8098/iserver/services/map-mongodbMvt-SummaryPOI1/restjsr/v1/vectortile/maps/Summary_POI_1"
-};
+  // YJMVT:
+    // "http://10.36.217.240:8098/iserver/services/map-mongodbMvt-SummaryPOI1/restjsr/v1/vectortile/maps/Summary_POI_1"
+  YJMVT:"http://172.20.83.223:8098/iserver/services/map-mvt-SWmap/restjsr/v1/vectortile/maps/SW_map"
+  };
 
 export const dataSourceUrl = {
   // 温州数据资源库

@@ -27,8 +27,8 @@ export default {
       }
     );
     aliplayer.autoplay = true;
-    var whereYouAt = parseFloat(aliplayer.getCurrentTime()) + 1;
-    var totalTime = parseFloat(aliplayer.getDuration());
+    const whereYouAt = parseFloat(aliplayer.getCurrentTime()) + 1;
+    const totalTime = parseFloat(aliplayer.getDuration());
   },
   methods: {},
 };

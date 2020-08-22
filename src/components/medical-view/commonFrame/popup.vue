@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-12 14:32:09
- * @LastEditTime: 2020-08-22 16:13:25
+ * @LastEditTime: 2020-08-22 16:53:29
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\commonFrame\popup.vue
@@ -13,7 +13,7 @@
       :key="index"
       :id="`trackPopUpContent_${index}`"
       class="leaflet-popup"
-      :style="{transform:`translate3d(${item.x}px,${item.y}px, 0)`}"
+      :style="{transform:`translate3d(${item.x}px,${item.y+4}px, 0)`}"
     >
       <div class="popup-tip-container">
         <div class="popup-tip-inner">
@@ -109,7 +109,7 @@ export default {
 
     // 展示详情
     showDetail(obj) {
-      console.log('showDetail', obj);
+      console.log("showDetail", obj);
       this.$parent.isInfoFrame = true;
       this.$parent.$refs.infoframe.indexOption = obj;
     },
@@ -265,12 +265,9 @@ export default {
   background-size: 50% 50%;
   background-repeat: no-repeat; */
 
-background-image: url("../../../common/images/rtmpVideo.png");
+  background-image: url("../../../common/images/rtmpVideo.png");
   background-size: 100% 100%;
   background-repeat: no-repeat;
-
-
-
 }
 
 .right-btns span:last-child {
