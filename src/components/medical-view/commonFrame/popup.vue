@@ -105,6 +105,7 @@ export default {
       this.shallPop = false;
     },
 
+    // 展示详情
     showDetail(obj) {
       console.log(obj);
       this.$parent.isInfoFrame = true;
@@ -226,22 +227,37 @@ export default {
   width: 160px;
   color: #fff;
   margin-top: 7px;
-  padding: 0 5px 0 10px;
+  padding-left: 5px;
 }
 
 .right-btns span {
   font-family: YouSheBiaoTiHei;
   font-size: 13px;
   display: block;
-  width: 70px;
+  width: 75px;
   float: left;
   padding: 2px;
 }
 
 .right-btns span:first-child {
-  background-image: linear-gradient(0deg, #24b3ed 0%, transparent 100%);
+  /* background-image: linear-gradient(0deg, #24b3ed 0%, transparent 100%); */
+
+  background: linear-gradient(135deg, transparent 0px, #24b3ed 0) top left,
+    linear-gradient(-135deg, transparent 0px, #24b3ed 0) top right,
+    linear-gradient(-45deg, transparent 0px, #24b3ed 0) bottom right,
+    linear-gradient(45deg, transparent 5px, #24b3ed 0) bottom left;
+  background-size: 50% 50%;
+  background-repeat: no-repeat;
 }
+
 .right-btns span:last-child {
-  background-image: linear-gradient(0deg, #df5252 0%, transparent 100%);
+  /* background-image: linear-gradient(0deg, #df5252 0%, transparent 100%); */
+
+  background: linear-gradient(135deg, transparent 0px, #df5252 0) top left,
+    linear-gradient(-135deg, transparent 0px, #df5252 0) top right,
+    linear-gradient(-45deg, transparent 5px, #df5252 0) bottom right,
+    linear-gradient(45deg, transparent 0px, #df5252 0) bottom left;
+  background-size: 50% 50%;
+  background-repeat: no-repeat;
 }
 </style>
