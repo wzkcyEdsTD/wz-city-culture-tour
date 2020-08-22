@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-20 18:52:41
- * @LastEditTime: 2020-08-22 16:50:36
+ * @LastEditTime: 2020-08-22 20:22:07
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\cesium_map.vue
@@ -25,8 +25,8 @@
       <NanTangModel v-if="showSubFrame == '3d1'" />
       <InfoFrame ref="infoframe" v-show="isInfoFrame" />
       <Popup ref="popup" :mapLoaded="mapLoaded" />
-      <RtmpVideo v-if="mapLoaded"/>
-      <Population v-if="mapLoaded"/>
+      <RtmpVideo v-if="mapLoaded" />
+      <Population v-if="mapLoaded" />
     </div>
   </div>
 </template>
@@ -67,7 +67,7 @@ export default {
     InfoFrame,
     Popup,
     RtmpVideo,
-    Population
+    Population,
   },
   mounted() {
     this.init3DMap(() => {
@@ -90,7 +90,7 @@ export default {
       this.$bus.$off("cesium-3d-switch");
       this.$bus.$on("cesium-3d-switch", ({ value }) => {
         const _LAYER_ = this.viewer.scene.layers.find("baimo");
-        _LAYER_.visibleDistanceMin = !value ? 1450 : 0;
+        _LAYER_.visibleDistanceMin = !value ? 1300 : 0;
         // _LAYER_.visible = value;
       });
       this.$bus.$off("cesium-3d-mapType");
@@ -143,13 +143,16 @@ export default {
       Cesium.when(baimoPromise, async (layers) => {
         const LAYER = this.viewer.scene.layers.find("baimo");
         LAYER.style3D.fillForeColor = new Cesium.Color.fromCssColorString(
-          "rgba(28, 85, 140, 1)"
+          "rgba(63, 124, 182, 1)"
         );
-        LAYER.style3D.lineColor = { alpha: 0.9, blue: 0, green: 0, red: 0 };
+        LAYER.style3D.lineColor = new Cesium.Color.fromCssColorString(
+          "rgba(151, 151, 151, 1)"
+        );;
         LAYER.style3D.lineWidth = 0.5;
         //  草图模式
         LAYER.style3D.fillStyle = Cesium.FillStyle.Fill_And_WireFrame;
         LAYER.wireFrameMode = Cesium.WireFrameType.Sketch;
+        LAYER.visibleDistanceMax = 5500;
       });
       // this.addPointLight();
       this.cameraMove();
@@ -173,13 +176,13 @@ export default {
     cameraMove() {
       this.viewer.scene.camera.setView({
         destination: {
-          x: -2885689.43805791,
-          y: 4865993.322893596,
-          z: 2977614.8110983055,
+          x: -2875301.1196146533,
+          y: 4843728.17360857,
+          z: 2993569.51865382,
         },
         orientation: {
-          heading: 0.003115109744838307,
-          pitch: -0.5846590801356228,
+          heading: 0.0033168860454315663,
+          pitch: -0.5808830390057396,
           roll: 0,
         },
       });
@@ -195,6 +198,7 @@ export default {
   #cesiumContainer {
     height: 100%;
     width: 100%;
+    // color: rgb(151, 151, 151)
   }
 }
 </style>

@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-21 18:30:30
- * @LastEditTime: 2020-08-22 16:52:24
+ * @LastEditTime: 2020-08-22 20:52:08
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\extraModel\Population\Population.vue
@@ -18,7 +18,8 @@ export default {
   data() {
     return {
       populationCircleList: {},
-      entityCollection: undefined,
+      populationCircleLabelList: {},
+      medicalCircleCollection: undefined,
     };
   },
   created() {
@@ -47,10 +48,23 @@ export default {
      * 创建datesource
      */
     createEntityCollection() {
-      const circleEntityCollection = new Cesium.CustomDataSource("medical");
-      this.viewer.dataSources.add(circleEntityCollection).then((datasource) => {
-        this.entityCollection = circleEntityCollection;
-      });
+      const MedicalCircleEntityCollection = new Cesium.CustomDataSource(
+        "medical"
+      );
+      const MedicalCircleLabelEntityCollection = new Cesium.CustomDataSource(
+        "medical_label"
+      );
+      this.viewer.dataSources
+        .add(MedicalCircleEntityCollection)
+        .then((datasource) => {
+          this.medicalCircleCollection = MedicalCircleEntityCollection;
+        });
+      this.viewer.dataSources
+        .add(MedicalCircleLabelEntityCollection)
+        .then((datasource) => {
+          this.medicalCircleLabelCollection = MedicalCircleLabelEntityCollection;
+        });
+      this.viewer.scene.globe.depthTestAgainstTerrain = false;
     },
     async drawPopulationScan(
       doScan,
@@ -88,30 +102,40 @@ export default {
         ellipse: {
           semiMinorAxis: raidus,
           semiMajorAxis: raidus,
-          // height: 4,
-          material: Cesium.Color.WHITE.withAlpha(0.0),
+          height: 4,
+          material: Cesium.Color.WHITE.withAlpha(0.2),
           outline: true,
-          outlineWidth: 2,
+          outlineWidth: 3,
           outlineColor: Cesium.Color.WHITE,
         },
         name: id,
       });
+      this.medicalCircleCollection.entities.add(circleEntity);
+      this.populationCircleList[circleEntity.name] = circleEntity;
       const accessToken = await getAccessToken();
       const result = await getPopulation(
         { lng, lat },
         accessToken.data.access_token
       );
-      circleEntity.label = {
-        text: `时间:${result.task_time}\n人数:${result.data}人`,
-        color: Cesium.Color.fromCssColorString("#fff"),
-        font: "normal 18px MicroSoft YaHei",
-        // verticalOrigin: Cesium.VerticalOrigin.TOP,
-        distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 10000),
-        eyeOffset: new Cesium.Cartesian3(0.0, -170.0, -10),
-        scaleByDistance: new Cesium.NearFarScalar(5000, 1, 10000, 0.5),
-      };
-      this.populationCircleList[circleEntity.name] = circleEntity;
-      this.entityCollection.entities.add(circleEntity);
+      const circleLabelEntity = new Cesium.Entity({
+        position: Cesium.Cartesian3.fromDegrees(lng, lat, 200),
+        label: {
+          text: `周边500米实施人口\n时间:${result.task_time}\n人数:${result.data}人`,
+          color: Cesium.Color.fromCssColorString("#fff"),
+          font: "normal 16px MicroSoft YaHei",
+          distanceDisplayCondition: new Cesium.DistanceDisplayCondition(
+            0,
+            10000
+          ),
+          eyeOffset: new Cesium.Cartesian3(0.0, -160.0, 0),
+          scaleByDistance: new Cesium.NearFarScalar(5000, 1, 10000, 0.5),
+        },
+        name: id,
+      });
+      this.populationCircleLabelList[
+        circleLabelEntity.name
+      ] = circleLabelEntity;
+      this.medicalCircleLabelCollection.entities.add(circleLabelEntity);
       this.drawPopulationScan(true, id, { lng, lat });
     },
     /**
@@ -120,10 +144,16 @@ export default {
      */
     removePopulationCircle(id) {
       id
-        ? this.entityCollection.entities.removeById(
+        ? this.medicalCircleCollection.entities.removeById(
             this.populationCircleList[id].id
           )
-        : this.entityCollection.entities.removeAll();
+        : this.medicalCircleCollection.entities.removeAll();
+      id
+        ? this.medicalCircleLabelCollection.entities.removeById(
+            this.populationCircleLabelList[id].id
+          )
+        : this.medicalCircleLabelCollection.entities.removeAll();
+
       this.drawPopulationScan(false);
     },
   },

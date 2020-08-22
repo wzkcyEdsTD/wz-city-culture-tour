@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-21 18:30:30
- * @LastEditTime: 2020-08-22 16:10:13
+ * @LastEditTime: 2020-08-22 20:46:22
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\extraModel\RtmpVideo\RtmpVideo.vue
@@ -16,7 +16,7 @@
       </header>
       <div class="rtmpVideoContent">
         <div class="rtmpVideoList">
-          <header>周边监控</header>
+          <header>周边200米监控({{rtmpList.length}})</header>
           <ul>
             <li
               v-for="(item,index) in rtmpList"
@@ -32,12 +32,12 @@
                   @click="checkUniqueVideo(item)"
                 />
               </span>
-              <span>{{item.mp_name}}</span>
+              <span>{{index+1}}.{{item.mp_name}}</span>
             </li>
           </ul>
         </div>
         <div class="rtmpVideoFrame">
-          <flv v-if="RtmpVideoURL" :url="RtmpVideoURL"/>
+          <flv v-if="RtmpVideoURL" :url="RtmpVideoURL" />
           <p v-if="!RtmpVideoURL">无视频内容</p>
         </div>
       </div>
@@ -81,6 +81,7 @@ export default {
         const accessToken = await getAccessToken();
         const result = await getRtmpVideoList(
           item.geometry,
+          200,
           accessToken.data.access_token
         );
         this.SetRtmpList(result);
@@ -138,8 +139,8 @@ export default {
     z-index: 1000000;
     color: white;
     > header {
-      height: 50px;
-      line-height: 50px;
+      height: 40px;
+      line-height: 40px;
       > span:first-child {
         font-size: 22px;
       }
@@ -162,7 +163,7 @@ export default {
       }
     }
     .rtmpVideoContent {
-      height: 300px;
+      height: 310px;
       display: flex;
       > div {
         height: 100%;
@@ -201,7 +202,7 @@ export default {
       .rtmpVideoFrame {
         flex: 1;
         box-sizing: border-box;
-        padding: 30px 24px 30px 12px;
+        padding: 30px 24px 20px 12px;
       }
     }
   }

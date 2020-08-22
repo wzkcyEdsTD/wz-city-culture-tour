@@ -1,10 +1,10 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-12 15:17:46
- * @LastEditTime: 2020-08-17 11:07:13
+ * @LastEditTime: 2020-08-22 19:19:41
  * @LastEditors: eds
  * @Description:
- * @FilePath: \wz-city-culture-tour\src\components\map-view\extraModel\NanTangModel.vue
+ * @FilePath: \wz-city-culture-tour\src\components\medical-view\extraModel\NanTangModel.vue
 -->
 <template>
   <div class="nanTangModel"></div>
@@ -29,7 +29,7 @@ export default {
     this.initBimScene();
     // this.addEntities();
     this.eventRegsiter();
-    this.cameraMove();
+    // this.cameraMove();
     // this.SetIsInfoFrame(true);
   },
   beforeDestroy() {
@@ -74,7 +74,7 @@ export default {
         );
         Cesium.when(promise, async (layers) => {
           const layer = this.viewer.scene.layers.find(LAYER_NAME);
-          layer.visibleDistanceMax = 1500;
+          layer.visibleDistanceMax = 1400;
         });
       }
     },

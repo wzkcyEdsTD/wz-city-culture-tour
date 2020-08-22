@@ -1,3 +1,11 @@
+/*
+ * @Author: eds
+ * @Date: 2020-08-20 09:03:09
+ * @LastEditTime: 2020-08-22 20:47:41
+ * @LastEditors: eds
+ * @Description:
+ * @FilePath: \wz-city-culture-tour\src\api\fetch.js
+ */
 import axios from "axios";
 const BASEURL = "https://api-hub.wenzhou.gov.cn/api/v1";
 const Authorization =
@@ -38,7 +46,7 @@ export const getFarebr = async token => {
  * @param {*} param0
  * @param {*} token
  */
-export const getRtmpVideoList = async (geometry, token) => {
+export const getRtmpVideoList = async (geometry, dist, token) => {
   return axios
     .request({
       url: "/data/100006019",
@@ -46,7 +54,7 @@ export const getRtmpVideoList = async (geometry, token) => {
       headers: {
         Authorization: `${token}`
       },
-      data: { ...geometry }
+      data: { ...geometry, dist }
     })
     .then(res => {
       return Promise.resolve(res.data.data);
