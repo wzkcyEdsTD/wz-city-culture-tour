@@ -44,7 +44,13 @@
       v-model="serachBoxVisible"
     >
       <div class="searchHeader">
-        <el-input v-model="searchText" class="searchFilterInput" placeholder="温州附近的医院有哪些？" size="small" @keyup.enter.native="searchFilter" />
+        <el-input
+          v-model="searchText"
+          class="searchFilterInput"
+          placeholder="温州附近的医院有哪些？"
+          size="small"
+          @keyup.enter.native="searchFilter"
+        />
         <div class="button-container">
           <i class="icon-common icon-clear" @click="searchClear"></i>
           <i class="icon-common icon-back" @click="backToTree"></i>
@@ -61,7 +67,11 @@
             </div>
           </div>
           <div class="right">
-            <input type="checkbox" :checked="hospitalChecked.indexOf(item.attributes.SHORTNAME)>=0" @click="checkedOne(item)">
+            <input
+              type="checkbox"
+              :checked="hospitalChecked.indexOf(item.attributes.SHORTNAME)>=0"
+              @click="checkedOne(item)"
+            />
           </div>
         </li>
       </ul>
@@ -118,8 +128,8 @@ export default {
       this.$refs.tree.filter(val);
     },
     searchText(val) {
-      if (val === '') {
-        this.hospitalList = this.pickedList
+      if (val === "") {
+        this.hospitalList = this.pickedList;
       }
     },
   },
@@ -198,7 +208,7 @@ export default {
       const that = this;
       this.viewer.scene.postRender.addEventListener(() => {
         if (!that.pickedList || !that.viewer) return;
-        
+
         const extent = this.getCurrentExtent(that);
 
         const pointList = [];
@@ -304,7 +314,7 @@ export default {
               position: Cesium.Cartesian3.fromDegrees(
                 item.geometry.x,
                 item.geometry.y,
-                48
+                30
               ),
               point : {
                 color : Cesium.Color.WHITE.withAlpha(0.9),
@@ -323,17 +333,24 @@ export default {
               position: Cesium.Cartesian3.fromDegrees(
                 item.geometry.x,
                 item.geometry.y,
-                48
+                30
               ),
               billboard: {
                 image: `/static/images/${node.icon}.png`,
                 width: 48,
                 height: 52,
               },
-              /* label: {
-                text: item.attributes.NAME,
-                font: "6px",
-              }, */
+              label: {
+                text: item.attributes.SHORTNAME,
+                font: "10px",
+                // fillColor: new Cesium.Color(252, 84, 83, 1),
+                // scale: 0.7,
+                distanceDisplayCondition: new Cesium.DistanceDisplayCondition(
+                  0,
+                  2000
+                ),
+                pixelOffset : new Cesium.Cartesian2(0, -40),
+              },
               name: node.id,
               geometry: item.geometry,
             })
@@ -345,7 +362,7 @@ export default {
         ...this.pickedList,
         ...poiLabelEntityCollection.entities.values,
       ];
-      this.hospitalList = this.pickedList
+      this.hospitalList = this.pickedList;
     },
 
     filterNode(value, data) {
@@ -419,46 +436,75 @@ export default {
     },
 
     toogleVisible() {
-      this.serachBoxVisible = false
-      this.visible = !this.visible
+      this.serachBoxVisible = false;
+      this.visible = !this.visible;
     },
 
     showSearchBox() {
-      this.$refs.tree.setCheckedKeys(['医疗资源']);
+      this.$refs.tree.setCheckedKeys(["医疗资源"]);
       // console.log('showSearchBox', this.hospitalList)
-      this.visible = false
-      this.serachBoxVisible = true
+      this.visible = false;
+      this.serachBoxVisible = true;
     },
 
     searchClear() {
-      this.searchText = ''
+      this.searchText = "";
     },
 
     backToTree() {
-      this.searchClear()
-      this.serachBoxVisible = false
-      this.visible = true
+      this.searchClear();
+      this.serachBoxVisible = false;
+      this.visible = true;
     },
 
     searchFilter() {
       this.hospitalList = this.pickedList.filter((item) => {
-        return item.attributes.SHORTNAME.indexOf(this.searchText) >= 0
-      })
+        return item.attributes.SHORTNAME.indexOf(this.searchText) >= 0;
+      });
     },
 
     checkedOne(item) {
       // console.log('checkedOne', item)
-      let idIndex = this.hospitalChecked.indexOf(item.attributes.SHORTNAME)
+      let idIndex = this.hospitalChecked.indexOf(item.attributes.SHORTNAME);
       if (idIndex >= 0) {
         // 如果已经包含了该id, 则去除(单选按钮由选中变为非选中状态)
-        this.hospitalChecked.splice(idIndex, 1)
+        this.hospitalChecked.splice(idIndex, 1);
       } else {
         // 选中该checkbox
-        this.hospitalChecked = []
-        this.hospitalChecked.push(item.attributes.SHORTNAME)
+        this.hospitalChecked = [];
+        this.hospitalChecked.push(item.attributes.SHORTNAME);
 
-        // 定位到具体位置
-        this.viewer.zoomTo(item);
+        let entity = new Cesium.Entity({
+          id: `flyTmp${item.attributes.SMID}`,
+          position: Cesium.Cartesian3.fromDegrees(
+            item.geometry.x,
+            item.geometry.y,
+            48
+          ),
+          point: {
+            pixelSize: 10,
+            color: Cesium.Color.WHITE.withAlpha(0.9),
+            outlineColor: Cesium.Color.WHITE.withAlpha(0.9),
+            outlineWidth: 1,
+          },
+        });
+        this.viewer.entities.add(entity);
+        let flyPromise = this.viewer.flyTo(entity, {
+          offset: {
+            heading: Cesium.Math.toRadians(0.0),
+            pitch: Cesium.Math.toRadians(-25),
+          },
+        });
+        flyPromise
+          .then((flyPromise) => {
+            if (flyPromise) {
+              // 移除
+              entity && (this.viewer.entities.remove(entity), (entity = null));
+            }
+          })
+          .otherwise((error) => {
+            console.log(error);
+          });
       }
       // console.log('hospitalChecked', this.hospitalChecked)
     },

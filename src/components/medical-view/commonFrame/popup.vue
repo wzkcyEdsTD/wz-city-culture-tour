@@ -34,8 +34,8 @@
           </div>
         </div>
         <div class="right-btns">
-          <span @click="doVideoRtmp({id: item.id, geometry: item.geometry})">直达现场</span>
-          <span @click="doCircleBuffer(item)">周边人口</span>
+          <span @click="doVideoRtmp({id: item.id, geometry: item.geometry})"></span>
+          <span @click="doCircleBuffer(item)"></span>
         </div>
       </div>
     </div>
@@ -48,6 +48,8 @@ export default {
     return {
       shallPop: false,
       popList: [],
+      // 保存是否周边查询
+      bufferHash: {},
     };
   },
   async mounted() {
@@ -117,9 +119,17 @@ export default {
      * 开专门的缓冲区collection
      */
     doCircleBuffer(obj) {
+      const that = this;
       console.log(obj);
+
+      if (!this.bufferHash[obj.id]) {
+        this.bufferHash[obj.id] = true;
+      } else {
+        this.bufferHash[obj.id] = !this.bufferHash[obj.id];
+      }
+
       this.$bus.$emit("cesium-3d-population-circle", {
-        doDraw: true,
+        doDraw: that.bufferHash[obj.id],
         id: obj.id,
         geometry: {
           lng: obj.geometry.x,
@@ -127,6 +137,7 @@ export default {
         },
       });
     },
+
     /**
      * @param {string} id?:string 有id去id 没有id去全部
      * 关闭周边人口按钮触发
@@ -235,6 +246,7 @@ export default {
   font-size: 13px;
   display: block;
   width: 75px;
+  height: 25px;
   float: left;
   padding: 2px;
 }
@@ -242,22 +254,33 @@ export default {
 .right-btns span:first-child {
   /* background-image: linear-gradient(0deg, #24b3ed 0%, transparent 100%); */
 
-  background: linear-gradient(135deg, transparent 0px, #24b3ed 0) top left,
+  /* background: linear-gradient(135deg, transparent 0px, #24b3ed 0) top left,
     linear-gradient(-135deg, transparent 0px, #24b3ed 0) top right,
     linear-gradient(-45deg, transparent 0px, #24b3ed 0) bottom right,
     linear-gradient(45deg, transparent 5px, #24b3ed 0) bottom left;
   background-size: 50% 50%;
+  background-repeat: no-repeat; */
+
+background-image: url("../../../common/images/rtmpVideo.png");
+  background-size: 100% 100%;
   background-repeat: no-repeat;
+
+
+
 }
 
 .right-btns span:last-child {
   /* background-image: linear-gradient(0deg, #df5252 0%, transparent 100%); */
 
-  background: linear-gradient(135deg, transparent 0px, #df5252 0) top left,
+  /* background: linear-gradient(135deg, transparent 0px, #df5252 0) top left,
     linear-gradient(-135deg, transparent 0px, #df5252 0) top right,
     linear-gradient(-45deg, transparent 5px, #df5252 0) bottom right,
     linear-gradient(45deg, transparent 0px, #df5252 0) bottom left;
   background-size: 50% 50%;
+  background-repeat: no-repeat; */
+
+  background-image: url("../../../common/images/population.png");
+  background-size: 100% 100%;
   background-repeat: no-repeat;
 }
 </style>
