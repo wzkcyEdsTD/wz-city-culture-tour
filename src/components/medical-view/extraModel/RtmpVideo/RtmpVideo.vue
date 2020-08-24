@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-21 18:30:30
- * @LastEditTime: 2020-08-22 20:46:22
+ * @LastEditTime: 2020-08-24 16:26:51
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\extraModel\RtmpVideo\RtmpVideo.vue
@@ -32,7 +32,7 @@
                   @click="checkUniqueVideo(item)"
                 />
               </span>
-              <span>{{index+1}}.{{item.mp_name}}</span>
+              <span :title="item.mp_name">{{index+1}}.{{item.mp_name}}</span>
             </li>
           </ul>
         </div>
