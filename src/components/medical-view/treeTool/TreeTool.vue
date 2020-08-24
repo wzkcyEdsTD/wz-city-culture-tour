@@ -92,6 +92,7 @@
 import $ from "jquery";
 import { mapGetters, mapActions } from "vuex";
 import { CESIUM_TREE_OPTION } from "config/server/medicalTreeOption";
+import { DataServer } from "./mapconfig";
 const Cesium = window.Cesium;
 // import { BimSourceURL } from "config/server/mapConfig";
 // const { SCENE_DATA_URL } = BimSourceURL;
@@ -250,8 +251,9 @@ export default {
      * 2020/8/16
      * 旅游专题数据
      */
-    getPOIPickedFeature(datasetName, SMID, node) {
+    getPOIPickedFeature(SMID, node) {
       const that = this;
+      let currentDataServer = DataServer[node.label]
       var getFeatureParam, getFeatureBySQLService, getFeatureBySQLParams;
       getFeatureParam = new SuperMap.REST.FilterParameter({
         attributeFilter: `SMID ${SMID == null ? `>= 1` : `= ${SMID}`}`,
@@ -259,10 +261,9 @@ export default {
       getFeatureBySQLParams = new SuperMap.REST.GetFeaturesBySQLParameters({
         queryParameter: getFeatureParam,
         toIndex: -1,
-        datasetNames: [`172.20.83.196_swdata:${datasetName}`],
+        datasetNames: [currentDataServer.datasetname]
       });
-      var url =
-        "http://172.20.83.223:8098/iserver/services/data-SW_Data/rest/data";
+      var url = currentDataServer.url
       getFeatureBySQLService = new SuperMap.REST.GetFeaturesBySQLService(url, {
         eventListeners: {
           processCompleted: (res) => {
@@ -382,7 +383,7 @@ export default {
           }
 
           // 专题集合添加
-          this.getPOIPickedFeature(node.dataset, null, node);
+          this.getPOIPickedFeature(null, node);
         } else if (node.type == "model") {
           node.componentEvent &&
             node.componentKey &&
