@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-20 18:52:41
- * @LastEditTime: 2020-08-24 13:52:50
+ * @LastEditTime: 2020-08-24 16:05:03
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\cesium_map.vue
@@ -146,11 +146,11 @@ export default {
       Cesium.when(baimoPromise, async (layers) => {
         const LAYER = this.viewer.scene.layers.find("baimo");
         LAYER.style3D.fillForeColor = new Cesium.Color.fromCssColorString(
-          "rgba(42, 104, 163, 1)"
+          "rgba(137,137,137, 1)"
         );
         LAYER.style3D.lineColor = new Cesium.Color.fromCssColorString(
-          "rgba(151, 151, 151, 1)"
-        );;
+          "rgba(100, 100, 100, 1)"
+        );
         LAYER.style3D.lineWidth = 0.5;
         //  草图模式
         LAYER.style3D.fillStyle = Cesium.FillStyle.Fill_And_WireFrame;
@@ -172,7 +172,7 @@ export default {
         2996644.580693739
       );
       const options = {
-        intensity: 1,
+        intensity: 0.5,
       };
       const directionalLight_v = new Cesium.DirectionalLight(position, options);
       this.viewer.scene.addLightSource(directionalLight_v);
@@ -202,7 +202,7 @@ export default {
   #cesiumContainer {
     height: 100%;
     width: 100%;
-    color: rgb(42, 104, 163)
+    // color: rgb(42, 104, 163);
   }
 }
 </style>
