@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-07 10:57:45
- * @LastEditTime: 2020-08-22 16:03:30
+ * @LastEditTime: 2020-08-24 09:03:39
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\treeTool\TreeTool.vue
@@ -262,7 +262,7 @@ export default {
         datasetNames: [`172.20.83.196_swdata:${datasetName}`],
       });
       var url =
-        "http://172.20.83.223:8098/iserver/services/data-SW_Data/rest/data";
+        "https://ditu.wzcitybrain.com/iserver/services/data-SW_DATA/rest/data";
       getFeatureBySQLService = new SuperMap.REST.GetFeaturesBySQLService(url, {
         eventListeners: {
           processCompleted: (res) => {
