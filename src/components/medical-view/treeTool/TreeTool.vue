@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-07 10:57:45
- * @LastEditTime: 2020-08-24 09:03:39
+ * @LastEditTime: 2020-08-24 13:48:42
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\treeTool\TreeTool.vue
@@ -22,7 +22,7 @@
           ref="tree"
           :data="data"
           show-checkbox
-          node-key="id"
+          node-key="label"
           :filter-node-method="filterNode"
           default-expand-all
           @check-change="checkChange"
@@ -30,7 +30,7 @@
           <span class="custom-tree-node" slot-scope="{ node }">
             <span>{{ node.label }}</span>
             <span v-if="node.label == '医疗场所'">
-              <i class="icon-search" @click="showSearchBox"></i>
+              <i class="icon-search" @click="showSearchBox(node.label)"></i>
             </span>
           </span>
         </el-tree>
@@ -437,8 +437,8 @@ export default {
       this.visible = !this.visible;
     },
 
-    showSearchBox() {
-      this.$refs.tree.setCheckedKeys(["医疗资源"]);
+    showSearchBox(key) {
+      this.$refs.tree.setCheckedKeys([key]);
       // console.log('showSearchBox', this.hospitalList)
       this.visible = false;
       this.serachBoxVisible = true;
