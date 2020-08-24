@@ -126,7 +126,7 @@ export default {
         // 隐藏绿框标识
         selectionIndicator: false,
       });
-      this.viewer.scene.globe.depthTestAgainstTerrain = false;
+      
       this.datalayer = this.viewer.imageryLayers.addImageryProvider(
         new Cesium.SuperMapImageryProvider({
           url: ServiceUrl.DataImage,
@@ -157,11 +157,12 @@ export default {
         LAYER.wireFrameMode = Cesium.WireFrameType.Sketch;
         LAYER.visibleDistanceMax = 5500;
       });
-      // this.addPointLight();
+      this.addPointLight();
       this.cameraMove();
       // 移除缓冲圈
       $(".cesium-widget-credits").hide();
       fn && fn();
+      this.viewer.scene.globe.depthTestAgainstTerrain = false;
       window.earth = this.viewer;
     },
     addPointLight() {
