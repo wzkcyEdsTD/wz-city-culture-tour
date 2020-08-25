@@ -300,7 +300,7 @@ export default {
   }
   .top {
     position: absolute;
-    top: 0.5rem;
+    top: 0.7rem;
     width: 100%;
     height: 5%;
     .bg-image('../../common/images/mask-top')

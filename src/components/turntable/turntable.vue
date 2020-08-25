@@ -47,7 +47,7 @@ export default {
 <style scoped lang="less">
 .turntable-wrapper {
   position: absolute;
-  top: 6%;
+  top: 0.8rem;
   right: 0.5rem;
   z-index: 999;
   img {
