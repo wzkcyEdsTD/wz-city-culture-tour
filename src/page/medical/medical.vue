@@ -9,6 +9,10 @@
       <CesiumMap />
     </div>
     <m-bottom></m-bottom>
+    <div class="mask-wrapper">
+      <div class="left"></div>
+      <div class="right"></div>
+    </div>
   </div>
 </template>
 <script>
@@ -94,7 +98,7 @@ export default {
     position: absolute;
     height: 100%;
     width: 100%;
-    background-color: "#204f77";
+    background-color: #204f77;
   }
   .box {
     z-index: 2;
@@ -272,6 +276,25 @@ export default {
         display: none;
       }
     }
+  }
+}
+.mask-wrapper {
+  position: relative;
+  // width: 100%;
+  height: 100%;
+  .left {
+    position: absolute;
+    left: 0;
+    width: 20%;
+    height: 100%;
+    .bg-image('../../common/images/mask-left')
+  }
+  .right {
+    position: absolute;
+    right: 0;
+    width: 20%;
+    height: 100%;
+    .bg-image('../../common/images/mask-right')
   }
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="header-wrapper">
     <div class="header">
-      <img class="bg-img" src="./images/header.png" alt="">
+      <img class="bg-img" src="./images/header3.png" alt="">
       <div class="info">
         <div class="time-container">
           <div class="time">15:49:52</div>
@@ -69,7 +69,6 @@ export default {
   text-align: center;
   .bg-img {
     height: 0.53rem;
-    margin: 0 auto;
   }
   .info {
     position: absolute;
@@ -83,10 +82,12 @@ export default {
       text-align: right;
       padding: 0 0.06rem;
       .time {
+        font-family: DIN;
         font-size: 16px;
       }
       .date {
         font-size: 12px;
+        font-family: DIN;
         -webkit-transform-origin-x: 0;
         -webkit-transform: scale(0.92);
       }
@@ -104,6 +105,7 @@ export default {
           width: 0.1rem;
         }
         .text {
+          font-family: PingFang;
           font-size: 18px;
         }
       }
@@ -114,9 +116,11 @@ export default {
       text-align: right;
       padding: 0 0.1rem;
       .pm {
+        font-family: DIN;
         font-size: 12px;
       }
       .number {
+        font-family: DIN;
         font-size: 14px;
       }
     }

@@ -44,14 +44,16 @@ export default {
 
 <style scoped lang="less">
 .bottom-wrapper {
+  z-index: 999;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
   .bottom-select-container {
-    z-index: 999;
-    position: absolute;
-    bottom: 2%;
-    left: 50%;
-    transform: translateX(-50%);
+    height: 0.25rem;
     .list {
       display: flex;
+      justify-content: center;
       .item {
         .bg-image("./images/unselected");
         margin: 0 0.06rem;
@@ -61,21 +63,19 @@ export default {
         text-align: center;
         font-size: 14px;
         color: #ccc;
+        opacity: 0.7;
         &.active {
           .bg-image("./images/selected");
           width: 1rem;
           height: 0.35rem;
           color: #fff;
+          opacity: 1;
         }
       }
     }
   }
   .bottom-bg {
-    z-index: 999;
-    position: absolute;
-    bottom: 0;
-    left: 5%;
-    width: 90%;
+    width: 100%;
     height: 0.2rem;
     .bg-image("./images/bottom");
   }

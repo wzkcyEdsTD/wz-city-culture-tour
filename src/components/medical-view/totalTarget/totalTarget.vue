@@ -65,7 +65,7 @@ export default {
     height: 35px;
     line-height: 35px;
     font-family: YouSheBiaoTiHei;
-    font-size: 22px;
+    font-size: 26px;
     letter-spacing: 0px;
     color: #ffffff;
     text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.64);
@@ -79,7 +79,7 @@ export default {
     position: absolute;
     bottom: 0;
     left: 5px;
-    width: 90px;
+    width: 150px;
     height: 15px;
     z-index: -1;
     background-image: linear-gradient(90deg, #0addca 0%, transparent 100%);
@@ -92,8 +92,8 @@ export default {
       align-items: center;
       margin-top: 18px;
       .icon {
-        width: 0.3rem;
-        height: 0.3rem;
+        width: 0.4rem;
+        height: 0.4rem;
         &.hospital {
           .bg-image('../../../common/images/hospital');
         }
@@ -113,21 +113,26 @@ export default {
         color: #fff;
         margin-left: 10px;
         .title {
+          font-family: PingFang;
           font-size: 14px;
+          font-weight: bold;
         }
         .desc {
           margin-top: 8px;
-          font-size: 12px;
+          font-family: PingFang;
+          font-size: 14px;
         }
         .number {
           margin-top: 8px;
           color: #00ffeb ;
           font-size: 18px;
+          font-family: DIN;
+          font-weight: bold;
         }
         .small {                        
           font-size: 12px;
           -webkit-transform-origin-x: 0;
-          -webkit-transform: scale(0.82);
+          -webkit-transform: scale(0.83);
         }
       }
     }

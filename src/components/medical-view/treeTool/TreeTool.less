@@ -1,8 +1,38 @@
 .coverage {
   position: absolute;
-  bottom  : 40px;
-  left    : 20px;
-  z-index: 200000;
+  bottom  : 80px;
+  left    : 50px;
+  z-index: 200000;             
+  height: 360px;
+
+  .header {
+    position: relative;
+    top: 5px;
+    display: flex;
+    .title {
+      padding-left: 15px;
+      height: 28px;
+      line-height: 28px;
+      color        : white;
+      font-size    : 22px;
+      font-family: YouSheBiaoTiHei;
+    }
+    .title::before {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 5px;
+      width: 130px;
+      height: 15px;
+      z-index: -1;
+      background-image: linear-gradient(90deg, #0addca 0%, transparent 100%);
+      transform: skewX(-30deg);
+    }
+    .menu {
+      margin-left: 5px;
+      width: 0.3rem;
+    }
+  }
 
   .treeFilterInput {
     position       : absolute;
@@ -16,7 +46,7 @@
 
     .el-input__inner {
       background: none;
-      border    : 1px solid #449bf6;
+      border    : 1px solid #00ffeb;
       color     : white;
     }
   }
@@ -30,7 +60,7 @@
       height         : 40px;
       .el-input__inner {
         background: none;
-        border    : 1px solid #449bf6;
+        border    : 1px solid #00ffeb;
         color     : white;
       }
     }
@@ -118,11 +148,12 @@
   }
 
   .layerTreeContainer {
-    height  : calc(100% - 110px);
+    // height  : calc(100% - 40px);
+    height: 100%;
     overflow: hidden auto;
 
     .el-tree-node__expand-icon {
-      color    : #449bf6;
+      color    : #00ffeb;
       font-size: 18px;
     }
 
@@ -132,8 +163,8 @@
 
     .el-tree-node__label {
       color: white;
-      text-shadow: #449bf6 1px 0 0, #449bf6 0 1px 0, #449bf6 -1px 0 0,
-        #449bf6 0 -1px 0;
+      text-shadow: #00ffeb 1px 0 0, #00ffeb 0 1px 0, #00ffeb -1px 0 0,
+        #00ffeb 0 -1px 0;
     }
 
     .el-tree-node:focus>.el-tree-node__content {
@@ -253,24 +284,36 @@
   }
 
   .el-popover {
-    height         : 400px;
-    background     : url("../../../common/images/popover.png") no-repeat;
+    position: relative;
+    height         : 340px;
+    background     : url("../../../common/images/popover2.png") no-repeat;
     background-size: 100% 100%;
     border         : none !important;
-    bottom         : 16px;
-    left           : 30px;
+    // bottom         : 16px;
+    // left           : 30px;
 
-    .el-popover__title {
-      margin-bottom: 10px;
-      padding      : 10px;
-      font-size    : 16px;
-      border-bottom: 1px solid #449bf6;
-      color        : white;
-      font-size    : 18px;
-      line-height  : 20px;
-      text-shadow  : #449bf6 1px 0 0, #449bf6 0 1px 0, #449bf6 -1px 0 0,
-        #449bf6 0 -1px 0;
-    }
+    // .el-popover__title {
+    //   position: absolute;
+    //   top: -20px;
+    //   left: 0;
+    //   padding-left: 15px;
+    //   height: 28px;
+    //   line-height: 28px;
+    //   color        : white;
+    //   font-size    : 22px;
+    //   font-family: YouSheBiaoTiHei;
+    // }
+    // .el-popover__title::before {
+    //   content: "";
+    //   position: absolute;
+    //   bottom: 0;
+    //   left: 5px;
+    //   width: 150px;
+    //   height: 15px;
+    //   z-index: -1;
+    //   background-image: linear-gradient(90deg, #0addca 0%, transparent 100%);
+    //   transform: skewX(-30deg);
+    // }
   }
 
   .el-tree {
@@ -280,14 +323,14 @@
   .custom-tree-node {
     flex: 1;
     display: flex;
-    align-items: center;
+    // align-items: center;
     padding-right: 8px;
     color: #fffbf0;
     .icon-search {
-      width: 0.16rem;
-      height: 0.16rem;
+      width: 0.2rem;
+      height: 0.2rem;
       display: block;
-      .bg-image('../../../common/images/search');
+      .bg-image('../../../common/images/search2');
       margin-left: 0.1rem;
     }
   }

@@ -8,15 +8,22 @@
 -->
 <template>
   <div class="coverage">
+    <div class="header">
+      <p class="title">资源图层</p>
+      <img class="menu"
+        :src="visible?menuSelImg:menuImg"
+        width="59px"
+        @click="toogleVisible"
+      />
+    </div>
+    <!-- <el-input v-model="filterText" class="treeFilterInput" placeholder="搜索" size="small" /> -->
     <el-popover
       placement="right-end"
-      title="资源图层"
       width="280"
       trigger="click"
       class="layerPopover"
       v-model="visible"
     >
-      <el-input v-model="filterText" class="treeFilterInput" placeholder="搜索" size="small" />
       <div class="layerTreeContainer">
         <el-tree
           ref="tree"
@@ -76,7 +83,7 @@
         </li>
       </ul>
     </el-popover>
-    <img
+    <!-- <img
       slot="reference"
       :class="{animated: true, pulse: rotateIn}"
       style="animation-duration: 0.5s; cursor: pointer;"
@@ -84,7 +91,7 @@
       width="59px"
       height="60px"
       @click="toogleVisible"
-    />
+    /> -->
   </div>
 </template>
 
@@ -111,6 +118,8 @@ export default {
       data: CESIUM_TREE_OPTION,
       imageLayer: {},
       avatar: require("common/images/coverage.png"),
+      menuImg: require("common/images/menu-un.png"),
+      menuSelImg: require("common/images/menu-sel.png"),
       //  tile layers
       tileLayers: {},
       //  cesium Object
