@@ -24,7 +24,7 @@ export default {
 <style scoped lang="less">
 .area-wrapper {
   position: absolute;
-  top: 0.9rem;
+  top: 0.3rem;
   left: 50px;
   z-index: 200000;
   display: flex;

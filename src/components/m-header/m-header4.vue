@@ -68,8 +68,8 @@ export default {
 .header {
   text-align: center;
   .bg-img {
-    // height: 0.53rem;
-    width: 100%;
+    height: 0.7rem;
+    // width: 100%;
   }
   .info {
     position: absolute;

@@ -283,30 +283,30 @@ export default {
 .mask-wrapper {
   position: relative;
   // width: 100%;
-  height: 100%;
+  // height: 100%;
   .left {
-    position: absolute;
+    position: fixed;
     left: 0;
     width: 20%;
     height: 100%;
     .bg-image('../../common/images/mask-left')
   }
   .right {
-    position: absolute;
+    position: fixed;
     right: 0;
     width: 20%;
     height: 100%;
     .bg-image('../../common/images/mask-right')
   }
   .top {
-    position: absolute;
-    top: 0.7rem;
+    position: fixed;
+    top: 0.5rem;
     width: 100%;
     height: 5%;
     .bg-image('../../common/images/mask-top')
   }
   .bottom {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     width: 100%;
     height: 15%;
