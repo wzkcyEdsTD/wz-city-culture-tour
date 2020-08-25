@@ -5,32 +5,32 @@
       <li class="item">
         <i class="icon hospital"></i>
         <div class="right">
-          <div class="title">甲级医院数<span class="small">(座)</span></div>
-          <div class="desc">温州全市 /<span class="small">2020年</span></div>
+          <div class="title">甲级医院数 <span class="small">(座)</span></div>
+          <div class="desc">温州全市 /<span>2020年</span></div>
           <div class="number">88,888</div>
         </div>
       </li>
       <li class="item">
         <i class="icon ambulance"></i>
         <div class="right">
-          <div class="title">救护车数<span class="small">(辆)</span></div>
-          <div class="desc">温州全市 /<span class="small">2020年</span></div>
+          <div class="title">救护车数 <span class="small">(辆)</span></div>
+          <div class="desc">温州全市 /<span>2020年</span></div>
           <div class="number">88,888</div>
         </div>
       </li>
       <li class="item">
         <i class="icon doctor"></i>
         <div class="right">
-          <div class="title">主任医生数<span class="small">(人)</span></div>
-          <div class="desc">温州全市 /<span class="small">2020年</span></div>
+          <div class="title">主任医生数 <span class="small">(人)</span></div>
+          <div class="desc">温州全市 /<span>2020年</span></div>
           <div class="number">88,888</div>
         </div>
       </li>
       <li class="item">
         <i class="icon nurse"></i>
         <div class="right">
-          <div class="title">主任护师数<span class="small">(人)</span></div>
-          <div class="desc">温州全市 /<span class="small">2020年</span></div>
+          <div class="title">主任护师数 <span class="small">(人)</span></div>
+          <div class="desc">温州全市 /<span>2020年</span></div>
           <div class="number">88,888</div>
         </div>
       </li>
@@ -56,7 +56,7 @@ export default {
 <style scoped lang="less">
 .wrapper {
   position: absolute;
-  top: 20px;
+  top: 1.8rem;
   left: 50px;
   z-index: 200000;
     
@@ -114,25 +114,24 @@ export default {
         margin-left: 10px;
         .title {
           font-family: PingFang;
-          font-size: 14px;
+          font-size: 15px;
           font-weight: bold;
         }
         .desc {
-          margin-top: 8px;
+          margin-top: 6 px;
           font-family: PingFang;
-          font-size: 14px;
+          font-size: 12px;
         }
         .number {
-          margin-top: 8px;
+          margin-top: 6px;
           color: #00ffeb ;
-          font-size: 18px;
+          font-size: 24px;
           font-family: DIN;
           font-weight: bold;
         }
-        .small {                        
-          font-size: 12px;
-          -webkit-transform-origin-x: 0;
-          -webkit-transform: scale(0.83);
+        .small {
+          font-size: 11px;
+          font-weight: normal;
         }
       }
     }

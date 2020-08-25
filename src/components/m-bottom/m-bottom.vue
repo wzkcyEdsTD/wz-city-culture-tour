@@ -51,23 +51,25 @@ export default {
   width: 100%;
   .bottom-select-container {
     height: 0.25rem;
+    margin-bottom: 10px;
     .list {
       display: flex;
       justify-content: center;
       .item {
         .bg-image("./images/unselected");
         margin: 0 0.06rem;
-        padding: 5px 0;
-        width: 0.8rem;
+        padding: 5px 20px;
+        // width: 0.8rem;
         height: 0.25rem;
         text-align: center;
-        font-size: 14px;
-        color: #ccc;
-        opacity: 0.7;
+        font-size: 13px;
+        color: #fff;
+        opacity: 0.5;
         &.active {
           .bg-image("./images/selected");
-          width: 1rem;
+          // width: 1rem;
           height: 0.35rem;
+          font-size: 16px;
           color: #fff;
           opacity: 1;
         }
@@ -76,7 +78,7 @@ export default {
   }
   .bottom-bg {
     width: 100%;
-    height: 0.2rem;
+    height: 0.39rem;
     .bg-image("./images/bottom");
   }
 }

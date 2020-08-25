@@ -19,6 +19,7 @@
     <div id="cesiumContainer" />
     <div v-if="mapLoaded">
       <Coverage />
+      <Area />
       <TotalTarget />
       <CesiumMapTool ref="cesiummaptool" v-if="showSubTool == '3t1'" />
       <VisualizationAnalyse ref="visualizationanalyse" v-if="showSubTool == '3t2'" />
@@ -36,6 +37,7 @@
 import { ServiceUrl } from "config/server/mapConfig";
 import "./basicTools/ThreeTools.less";
 import Coverage from "./treeTool/TreeTool";
+import Area from "./area/area";
 import TotalTarget from "./totalTarget/totalTarget";
 import VisualizationAnalyse from "./basicTools/VisualizationAnalyse";
 import SectionAnalyse from "./basicTools/SectionAnalyse";
@@ -62,6 +64,7 @@ export default {
   },
   components: {
     Coverage,
+    Area,
     TotalTarget,
     VisualizationAnalyse,
     SectionAnalyse,

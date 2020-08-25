@@ -1,7 +1,7 @@
 <template>
   <div class="header-wrapper">
     <div class="header">
-      <img class="bg-img" src="./images/header3.png" alt="">
+      <img class="bg-img" src="./images/header.png" alt="">
       <div class="info">
         <div class="time-container">
           <div class="time">15:49:52</div>
@@ -56,23 +56,24 @@ export default {
   top: 0;
   z-index: 999;
   width: 100%;
-  height: 0.53rem;
-  padding: 0 5%;
+  // height: 0.53rem;
+  // padding: 0 5%;
   background-image: linear-gradient(
     #2580a5 0%,
     rgba(24, 110, 145, 1) 18%,
     rgba(18, 90, 119, 1) 42%,
-    rgba(17, 30, 51, 1) 100%
+    rgba(4, 46, 63, 1) 100%
   );
 }
 .header {
   text-align: center;
   .bg-img {
-    height: 0.53rem;
+    // height: 0.53rem;
+    width: 100%;
   }
   .info {
     position: absolute;
-    top: 12%;
+    top: 20%;
     right: 3%;
     display: flex;
     color: #fff;

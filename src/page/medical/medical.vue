@@ -12,6 +12,8 @@
     <div class="mask-wrapper">
       <div class="left"></div>
       <div class="right"></div>
+      <div class="top"></div>
+      <div class="bottom"></div>
     </div>
   </div>
 </template>
@@ -295,6 +297,20 @@ export default {
     width: 20%;
     height: 100%;
     .bg-image('../../common/images/mask-right')
+  }
+  .top {
+    position: absolute;
+    top: 0.5rem;
+    width: 100%;
+    height: 5%;
+    .bg-image('../../common/images/mask-top')
+  }
+  .bottom {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 15%;
+    .bg-image('../../common/images/mask-bottom')
   }
 }
 </style>

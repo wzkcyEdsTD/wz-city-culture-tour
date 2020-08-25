@@ -11,7 +11,7 @@
     <div class="header">
       <p class="title">资源图层</p>
       <img class="menu"
-        :src="visible?menuSelImg:menuImg"
+        :src="visible||serachBoxVisible?menuSelImg:menuImg"
         width="59px"
         @click="toogleVisible"
       />

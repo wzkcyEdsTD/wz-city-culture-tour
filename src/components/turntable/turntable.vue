@@ -28,7 +28,7 @@ export default {
   data() {
     return {
       date: "",
-      selectedValue: "history"
+      selectedValue: "today"
     };
   },
   mounted() {
@@ -47,8 +47,8 @@ export default {
 <style scoped lang="less">
 .turntable-wrapper {
   position: absolute;
-  top:5%;
-  right: 0;
+  top: 6%;
+  right: 0.5rem;
   z-index: 999;
   img {
     height: 1rem;
