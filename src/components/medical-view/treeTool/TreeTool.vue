@@ -105,7 +105,6 @@
 import $ from "jquery";
 import { mapGetters, mapActions } from "vuex";
 import { CESIUM_TREE_OPTION } from "config/server/medicalTreeOption";
-import { DataServer } from "./mapconfig";
 const Cesium = window.Cesium;
 // import { BimSourceURL } from "config/server/mapConfig";
 // const { SCENE_DATA_URL } = BimSourceURL;
@@ -268,7 +267,15 @@ export default {
      */
     getPOIPickedFeature(SMID, node) {
       const that = this;
-      let currentDataServer = DataServer[node.label]
+      
+      let currentDataServer
+      CESIUM_TREE_OPTION.forEach(item => {
+        item.children.forEach(citem => {
+          if(node.label === citem.label) {
+            currentDataServer = citem
+          }
+        })
+      })
       var getFeatureParam, getFeatureBySQLService, getFeatureBySQLParams;
       getFeatureParam = new SuperMap.REST.FilterParameter({
         attributeFilter: `SMID ${SMID == null ? `>= 1` : `= ${SMID}`}`,
@@ -276,9 +283,9 @@ export default {
       getFeatureBySQLParams = new SuperMap.REST.GetFeaturesBySQLParameters({
         queryParameter: getFeatureParam,
         toIndex: -1,
-        datasetNames: [currentDataServer.datasetname]
+        datasetNames: [currentDataServer.newdataset]
       });
-      var url = currentDataServer.url
+      var url = currentDataServer.newUrl
       getFeatureBySQLService = new SuperMap.REST.GetFeaturesBySQLService(url, {
         eventListeners: {
           processCompleted: (res) => {
@@ -454,7 +461,6 @@ export default {
 
     showSearchBox(key) {
       this.$refs.tree.setCheckedKeys([key]);
-      // console.log('showSearchBox', this.hospitalList)
       this.visible = false;
       this.serachBoxVisible = true;
     },
@@ -489,7 +495,6 @@ export default {
         // 移动到对应实例位置
         this.viewer.zoomTo(item);
       }
-      // console.log('hospitalChecked', this.hospitalChecked)
     },
 
     // 三维定位

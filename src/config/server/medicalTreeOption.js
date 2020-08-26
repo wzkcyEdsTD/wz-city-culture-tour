@@ -8,6 +8,8 @@
  */
 const SERVER_HOST = "https://ditu.wzcitybrain.com/iserver/services";
 const SERVER_SUFFIX = "/restjsr/v1/vectortile/maps";
+const SW_DATA = "data-SW_DATA/rest/data";
+const SW_DATA_HOST = "172.20.83.196_swdata:"
 // 医疗专题
 const MEDICAL_TOPIC = [
   {
@@ -40,6 +42,7 @@ const MEDICAL_TOPIC = [
 const TOUR_TOPIC = [{
   label: "精品农家乐",
   url: `${SERVER_HOST}/map-mongodbMvt-WenZhouNongJiaYue${SERVER_SUFFIX}`,
+  newUrl: `${SERVER_HOST}/${SW_DATA}`,
   map: "/温州农家乐",
   icon: "精品农家乐",
   icon_size: 1,
@@ -168,7 +171,9 @@ export const CESIUM_TREE_OPTION = [
       return {
         ...v,
         id: v.label,
-        type: "mvt"
+        type: "mvt",
+        newUrl: `${SERVER_HOST}/${SW_DATA}`,
+        newdataset: `${SW_DATA_HOST}${v.dataset}`
       };
     })
   },
@@ -179,7 +184,9 @@ export const CESIUM_TREE_OPTION = [
       return {
         ...v,
         id: v.label,
-        type: "mvt"
+        type: "mvt",
+        newUrl: `${SERVER_HOST}/${SW_DATA}`,
+        newdataset: `${SW_DATA_HOST}${v.dataset}`
       };
     })
   },
@@ -190,7 +197,9 @@ export const CESIUM_TREE_OPTION = [
       return {
         ...v,
         id: v.label,
-        type: "mvt"
+        type: "mvt",
+        newUrl: `${SERVER_HOST}/${SW_DATA}`,
+        newdataset: `${SW_DATA_HOST}${v.dataset}`
       };
     })
   },
