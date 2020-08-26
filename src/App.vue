@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <m-header></m-header>
-    <turntable></turntable>
     <loading v-show="isLoading"></loading>
     <div class="content">
       <!--      <keep-alive>-->
@@ -15,7 +14,6 @@
 // import MHeader from "components/m-header/m-header";
 import MHeader from "components/m-header/m-header4";
 import Loading from "components/loading/loading";
-import Turntable from "components/turntable/turntable";
 import { getUserInfo } from "./api/public/public";
 import { mapGetters, mapActions, mapState } from "vuex";
 import { getRoleCategory } from "api/map/map";
@@ -25,7 +23,6 @@ export default {
   components: {
     MHeader,
     Loading,
-    Turntable
   },
   data() {
     return {
@@ -98,10 +95,9 @@ body {
 }
 #app > .content {
   position: absolute;
-  top: 0.5rem;
+  top: 0.71rem;
   bottom: 0;
   width: 100%;
-  // height: 100%;
   z-index: 9;
   > * {
     width: 100%;

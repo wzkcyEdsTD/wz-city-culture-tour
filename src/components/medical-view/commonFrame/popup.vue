@@ -255,6 +255,7 @@ export default {
   letter-spacing: 1px;
   float: left;
   padding: 2px;
+  text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.64);
 }
 
 .right-btns span:first-child {
