@@ -6,20 +6,13 @@
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\cesium_map.vue
 -->
-<!--
- * @Author: eds
- * @Date: 2020-07-07 09:41:22
- * @LastEditTime: 2020-08-21 10:39:11
- * @LastEditors: eds
- * @Description:
- * @FilePath: \wz-city-culture-tour\src\components\medical-view\cesium_map.vue
--->
 <template>
   <div class="cesiumContainer">
     <div id="cesiumContainer" />
     <div v-if="mapLoaded">
       <Coverage />
       <Area />
+      <Turntable />
       <TotalTarget />
       <!-- <CesiumMapTool ref="cesiummaptool" v-if="showSubTool == '3t1'" />
       <VisualizationAnalyse ref="visualizationanalyse" v-if="showSubTool == '3t2'" />
@@ -38,6 +31,7 @@ import { ServiceUrl } from "config/server/mapConfig";
 import "./basicTools/ThreeTools.less";
 import Coverage from "./treeTool/TreeTool";
 import Area from "./area/area";
+import Turntable from "./turntable/turntable";
 import TotalTarget from "./totalTarget/totalTarget";
 // import VisualizationAnalyse from "./basicTools/VisualizationAnalyse";
 // import SectionAnalyse from "./basicTools/SectionAnalyse";
@@ -64,6 +58,7 @@ export default {
   components: {
     Coverage,
     Area,
+    Turntable,
     TotalTarget,
     // VisualizationAnalyse,
     // SectionAnalyse,

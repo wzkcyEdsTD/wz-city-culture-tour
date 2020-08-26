@@ -1,23 +1,25 @@
 <template>
   <div class="header-wrapper">
-    <div class="header">
-      <img class="bg-img" src="./images/header.png" alt="">
-      <div class="info">
-        <div class="time-container">
-          <div class="time">15:49:52</div>
-          <div class="date">2020-8-21</div>
+    <div class="header-img">
+      <img class="bg-img flex-1" src="./images/header-left2.png" alt="">
+      <img class="bg-img" src="./images/header2.png" alt="">
+      <img class="bg-img flex-1" src="./images/header-right2.png" alt="">
+    </div>
+    <div class="info">
+      <div class="time-container">
+        <div class="time">15:49:52</div>
+        <div class="date">2020-8-21</div>
+      </div>
+      <div class="weather-container">
+        <img class="weather-img" src="./images/overcast.png" />
+        <div class="temperature">
+          <img class="temperature-img" src="./images/temperature.png" />
+          <span class="text">29℃</span>
         </div>
-        <div class="weather-container">
-          <img class="weather-img" src="./images/overcast.png" />
-          <div class="temperature">
-            <img class="temperature-img" src="./images/temperature.png" />
-            <span class="text">29℃</span>
-          </div>
-        </div>
-        <div class="pm-container">
-          <div class="pm">Pm2.5</div>
-          <div class="number">78</div>
-        </div>
+      </div>
+      <div class="pm-container">
+        <div class="pm">Pm2.5</div>
+        <div class="number">78</div>
       </div>
     </div>
   </div>
@@ -52,8 +54,9 @@ export default {
 
 <style scoped lang="less">
 .header-wrapper {
-  position: absolute;
-  top: 0;
+  // position: absolute;
+  // top: 0;
+  position: relative;
   z-index: 999;
   width: 100%;
   // height: 0.53rem;
@@ -64,12 +67,14 @@ export default {
     rgba(18, 90, 119, 1) 42%,
     rgba(4, 46, 63, 1) 100%
   );
-}
-.header {
   text-align: center;
-  .bg-img {
-    height: 0.7rem;
-    // width: 100%;
+  .header-img {
+    display: flex;
+    padding-top: 0.1rem;
+    .bg-img {
+      height: 0.7rem;
+      display: block;
+    }
   }
   .info {
     position: absolute;
@@ -80,11 +85,12 @@ export default {
     .time-container {
       display: flex;
       flex-direction: column;
+      align-items: flex-end;
       text-align: right;
       padding: 0 0.06rem;
       .time {
         font-family: DIN;
-        font-size: 16px;
+        font-size: 19px;
       }
       .date {
         font-size: 12px;
@@ -98,7 +104,7 @@ export default {
       align-items: center;
       padding: 0 8px;
       .weather-img {
-        height: 0.3rem;
+        height: 0.32rem;
         padding: 0 0.08rem;
       }
       .temperature {
@@ -107,7 +113,7 @@ export default {
         }
         .text {
           font-family: PingFang;
-          font-size: 18px;
+          font-size: 25px;
         }
       }
     }

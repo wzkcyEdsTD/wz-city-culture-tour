@@ -59,6 +59,7 @@
         </section>
       </div>
     </div>
+    <div class="mask-right"></div>
   </div>
 </template>
 

@@ -1,12 +1,12 @@
 <template>
   <div class="turntable-wrapper">
-    <div class="history" v-show="selectedValue == 'history'" @click="selectedValue='today'">
+    <div class="history" v-show="selectedValue == 'today'">
       <img
-        src="./images/history.png"
+        src="../../../common/images/turntable.png"
         border="0" usemap="#planetmap"
         alt="Planets" />
     </div>
-    <div class="today" v-show="selectedValue == 'today'" @click="selectedValue='future'">
+    <!-- <div class="today" v-show="selectedValue == 'today'" @click="selectedValue='future'">
       <img
         src="./images/today.png"
         border="0" usemap="#planetmap"
@@ -17,7 +17,7 @@
         src="./images/future.png"
         border="0" usemap="#planetmap"
         alt="Planets" />
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -47,11 +47,11 @@ export default {
 <style scoped lang="less">
 .turntable-wrapper {
   position: absolute;
-  top: 0.8rem;
-  right: 0.5rem;
-  z-index: 999;
+  top: -0.1rem;
+  right: 0.3rem;
+  z-index: 200000;
   img {
-    height: 1rem;
+    height: 1.4rem;
   }
 }
 </style>
