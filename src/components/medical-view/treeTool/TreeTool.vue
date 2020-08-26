@@ -47,7 +47,7 @@
       placement="right-end"
       width="280"
       trigger="click"
-      class="layerPopover"
+      class="layerPopover searchBox"
       v-model="serachBoxVisible"
     >
       <div class="searchHeader">
@@ -59,13 +59,19 @@
           @keyup.enter.native="searchFilter"
         />
         <div class="button-container">
-          <i class="icon-common icon-clear" @click="searchClear"></i>
-          <i class="icon-common icon-back" @click="backToTree"></i>
-          <i class="icon-common icon-search" @click="searchFilter"></i>
+          <div class="button-item">
+            <i class="icon-common icon-clear" @click="searchClear"></i>
+          </div>
+          <div class="button-item">
+            <i class="icon-common icon-back" @click="backToTree"></i>
+          </div>
+          <div class="button-item">
+            <i class="icon-common icon-search" @click="searchFilter"></i>
+          </div>
         </div>
       </div>
       <ul class="result-list">
-        <li class="result-item" v-for="item in hospitalList" :key="item.attributes.SMID">
+        <li class="result-item" :class="{checked: ~hospitalChecked.indexOf(item.attributes.SHORTNAME)}" v-for="item in hospitalList" :key="item.attributes.SMID">
           <div class="left">
             <p class="name">{{item.attributes.SHORTNAME}}</p>
             <div class="address">

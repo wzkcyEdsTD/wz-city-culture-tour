@@ -14,7 +14,7 @@
   ._bimframe_ {
     position: relative;
     height: 100%;
-    overflow-y: auto;
+    // overflow-y: auto;
 
     .close {
       position: absolute;
@@ -90,7 +90,7 @@
             font-family: PingFang;
             font-size: 14px;
             vertical-align: middle;
-            padding: 3px 0 6px 0;
+            padding: 0 0 6px 0;
           }
 
           tr:first-child td:first-child {
@@ -113,9 +113,10 @@
             }
 
             .item-unit {
+              display: inline-block;
               font-size: 12px;
               -webkit-transform-origin-x: 0;
-              -webkit-transform: scale(0.92);
+              -webkit-transform: scale(0.83);
             }
           }
 
@@ -123,11 +124,15 @@
             font-size: 12px;
             -webkit-transform-origin-x: 0;
             -webkit-transform: scale(0.83);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 54px;
 
             .ratio-up,
             .ratio-down {
               position: relative;
-              top: -2px;
+              // top: -2px;
               display: inline-block;
               width: 0;
               height: 0;
