@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="target-wrapper">
     <span class="header">医疗体征</span>
     <ul class="content">
       <li class="item">
@@ -54,9 +54,9 @@ export default {
 </script>
 
 <style scoped lang="less">
-.wrapper {
+.target-wrapper {
   position: absolute;
-  top: 1rem;
+  top: 1.06rem;
   left: 50px;
   z-index: 200000;
     
@@ -92,8 +92,8 @@ export default {
       align-items: center;
       margin-top: 18px;
       .icon {
-        width: 0.4rem;
-        height: 0.4rem;
+        width: 0.52rem;
+        height: 0.52rem;
         &.hospital {
           .bg-image('../../../common/images/hospital');
         }
@@ -118,7 +118,7 @@ export default {
           font-weight: bold;
         }
         .desc {
-          margin-top: 6 px;
+          margin-top: 6px;
           font-family: PingFang;
           font-size: 12px;
         }

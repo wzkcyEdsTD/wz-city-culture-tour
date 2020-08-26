@@ -3,8 +3,8 @@
   top: 200px;
   bottom: 40px;
   overflow: hidden;
-  right: 30px;
-  width: 350px;
+  right: 10px;
+  width: 320px;
   // height: 700px;
   color: white;
   box-sizing: border-box;
@@ -19,7 +19,7 @@
     .close {
       position: absolute;
       right: 4px;
-      top: 0;
+      top: 6px;
       width: 0.2rem;
       height: 0.2rem;
       display: block;
@@ -53,7 +53,7 @@
       position: absolute;
       bottom: 0;
       left: 5px;
-      width: 120px;
+      width: 150px;
       height: 15px;
       z-index: -1;
       background-image: linear-gradient(90deg,
@@ -99,8 +99,8 @@
 
           tr:first-child td:last-child {
             font-size: 12px;
-            -webkit-transform-origin-x: 0;
-            -webkit-transform: scale(0.92);
+            // -webkit-transform-origin-x: 0;
+            // -webkit-transform: scale(0.92);
           }
 
           tr:last-child td:first-child {
@@ -122,12 +122,13 @@
 
           tr:last-child td:last-child {
             font-size: 12px;
+            font-weight: bold;
             -webkit-transform-origin-x: 0;
             -webkit-transform: scale(0.83);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            width: 54px;
+            width: 55px;
 
             .ratio-up,
             .ratio-down {
@@ -164,8 +165,10 @@
     .summary {
       display: block;
       font-family: PingFang;
-      font-size: 14px;
+      font-size: 13px;
       line-height: 18px;
+      max-height: 140px;
+      overflow-y: auto;
     }
 
     .address {
@@ -193,7 +196,7 @@
 
         a {
           img {
-            height: 100px;
+            height: 0.9rem;
           }
         }
       }
@@ -208,5 +211,14 @@
       background-color: #00ffeb;
       box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.5);
     }
+  }
+  .mask-right {
+    z-index: -2;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 25%;
+    height: 100%;
+    .bg-image('../../../common/images/mask-right')
   }
 }

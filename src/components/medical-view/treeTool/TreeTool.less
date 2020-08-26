@@ -1,6 +1,6 @@
 .coverage {
   position: absolute;
-  bottom  : 50px;
+  bottom  : 1.05rem;
   left    : 50px;
   z-index: 200000;             
   height: 396px;
@@ -9,7 +9,6 @@
     position: relative;
     margin-bottom: 5px;
     display: flex;
-    width: 99%;
     .title {
       padding-left: 15px;
       height: 28px;
@@ -57,9 +56,10 @@
     .el-popover {
       background: none;
       padding: 0;
+      height: 370px;
     }
     .result-list{
-      background: url("../../../common/images/search-bg.png") no-repeat;
+      .bg-image('../../../common/images/search-bg');
       width: 99%;
       height  : calc(100% - 40px);
       overflow: hidden auto;
@@ -211,8 +211,8 @@
 
     .el-checkbox__input.is-checked .el-checkbox__inner,
     .el-checkbox__input.is-indeterminate .el-checkbox__inner {
-      background-color: #0adffa;
-      border-color    : #0adffa;
+      background-color: #00ffeb;
+      border-color    : #00ffeb;
     }
 
     .el-checkbox__inner::after {
@@ -319,7 +319,7 @@
 
   .el-popover {
     position: relative;
-    height         : 340px;
+    height         : 350px;
     background     : url("../../../common/images/popover2.png") no-repeat;
     background-size: 100% 100%;
     border         : none !important;
