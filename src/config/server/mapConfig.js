@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-08-11 20:39:44
- * @LastEditTime: 2020-08-26 15:26:54
+ * @LastEditTime: 2020-08-26 15:42:27
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\config\server\mapConfig.js
@@ -27,7 +27,7 @@ export const ServiceUrl = {
   //  全市区精模
   WZMODEL:
     // "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-JMLC20121/rest/realspace/datas/JM_LC_2012_1/config"
-    "http://10.36.198.91:8098/iserver/services/3D-mongodb-JMLC20121/rest/realspace/datas/JM_LC_2012_1/config"
+    "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-JMLC20121/rest/realspace/datas/JM_LC_2012_1/config"
     // "http://10.36.217.240:8098/iserver/services/3D-mongodb/rest/realspace/datas/JM_LC_2012_1/config"
 };
 

@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-07 10:57:45
- * @LastEditTime: 2020-08-26 15:04:42
+ * @LastEditTime: 2020-08-26 15:39:33
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\treeTool\TreeTool.vue
@@ -167,7 +167,6 @@ export default {
     });
 
     this.feverObj = feverObj;
-    console.log(feverObj);
   },
   beforeDestroy() {
     this.handler && this.handler.destroy();
@@ -451,7 +450,6 @@ export default {
 
     showSearchBox(key) {
       this.$refs.tree.setCheckedKeys([key]);
-      // console.log('showSearchBox', this.hospitalList)
       this.visible = false;
       this.serachBoxVisible = true;
     },
@@ -473,7 +471,6 @@ export default {
     },
 
     checkedOne(item) {
-      // console.log('checkedOne', item)
       let idIndex = this.hospitalChecked.indexOf(item.attributes.SHORTNAME);
       if (idIndex >= 0) {
         // 如果已经包含了该id, 则去除(单选按钮由选中变为非选中状态)
@@ -486,7 +483,6 @@ export default {
         // 移动到对应实例位置
         window.earth.zoomTo(item);
       }
-      // console.log('hospitalChecked', this.hospitalChecked)
     },
 
     // 三维定位
