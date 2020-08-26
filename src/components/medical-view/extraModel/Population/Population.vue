@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-21 18:30:30
- * @LastEditTime: 2020-08-22 20:52:08
+ * @LastEditTime: 2020-08-26 15:06:02
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\extraModel\Population\Population.vue
@@ -21,9 +21,6 @@ export default {
       populationCircleLabelList: {},
       medicalCircleCollection: undefined,
     };
-  },
-  created() {
-    this.viewer = window.earth;
   },
   mounted() {
     this.eventRegsiter();
@@ -54,17 +51,17 @@ export default {
       const MedicalCircleLabelEntityCollection = new Cesium.CustomDataSource(
         "medical_label"
       );
-      this.viewer.dataSources
+      window.earth.dataSources
         .add(MedicalCircleEntityCollection)
         .then((datasource) => {
           this.medicalCircleCollection = MedicalCircleEntityCollection;
         });
-      this.viewer.dataSources
+      window.earth.dataSources
         .add(MedicalCircleLabelEntityCollection)
         .then((datasource) => {
           this.medicalCircleLabelCollection = MedicalCircleLabelEntityCollection;
         });
-      this.viewer.scene.globe.depthTestAgainstTerrain = false;
+      window.earth.scene.globe.depthTestAgainstTerrain = false;
     },
     async drawPopulationScan(
       doScan,
@@ -73,22 +70,22 @@ export default {
       radius = 500,
       period = 2.0
     ) {
-      if (!doScan) return (this.viewer.scene.scanEffect.show = false);
-      this.viewer.scene.scanEffect.show = true; //开启扫描效果
-      this.viewer.scene.scanEffect.mode = Cesium.ScanEffectMode.CIRCLE; //利用圆环扫描效果
-      this.viewer.scene.scanEffect.centerPostion = new Cesium.Cartesian3.fromDegrees(
+      if (!doScan) return (window.earth.scene.scanEffect.show = false);
+      window.earth.scene.scanEffect.show = true; //开启扫描效果
+      window.earth.scene.scanEffect.mode = Cesium.ScanEffectMode.CIRCLE; //利用圆环扫描效果
+      window.earth.scene.scanEffect.centerPostion = new Cesium.Cartesian3.fromDegrees(
         lng,
         lat,
         30
       );
-      this.viewer.scene.scanEffect.speed = radius / period;
-      this.viewer.scene.scanEffect.period = 2.0;
-      this.viewer.scene.scanEffect.color = Cesium.Color.WHITE;
+      window.earth.scene.scanEffect.speed = radius / period;
+      window.earth.scene.scanEffect.period = 2.0;
+      window.earth.scene.scanEffect.color = Cesium.Color.WHITE;
 
-      this.viewer.scene.colorCorrection.saturation = 3.9;
-      this.viewer.scene.colorCorrection.brightness = 0.8;
-      this.viewer.scene.colorCorrection.contrast = 1.0;
-      this.viewer.scene.colorCorrection.hue = 0.0;
+      window.earth.scene.colorCorrection.saturation = 3.9;
+      window.earth.scene.colorCorrection.brightness = 0.8;
+      window.earth.scene.colorCorrection.contrast = 1.0;
+      window.earth.scene.colorCorrection.hue = 0.0;
     },
     /**
      * 画缓冲区

@@ -1,10 +1,10 @@
 /*
  * @Author: eds
  * @Date: 2020-07-01 14:19:49
- * @LastEditTime: 2020-07-21 09:04:17
+ * @LastEditTime: 2020-08-26 14:52:48
  * @LastEditors: eds
  * @Description:
- * @FilePath: \wzsjjt-bd-visual\src\router\index.js
+ * @FilePath: \wz-city-culture-tour\src\router\index.js
  */
 import Vue from "vue";
 import Router from "vue-router";
@@ -15,7 +15,7 @@ const router = new Router({
   mode: "hash",
   routes: [{
       path: "/",
-      redirect: "Map"
+      redirect: "Medical"
     },
     // {
     //   path: "/state",

@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-20 09:03:10
- * @LastEditTime: 2020-08-22 21:10:19
+ * @LastEditTime: 2020-08-26 15:05:41
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\extraModel\NanTangModel.vue
@@ -20,11 +20,7 @@ export default {
   data() {
     return {
       //  cesium Object
-      viewer: undefined,
     };
-  },
-  created() {
-    this.viewer = window.earth;
   },
   async mounted() {
     this.initBimScene();
@@ -34,11 +30,11 @@ export default {
     // this.SetIsInfoFrame(true);
   },
   beforeDestroy() {
-    this.viewer.entities.removeAll();
+    window.earth.entities.removeAll();
     this.SetIsInfoFrame(false);
     this.$bus.$emit("cesium-3d-switch", { value: true });
     this.closeNanTangModel();
-    this.viewer = undefined;
+    window.earth = undefined;
   },
   methods: {
     ...mapActions("map", ["SetIsInfoFrame"]),
@@ -64,16 +60,16 @@ export default {
     },
     //  初始化BIM场景
     initBimScene(fn) {
-      const _LAYER_ = this.viewer.scene.layers.find(LAYER_NAME);
+      const _LAYER_ = window.earth.scene.layers.find(LAYER_NAME);
       if (_LAYER_) {
         _LAYER_.visible = true;
       } else {
-        const promise = this.viewer.scene.addS3MTilesLayerByScp(
+        const promise = window.earth.scene.addS3MTilesLayerByScp(
           ServiceUrl.WZMODEL,
           { name: LAYER_NAME }
         );
         Cesium.when(promise, async (layers) => {
-          const layer = this.viewer.scene.layers.find(LAYER_NAME);
+          const layer = window.earth.scene.layers.find(LAYER_NAME);
           layer.visibleDistanceMax = 1400;
         });
       }
@@ -95,7 +91,7 @@ export default {
       this.addEntity([120.661, 27.999], "/static/images/people.png", "people");
     },
     addEntity([x, y], image, name = +new Date()) {
-      this.viewer.entities.add({
+      window.earth.entities.add({
         position: Cesium.Cartesian3.fromDegrees(x, y, 40),
         billboard: {
           image,
@@ -112,7 +108,7 @@ export default {
     },
     //  清除BIM模块
     clearNanTangModel() {
-      this.viewer.scene.layers.find(LAYER_NAME).visible = false;
+      window.earth.scene.layers.find(LAYER_NAME).visible = false;
     },
   },
 };

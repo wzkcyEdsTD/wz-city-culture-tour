@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-20 18:52:41
- * @LastEditTime: 2020-08-24 16:05:03
+ * @LastEditTime: 2020-08-26 15:33:03
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\cesium_map.vue
@@ -21,9 +21,9 @@
       <Coverage />
       <Area />
       <TotalTarget />
-      <CesiumMapTool ref="cesiummaptool" v-if="showSubTool == '3t1'" />
+      <!-- <CesiumMapTool ref="cesiummaptool" v-if="showSubTool == '3t1'" />
       <VisualizationAnalyse ref="visualizationanalyse" v-if="showSubTool == '3t2'" />
-      <SectionAnalyse ref="sectionanalyse" v-if="showSubTool == '3t3'" />
+      <SectionAnalyse ref="sectionanalyse" v-if="showSubTool == '3t3'" />-->
       <NanTangModel v-if="showSubFrame == '3d1'" />
       <InfoFrame ref="infoframe" v-show="isInfoFrame" />
       <Popup ref="popup" :mapLoaded="mapLoaded" />
@@ -39,10 +39,10 @@ import "./basicTools/ThreeTools.less";
 import Coverage from "./treeTool/TreeTool";
 import Area from "./area/area";
 import TotalTarget from "./totalTarget/totalTarget";
-import VisualizationAnalyse from "./basicTools/VisualizationAnalyse";
-import SectionAnalyse from "./basicTools/SectionAnalyse";
+// import VisualizationAnalyse from "./basicTools/VisualizationAnalyse";
+// import SectionAnalyse from "./basicTools/SectionAnalyse";
+// import CesiumMapTool from "./basicTools/CesiumMapTool";
 import NanTangModel from "./extraModel/NanTangModel";
-import CesiumMapTool from "./basicTools/CesiumMapTool";
 import InfoFrame from "./commonFrame/InfoFrame";
 import Popup from "./commonFrame/popup";
 import RtmpVideo from "./extraModel/RtmpVideo/RtmpVideo";
@@ -58,7 +58,6 @@ export default {
       mapLoaded: false,
       imagelayer: undefined,
       datalayer: undefined,
-      viewer: undefined,
       isInfoFrame: false,
     };
   },
@@ -66,10 +65,10 @@ export default {
     Coverage,
     Area,
     TotalTarget,
-    VisualizationAnalyse,
-    SectionAnalyse,
+    // VisualizationAnalyse,
+    // SectionAnalyse,
+    // CesiumMapTool,
     NanTangModel,
-    CesiumMapTool,
     InfoFrame,
     Popup,
     RtmpVideo,
@@ -95,8 +94,8 @@ export default {
       });
       this.$bus.$off("cesium-3d-switch");
       this.$bus.$on("cesium-3d-switch", ({ value }) => {
-        const _LAYER_ = this.viewer.scene.layers.find("baimo");
-        _LAYER_.visibleDistanceMin = !value ? 400 : 0;
+        const _LAYER_ = window.earth.scene.layers.find("baimo");
+        _LAYER_.visibleDistanceMin = !value ? 1400 : 0;
         // _LAYER_.visible = value;
       });
       this.$bus.$off("cesium-3d-mapType");
@@ -105,7 +104,7 @@ export default {
           this.datalayer.show = false;
           this.imagelayer
             ? (this.imagelayer.show = true)
-            : (this.imagelayer = this.viewer.imageryLayers.addImageryProvider(
+            : (this.imagelayer = window.earth.imageryLayers.addImageryProvider(
                 new Cesium.SuperMapImageryProvider({
                   url: ServiceUrl.SWImage,
                 })
@@ -114,7 +113,7 @@ export default {
           this.imagelayer.show = false;
           this.datalayer
             ? (this.datalayer.show = true)
-            : (this.datalayer = this.viewer.imageryLayers.addImageryProvider(
+            : (this.datalayer = window.earth.imageryLayers.addImageryProvider(
                 new Cesium.SuperMapImageryProvider({
                   url: ServiceUrl.DataImage,
                 })
@@ -124,49 +123,49 @@ export default {
     },
     init3DMap(fn) {
       const that = this;
-      this.viewer = new Cesium.Viewer("cesiumContainer", {
+      const viewer = new Cesium.Viewer("cesiumContainer", {
         infoBox: false,
         // 隐藏绿框标识
         selectionIndicator: false,
       });
 
-      this.datalayer = this.viewer.imageryLayers.addImageryProvider(
+      this.datalayer = viewer.imageryLayers.addImageryProvider(
         new Cesium.SuperMapImageryProvider({
           url: ServiceUrl.DataImage,
         })
       );
-      const mapMvt = this.viewer.scene.addVectorTilesMap({
+      const mapMvt = viewer.scene.addVectorTilesMap({
         url: ServiceUrl.YJMVT,
         name: "mapMvt",
-        viewer: this.viewer,
+        viewer,
       });
-      const baimoPromise = this.viewer.scene.addS3MTilesLayerByScp(
+      const baimoPromise = viewer.scene.addS3MTilesLayerByScp(
         ServiceUrl.WZBaimo,
         {
           name: "baimo",
         }
       );
       Cesium.when(baimoPromise, async (layers) => {
-        const LAYER = this.viewer.scene.layers.find("baimo");
+        const LAYER = viewer.scene.layers.find("baimo");
         LAYER.style3D.fillForeColor = new Cesium.Color.fromCssColorString(
           "rgba(137,137,137, 1)"
         );
-        LAYER.style3D.lineColor = new Cesium.Color.fromCssColorString(
-          "rgba(100, 100, 100, 1)"
-        );
-        LAYER.style3D.lineWidth = 0.5;
-        //  草图模式
-        LAYER.style3D.fillStyle = Cesium.FillStyle.Fill_And_WireFrame;
-        LAYER.wireFrameMode = Cesium.WireFrameType.Sketch;
+        // LAYER.style3D.lineColor = new Cesium.Color.fromCssColorString(
+        //   "rgba(100, 100, 100, 1)"
+        // );
+        // LAYER.style3D.lineWidth = 0.5;
+        // //  草图模式
+        // LAYER.style3D.fillStyle = Cesium.FillStyle.Fill_And_WireFrame;
+        // LAYER.wireFrameMode = Cesium.WireFrameType.Sketch;
         LAYER.visibleDistanceMax = 5500;
       });
-      this.addPointLight();
-      this.cameraMove();
       // 移除缓冲圈
       $(".cesium-widget-credits").hide();
       fn && fn();
-      this.viewer.scene.globe.depthTestAgainstTerrain = false;
-      window.earth = this.viewer;
+      viewer.scene.globe.depthTestAgainstTerrain = false;
+      window.earth = viewer;
+      this.cameraMove();
+      this.addPointLight();
     },
     addPointLight() {
       const position = new Cesium.Cartesian3(
@@ -178,10 +177,10 @@ export default {
         intensity: 0.5,
       };
       const directionalLight_v = new Cesium.DirectionalLight(position, options);
-      this.viewer.scene.addLightSource(directionalLight_v);
+      window.earth.scene.addLightSource(directionalLight_v);
     },
     cameraMove() {
-      this.viewer.scene.camera.setView({
+      window.earth.scene.camera.setView({
         destination: {
           x: -2875301.1196146533,
           y: 4843728.17360857,

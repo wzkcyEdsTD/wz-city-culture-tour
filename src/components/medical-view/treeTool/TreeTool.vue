@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-07 10:57:45
- * @LastEditTime: 2020-08-24 13:48:42
+ * @LastEditTime: 2020-08-26 15:04:42
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\treeTool\TreeTool.vue
@@ -10,7 +10,8 @@
   <div class="coverage">
     <div class="header">
       <p class="title">资源图层</p>
-      <img class="menu"
+      <img
+        class="menu"
         :src="visible||serachBoxVisible?menuSelImg:menuImg"
         width="59px"
         @click="toogleVisible"
@@ -71,7 +72,12 @@
         </div>
       </div>
       <ul class="result-list">
-        <li class="result-item" :class="{checked: ~hospitalChecked.indexOf(item.attributes.SHORTNAME)}" v-for="item in hospitalList" :key="item.attributes.SMID">
+        <li
+          class="result-item"
+          :class="{checked: ~hospitalChecked.indexOf(item.attributes.SHORTNAME)}"
+          v-for="item in hospitalList"
+          :key="item.attributes.SMID"
+        >
           <div class="left">
             <p class="name">{{item.attributes.SHORTNAME}}</p>
             <div class="address">
@@ -97,7 +103,7 @@
       width="59px"
       height="60px"
       @click="toogleVisible"
-    /> -->
+    />-->
   </div>
 </template>
 
@@ -129,7 +135,6 @@ export default {
       //  tile layers
       tileLayers: {},
       //  cesium Object
-      viewer: undefined,
       handler: undefined,
       pickedList: [],
       pickedAttr: null,
@@ -149,9 +154,6 @@ export default {
       }
     },
   },
-  created() {
-    this.viewer = window.earth;
-  },
   async mounted() {
     this.eventRegsiter_ex();
 
@@ -169,22 +171,21 @@ export default {
   },
   beforeDestroy() {
     this.handler && this.handler.destroy();
-    this.viewer.entities.removeAll();
-    this.viewer = undefined;
+    window.earth.entities.removeAll();
   },
   methods: {
     ...mapActions("map", ["SetFeverList"]),
     // 获取当前视野范围
-    getCurrentExtent(ctx) {
+    getCurrentExtent() {
       var extent = {};
-      var scene = ctx.viewer.scene;
+      var scene = window.earth.scene;
       var ellipsoid = scene.globe.ellipsoid;
       var canvas = scene.canvas;
-      var car3_lt = ctx.viewer.camera.pickEllipsoid(
+      var car3_lt = window.earth.camera.pickEllipsoid(
         new Cesium.Cartesian2(0, 0),
         ellipsoid
       );
-      var car3_rb = ctx.viewer.camera.pickEllipsoid(
+      var car3_rb = window.earth.camera.pickEllipsoid(
         new Cesium.Cartesian2(canvas.width, canvas.height),
         ellipsoid
       );
@@ -220,15 +221,11 @@ export default {
 
     eventRegsiter_ex() {
       const that = this;
-      this.viewer.scene.postRender.addEventListener(() => {
-        if (!that.pickedList || !that.viewer) return;
-
-        const extent = this.getCurrentExtent(that);
-
+      window.earth.scene.postRender.addEventListener(() => {
+        if (!that.pickedList || !window.earth) return;
+        const extent = this.getCurrentExtent();
         const pointList = [];
-
         const newList = [];
-
         that.pickedList.map((item) => {
           if (item.geometry) {
             if (
@@ -241,7 +238,7 @@ export default {
                 ? item._position._value
                 : item.primitive._position;
               const pointToWindow = Cesium.SceneTransforms.wgs84ToWindowCoordinates(
-                that.viewer.scene,
+                window.earth.scene,
                 position
               );
 
@@ -252,7 +249,7 @@ export default {
         });
 
         that.$bus.$emit("cesium-3d-mvt", {
-          scene: that.viewer.scene,
+          scene: window.earth.scene,
           pickedList: newList,
           pointList,
         });
@@ -268,7 +265,7 @@ export default {
      */
     getPOIPickedFeature(SMID, node) {
       const that = this;
-      let currentDataServer = DataServer[node.label]
+      let currentDataServer = DataServer[node.label];
       var getFeatureParam, getFeatureBySQLService, getFeatureBySQLParams;
       getFeatureParam = new SuperMap.REST.FilterParameter({
         attributeFilter: `SMID ${SMID == null ? `>= 1` : `= ${SMID}`}`,
@@ -276,9 +273,9 @@ export default {
       getFeatureBySQLParams = new SuperMap.REST.GetFeaturesBySQLParameters({
         queryParameter: getFeatureParam,
         toIndex: -1,
-        datasetNames: [currentDataServer.datasetname]
+        datasetNames: [currentDataServer.datasetname],
       });
-      var url = currentDataServer.url
+      var url = currentDataServer.url;
       getFeatureBySQLService = new SuperMap.REST.GetFeaturesBySQLService(url, {
         eventListeners: {
           processCompleted: (res) => {
@@ -306,14 +303,14 @@ export default {
       const poiLabelEntityCollection = new Cesium.CustomDataSource(
         `${node.id}_label`
       );
-      this.viewer.dataSources
+      window.earth.dataSources
         .add(poiLabelEntityCollection)
         .then((datasource) => {
           this.entityMap[`${node.id}_label`] = datasource;
         });
 
       const poiEntityCollection = new Cesium.CustomDataSource(node.id);
-      this.viewer.dataSources.add(poiEntityCollection).then((datasource) => {
+      window.earth.dataSources.add(poiEntityCollection).then((datasource) => {
         this.entityMap[node.id] = datasource;
       });
 
@@ -414,11 +411,11 @@ export default {
             })
           );
         }
-        node.camera && this.viewer.scene.camera.setView(node.camera);
+        node.camera && window.earth.scene.camera.setView(node.camera);
       } else {
         const LAYER =
           node.type == "model"
-            ? this.viewer.scene.layers.find(node.id)
+            ? window.earth.scene.layers.find(node.id)
             : this.tileLayers[node.id];
         LAYER && (LAYER.show = false);
 
@@ -426,7 +423,7 @@ export default {
         if (
           node.icon &&
           this.entityMap[node.id] &&
-          this.viewer.dataSources.length
+          window.earth.dataSources.length
         ) {
           this.entityMap[node.id].show = false;
 
@@ -487,7 +484,7 @@ export default {
         this.hospitalChecked.push(item.attributes.SHORTNAME);
 
         // 移动到对应实例位置
-        this.viewer.zoomTo(item);
+        window.earth.zoomTo(item);
       }
       // console.log('hospitalChecked', this.hospitalChecked)
     },
