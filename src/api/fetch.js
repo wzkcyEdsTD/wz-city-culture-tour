@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-08-20 09:03:09
- * @LastEditTime: 2020-08-22 20:47:41
+ * @LastEditTime: 2020-08-25 14:08:19
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\api\fetch.js
@@ -12,7 +12,7 @@ const Authorization =
   "Basic MUE3OThBODMyODJDNEQyODk1NkI5QzcyQkQxNzMxNUI6QzhCODE3RUUzMTAzNDRCN0I2OTkyQUNEMjlFOTRDQTQ=";
 axios.defaults.baseURL = BASEURL;
 // 获取 token
-export const getAccessToken = async () => {
+export const getAccessToken = () => {
   return axios
     .request({
       url: "/oauth2/token?grant_type=client_credentials",
@@ -27,7 +27,7 @@ export const getAccessToken = async () => {
 };
 
 // 发热病人数 100004005
-export const getFarebr = async token => {
+export const getFarebr = token => {
   return axios
     .request({
       url: "/data/100004005",
@@ -46,7 +46,7 @@ export const getFarebr = async token => {
  * @param {*} param0
  * @param {*} token
  */
-export const getRtmpVideoList = async (geometry, dist, token) => {
+export const getRtmpVideoList = (geometry, dist, token) => {
   return axios
     .request({
       url: "/data/100006019",
@@ -65,7 +65,7 @@ export const getRtmpVideoList = async (geometry, dist, token) => {
  * 获取视频真实地址 100006020
  * @param {*} mp_id
  */
-export const getRtmpVideoURL = async (mp_id, token) => {
+export const getRtmpVideoURL = (mp_id, token) => {
   return axios
     .request({
       url: "/data/100006020",
