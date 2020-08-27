@@ -41,7 +41,7 @@
             </div>
           </div>
         </section>
-        <section>
+        <section class="desc-wrapper">
           <span class="section-title">医院简介</span>
           <div>
             <span class="address">地址：{{ address || `暂无地址` }}</span>
@@ -50,9 +50,7 @@
           <div class="imgs">
             <ul>
               <li v-for="(item, index) in imgHash[name]" :key="index">
-                <a>
-                  <img :src="`/static/images/医院/${item}`" />
-                </a>
+                <img :src="`/static/images/医院/${item}`" />
               </li>
             </ul>
           </div>
