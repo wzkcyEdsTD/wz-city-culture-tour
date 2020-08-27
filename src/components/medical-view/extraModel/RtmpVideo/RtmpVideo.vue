@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-21 18:30:30
- * @LastEditTime: 2020-08-24 16:26:51
+ * @LastEditTime: 2020-08-27 11:09:21
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\extraModel\RtmpVideo\RtmpVideo.vue
@@ -37,7 +37,7 @@
           </ul>
         </div>
         <div class="rtmpVideoFrame">
-          <flv v-if="RtmpVideoURL" :url="RtmpVideoURL" />
+          <flv v-if="RtmpVideoURL" :url="RtmpVideoURL" :mode="RtmpVideoMode" />
           <p v-if="!RtmpVideoURL">无视频内容</p>
         </div>
       </div>
@@ -56,6 +56,7 @@ export default {
     return {
       doRtmpListFrame: false,
       RtmpVideoURL: undefined, //  视频地址
+      RtmpVideoMode: "flash", // 视频模式
       forceRtmpVideo: undefined, //  正在看的视频名
       RtmpForcePoint: {}, //  保存点击的entity属性
     };
@@ -98,8 +99,10 @@ export default {
       const accessToken = await getAccessToken();
       const url = await getRtmpVideoURL(mp_id, accessToken.data.access_token);
       this.RtmpVideoURL = undefined;
+      this.RtmpVideoMode = "flash";
       this.$nextTick(() => {
         this.RtmpVideoURL = url.flv;
+        this.RtmpVideoMode = url.play_mode;
       });
     },
     /**
@@ -117,6 +120,7 @@ export default {
       this.doRtmpListFrame = false;
       this.forceRtmpVideo = undefined;
       this.RtmpVideoURL = undefined;
+      this.RtmpVideoMode = "flash";
       this.RtmpForcePoint = {};
     },
   },

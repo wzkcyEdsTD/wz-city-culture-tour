@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-21 18:30:30
- * @LastEditTime: 2020-08-26 15:06:02
+ * @LastEditTime: 2020-08-27 10:55:14
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\extraModel\Population\Population.vue
@@ -117,9 +117,10 @@ export default {
       const circleLabelEntity = new Cesium.Entity({
         position: Cesium.Cartesian3.fromDegrees(lng, lat, 200),
         label: {
-          text: `周边500米实施人口\n时间:${result.task_time}\n人数:${result.data}人`,
+          text: `周边500米实时人口\n时间:${result.task_time}\n人数:${result.data}人`,
           color: Cesium.Color.fromCssColorString("#fff"),
           font: "normal 16px MicroSoft YaHei",
+          style: Cesium.LabelStyle.FILL_AND_OUTLINE,
           distanceDisplayCondition: new Cesium.DistanceDisplayCondition(
             0,
             10000

@@ -4,8 +4,9 @@
   </div>
 </template>
 <script>
+const Aliplayer = window.Aliplayer;
 export default {
-  props: ["url"],
+  props: ["url", "mode"],
   mounted() {
     const aliplayer = new Aliplayer(
       {
@@ -14,13 +15,14 @@ export default {
         width: "100%",
         height: "100%",
         autoplay: true,
-        isLive: false,
+        isLive: true,
         rePlay: true,
         playsinline: true,
         preload: true,
         language: "zh-cn",
         controlBarVisibility: "hover",
-        useH5Prism: true,
+        useH5Prism: this.mode === "h5",
+        useFlashPrism: this.mode === "flash",
       },
       function (player) {
         console.log("播放器创建了。");
