@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-07-01 15:22:04
- * @LastEditTime: 2020-08-13 17:06:13
+ * @LastEditTime: 2020-08-29 14:06:16
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\main.js
@@ -44,3 +44,5 @@ new Vue({
   components: { App },
   template: "<App/>"
 });
+
+window.addEventListener("message", e => console.log(e), false);
