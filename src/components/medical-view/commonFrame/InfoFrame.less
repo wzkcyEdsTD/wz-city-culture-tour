@@ -1,11 +1,11 @@
 .bimframe {
   position: fixed;
-  top: 200px;
+  top: 220px;
   bottom: 40px;
   overflow: hidden;
   right: 10px;
   width: 320px;
-  // height: 700px;
+  height: 700px;
   color: white;
   box-sizing: border-box;
   padding: 10px;
@@ -64,6 +64,12 @@
 
     section {
       margin-bottom: 10px;
+    }
+
+    .desc-wrapper {
+      display: flex;
+      flex-direction: column;
+      height: 300px;
     }
 
     .section-title {
@@ -171,32 +177,31 @@
       overflow-y: auto;
     }
 
-    .address {
-      margin: 5px 0;
-    }
-
     .imgs {
+      flex: 1;
       overflow-x: auto;
       overflow-y: hidden;
       white-space: nowrap;
       padding: 10px 0;
-
-      li {
-        display: inline-block;
-        list-style: none;
-        margin: 0 10px;
-
-        &:first-child {
-          margin-left: 0;
-        }
-
-        &:last-child {
-          margin-right: 0;
-        }
-
-        a {
+      ul {
+        height: 100%;
+        li {
+          display: inline-block;
+          list-style: none;
+          margin: 0 10px;
+          height: 100%;
+  
+          &:first-child {
+            margin-left: 0;
+          }
+  
+          &:last-child {
+            margin-right: 0;
+          }
+  
           img {
-            height: 0.9rem;
+            // height: 0.9rem;
+            height: 100%;
           }
         }
       }
