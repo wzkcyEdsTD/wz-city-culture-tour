@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-21 18:30:30
- * @LastEditTime: 2020-08-27 10:55:14
+ * @LastEditTime: 2020-08-31 10:04:01
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\extraModel\Population\Population.vue
@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { getAccessToken, getPopulation } from "api/fetch";
+import { getPopulation } from "api/fetch";
 const Cesium = window.Cesium;
 
 export default {
@@ -63,6 +63,9 @@ export default {
         });
       window.earth.scene.globe.depthTestAgainstTerrain = false;
     },
+    /**
+     * 开启扫描
+     */
     async drawPopulationScan(
       doScan,
       id,
@@ -71,8 +74,8 @@ export default {
       period = 2.0
     ) {
       if (!doScan) return (window.earth.scene.scanEffect.show = false);
-      window.earth.scene.scanEffect.show = true; //开启扫描效果
-      window.earth.scene.scanEffect.mode = Cesium.ScanEffectMode.CIRCLE; //利用圆环扫描效果
+      window.earth.scene.scanEffect.show = true;
+      window.earth.scene.scanEffect.mode = Cesium.ScanEffectMode.CIRCLE;
       window.earth.scene.scanEffect.centerPostion = new Cesium.Cartesian3.fromDegrees(
         lng,
         lat,
@@ -81,7 +84,6 @@ export default {
       window.earth.scene.scanEffect.speed = radius / period;
       window.earth.scene.scanEffect.period = 2.0;
       window.earth.scene.scanEffect.color = Cesium.Color.WHITE;
-
       window.earth.scene.colorCorrection.saturation = 3.9;
       window.earth.scene.colorCorrection.brightness = 0.8;
       window.earth.scene.colorCorrection.contrast = 1.0;
@@ -110,11 +112,7 @@ export default {
       });
       this.medicalCircleCollection.entities.add(circleEntity);
       this.populationCircleList[circleEntity.name] = circleEntity;
-      const accessToken = await getAccessToken();
-      const result = await getPopulation(
-        { lng, lat },
-        accessToken.data.access_token
-      );
+      const result = await getPopulation({ lng, lat });
       const circleLabelEntity = new Cesium.Entity({
         position: Cesium.Cartesian3.fromDegrees(lng, lat, 200),
         label: {
@@ -159,5 +157,4 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
-</style>
+<style lang="less" scoped></style>

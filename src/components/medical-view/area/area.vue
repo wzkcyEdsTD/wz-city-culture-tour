@@ -1,8 +1,25 @@
+<!--
+ * @Author: eds
+ * @Date: 2020-08-26 15:35:51
+ * @LastEditTime: 2020-08-31 15:12:37
+ * @LastEditors: eds
+ * @Description:
+ * @FilePath: \wz-city-culture-tour\src\components\medical-view\area\area.vue
+-->
 <template>
   <div class="area-wrapper">
-    <div class="area-item">温州市<i class="ratio-down"></i></div>
-    <div class="area-item">鹿城区<i class="ratio-down"></i></div>
-    <div class="area-item">滨江街道<i class="ratio-down"></i></div>
+    <div class="area-item">
+      温州市
+      <i class="ratio-down"></i>
+    </div>
+    <div class="area-item">
+      鹿城区
+      <i class="ratio-down"></i>
+    </div>
+    <div class="area-item">
+      滨江街道
+      <i class="ratio-down"></i>
+    </div>
   </div>
 </template>
 
@@ -28,7 +45,7 @@ export default {
   left: 55px;
   z-index: 200000;
   display: flex;
-    
+
   .area-item {
     display: block;
     width: 84px;
@@ -57,6 +74,7 @@ export default {
   }
 
   .ratio-down {
+    cursor: pointer;
     position: relative;
     top: -2px;
     left: 3px;

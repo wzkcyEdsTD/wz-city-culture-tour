@@ -5,33 +5,57 @@
       <li class="item">
         <i class="icon hospital"></i>
         <div class="right">
-          <div class="title">甲级医院数 <span class="small">(座)</span></div>
-          <div class="desc">温州全市 /<span>2020年</span></div>
-          <div class="number">88,888</div>
+          <div class="title">
+            实时门诊人次
+            <span class="small">(人)</span>
+          </div>
+          <div class="desc">
+            温州全市 /
+            <span>当日</span>
+          </div>
+          <div class="number">{{WzAllData.outpatientCount}}</div>
         </div>
       </li>
       <li class="item">
         <i class="icon ambulance"></i>
         <div class="right">
-          <div class="title">救护车数 <span class="small">(辆)</span></div>
-          <div class="desc">温州全市 /<span>2020年</span></div>
-          <div class="number">88,888</div>
+          <div class="title">
+            定点医院数
+            <span class="small">(家)</span>
+          </div>
+          <div class="desc">
+            温州全市 /
+            <span>2020年7月</span>
+          </div>
+          <div class="number">{{WzAllData.designatedHospitals}}</div>
         </div>
       </li>
       <li class="item">
         <i class="icon doctor"></i>
         <div class="right">
-          <div class="title">主任医生数 <span class="small">(人)</span></div>
-          <div class="desc">温州全市 /<span>2020年</span></div>
-          <div class="number">88,888</div>
+          <div class="title">
+            医保参保单位
+            <span class="small">(家)</span>
+          </div>
+          <div class="desc">
+            温州全市 /
+            <span>2020年</span>
+          </div>
+          <div class="number">{{WzAllData.medicalInsuranceInstitution}}</div>
         </div>
       </li>
       <li class="item">
         <i class="icon nurse"></i>
         <div class="right">
-          <div class="title">主任护师数 <span class="small">(人)</span></div>
-          <div class="desc">温州全市 /<span>2020年</span></div>
-          <div class="number">88,888</div>
+          <div class="title">
+            医保支付额
+            <span class="small">(万元)</span>
+          </div>
+          <div class="desc">
+            温州全市 /
+            <span>2020年8月</span>
+          </div>
+          <div class="number">{{WzAllData.medicalInsurancePayment}}</div>
         </div>
       </li>
     </ul>
@@ -39,17 +63,25 @@
 </template>
 
 <script>
-// import { getDate } from 'common/js/util'
+import { mapGetters, mapActions } from "vuex";
 
 export default {
-  name: "MHeader",
-  data() {
-    return {
-      date: "",
-    };
+  name: "totalTarget",
+  computed: {
+    ...mapGetters("map", ["WzAllData"]),
   },
-  mounted() {},
-  methods: {},
+  async mounted() {
+    await this.fetchWzAllData();
+  },
+  methods: {
+    ...mapActions("map", ["SetWzAllData"]),
+    /**
+     * 概览数据
+     */
+    async fetchWzAllData() {
+      await this.SetWzAllData();
+    },
+  },
 };
 </script>
 
@@ -59,7 +91,7 @@ export default {
   top: 1.06rem;
   left: 50px;
   z-index: 200000;
-    
+
   .header {
     display: block;
     height: 35px;
@@ -95,16 +127,16 @@ export default {
         width: 0.52rem;
         height: 0.52rem;
         &.hospital {
-          .bg-image('../../../common/images/hospital');
+          .bg-image("../../../common/images/hospital");
         }
         &.ambulance {
-          .bg-image('../../../common/images/ambulance');
+          .bg-image("../../../common/images/ambulance");
         }
         &.doctor {
-          .bg-image('../../../common/images/doctor');
+          .bg-image("../../../common/images/doctor");
         }
         &.nurse {
-          .bg-image('../../../common/images/nurse');
+          .bg-image("../../../common/images/nurse");
         }
       }
       .right {
@@ -124,7 +156,7 @@ export default {
         }
         .number {
           margin-top: 6px;
-          color: #00ffeb ;
+          color: #00ffeb;
           font-size: 24px;
           font-family: DIN;
           font-weight: bold;

@@ -1,41 +1,24 @@
 /*
  * @Author: eds
  * @Date: 2020-07-01 15:22:07
- * @LastEditTime: 2020-08-20 19:21:51
+ * @LastEditTime: 2020-08-31 10:15:25
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\store\modules\map\state.js
  */
 const state = {
-  collapse1: false, // 折叠左侧
-  collapse2: true, // 折叠右侧
   forceMapTypeBase: true,
-  splitScreen: false, // 分屏是否开启
-  legendShow: true, // 显示图例
-  tree: [], // 左侧树数据
-  // currentMapType: 'juhe', // 'fourColorMap', // 地图类型  四色图
   currentMapType: "cesiumMap", // 地图类型  四色图 sandian cesiumMap
-  treeCheckedList: [], // 所有选中的树和地图点的数据
-  typeIndex: 0, // 底部初始激活下标
-  currentOnePoint: {}, // 地图当前图层的数据
   mapLoaded: false, // 地图底图是否加载完毕
-  nameList: [],
-  specalTreeName: "", // 根据名称展示指定tree节点
-  //  3d
-  primitivelist: [],
-  //  bim
-  forceBimIDS: [],
-  forceBimData: [],
-  forceRoomData: [],
-  //  info
+  //  详情
   isInfoFrame: false,
-  //  rtmpVideo
+  //  视频列表
   rtmpList: [],
-
-  // 发热数据
+  //  发热数据
   feverList: [],
-
-  // 医院
-  hospitalList: []
+  //  医院
+  hospitalList: [],
+  //  总体概览
+  WzAllData: {}
 };
 export default state;

@@ -1,3 +1,11 @@
+<!--
+ * @Author: eds
+ * @Date: 2020-08-25 14:06:37
+ * @LastEditTime: 2020-08-31 15:11:46
+ * @LastEditors: eds
+ * @Description:
+ * @FilePath: \wz-city-culture-tour\src\components\m-bottom\m-bottom.vue
+-->
 <template>
   <div class="bottom-wrapper">
     <div class="bottom-select-container">
@@ -56,6 +64,7 @@ export default {
       display: flex;
       justify-content: center;
       .item {
+        cursor: pointer;
         .bg-image("./images/unselected");
         margin: 0 0.06rem;
         padding: 5px 20px;

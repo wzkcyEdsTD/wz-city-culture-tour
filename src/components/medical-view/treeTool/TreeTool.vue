@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-07 10:57:45
- * @LastEditTime: 2020-08-26 15:39:33
+ * @LastEditTime: 2020-08-31 11:53:16
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\treeTool\TreeTool.vue
@@ -156,17 +156,7 @@ export default {
   },
   async mounted() {
     this.eventRegsiter();
-
-    await this.SetFeverList();
-    const feverObj = {};
-
-    this.feverList.map((item) => {
-      if (!feverObj[item.name]) {
-        feverObj[item.name] = parseInt(item.value);
-      }
-    });
-
-    this.feverObj = feverObj;
+    await this.fetchFeverList();
   },
   beforeDestroy() {
     this.handler && this.handler.destroy();
@@ -217,7 +207,7 @@ export default {
       }
       return extent;
     },
-
+    //  事件注册
     eventRegsiter_ex() {
       const that = this;
       window.earth.scene.postRender.addEventListener(() => {
@@ -270,22 +260,34 @@ export default {
       );
       this.eventRegsiter_ex();
     },
-
+    /**
+     * 发热人数获取
+     */
+    async fetchFeverList() {
+      await this.SetFeverList();
+      const feverObj = {};
+      this.feverList.map((item) => {
+        if (!feverObj[item.name]) {
+          feverObj[item.name] = parseInt(item.value);
+        }
+      });
+      this.feverObj = feverObj;
+    },
     /**
      * 2020/8/16
      * 旅游专题数据
      */
     getPOIPickedFeature(SMID, node) {
       const that = this;
-      
-      let currentDataServer
-      CESIUM_TREE_OPTION.forEach(item => {
-        item.children.forEach(citem => {
-          if(node.label === citem.label) {
-            currentDataServer = citem
+
+      let currentDataServer;
+      CESIUM_TREE_OPTION.forEach((item) => {
+        item.children.forEach((citem) => {
+          if (node.label === citem.label) {
+            currentDataServer = citem;
           }
-        })
-      })
+        });
+      });
       var getFeatureParam, getFeatureBySQLService, getFeatureBySQLParams;
       getFeatureParam = new SuperMap.REST.FilterParameter({
         attributeFilter: `SMID ${SMID == null ? `>= 1` : `= ${SMID}`}`,
@@ -293,9 +295,9 @@ export default {
       getFeatureBySQLParams = new SuperMap.REST.GetFeaturesBySQLParameters({
         queryParameter: getFeatureParam,
         toIndex: -1,
-        datasetNames: [currentDataServer.newdataset]
+        datasetNames: [currentDataServer.newdataset],
       });
-      var url = currentDataServer.newUrl
+      var url = currentDataServer.url;
       getFeatureBySQLService = new SuperMap.REST.GetFeaturesBySQLService(url, {
         eventListeners: {
           processCompleted: (res) => {
@@ -368,8 +370,8 @@ export default {
               ),
               billboard: {
                 image: `/static/images/${node.icon}.png`,
-                width: node.icon_size == 0 ? 48 : 32,
-                height: node.icon_size == 0 ? 52 : 35,
+                width: node.icon_size == "large" ? 48 : 32,
+                height: node.icon_size == "large" ? 52 : 35,
               },
               label: {
                 text: item.attributes.SHORTNAME || item.attributes.NAME,
@@ -400,7 +402,7 @@ export default {
 
     checkChange(node, checked, c) {
       if (checked) {
-        if (node.type == "mvt" && node.map && node.icon) {
+        if (node.type == "mvt" && node.id && node.icon) {
           if (node.id && this.entityMap[node.id]) {
             this.entityMap[node.id].show = true;
 

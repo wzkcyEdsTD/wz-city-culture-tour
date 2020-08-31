@@ -1,145 +1,151 @@
 /*
  * @Author: eds
  * @Date: 2020-07-29 16:10:06
- * @LastEditTime: 2020-08-24 09:04:17
+ * @LastEditTime: 2020-08-31 14:36:14
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\config\server\medicalTreeOption.js
  */
 const SERVER_HOST = "https://ditu.wzcitybrain.com/iserver/services";
 const SERVER_SUFFIX = "/restjsr/v1/vectortile/maps";
-const SW_DATA = "data-SW_DATA/rest/data";
-const SW_DATA_HOST = "172.20.83.196_swdata:"
+const SW_DATA = "/data-SW_DATA/rest/data";
+const SW_DATA_NAME = "172.20.83.196_swdata:";
+const SERVER_DEFAULT_DATA = SERVER_HOST + SW_DATA;
 // 医疗专题
 const MEDICAL_TOPIC = [
   {
     label: "医疗场所",
-    url: `${SERVER_HOST}/map-mongodbMvt-WenZhouNongJiaYue${SERVER_SUFFIX}`,
-    map: "/医疗场所",
+    url: SERVER_DEFAULT_DATA,
     icon: "救护场所",
-    icon_size: 0,
+    icon_size: "large",
     dataset: "JZJZNL_YLJH_JHCS"
+  }
+];
+
+const TOUR_TOPIC = [
+  {
+    label: "精品农家乐",
+    url: SERVER_DEFAULT_DATA,
+    icon: "精品农家乐",
+    dataset: "温州农家乐"
   },
-  /* {
+  {
+    label: "旅游景点",
+    url: SERVER_DEFAULT_DATA,
+    icon: "旅游景点",
+    dataset: "永嘉旅游景点地图"
+  },
+  {
+    label: "温州民宿",
+    url: SERVER_DEFAULT_DATA,
+    icon: "温州民宿",
+    dataset: "温州民宿"
+  },
+  {
     label: "百姓健身房",
-    url: `${SERVER_HOST}/map-mongodbMvt-BaiXingJianShenFang${SERVER_SUFFIX}`,
-    map: "/百姓健身房",
+    url: SERVER_DEFAULT_DATA,
     icon: "百姓健身房",
-    icon_size: 1,
     dataset: "百姓健身房"
   },
   {
-    label: "城市书房",
-    url: `${SERVER_HOST}/map-mongodbMvt-WenZhouShiYueDu${SERVER_SUFFIX}`,
-    map: "/温州市阅读",
-    icon: "市区阅读",
-    icon_size: 1,
-    dataset: "温州市阅读"
-  } */
-];
-
-
-const TOUR_TOPIC = [{
-  label: "精品农家乐",
-  url: `${SERVER_HOST}/map-mongodbMvt-WenZhouNongJiaYue${SERVER_SUFFIX}`,
-  newUrl: `${SERVER_HOST}/${SW_DATA}`,
-  map: "/温州农家乐",
-  icon: "精品农家乐",
-  icon_size: 1,
-  dataset: "温州农家乐"
-},
-{
-  label: "旅游景点",
-  url: `${SERVER_HOST}/map-mongodbMvt-YongJiaLvYouJingDianDiTu${SERVER_SUFFIX}`,
-  map: "/永嘉旅游景点地图",
-  icon: "旅游景点",
-  icon_size: 1,
-  dataset: "永嘉旅游景点地图"
-},
-{
-  label: "温州民宿",
-  url: `${SERVER_HOST}/map-mongodbMvt-WenZhouMinSu${SERVER_SUFFIX}`,
-  map: "/温州民宿",
-  icon: "温州民宿",
-  icon_size: 1,
-  dataset: "温州民宿"
-},
-{
-  label: "百姓健身房",
-  url: `${SERVER_HOST}/map-mongodbMvt-BaiXingJianShenFang${SERVER_SUFFIX}`,
-  map: "/百姓健身房",
-  icon: "百姓健身房",
-  icon_size: 1,
-  dataset: "百姓健身房"
-},
-{
-  label: "森林康养基地",
-  url: `${SERVER_HOST}/map-mongodbMvt-WenZhouShiSenLinKangYangJi${SERVER_SUFFIX}`,
-  map: "/温州市森林康养基",
-  icon: "森林康养基地",
-  icon_size: 1,
-  dataset: "温州市森林康养基地"
-},
-{
-  label: "夜光经济",
-  url: `${SERVER_HOST}/map-mongodbMvt-YeJing${SERVER_SUFFIX}`,
-  map: "/夜景",
-  icon: "夜光经济",
-  icon_size: 1,
-  dataset: "夜景"
-},
-{
-  label: "精品旅游路线",
-  // url: `${SERVER_HOST}/map-mongodbMvt-YeJing${SERVER_SUFFIX}`,
-  map: "/精品旅游路线",
-  icon: "精品旅游路线",
-  // dataset: "精品旅游路线",
-  icon_size: 1,
-  componentEvent: "cesium-3d-event",
-  componentKey: "line1",
-}
+    label: "森林康养基地",
+    url: SERVER_DEFAULT_DATA,
+    icon: "森林康养基地",
+    dataset: "温州市森林康养基地"
+  },
+  {
+    label: "夜光经济",
+    url: SERVER_DEFAULT_DATA,
+    icon: "夜光经济",
+    dataset: "夜景"
+  },
+  {
+    label: "公厕",
+    url: SERVER_DEFAULT_DATA,
+    icon: "公厕",
+    icon_size: "large",
+    reduce: true,
+    dataset: "PublicToilet"
+  },
+  {
+    label: "精品旅游路线",
+    url: SERVER_DEFAULT_DATA,
+    icon: "精品旅游路线",
+    componentEvent: "cesium-3d-event",
+    componentKey: "line1"
+  }
 ];
 // 文化专题
-const CULTURE_TOPIC = [{
-  label: "爱国义务教育基地",
-  url: `${SERVER_HOST}/map-mongodbMvt-AiGuoZhuYiJiaoYuJiDi${SERVER_SUFFIX}`,
-  map: "/爱国主义教育基地",
-  icon: "爱国义务教育基地",
-  icon_size: 1,
-  dataset: "爱国主义教育基地"
-},
-{
-  label: "市区阅读",
-  url: `${SERVER_HOST}/map-mongodbMvt-WenZhouShiYueDu${SERVER_SUFFIX}`,
-  map: "/温州市阅读",
-  icon: "市区阅读",
-  icon_size: 1,
-  dataset: "温州市阅读"
-},
-{
-  label: "文化礼堂",
-  url: `${SERVER_HOST}/map-mongodbMvt-WenHuaLiTang${SERVER_SUFFIX}`,
-  map: "/文化礼堂",
-  icon: "文化礼堂",
-  icon_size: 1,
-  dataset: "文化礼堂"
-},
-{
-  label: "文化生活",
-  url: `${SERVER_HOST}/map-mongodbMvt-WenZhouWenHuaShengHuo${SERVER_SUFFIX}`,
-  map: "/温州文化生活",
-  icon: "文化生活",
-  icon_size: 1,
-  dataset: "温州文化生活"
-}
+const CULTURE_TOPIC = [
+  {
+    label: "爱国义务教育基地",
+    url: SERVER_DEFAULT_DATA,
+    icon: "爱国义务教育基地",
+    dataset: "爱国主义教育基地"
+  },
+  {
+    label: "市区阅读",
+    url: SERVER_DEFAULT_DATA,
+    icon: "市区阅读",
+    dataset: "温州市阅读"
+  },
+  {
+    label: "文化礼堂",
+    url: SERVER_DEFAULT_DATA,
+    icon: "文化礼堂",
+    dataset: "文化礼堂"
+  },
+  {
+    label: "文化生活",
+    url: SERVER_DEFAULT_DATA,
+    icon: "文化生活",
+    dataset: "温州文化生活"
+  }
 ];
-
-
+//  应急专题
+const EMERGENCY_TOPIC = [
+  {
+    label: "非煤矿山",
+    url: SERVER_DEFAULT_DATA,
+    icon: "非煤矿山",
+    icon_size: "large",
+    dataset: "D_HARAZDS_NONCOALMINE"
+  },
+  {
+    label: "烟花爆竹经营单位",
+    url: SERVER_DEFAULT_DATA,
+    icon: "烟花爆竹经营单位",
+    icon_size: "large",
+    dataset: "D_HARAZDS_FIREWORKS"
+  },
+  {
+    label: "应急避灾场所",
+    url: SERVER_DEFAULT_DATA,
+    icon: "应急避灾场所",
+    icon_size: "large",
+    reduce: true,
+    dataset: "JZJZNL_BZAZCS"
+  },
+  {
+    label: "应急队伍",
+    url: SERVER_DEFAULT_DATA,
+    icon: "应急队伍",
+    icon_size: "large",
+    reduce: true,
+    dataset: "JZJZNL_YJDW"
+  },
+  {
+    label: "加油站",
+    url: SERVER_DEFAULT_DATA,
+    icon: "加油站",
+    icon_size: "large",
+    dataset: "D_HAZARDS_GasStation"
+  }
+];
 
 const MODEL_3D_FINE = [
   {
     label: "精细三维",
-    url: `${SERVER_HOST}/3D-mongodb-JMLCDNJD/rest/realspace/datas/JM_LCDNJD/config`,
     componentEvent: "cesium-3d-event",
     componentKey: "3d1",
     action: "SetIsInfoFrame"
@@ -148,8 +154,7 @@ const MODEL_3D_FINE = [
 const KG_INFO = [
   {
     label: "控规信息",
-    url:
-      "https://ditu.wzcitybrain.com/iserver/services/map-KongGui_LuCheng/rest/maps/%E6%8E%A7%E8%A7%84%E4%B8%89%E5%8C%BA20200304%40172.20.83.196_swdata"
+    url: `${SERVER_HOST}/map-KongGui_LuCheng/rest/maps/%E6%8E%A7%E8%A7%84%E4%B8%89%E5%8C%BA20200304%40172.20.83.196_swdata`
   }
 ];
 export const CESIUM_TREE_OPTION = [
@@ -172,8 +177,7 @@ export const CESIUM_TREE_OPTION = [
         ...v,
         id: v.label,
         type: "mvt",
-        newUrl: `${SERVER_HOST}/${SW_DATA}`,
-        newdataset: `${SW_DATA_HOST}${v.dataset}`
+        newdataset: `${SW_DATA_NAME}${v.dataset}`
       };
     })
   },
@@ -185,8 +189,7 @@ export const CESIUM_TREE_OPTION = [
         ...v,
         id: v.label,
         type: "mvt",
-        newUrl: `${SERVER_HOST}/${SW_DATA}`,
-        newdataset: `${SW_DATA_HOST}${v.dataset}`
+        newdataset: `${SW_DATA_NAME}${v.dataset}`
       };
     })
   },
@@ -198,8 +201,19 @@ export const CESIUM_TREE_OPTION = [
         ...v,
         id: v.label,
         type: "mvt",
-        newUrl: `${SERVER_HOST}/${SW_DATA}`,
-        newdataset: `${SW_DATA_HOST}${v.dataset}`
+        newdataset: `${SW_DATA_NAME}${v.dataset}`
+      };
+    })
+  },
+  {
+    id: "应急专题",
+    label: "应急专题",
+    children: EMERGENCY_TOPIC.map(v => {
+      return {
+        ...v,
+        id: v.label,
+        type: "mvt",
+        newdataset: `${SW_DATA_NAME}${v.dataset}`
       };
     })
   },

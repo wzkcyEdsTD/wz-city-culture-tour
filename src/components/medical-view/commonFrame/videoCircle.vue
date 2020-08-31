@@ -4,7 +4,7 @@
 
 <script>
 import { mapActions } from "vuex";
-import { getAccessToken, getRtmpVideoList } from "api/fetch";
+import { getRtmpVideoList } from "api/fetch";
 const Cesium = window.Cesium;
 
 export default {
@@ -132,11 +132,9 @@ export default {
       window.earth.zoomTo(circleEntity);
 
       // 画监控点
-      const accessToken = await getAccessToken();
       const result = await getRtmpVideoList(
         {lng, lat},
         queryRadius,
-        accessToken.data.access_token
       );
       console.log('result!!', result)
       this.SetRtmpList(result);

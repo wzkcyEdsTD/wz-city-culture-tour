@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-20 18:52:41
- * @LastEditTime: 2020-08-26 15:33:03
+ * @LastEditTime: 2020-08-31 10:50:43
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\cesium_map.vue
@@ -14,9 +14,6 @@
       <Area />
       <Turntable />
       <TotalTarget />
-      <!-- <CesiumMapTool ref="cesiummaptool" v-if="showSubTool == '3t1'" />
-      <VisualizationAnalyse ref="visualizationanalyse" v-if="showSubTool == '3t2'" />
-      <SectionAnalyse ref="sectionanalyse" v-if="showSubTool == '3t3'" />-->
       <NanTangModel v-if="showSubFrame == '3d1'" />
       <InfoFrame ref="infoframe" v-show="isInfoFrame" />
       <Popup ref="popup" :mapLoaded="mapLoaded" />
@@ -34,9 +31,6 @@ import Coverage from "./treeTool/TreeTool";
 import Area from "./area/area";
 import Turntable from "./turntable/turntable";
 import TotalTarget from "./totalTarget/totalTarget";
-// import VisualizationAnalyse from "./basicTools/VisualizationAnalyse";
-// import SectionAnalyse from "./basicTools/SectionAnalyse";
-// import CesiumMapTool from "./basicTools/CesiumMapTool";
 import NanTangModel from "./extraModel/NanTangModel";
 import InfoFrame from "./commonFrame/InfoFrame";
 import Popup from "./commonFrame/popup";
@@ -62,9 +56,6 @@ export default {
     Area,
     Turntable,
     TotalTarget,
-    // VisualizationAnalyse,
-    // SectionAnalyse,
-    // CesiumMapTool,
     NanTangModel,
     InfoFrame,
     Popup,
