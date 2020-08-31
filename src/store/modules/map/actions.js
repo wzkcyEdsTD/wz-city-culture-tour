@@ -14,16 +14,15 @@ export const SetWzAllData = async ({ commit }) => {
   const medicalInsuranceInstitution = await getWzAllMedicalInsuranceInstitution();
   const medicalInsurancePayment = await getWzAllMedicalInsurancePayment();
   const designatedHospitalsNum = eval(
-    designatedHospitals.data.data.map(v => parseInt(v.sl)).join("+")
+    designatedHospitals.data.map(v => parseInt(v.sl)).join("+")
   );
   const medicalInsurancePaymentNum = eval(
-    medicalInsurancePayment.data.data.map(v => parseFloat(v.je)).join("+")
+    medicalInsurancePayment.data.map(v => parseFloat(v.je)).join("+")
   );
   commit(types.SET_WZ_ALL_DATA, {
-    outpatientCount: outpatientCount.data.data.currentNum,
+    outpatientCount: outpatientCount.data.currentNum,
     designatedHospitals: designatedHospitalsNum,
-    medicalInsuranceInstitution:
-      medicalInsuranceInstitution.data.data.currentNum,
+    medicalInsuranceInstitution: medicalInsuranceInstitution.data.currentNum,
     medicalInsurancePayment: (medicalInsurancePaymentNum / 10000).toFixed(1)
   });
 };
@@ -36,7 +35,7 @@ export const SetHospitalList = ({ commit }, data) => {
 //  设置发热数据
 export const SetFeverList = async function({ commit }) {
   const result = await getFarebr();
-  const res = result.data.data.ranking_data;
+  const res = result.data.ranking_data;
   commit(types.SET_FEVER_LIST, res);
 };
 
