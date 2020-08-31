@@ -1,7 +1,7 @@
 import * as types from "./mutation-types";
 import {
   getFarebr,
-  getWzAllMedicalInstitution,
+  getWzAllOutpatientCount,
   getWzAllDesignatedHospitals,
   getWzAllMedicalInsuranceInstitution,
   getWzAllMedicalInsurancePayment
@@ -9,7 +9,7 @@ import {
 
 //  设置全市橄榄数据
 export const SetWzAllData = async ({ commit }) => {
-  const medicalInstitution = await getWzAllMedicalInstitution();
+  const outpatientCount = await getWzAllOutpatientCount();
   const designatedHospitals = await getWzAllDesignatedHospitals();
   const medicalInsuranceInstitution = await getWzAllMedicalInsuranceInstitution();
   const medicalInsurancePayment = await getWzAllMedicalInsurancePayment();
@@ -20,7 +20,7 @@ export const SetWzAllData = async ({ commit }) => {
     medicalInsurancePayment.data.data.map(v => parseFloat(v.je)).join("+")
   );
   commit(types.SET_WZ_ALL_DATA, {
-    medicalInstitution: medicalInstitution.data.data.currentNum,
+    outpatientCount: outpatientCount.data.data.currentNum,
     designatedHospitals: designatedHospitalsNum,
     medicalInsuranceInstitution:
       medicalInsuranceInstitution.data.data.currentNum,

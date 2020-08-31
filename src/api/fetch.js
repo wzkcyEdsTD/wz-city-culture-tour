@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-08-20 09:03:09
- * @LastEditTime: 2020-08-31 10:01:20
+ * @LastEditTime: 2020-08-31 14:52:03
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\api\fetch.js
@@ -77,9 +77,16 @@ export const getPopulation = geometry => {
 };
 /**
  * [概览]已接入健康数据共享平台的医疗机构数	100002050
+ * [先不用,数据为0]
  */
 export const getWzAllMedicalInstitution = () => {
   return getAxios("/data/100002050");
+};
+/**
+ * [概览]当日实时门诊人次		100002034
+ */
+export const getWzAllOutpatientCount = () => {
+  return getAxios("/data/100002034", { areaCode: "330300000000" });
 };
 /**
  * [概览]定点医院家数	100004121

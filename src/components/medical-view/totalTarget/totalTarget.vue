@@ -6,14 +6,14 @@
         <i class="icon hospital"></i>
         <div class="right">
           <div class="title">
-            医疗机构数
-            <span class="small">(家)</span>
+            实时门诊人次
+            <span class="small">(人)</span>
           </div>
           <div class="desc">
             温州全市 /
-            <span>2020年</span>
+            <span>当日</span>
           </div>
-          <div class="number">{{WzAllData.medicalInstitution}}</div>
+          <div class="number">{{WzAllData.outpatientCount}}</div>
         </div>
       </li>
       <li class="item">
