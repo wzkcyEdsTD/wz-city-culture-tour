@@ -25,7 +25,7 @@
           </div>
           <div class="desc">
             温州全市 /
-            <span>2020年</span>
+            <span>2020年7月</span>
           </div>
           <div class="number">{{WzAllData.designatedHospitals}}</div>
         </div>
@@ -53,7 +53,7 @@
           </div>
           <div class="desc">
             温州全市 /
-            <span>2020年</span>
+            <span>2020年8月</span>
           </div>
           <div class="number">{{WzAllData.medicalInsurancePayment}}</div>
         </div>

@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-07 10:57:45
- * @LastEditTime: 2020-08-31 10:52:50
+ * @LastEditTime: 2020-08-31 11:53:16
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\treeTool\TreeTool.vue
@@ -283,7 +283,7 @@ export default {
         toIndex: -1,
         datasetNames: [currentDataServer.newdataset],
       });
-      var url = currentDataServer.newUrl;
+      var url = currentDataServer.url;
       getFeatureBySQLService = new SuperMap.REST.GetFeaturesBySQLService(url, {
         eventListeners: {
           processCompleted: (res) => {
@@ -356,8 +356,8 @@ export default {
               ),
               billboard: {
                 image: `/static/images/${node.icon}.png`,
-                width: node.icon_size == 0 ? 48 : 32,
-                height: node.icon_size == 0 ? 52 : 35,
+                width: node.icon_size == "large" ? 48 : 32,
+                height: node.icon_size == "large" ? 52 : 35,
               },
               label: {
                 text: item.attributes.SHORTNAME || item.attributes.NAME,
@@ -388,7 +388,7 @@ export default {
 
     checkChange(node, checked, c) {
       if (checked) {
-        if (node.type == "mvt" && node.map && node.icon) {
+        if (node.type == "mvt" && node.id && node.icon) {
           if (node.id && this.entityMap[node.id]) {
             this.entityMap[node.id].show = true;
 
