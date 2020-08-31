@@ -44,9 +44,7 @@ export default {
       // 监听点击事件
       this.handler.setInputAction((e) => {
         let pick = window.earth.scene.pick(e.position);
-        console.log('pick', pick)
         if (pick && (~pick.id.id.indexOf('videopoint_'))) {
-          console.log('fuck', pick.id.id, pick.id.name)
           this.$bus.$emit("cesium-3d-videoPointClick", {
             mp_id: pick.id.id,
             mp_name: pick.id.name,
@@ -132,13 +130,12 @@ export default {
       window.earth.zoomTo(circleEntity);
 
       // 画监控点
-      const result = await getRtmpVideoList(
+      const { data } = await getRtmpVideoList(
         {lng, lat},
         queryRadius,
       );
-      console.log('result!!', result)
-      this.SetRtmpList(result);
-      result.forEach((item) => {
+      this.SetRtmpList(data);
+      data.forEach((item) => {
         this.videoPointCollection.entities.add(
           new Cesium.Entity({
             id: `videopoint_${item.mp_id}`,

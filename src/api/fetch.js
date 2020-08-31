@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-08-20 09:03:09
- * @LastEditTime: 2020-08-31 15:01:42
+ * @LastEditTime: 2020-08-31 17:11:30
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\api\fetch.js
@@ -32,7 +32,7 @@ axios.interceptors.request.use(
  */
 const getAxios = (url = "", data = {}) => {
   return axios.request({ url, data }).then(res => {
-    return Promise.resolve(res);
+    return res.data ? Promise.resolve(res.data) : Promise.reject(res);
   });
 };
 // 获取 token

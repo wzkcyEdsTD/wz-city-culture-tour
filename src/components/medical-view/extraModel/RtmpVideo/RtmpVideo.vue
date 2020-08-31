@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-21 18:30:30
- * @LastEditTime: 2020-08-31 09:00:40
+ * @LastEditTime: 2020-08-31 17:16:32
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\extraModel\RtmpVideo\RtmpVideo.vue
@@ -79,10 +79,9 @@ export default {
       this.$bus.$on("cesium-3d-rtmpFetch", async (item) => {
         //  code fetch rtmpURLs
         this.RtmpForcePoint = item;
-        const result = await getRtmpVideoList(item.geometry, 200);
-        console.log('result', result)
-        this.SetRtmpList(result);
-        result.length && this.openRtmpVideoFrame(result[0]);
+        const { data } = await getRtmpVideoList(item.geometry, 200);
+        this.SetRtmpList(data);
+        data.length && this.openRtmpVideoFrame(data[0]);
         this.doRtmpListFrame = true;
       });
 
@@ -104,13 +103,14 @@ export default {
      */
     async openRtmpVideoFrame({ mp_name, mp_id }) {
       this.forceRtmpVideo = mp_name;
-      const url = await getRtmpVideoURL(mp_id);
+      const { data } = await getRtmpVideoURL(mp_id);
       this.RtmpVideoURL = undefined;
       this.RtmpVideoMode = "flash";
-      this.$nextTick(() => {
-        this.RtmpVideoURL = url.flv;
-        this.RtmpVideoMode = url.play_mode;
-      });
+      data &&
+        this.$nextTick(() => {
+          this.RtmpVideoURL = data.flv;
+          this.RtmpVideoMode = data.play_mode;
+        });
     },
     /**
      * 保持单一选中
