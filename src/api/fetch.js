@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-08-20 09:03:09
- * @LastEditTime: 2020-08-31 09:47:46
+ * @LastEditTime: 2020-08-31 10:01:20
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\api\fetch.js
@@ -74,4 +74,28 @@ export const getRtmpVideoURL = mp_id => {
  */
 export const getPopulation = geometry => {
   return getAxios("/data/100007059", { ...geometry, type: 2 });
+};
+/**
+ * [概览]已接入健康数据共享平台的医疗机构数	100002050
+ */
+export const getWzAllMedicalInstitution = () => {
+  return getAxios("/data/100002050");
+};
+/**
+ * [概览]定点医院家数	100004121
+ */
+export const getWzAllDesignatedHospitals = () => {
+  return getAxios("/data/100004121");
+};
+/**
+ * [概览]医保参保单位数	100005051
+ */
+export const getWzAllMedicalInsuranceInstitution = () => {
+  return getAxios("/data/100005051");
+};
+/**
+ * [概览]	医保支付额	100004125
+ */
+export const getWzAllMedicalInsurancePayment = () => {
+  return getAxios("/data/100004125");
 };

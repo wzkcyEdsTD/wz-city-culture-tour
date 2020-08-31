@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-07 10:57:45
- * @LastEditTime: 2020-08-26 15:39:33
+ * @LastEditTime: 2020-08-31 10:52:50
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\treeTool\TreeTool.vue
@@ -155,17 +155,7 @@ export default {
   },
   async mounted() {
     this.eventRegsiter_ex();
-
-    await this.SetFeverList();
-    const feverObj = {};
-
-    this.feverList.map((item) => {
-      if (!feverObj[item.name]) {
-        feverObj[item.name] = parseInt(item.value);
-      }
-    });
-
-    this.feverObj = feverObj;
+    await this.fetchFeverList();
   },
   beforeDestroy() {
     this.handler && this.handler.destroy();
@@ -216,7 +206,7 @@ export default {
       }
       return extent;
     },
-
+    //  事件注册
     eventRegsiter_ex() {
       const that = this;
       window.earth.scene.postRender.addEventListener(() => {
@@ -256,22 +246,34 @@ export default {
     eventRegsiter() {
       this.eventRegsiter_ex();
     },
-
+    /**
+     * 发热人数获取
+     */
+    async fetchFeverList() {
+      await this.SetFeverList();
+      const feverObj = {};
+      this.feverList.map((item) => {
+        if (!feverObj[item.name]) {
+          feverObj[item.name] = parseInt(item.value);
+        }
+      });
+      this.feverObj = feverObj;
+    },
     /**
      * 2020/8/16
      * 旅游专题数据
      */
     getPOIPickedFeature(SMID, node) {
       const that = this;
-      
-      let currentDataServer
-      CESIUM_TREE_OPTION.forEach(item => {
-        item.children.forEach(citem => {
-          if(node.label === citem.label) {
-            currentDataServer = citem
+
+      let currentDataServer;
+      CESIUM_TREE_OPTION.forEach((item) => {
+        item.children.forEach((citem) => {
+          if (node.label === citem.label) {
+            currentDataServer = citem;
           }
-        })
-      })
+        });
+      });
       var getFeatureParam, getFeatureBySQLService, getFeatureBySQLParams;
       getFeatureParam = new SuperMap.REST.FilterParameter({
         attributeFilter: `SMID ${SMID == null ? `>= 1` : `= ${SMID}`}`,
@@ -279,9 +281,9 @@ export default {
       getFeatureBySQLParams = new SuperMap.REST.GetFeaturesBySQLParameters({
         queryParameter: getFeatureParam,
         toIndex: -1,
-        datasetNames: [currentDataServer.newdataset]
+        datasetNames: [currentDataServer.newdataset],
       });
-      var url = currentDataServer.newUrl
+      var url = currentDataServer.newUrl;
       getFeatureBySQLService = new SuperMap.REST.GetFeaturesBySQLService(url, {
         eventListeners: {
           processCompleted: (res) => {
