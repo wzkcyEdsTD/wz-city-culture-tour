@@ -22,6 +22,7 @@
       <Popup ref="popup" :mapLoaded="mapLoaded" />
       <RtmpVideo v-if="mapLoaded" />
       <Population v-if="mapLoaded" />
+      <VideoCircle v-if="mapLoaded" />
     </div>
   </div>
 </template>
@@ -41,6 +42,7 @@ import InfoFrame from "./commonFrame/InfoFrame";
 import Popup from "./commonFrame/popup";
 import RtmpVideo from "./extraModel/RtmpVideo/RtmpVideo";
 import Population from "./extraModel/Population/Population";
+import VideoCircle from "./commonFrame/videoCircle";
 const Cesium = window.Cesium;
 import { mapActions } from "vuex";
 
@@ -68,6 +70,7 @@ export default {
     Popup,
     RtmpVideo,
     Population,
+    VideoCircle
   },
   mounted() {
     this.init3DMap(() => {

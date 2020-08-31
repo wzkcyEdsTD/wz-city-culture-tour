@@ -39,8 +39,28 @@ export default {
     window.onresize = () => {
       this.timer && (this.timer = false);
     };
+    this.eventRegsiter()
   },
   methods: {
+    eventRegsiter() {
+      this.$bus.$off("medical-message");
+      this.$bus.$on(
+        "medical-message", ({ data }) => {
+          this.$bus.$emit("check-tree", {
+            key: data.label
+          });
+          this.$bus.$emit("cesium-3d-video-circle", {
+            doDraw: true,
+            id: 123,
+            geometry: {
+              lng: data.geometry[0],
+              lat: data.geometry[1],
+            },
+            queryRadius: data.radius
+          });
+        }
+      );
+    },
     // 点击地图按钮的操作传值给地图
     setMapTollBar(obj) {
       this.mapTollBar = obj;

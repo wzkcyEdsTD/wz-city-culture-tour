@@ -26,7 +26,8 @@ export default {
   },
   data() {
     return {
-      nameList: []
+      nameList: [],
+      onMessage: false
     };
   },
   computed: {
@@ -34,6 +35,39 @@ export default {
     ...mapState({
       isLoading: "isLoading"
     })
+  },
+  watch: {
+    $route(to) {
+      console.log('tooooooooooo', to)
+      if (this.onMessage) {
+        if (to.name == 'Medical') {
+          console.log('kamier')
+          this.$nextTick(() => {
+            this.$bus.$emit("medical-message", {
+              data: to.params
+            });
+          });
+        }
+      }
+    },
+  },
+  created() {
+    // 监听父窗口事件
+    window.addEventListener("message", e => {
+      console.log('message', e)
+      console.log('route', this.$route)
+      this.onMessage = true
+      let data = e.data
+      if (this.$route.name == data.layer.eventName) {
+        if (data.layer.eventName == 'Medical') {
+          this.$bus.$emit("medical-message", {
+            data: data.layer
+          });
+        }
+      } else {
+        this.$router.push({name: data.layer.eventName, params: data.layer})
+      }
+    }, false);
   },
   mounted() {
     // getUserInfo().then(data => {

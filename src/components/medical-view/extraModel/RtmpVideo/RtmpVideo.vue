@@ -89,6 +89,18 @@ export default {
         result.length && this.openRtmpVideoFrame(result[0]);
         this.doRtmpListFrame = true;
       });
+
+      // 视频监控点billboard点击事件通信
+      this.$bus.$off("cesium-3d-videoPointClick");
+      this.$bus.$on("cesium-3d-videoPointClick", (item) => {
+        console.log("on!videoPointClick");
+        this.rtmpList.length &&
+          this.openRtmpVideoFrame({
+            mp_name: item.mp_name,
+            mp_id: item.mp_id.split("videopoint_")[1],
+          });
+        this.doRtmpListFrame = true;
+      });
     },
     /**
      * 赋值 开视频
@@ -98,6 +110,7 @@ export default {
       this.forceRtmpVideo = mp_name;
       const accessToken = await getAccessToken();
       const url = await getRtmpVideoURL(mp_id, accessToken.data.access_token);
+      console.log("url");
       this.RtmpVideoURL = undefined;
       this.RtmpVideoMode = "flash";
       this.$nextTick(() => {

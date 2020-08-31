@@ -94,6 +94,7 @@ export default {
      * @param {radius?} 单位[米] 先默认 不屌他
      */
     async drawPopulationCircle(id, { lng, lat }, raidus = 500) {
+      console.log('drawPopulationCircle', lng, lat)
       const circleEntity = new Cesium.Entity({
         position: Cesium.Cartesian3.fromDegrees(lng, lat, 0),
         ellipse: {

@@ -7,7 +7,7 @@
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\treeTool\TreeTool.vue
 -->
 <template>
-  <div class="coverage">
+  <div class="medical-coverage">
     <div class="header">
       <p class="title">资源图层</p>
       <img
@@ -138,6 +138,7 @@ export default {
       pickedList: [],
       pickedAttr: null,
       entityMap: {},
+      timer: null,
     };
   },
   computed: {
@@ -151,10 +152,10 @@ export default {
       if (val === "") {
         this.hospitalList = this.pickedList;
       }
-    },
+    }
   },
   async mounted() {
-    this.eventRegsiter_ex();
+    this.eventRegsiter();
 
     await this.SetFeverList();
     const feverObj = {};
@@ -254,6 +255,19 @@ export default {
       });
     },
     eventRegsiter() {
+      // 根据父窗口参数选中对应图层
+      this.$bus.$off("check-tree");
+      this.$bus.$on(
+        "check-tree", ({ key }) => {
+          console.log('oncheck-tree!!!')
+          this.timer = setInterval(() => {
+            if (this.feverObj) {
+              this.$refs.tree.setCheckedKeys([key]);
+              clearInterval(this.timer)
+            }
+          }, 200)
+        }
+      );
       this.eventRegsiter_ex();
     },
 
@@ -399,7 +413,6 @@ export default {
             }
             return;
           }
-
           // 专题集合添加
           this.getPOIPickedFeature(null, node);
         } else if (node.type == "model") {

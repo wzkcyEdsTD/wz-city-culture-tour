@@ -7,7 +7,7 @@
  * @FilePath: \wz-city-culture-tour\src\components\map-view\treeTool\TreeTool.vue
 -->
 <template>
-  <div class="coverage">
+  <div class="map-coverage">
     <el-popover
       placement="right-end"
       title="图层选择"
