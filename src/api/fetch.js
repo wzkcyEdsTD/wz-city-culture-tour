@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-08-20 09:03:09
- * @LastEditTime: 2020-08-31 09:40:20
+ * @LastEditTime: 2020-08-31 09:47:46
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\api\fetch.js
@@ -20,7 +20,7 @@ axios.interceptors.request.use(
     }
     return { ...config, method: "post" };
   },
-  function(error) {
+  error => {
     return Promise.reject(error);
   }
 );
@@ -35,7 +35,6 @@ const getAxios = (url = "", data = {}) => {
     return Promise.resolve(res);
   });
 };
-
 // 获取 token
 export const getAccessToken = () => {
   return axios
@@ -47,12 +46,12 @@ export const getAccessToken = () => {
       return Promise.resolve(res);
     });
 };
-
-// 发热病人数 100004005
+/**
+ * 发热病人数 100004005
+ */
 export const getFarebr = () => {
   return getAxios("/data/100004005");
 };
-
 /**
  * 获取视频列表 100006019
  * @param {*} param0
@@ -61,7 +60,6 @@ export const getFarebr = () => {
 export const getRtmpVideoList = (geometry, dist) => {
   return getAxios("/data/100006019", { ...geometry, dist });
 };
-
 /**
  * 获取视频真实地址 100006020
  * @param {*} mp_id
