@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-08-20 09:03:09
- * @LastEditTime: 2020-08-31 14:52:03
+ * @LastEditTime: 2020-08-31 15:01:42
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\api\fetch.js
@@ -83,7 +83,8 @@ export const getWzAllMedicalInstitution = () => {
   return getAxios("/data/100002050");
 };
 /**
- * [概览]当日实时门诊人次		100002034
+ * [概览]当日实时门诊人次 100002034
+ * @param {string} areaCode 区域代码 暂不明确
  */
 export const getWzAllOutpatientCount = () => {
   return getAxios("/data/100002034", { areaCode: "330300000000" });
