@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-21 18:30:30
- * @LastEditTime: 2020-08-27 11:09:21
+ * @LastEditTime: 2020-08-31 09:00:40
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\extraModel\RtmpVideo\RtmpVideo.vue
@@ -48,7 +48,7 @@
 <script>
 const Cesium = window.Cesium;
 import { mapGetters, mapActions } from "vuex";
-import { getAccessToken, getRtmpVideoList, getRtmpVideoURL } from "api/fetch";
+import { getRtmpVideoList, getRtmpVideoURL } from "api/fetch";
 import flv from "./Flv";
 
 export default {
@@ -79,12 +79,7 @@ export default {
       this.$bus.$on("cesium-3d-rtmpFetch", async (item) => {
         //  code fetch rtmpURLs
         this.RtmpForcePoint = item;
-        const accessToken = await getAccessToken();
-        const result = await getRtmpVideoList(
-          item.geometry,
-          200,
-          accessToken.data.access_token
-        );
+        const result = await getRtmpVideoList(item.geometry, 200);
         this.SetRtmpList(result);
         result.length && this.openRtmpVideoFrame(result[0]);
         this.doRtmpListFrame = true;
@@ -96,8 +91,7 @@ export default {
      */
     async openRtmpVideoFrame({ mp_name, mp_id }) {
       this.forceRtmpVideo = mp_name;
-      const accessToken = await getAccessToken();
-      const url = await getRtmpVideoURL(mp_id, accessToken.data.access_token);
+      const url = await getRtmpVideoURL(mp_id);
       this.RtmpVideoURL = undefined;
       this.RtmpVideoMode = "flash";
       this.$nextTick(() => {

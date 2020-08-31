@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-21 18:30:30
- * @LastEditTime: 2020-08-27 10:55:14
+ * @LastEditTime: 2020-08-31 09:01:01
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\extraModel\Population\Population.vue
@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { getAccessToken, getPopulation } from "api/fetch";
+import { getPopulation } from "api/fetch";
 const Cesium = window.Cesium;
 
 export default {
@@ -109,11 +109,7 @@ export default {
       });
       this.medicalCircleCollection.entities.add(circleEntity);
       this.populationCircleList[circleEntity.name] = circleEntity;
-      const accessToken = await getAccessToken();
-      const result = await getPopulation(
-        { lng, lat },
-        accessToken.data.access_token
-      );
+      const result = await getPopulation({ lng, lat });
       const circleLabelEntity = new Cesium.Entity({
         position: Cesium.Cartesian3.fromDegrees(lng, lat, 200),
         label: {

@@ -1,91 +1,95 @@
 /*
  * @Author: eds
- * @Date: 2020-07-01 15:22:04
- * @LastEditTime: 2020-08-11 09:01:32
+ * @Date: 2020-08-20 09:03:09
+ * @LastEditTime: 2020-08-31 09:26:08
  * @LastEditors: eds
  * @Description:
- * @FilePath: \wzsjjt-bd-visual\config\index.js
+ * @FilePath: \wz-city-culture-tour\config\index.js
  */
-"use strict";
-// Template version: 1.3.1
-// see http://vuejs-templates.github.io/webpack for documentation.
-
-const path = require("path");
-
-module.exports = {
-  dev: {
-    // Paths
-    assetsSubDirectory: "static",
-    assetsPublicPath: "/",
-    proxyTable: {
-      "/": {
-        target: "http://172.20.83.195:9000",
-        changeOrigin: true,
-        pathRewrite: {
-          "^/": ""
-        }
-      }
-    },
-
-    // Various Dev Server settings
-    host: "localhost", // can be overwritten by process.env.HOST
-    port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
-    autoOpenBrowser: false,
-    errorOverlay: true,
-    notifyOnErrors: true,
-    poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
-
-    // Use Eslint Loader?
-    // If true, your code will be linted during bundling and
-    // linting errors and warnings will be shown in the console.
-    useEslint: true,
-    // If true, eslint errors and warnings will also be shown in the error overlay
-    // in the browser.
-    showEslintErrorsInOverlay: false,
-
-    /**
-     * Source Maps
-     */
-
-    // https://webpack.js.org/configuration/devtool/#development
-    devtool: "cheap-module-eval-source-map",
-
-    // If you have problems debugging vue-files in devtools,
-    // set this to false - it *may* help
-    // https://vue-loader.vuejs.org/en/options.html#cachebusting
-    cacheBusting: true,
-
-    cssSourceMap: true
+import axios from "axios";
+const baseURL = "https://api-hub.wenzhou.gov.cn/api/v1";
+const Authorization =
+  "Basic MUE3OThBODMyODJDNEQyODk1NkI5QzcyQkQxNzMxNUI6QzhCODE3RUUzMTAzNDRCN0I2OTkyQUNEMjlFOTRDQTQ=";
+const instance = axios.create({ baseURL, method: "post" });
+instance.interceptors.request.use(
+  async config => {
+    console.log(config);
+    // if (!config.url.match(/\/oauth/g)) {
+    //   const accessToken = await getAccessToken();
+    //   config.headers.common.Authorization = accessToken.data.access_token;
+    // }
+    // Do something before request is sent
+    return config;
   },
-
-  build: {
-    // Template for index.html
-    index: path.resolve(__dirname, "../dist/index.html"),
-
-    // Paths
-    assetsRoot: path.resolve(__dirname, "../dist"),
-    assetsSubDirectory: "static",
-    assetsPublicPath: "./",
-
-    /**
-     * Source Maps
-     */
-
-    productionSourceMap: false,
-    // https://webpack.js.org/configuration/devtool/#production
-    devtool: "#source-map",
-
-    // Gzip off by default as many popular static hosts such as
-    // Surge or Netlify already gzip all static assets for you.
-    // Before setting to `true`, make sure to:
-    // npm install --save-dev compression-webpack-plugin
-    productionGzip: false,
-    productionGzipExtensions: ["js", "css"],
-
-    // Run the build command with an extra argument to
-    // View the bundle analyzer report after build finishes:
-    // `npm run build --report`
-    // Set to `true` or `false` to always turn it on or off
-    bundleAnalyzerReport: process.env.npm_config_report
+  function(error) {
+    // Do something with request error
+    return Promise.reject(error);
   }
+);
+
+// 获取 token
+export const getAccessToken = () => {
+  return instance
+    .request({
+      url: "/oauth2/token?grant_type=client_credentials",
+      headers: {
+        Authorization
+      }
+    })
+    .then(res => {
+      return Promise.resolve(res);
+    });
+};
+
+// 发热病人数 100004005
+export const getFarebr = async () => {
+  return instance.request({ url: "/data/100004005" }).then(res => {
+    return Promise.resolve(res);
+  });
+};
+
+/**
+ * 获取视频列表 100006019
+ * @param {*} param0
+ * @param {*} token
+ */
+export const getRtmpVideoList = async (geometry, dist) => {
+  return instance
+    .request({
+      url: "/data/100006019",
+      data: { ...geometry, dist }
+    })
+    .then(res => {
+      return Promise.resolve(res.data.data);
+    });
+};
+
+/**
+ * 获取视频真实地址 100006020
+ * @param {*} mp_id
+ */
+export const getRtmpVideoURL = async mp_id => {
+  return instance
+    .request({
+      url: "/data/100006020",
+      data: { mp_id }
+    })
+    .then(res => {
+      return Promise.resolve(res.data.data);
+    });
+};
+/**
+ * 获取实施人口 100007059
+ * @param {*} param0
+ * @param {*} token
+ */
+export const getPopulation = async geometry => {
+  return instance
+    .request({
+      url: "/data/100007059",
+      data: { ...geometry, type: 2 }
+    })
+    .then(res => {
+      return Promise.resolve(res.data);
+    });
 };

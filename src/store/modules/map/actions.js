@@ -1,17 +1,16 @@
 import * as types from "./mutation-types";
 import router from "../../../router/index";
-import { getAccessToken, getFarebr } from "../../../api/fetch";
+import { getFarebr } from "../../../api/fetch";
 
 //  设置医院数据
 export const SetHospitalList = function({ commit }, data) {
-  console.log(data)
+  console.log(data);
   commit(types.SET_HOSPITAL_LIST, data);
 };
 
 //  设置发热数据
 export const SetFeverList = async function({ commit }, data) {
-  const accessToken = await getAccessToken();
-  const result = await getFarebr(accessToken.data.access_token);
+  const result = await getFarebr();
   const res = result.data.data.ranking_data;
   commit(types.SET_FEVER_LIST, res);
 };
