@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-07-29 16:10:06
- * @LastEditTime: 2020-08-31 14:34:56
+ * @LastEditTime: 2020-08-31 14:36:14
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\config\server\medicalTreeOption.js
@@ -63,6 +63,7 @@ const TOUR_TOPIC = [
     label: "公厕",
     url: SERVER_DEFAULT_DATA,
     icon: "公厕",
+    icon_size: "large",
     reduce: true,
     dataset: "PublicToilet"
   },
@@ -107,18 +108,21 @@ const EMERGENCY_TOPIC = [
     label: "非煤矿山",
     url: SERVER_DEFAULT_DATA,
     icon: "非煤矿山",
+    icon_size: "large",
     dataset: "D_HARAZDS_NONCOALMINE"
   },
   {
     label: "烟花爆竹经营单位",
     url: SERVER_DEFAULT_DATA,
     icon: "烟花爆竹经营单位",
+    icon_size: "large",
     dataset: "D_HARAZDS_FIREWORKS"
   },
   {
     label: "应急避灾场所",
     url: SERVER_DEFAULT_DATA,
     icon: "应急避灾场所",
+    icon_size: "large",
     reduce: true,
     dataset: "JZJZNL_BZAZCS"
   },
@@ -126,6 +130,7 @@ const EMERGENCY_TOPIC = [
     label: "应急队伍",
     url: SERVER_DEFAULT_DATA,
     icon: "应急队伍",
+    icon_size: "large",
     reduce: true,
     dataset: "JZJZNL_YJDW"
   },
@@ -133,6 +138,7 @@ const EMERGENCY_TOPIC = [
     label: "加油站",
     url: SERVER_DEFAULT_DATA,
     icon: "加油站",
+    icon_size: "large",
     dataset: "D_HAZARDS_GasStation"
   }
 ];
