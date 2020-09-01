@@ -1,5 +1,14 @@
 <template>
-  <div class="videoCircle"></div>
+  <div class="videoCircle">
+    <div
+      class="leaflet-popup"
+      :style="{transform:`translate3d(${item.x}px,${item.y+4}px, 0)`}"
+    >
+      <div class="clear">清除点位</div>
+      <div class="position">我的位置</div>
+      <div class="resource">资源列表</div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -15,6 +24,7 @@ export default {
       videoCircleCollection: undefined,
       videoCircleLabelCollection: undefined,
       videoPointCollection: undefined,
+      item: {}
     };
   },
   mounted() {
@@ -30,11 +40,12 @@ export default {
         "cesium-3d-video-circle",
         ({ doDraw, id, geometry, queryRadius }) => {
           console.log('cesium-3d-video-circle')
-          !doDraw
-            ? that.removeVideoCircle(id)
-            : id && geometry
-            ? that.drawVideoCircle(id, geometry, queryRadius)
-            : undefined;
+          // !doDraw
+          //   ? that.removeVideoCircle(id)
+          //   : id && geometry
+          //   ? that.drawVideoCircle(id, geometry, queryRadius)
+          //   : undefined;
+
         }
       );
     },
@@ -162,4 +173,12 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.leaflet-popup {
+  position: absolute;
+  text-align: center;
+  top: -20px;
+  left: 0;
+  z-index: 99999;
+  cursor: pointer;
+}
 </style>

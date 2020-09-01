@@ -216,6 +216,7 @@ export default {
         const pointList = [];
         const newList = [];
         that.pickedList.map((item) => {
+          // console.log('fuck', item._position)
           if (item.geometry) {
             if (
               item.geometry.x >= extent.xmin &&
