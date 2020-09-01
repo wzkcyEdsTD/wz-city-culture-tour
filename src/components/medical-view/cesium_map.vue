@@ -18,7 +18,7 @@
       <DetailPopup ref="detailPopup" />
       <RtmpVideo v-if="mapLoaded" />
       <Population v-if="mapLoaded" />
-      <VideoCircle v-if="mapLoaded" />
+      <VideoCircle ref="videoCircle" v-if="mapLoaded" />
     </div>
   </div>
 </template>
@@ -96,6 +96,9 @@ export default {
           this.$refs.popups && this.$refs.popups.doPopup(newList, pointList);
         }
         //  *****[]  事件传递点位*****
+        if (this.$refs.videoCircle.shallPop) {
+          this.$refs.videoCircle && this.$refs.videoCircle.doPopup();
+        }
         //  *****[]  详情查看点位*****
         const forceEntity = this.$refs.detailPopup.forceEntity;
         if (forceEntity.extra_data) {
