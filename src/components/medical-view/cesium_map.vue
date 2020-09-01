@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-20 18:52:41
- * @LastEditTime: 2020-09-01 16:19:09
+ * @LastEditTime: 2020-09-01 17:14:09
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\cesium_map.vue
@@ -15,6 +15,7 @@
       <NanTangModel v-if="showSubFrame == '3d1'" />
       <InfoFrame ref="infoframe" v-show="isInfoFrame" />
       <Popup ref="popups" :mapLoaded="mapLoaded" />
+      <DetailPopup ref="detailPopup" />
       <RtmpVideo v-if="mapLoaded" />
       <Population v-if="mapLoaded" />
       <VideoCircle v-if="mapLoaded" />
@@ -30,6 +31,7 @@ import TotalTarget from "./totalTarget/totalTarget";
 import NanTangModel from "./extraModel/NanTangModel";
 import InfoFrame from "./commonFrame/InfoFrame";
 import Popup from "./commonFrame/popup";
+import DetailPopup from "./commonFrame/DetailPopup/DetailPopup";
 import RtmpVideo from "./extraModel/RtmpVideo/RtmpVideo";
 import Population from "./extraModel/Population/Population";
 import VideoCircle from "./commonFrame/videoCircle";
@@ -55,6 +57,7 @@ export default {
     NanTangModel,
     InfoFrame,
     Popup,
+    DetailPopup,
     RtmpVideo,
     Population,
     VideoCircle,
@@ -92,6 +95,14 @@ export default {
         }
         //  *****[]  事件传递点位*****
         //  *****[]  详情查看点位*****
+        const forceEntity = this.$refs.detailPopup.forceEntity;
+        if (forceEntity) {
+          const pointToWindow = Cesium.SceneTransforms.wgs84ToWindowCoordinates(
+            window.earth.scene,
+            forceEntity.position
+          );
+          this.$refs.detailPopup.renderForceEntity(pointToWindow);
+        }
       });
     },
     initHandler() {
@@ -100,16 +111,22 @@ export default {
       );
       // 监听左键点击事件
       this.handler.setInputAction((e) => {
-        let pick = window.earth.scene.pick(e.position);
+        const pick = window.earth.scene.pick(e.position);
+        if (!pick.id || typeof pick.id != "object") return;
         //  *****[]  监控视频点*****
-        if (pick && ~pick.id.id.indexOf("videopoint_")) {
+        if (pick && pick.id.id && ~pick.id.id.indexOf("videopoint_")) {
           this.$bus.$emit("cesium-3d-videoPointClick", {
             mp_id: pick.id.id,
             mp_name: pick.id.name,
           });
         }
         //  *****[]  资源详情点*****
-        //  code...
+        if (pick.id.extra_data) {
+          this.$refs.detailPopup.getForceEntity({
+            extra_data: pick.id.extra_data,
+            position: pick.id._position._value,
+          });
+        }
       }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
     },
     eventRegsiter() {
