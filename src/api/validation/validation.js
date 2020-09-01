@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-08-31 15:27:32
- * @LastEditTime: 2020-08-31 15:55:02
+ * @LastEditTime: 2020-09-01 18:55:48
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\api\validation\validation.js
@@ -9,19 +9,20 @@
 import axios from "axios";
 import validationObject from "./config";
 const { signURL, validationURL, validationJson } = validationObject;
+const instance = axios.create();
 
 /**
  * [API] 自家后端生成专班签名
  * @return {object} sign/timestamp
  */
 const fetchSignByTimestamp = () => {
-  return axios
+  return instance
     .request({
       url: signURL,
-      method: "post"
+      method: "get"
     })
     .then(res => {
-      return Promise.resolve(res);
+      return Promise.resolve(res.data);
     });
 };
 /**
@@ -29,12 +30,12 @@ const fetchSignByTimestamp = () => {
  * @param {object} signObj
  * @param {string} authorCode
  */
-const validation = (signObj, authorCode) => {
-  return axios
+const validation = (sign, authorCode) => {
+  return instance
     .request({
       url: validationURL,
       method: "post",
-      data: { ...validationJson, ...signObj, authorCode }
+      data: { ...validationJson, sign, authorCode }
     })
     .then(res => {
       return Promise.resolve(res);
@@ -46,7 +47,8 @@ const validation = (signObj, authorCode) => {
  * @param {*} authorCode
  */
 export const doValidation = async authorCode => {
-  const signObj = await fetchSignByTimestamp();
-  const { errorCode, data } = await validation(signObj, authorCode);
-  return errorCode == "0" && data.userId ? true : false;
+  const sign = await fetchSignByTimestamp();
+  const result = await validation(sign, authorCode);
+  // return errorCode == "0" && data.userId ? true : false;
+  console.log(result);
 };

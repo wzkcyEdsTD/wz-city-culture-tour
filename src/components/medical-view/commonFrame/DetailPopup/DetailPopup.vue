@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-12 14:32:09
- * @LastEditTime: 2020-09-01 18:33:55
+ * @LastEditTime: 2020-09-01 18:38:20
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\commonFrame\DetailPopup\DetailPopup.vue
@@ -49,7 +49,6 @@ export default {
      *  @param {object} forceEntity 详情点信息
      */
     getForceEntity(forceEntity) {
-      console.log(forceEntity);
       this.forceEntity = forceEntity;
     },
     /**
@@ -113,6 +112,11 @@ export default {
   > header {
     height: 24px;
     line-height: 24px;
+    box-sizing: border-box;
+    padding-right: 20px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
   > .content-body {
     flex: 1;

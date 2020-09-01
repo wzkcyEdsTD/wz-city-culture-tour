@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-08-20 09:03:09
- * @LastEditTime: 2020-08-31 17:11:30
+ * @LastEditTime: 2020-09-01 18:51:48
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\api\fetch.js
@@ -10,9 +10,10 @@ import axios from "axios";
 const BASEURL = "https://api-hub.wenzhou.gov.cn/api/v1";
 const Authorization =
   "Basic MUE3OThBODMyODJDNEQyODk1NkI5QzcyQkQxNzMxNUI6QzhCODE3RUUzMTAzNDRCN0I2OTkyQUNEMjlFOTRDQTQ=";
-axios.defaults.baseURL = BASEURL;
-axios.defaults.method = "post";
-axios.interceptors.request.use(
+const instance = axios.create();
+instance.defaults.baseURL = BASEURL;
+instance.defaults.method = "post";
+instance.interceptors.request.use(
   async config => {
     if (!config.url.match(/\/oauth/g)) {
       const accessToken = await getAccessToken();
@@ -31,13 +32,13 @@ axios.interceptors.request.use(
  * @param {*} data
  */
 const getAxios = (url = "", data = {}) => {
-  return axios.request({ url, data }).then(res => {
+  return instance.request({ url, data }).then(res => {
     return res.data ? Promise.resolve(res.data) : Promise.reject(res);
   });
 };
 // 获取 token
 export const getAccessToken = () => {
-  return axios
+  return instance
     .request({
       url: "/oauth2/token?grant_type=client_credentials",
       headers: { Authorization }
