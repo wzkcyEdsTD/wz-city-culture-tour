@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-12 14:32:09
- * @LastEditTime: 2020-08-22 16:53:29
+ * @LastEditTime: 2020-09-01 16:16:29
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\commonFrame\popup.vue
@@ -56,38 +56,35 @@ export default {
     this.eventRegsiter();
   },
   methods: {
-    eventRegsiter() {
-      const that = this;
-      this.$bus.$off("cesium-3d-mvt");
-      this.$bus.$on("cesium-3d-mvt", ({ scene, pickedList, pointList }) => {
-        that.popList = [];
-
-        if (pickedList.length) {
-          pickedList.map((item, index) => {
-            if (pointList[index]) {
-              that.popList.push({
-                id: item.id,
-                name: item.attributes.NAME,
-                grade: that.fixGrade(item.attributes.DEFINING_T),
-                shortname: item.attributes.SHORTNAME,
-                feverNum: item.feverNum || 0,
-                attributes: item.attributes,
-                geometry: item.geometry,
-                x:
-                  pointList[index].x -
-                  $(`#trackPopUpContent_${index}`).width() / 2,
-                y:
-                  pointList[index].y -
-                  $(`#trackPopUpContent_${index}`).height(),
-              });
-            }
-          });
-        }
-
+    eventRegsiter() {},
+    doPopup(pickedList, pointList) {
+      const popList = [];
+      if (pickedList.length) {
+        pickedList.map((item, index) => {
+          if (pointList[index]) {
+            popList.push({
+              id: item.id,
+              name: item.attributes.NAME,
+              grade: this.fixGrade(item.attributes.DEFINING_T),
+              shortname: item.attributes.SHORTNAME,
+              feverNum: item.feverNum || 0,
+              attributes: item.attributes,
+              geometry: item.geometry,
+              x:
+                pointList[index].x -
+                ($(`#trackPopUpContent_${index}`).width() || 0) / 2,
+              y:
+                pointList[index].y -
+                ($(`#trackPopUpContent_${index}`).height() || 0),
+            });
+          }
+        });
+      }
+      this.popList = popList;
+      !this.shallPop &&
         this.$nextTick(() => {
           this.shallPop = true;
         });
-      });
     },
 
     /**
@@ -103,7 +100,7 @@ export default {
     },
 
     closePopup() {
-      this.$bus.$emit("cesium-3d-mvt-down");
+      // this.$bus.$emit("cesium-3d-mvt-down");
       this.shallPop = false;
     },
 

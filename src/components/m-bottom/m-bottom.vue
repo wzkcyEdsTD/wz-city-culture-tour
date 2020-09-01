@@ -58,7 +58,6 @@ export default {
   left: 0;
   width: 100%;
   .bottom-select-container {
-    height: 0.25rem;
     margin-bottom: 10px;
     .list {
       display: flex;
@@ -67,17 +66,14 @@ export default {
         cursor: pointer;
         .bg-image("./images/unselected");
         margin: 0 0.06rem;
-        padding: 5px 20px;
-        // width: 0.8rem;
-        height: 0.25rem;
+        padding: 5px 30px;
         text-align: center;
         font-size: 13px;
         color: #fff;
         opacity: 0.5;
         &.active {
           .bg-image("./images/selected");
-          // width: 1rem;
-          height: 0.35rem;
+          padding: 6px 32px;
           font-size: 16px;
           color: #fff;
           opacity: 1;
@@ -86,7 +82,8 @@ export default {
     }
   }
   .bottom-bg {
-    width: 100%;
+    width: 96%;
+    margin: 0 auto;
     height: 0.39rem;
     .bg-image("./images/bottom");
   }

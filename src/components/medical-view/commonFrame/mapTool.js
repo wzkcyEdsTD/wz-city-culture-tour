@@ -1,11 +1,12 @@
 /*
  * @Author: eds
  * @Date: 2020-09-01 15:38:12
- * @LastEditTime: 2020-09-01 15:38:44
+ * @LastEditTime: 2020-09-01 16:01:55
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\commonFrame\mapTool.js
  */
+
 /**
  * 获取当前视野范围
  */
@@ -50,4 +51,18 @@ export const getCurrentExtent = () => {
     extent.ymin = Cesium.Math.toDegrees(carto_rb2.latitude);
   }
   return extent;
+};
+
+/**
+ * 是否在范围内
+ * @param {*} extent
+ * @param {*} geometry
+ */
+export const isContainByExtent = (extent, geometry) => {
+  const boolean =
+    geometry.x >= extent.xmin &&
+    geometry.y >= extent.ymin &&
+    geometry.x <= extent.xmax &&
+    geometry.y <= extent.ymax;
+  return boolean;
 };

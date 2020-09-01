@@ -15,11 +15,7 @@ export default {
       videoCircleCollection: undefined,
       videoCircleLabelCollection: undefined,
       videoPointCollection: undefined,
-      handler: undefined,
     };
-  },
-  created() {
-    this.handler = new Cesium.ScreenSpaceEventHandler(window.earth.scene.canvas);
   },
   mounted() {
     this.eventRegsiter();
@@ -41,16 +37,6 @@ export default {
             : undefined;
         }
       );
-      // 监听点击事件
-      this.handler.setInputAction((e) => {
-        let pick = window.earth.scene.pick(e.position);
-        if (pick && (~pick.id.id.indexOf('videopoint_'))) {
-          this.$bus.$emit("cesium-3d-videoPointClick", {
-            mp_id: pick.id.id,
-            mp_name: pick.id.name,
-          });
-        }
-      }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
     },
     /**
      * 创建datesource
@@ -171,9 +157,6 @@ export default {
           )
         : this.videoCircleLabelCollection.entities.removeAll();
     },
-  },
-  beforeDestroy() {
-    this.handler.destroy();
   },
 };
 </script>

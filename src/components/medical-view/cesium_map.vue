@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-20 18:52:41
- * @LastEditTime: 2020-09-01 15:45:47
+ * @LastEditTime: 2020-09-01 16:19:09
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\cesium_map.vue
@@ -11,12 +11,10 @@
     <div id="cesiumContainer" />
     <div v-if="mapLoaded">
       <Coverage ref="treetool" />
-      <Area />
-      <Turntable />
       <TotalTarget />
       <NanTangModel v-if="showSubFrame == '3d1'" />
       <InfoFrame ref="infoframe" v-show="isInfoFrame" />
-      <Popup ref="popup" :mapLoaded="mapLoaded" />
+      <Popup ref="popups" :mapLoaded="mapLoaded" />
       <RtmpVideo v-if="mapLoaded" />
       <Population v-if="mapLoaded" />
       <VideoCircle v-if="mapLoaded" />
@@ -28,8 +26,6 @@
 import { ServiceUrl } from "config/server/mapConfig";
 import "./basicTools/ThreeTools.less";
 import Coverage from "./treeTool/TreeTool";
-import Area from "./area/area";
-import Turntable from "./turntable/turntable";
 import TotalTarget from "./totalTarget/totalTarget";
 import NanTangModel from "./extraModel/NanTangModel";
 import InfoFrame from "./commonFrame/InfoFrame";
@@ -37,7 +33,7 @@ import Popup from "./commonFrame/popup";
 import RtmpVideo from "./extraModel/RtmpVideo/RtmpVideo";
 import Population from "./extraModel/Population/Population";
 import VideoCircle from "./commonFrame/videoCircle";
-import { getCurrentExtent } from "./commonFrame/mapTool";
+import { getCurrentExtent, isContainByExtent } from "./commonFrame/mapTool";
 const Cesium = window.Cesium;
 import { mapActions } from "vuex";
 
@@ -50,12 +46,11 @@ export default {
       imagelayer: undefined,
       datalayer: undefined,
       isInfoFrame: false,
+      handler: undefined,
     };
   },
   components: {
     Coverage,
-    Area,
-    Turntable,
     TotalTarget,
     NanTangModel,
     InfoFrame,
@@ -67,83 +62,61 @@ export default {
   mounted() {
     this.init3DMap(() => {
       this.mapLoaded = true;
-      this.mapEventRegsiter();
+      this.initPostRender();
+      this.initHandler();
     });
     this.eventRegsiter();
   },
   methods: {
     ...mapActions("map", ["SetForceBimData"]),
-    mapEventRegsiter() {
+    initPostRender() {
       window.earth.scene.postRender.addEventListener(() => {
-        if (!this.$refs.treetool.pickedList || !window.earth) return;
-        const extent = getCurrentExtent();
-        const pointList = [];
-        const newList = [];
-        this.$refs.treetool.pickedList.map((item) => {
-          if (item.geometry) {
-            if (
-              item.geometry.x >= extent.xmin &&
-              item.geometry.y >= extent.ymin &&
-              item.geometry.x <= extent.xmax &&
-              item.geometry.y <= extent.ymax
-            ) {
-              const position = item._position
-                ? item._position._value
-                : item.primitive._position;
+        if (!window.earth) return;
+        //  *****[pickedList] 医疗点位*****
+        const pickedList = this.$refs.treetool.pickedList;
+        if (pickedList && pickedList.length) {
+          const extent = getCurrentExtent();
+          const pointList = [];
+          const newList = [];
+          pickedList.map((item) => {
+            if (item.geometry && isContainByExtent(extent, item.geometry)) {
               const pointToWindow = Cesium.SceneTransforms.wgs84ToWindowCoordinates(
                 window.earth.scene,
-                position
+                item._position._value
               );
-
               pointList.push(pointToWindow);
               newList.push(item);
             }
-          }
-        });
-        this.$bus.$emit("cesium-3d-mvt", {
-          scene: window.earth.scene,
-          pickedList: newList,
-          pointList,
-        });
+          });
+          this.$refs.popups && this.$refs.popups.doPopup(newList, pointList);
+        }
+        //  *****[]  事件传递点位*****
+        //  *****[]  详情查看点位*****
       });
     },
+    initHandler() {
+      this.handler = new Cesium.ScreenSpaceEventHandler(
+        window.earth.scene.canvas
+      );
+      // 监听左键点击事件
+      this.handler.setInputAction((e) => {
+        let pick = window.earth.scene.pick(e.position);
+        //  *****[]  监控视频点*****
+        if (pick && ~pick.id.id.indexOf("videopoint_")) {
+          this.$bus.$emit("cesium-3d-videoPointClick", {
+            mp_id: pick.id.id,
+            mp_name: pick.id.name,
+          });
+        }
+        //  *****[]  资源详情点*****
+        //  code...
+      }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+    },
     eventRegsiter() {
-      this.$bus.$off("cesium-3d-event");
-      this.$bus.$on("cesium-3d-event", ({ value }) => {
-        this.SetForceBimData([]);
-        this.showSubFrame = value;
-      });
-      this.$bus.$off("cesium-3d-maptool");
-      this.$bus.$on("cesium-3d-maptool", ({ value }) => {
-        this.showSubTool = value;
-      });
       this.$bus.$off("cesium-3d-switch");
       this.$bus.$on("cesium-3d-switch", ({ value }) => {
         const _LAYER_ = window.earth.scene.layers.find("baimo");
         _LAYER_.visibleDistanceMin = !value ? 1400 : 0;
-        // _LAYER_.visible = value;
-      });
-      this.$bus.$off("cesium-3d-mapType");
-      this.$bus.$on("cesium-3d-mapType", ({ value }) => {
-        if (value == "imagelayer") {
-          this.datalayer.show = false;
-          this.imagelayer
-            ? (this.imagelayer.show = true)
-            : (this.imagelayer = window.earth.imageryLayers.addImageryProvider(
-                new Cesium.SuperMapImageryProvider({
-                  url: ServiceUrl.SWImage,
-                })
-              ));
-        } else {
-          this.imagelayer.show = false;
-          this.datalayer
-            ? (this.datalayer.show = true)
-            : (this.datalayer = window.earth.imageryLayers.addImageryProvider(
-                new Cesium.SuperMapImageryProvider({
-                  url: ServiceUrl.DataImage,
-                })
-              ));
-        }
       });
     },
     init3DMap(fn) {
@@ -175,19 +148,13 @@ export default {
         LAYER.style3D.fillForeColor = new Cesium.Color.fromCssColorString(
           "rgba(137,137,137, 1)"
         );
-        // LAYER.style3D.lineColor = new Cesium.Color.fromCssColorString(
-        //   "rgba(100, 100, 100, 1)"
-        // );
-        // LAYER.style3D.lineWidth = 0.5;
-        // //  草图模式
-        // LAYER.style3D.fillStyle = Cesium.FillStyle.Fill_And_WireFrame;
-        // LAYER.wireFrameMode = Cesium.WireFrameType.Sketch;
         LAYER.visibleDistanceMax = 5500;
       });
       // 移除缓冲圈
       $(".cesium-widget-credits").hide();
       viewer.scene.globe.depthTestAgainstTerrain = false;
       window.earth = viewer;
+      fn && fn();
       this.cameraMove();
       this.addPointLight();
       fn && fn();

@@ -69,7 +69,7 @@ export default {
     width: 80px;
     height: 15px;
     z-index: -1;
-    background-image: linear-gradient(0deg, #0addca 0%, transparent 100%);
+    background-image: linear-gradient(0deg, #2acbfe 0%, transparent 100%);
     transform: skewX(-30deg);
   }
 
