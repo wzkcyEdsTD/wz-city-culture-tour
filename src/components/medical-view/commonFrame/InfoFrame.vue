@@ -44,8 +44,8 @@
         <section class="desc-wrapper">
           <span class="section-title">医院简介</span>
           <div>
-            <span class="address">地址：{{ address || `暂无地址` }}</span>
-            <span class="summary">{{ summary || `暂无简介` }}</span>
+            <p class="address">地址：{{ address || `暂无地址` }}</p>
+            <p class="summary">{{ summary || `暂无简介` }}</p>
           </div>
           <div class="imgs">
             <ul>

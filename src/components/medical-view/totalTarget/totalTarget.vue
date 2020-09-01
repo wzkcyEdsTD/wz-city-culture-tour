@@ -3,7 +3,7 @@
     <span class="header">医疗体征</span>
     <ul class="content">
       <li class="item">
-        <i class="icon hospital"></i>
+        <img class="icon hospital" src="../../../common/images/hospital.png" />
         <div class="right">
           <div class="title">
             实时门诊人次
@@ -17,7 +17,7 @@
         </div>
       </li>
       <li class="item">
-        <i class="icon ambulance"></i>
+        <img class="icon ambulance" src="../../../common/images/ambulance.png" />
         <div class="right">
           <div class="title">
             定点医院数
@@ -31,7 +31,7 @@
         </div>
       </li>
       <li class="item">
-        <i class="icon doctor"></i>
+        <img class="icon doctor" src="../../../common/images/doctor.png" />
         <div class="right">
           <div class="title">
             医保参保单位
@@ -45,7 +45,7 @@
         </div>
       </li>
       <li class="item">
-        <i class="icon nurse"></i>
+        <img class="icon nurce" src="../../../common/images/nurse.png" />
         <div class="right">
           <div class="title">
             医保支付额
@@ -88,8 +88,8 @@ export default {
 <style scoped lang="less">
 .target-wrapper {
   position: absolute;
-  top: 1.06rem;
-  left: 50px;
+  top: 1vh;
+  left: 2vw;
   z-index: 200000;
 
   .header {
@@ -102,7 +102,7 @@ export default {
     color: #ffffff;
     text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.64);
     position: relative;
-    margin-bottom: 10px;
+    margin-bottom: 3vh;
     padding-left: 15px;
   }
 
@@ -114,7 +114,7 @@ export default {
     width: 150px;
     height: 15px;
     z-index: -1;
-    background-image: linear-gradient(90deg, #0addca 0%, transparent 100%);
+    background-image: linear-gradient(90deg, #2acbfe 0%, transparent 100%);
     transform: skewX(-30deg);
   }
 
@@ -122,28 +122,15 @@ export default {
     .item {
       display: flex;
       align-items: center;
-      margin-top: 18px;
+      margin-top: 2vh;
       .icon {
         width: 0.52rem;
-        height: 0.52rem;
-        &.hospital {
-          .bg-image("../../../common/images/hospital");
-        }
-        &.ambulance {
-          .bg-image("../../../common/images/ambulance");
-        }
-        &.doctor {
-          .bg-image("../../../common/images/doctor");
-        }
-        &.nurse {
-          .bg-image("../../../common/images/nurse");
-        }
       }
       .right {
         display: flex;
         flex-direction: column;
         color: #fff;
-        margin-left: 10px;
+        margin-left: 14px;
         .title {
           font-family: PingFang;
           font-size: 15px;
@@ -155,8 +142,8 @@ export default {
           font-size: 12px;
         }
         .number {
-          margin-top: 6px;
-          color: #00ffeb;
+          margin-top: 1vh;
+          color: #2acbfe;
           font-size: 24px;
           font-family: DIN;
           font-weight: bold;

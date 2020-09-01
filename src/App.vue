@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <m-header></m-header>
+    <!-- <m-header></m-header> -->
     <loading v-show="isLoading"></loading>
     <div class="content">
       <!--      <keep-alive>-->
@@ -12,7 +12,7 @@
 
 <script>
 // import MHeader from "components/m-header/m-header";
-import MHeader from "components/m-header/m-header4";
+// import MHeader from "components/m-header/m-header4";
 import Loading from "components/loading/loading";
 import { getUserInfo } from "./api/public/public";
 import { mapGetters, mapActions, mapState } from "vuex";
@@ -21,7 +21,7 @@ import category from "mock/category";
 export default {
   name: "App",
   components: {
-    MHeader,
+    // MHeader,
     Loading,
   },
   data() {
@@ -129,7 +129,7 @@ body {
 }
 #app > .content {
   position: absolute;
-  top: 0.71rem;
+  top: 0;
   bottom: 0;
   width: 100%;
   z-index: 9;

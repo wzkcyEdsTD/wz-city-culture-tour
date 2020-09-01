@@ -11,8 +11,8 @@
     <div id="cesiumContainer" />
     <div v-if="mapLoaded">
       <Coverage />
-      <Area />
-      <Turntable />
+      <!-- <Area /> -->
+      <!-- <Turntable /> -->
       <TotalTarget />
       <NanTangModel v-if="showSubFrame == '3d1'" />
       <InfoFrame ref="infoframe" v-show="isInfoFrame" />
@@ -28,8 +28,8 @@
 import { ServiceUrl } from "config/server/mapConfig";
 import "./basicTools/ThreeTools.less";
 import Coverage from "./treeTool/TreeTool";
-import Area from "./area/area";
-import Turntable from "./turntable/turntable";
+// import Area from "./area/area";
+// import Turntable from "./turntable/turntable";
 import TotalTarget from "./totalTarget/totalTarget";
 import NanTangModel from "./extraModel/NanTangModel";
 import InfoFrame from "./commonFrame/InfoFrame";
@@ -53,8 +53,8 @@ export default {
   },
   components: {
     Coverage,
-    Area,
-    Turntable,
+    // Area,
+    // Turntable,
     TotalTarget,
     NanTangModel,
     InfoFrame,
