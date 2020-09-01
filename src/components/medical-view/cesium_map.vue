@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-20 18:52:41
- * @LastEditTime: 2020-09-01 17:14:09
+ * @LastEditTime: 2020-09-01 18:13:01
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\cesium_map.vue
@@ -96,7 +96,7 @@ export default {
         //  *****[]  事件传递点位*****
         //  *****[]  详情查看点位*****
         const forceEntity = this.$refs.detailPopup.forceEntity;
-        if (forceEntity) {
+        if (forceEntity.extra_data) {
           const pointToWindow = Cesium.SceneTransforms.wgs84ToWindowCoordinates(
             window.earth.scene,
             forceEntity.position

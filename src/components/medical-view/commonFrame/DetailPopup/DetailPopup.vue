@@ -1,22 +1,30 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-12 14:32:09
- * @LastEditTime: 2020-09-01 17:33:23
+ * @LastEditTime: 2020-09-01 18:33:55
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\commonFrame\DetailPopup\DetailPopup.vue
 -->
 <template>
-  <div id="forcePopUp" v-show="forcePosition.x && forcePosition.y">
+  <div id="forcePopUp" v-if="forcePosition.x && forcePosition.y">
     <div
       id="forcePopUpContent"
       class="leaflet-popup"
       :style="{transform:`translate3d(${forcePosition.x}px,${forcePosition.y}px, 0)`}"
     >
-      <a class="leaflet-popup-close-button" href="#">×</a>
+      <a class="leaflet-popup-close-button" href="#" @click="closePopup">×</a>
       <div class="leaflet-popup-content-wrapper">
-        <div id="forcePopUpLink" class="leaflet-popup-content" style="max-width: 300px;">
-          <div class="leaflet-popup-content">这是弹窗</div>
+        <div id="forcePopUpLink" class="leaflet-popup-content">
+          <div class="leaflet-popup-content">
+            <header>{{forceEntity.extra_data.SHORTNAME || forceEntity.extra_data.NAME}}</header>
+            <ul class="content-body">
+              <li v-for="(item,key) in forceEntity.extra_data" :key="key">
+                <span>{{key}}</span>
+                <span>{{item}}</span>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
@@ -27,7 +35,7 @@
 export default {
   data() {
     return {
-      forceEntity: undefined,
+      forceEntity: {},
       forcePosition: {},
     };
   },
@@ -41,6 +49,7 @@ export default {
      *  @param {object} forceEntity 详情点信息
      */
     getForceEntity(forceEntity) {
+      console.log(forceEntity);
       this.forceEntity = forceEntity;
     },
     /**
@@ -54,6 +63,10 @@ export default {
       ) {
         this.forcePosition = pointToWindow;
       }
+    },
+    closePopup() {
+      this.forcePosition = {};
+      this.forceEntity = {};
     },
   },
 };
@@ -79,6 +92,7 @@ export default {
   text-decoration: none;
   font-weight: bold;
   background: transparent;
+  cursor: pointer;
 }
 
 .leaflet-popup-content-wrapper {
@@ -86,10 +100,46 @@ export default {
   text-align: center;
   height: 151px;
   width: 271px;
+  box-sizing: border-box;
+  padding: 28px 26px;
 }
 
 .leaflet-popup-content {
-  margin: 13px 19px;
-  line-height: 1.4;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 100%;
+  > header {
+    height: 24px;
+    line-height: 24px;
+  }
+  > .content-body {
+    flex: 1;
+    overflow-y: auto;
+    > li {
+      font-size: 14px;
+      height: 22px;
+      line-height: 22px;
+      font-weight: 300;
+      float: left;
+      width: 100%;
+      // border-bottom: 1px rgba(255,255,255,0.6) solid;
+      > span {
+        display: inline-block;
+        vertical-align: top;
+        height: 100%;
+        float: left;
+        flex: 1;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        width: 122px;
+      }
+      > span:first-child {
+        width: 90px;
+      }
+    }
+  }
 }
 </style>
