@@ -49,6 +49,7 @@ export default {
       imagelayer: undefined,
       datalayer: undefined,
       isInfoFrame: false,
+      handler: undefined,
     };
   },
   components: {
@@ -66,6 +67,7 @@ export default {
   mounted() {
     this.init3DMap(() => {
       this.mapLoaded = true;
+      this.initHandler()
     });
     this.eventRegsiter();
   },
@@ -150,9 +152,9 @@ export default {
       });
       // 移除缓冲圈
       $(".cesium-widget-credits").hide();
-      fn && fn();
       viewer.scene.globe.depthTestAgainstTerrain = false;
       window.earth = viewer;
+      fn && fn();
       this.cameraMove();
       this.addPointLight();
     },
@@ -182,6 +184,19 @@ export default {
         },
       });
     },
+    initHandler() {
+      this.handler = new Cesium.ScreenSpaceEventHandler(window.earth.scene.canvas);
+      // 监听左键点击事件
+      this.handler.setInputAction((e) => {
+        let pick = window.earth.scene.pick(e.position);
+        if (pick && (~pick.id.id.indexOf('videopoint_'))) {
+          this.$bus.$emit("cesium-3d-videoPointClick", {
+            mp_id: pick.id.id,
+            mp_name: pick.id.name,
+          });
+        }
+      }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+    }
   },
 };
 </script>
