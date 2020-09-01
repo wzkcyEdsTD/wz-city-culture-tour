@@ -88,7 +88,7 @@ export default {
       // 视频监控点billboard点击事件通信
       this.$bus.$off("cesium-3d-videoPointClick");
       this.$bus.$on("cesium-3d-videoPointClick", (item) => {
-        console.log("on!videoPointClick");
+        console.log("on!videoPointClick", item);
         this.rtmpList.length &&
           this.openRtmpVideoFrame({
             mp_name: item.mp_name,

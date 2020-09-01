@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-07 10:57:45
- * @LastEditTime: 2020-08-31 11:53:16
+ * @LastEditTime: 2020-09-01 15:07:35
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\treeTool\TreeTool.vue
@@ -152,7 +152,7 @@ export default {
       if (val === "") {
         this.hospitalList = this.pickedList;
       }
-    }
+    },
   },
   async mounted() {
     this.eventRegsiter();
@@ -164,102 +164,18 @@ export default {
   },
   methods: {
     ...mapActions("map", ["SetFeverList"]),
-    // 获取当前视野范围
-    getCurrentExtent() {
-      var extent = {};
-      var scene = window.earth.scene;
-      var ellipsoid = scene.globe.ellipsoid;
-      var canvas = scene.canvas;
-      var car3_lt = window.earth.camera.pickEllipsoid(
-        new Cesium.Cartesian2(0, 0),
-        ellipsoid
-      );
-      var car3_rb = window.earth.camera.pickEllipsoid(
-        new Cesium.Cartesian2(canvas.width, canvas.height),
-        ellipsoid
-      );
-      // 当canvas左上角和右下角全部在椭球体上
-      if (car3_lt && car3_rb) {
-        var carto_lt = ellipsoid.cartesianToCartographic(car3_lt);
-        var carto_rb = ellipsoid.cartesianToCartographic(car3_rb);
-        extent.xmin = Cesium.Math.toDegrees(carto_lt.longitude);
-        extent.ymax = Cesium.Math.toDegrees(carto_lt.latitude);
-        extent.xmax = Cesium.Math.toDegrees(carto_rb.longitude);
-        extent.ymin = Cesium.Math.toDegrees(carto_rb.latitude);
-      } else if (!car3_lt && car3_rb) {
-        // 当canvas左上角不在但右下角在椭球体上
-        var car3_lt2 = null;
-        var yIndex = 0;
-        do {
-          // 这里每次10像素递加，一是10像素相差不大，二是为了提高程序运行效率
-          yIndex <= canvas.height ? (yIndex += 10) : canvas.height;
-          car3_lt2 = this.rightMap.camera.pickEllipsoid(
-            new Cesium.Cartesian2(0, yIndex),
-            ellipsoid
-          );
-        } while (!car3_lt2);
-        var carto_lt2 = ellipsoid.cartesianToCartographic(car3_lt2);
-        var carto_rb2 = ellipsoid.cartesianToCartographic(car3_rb);
-        extent.xmin = Cesium.Math.toDegrees(carto_lt2.longitude);
-        extent.ymax = Cesium.Math.toDegrees(carto_lt2.latitude);
-        extent.xmax = Cesium.Math.toDegrees(carto_rb2.longitude);
-        extent.ymin = Cesium.Math.toDegrees(carto_rb2.latitude);
-      }
-      return extent;
-    },
-    //  事件注册
-    eventRegsiter_ex() {
-      const that = this;
-      window.earth.scene.postRender.addEventListener(() => {
-        if (!that.pickedList || !window.earth) return;
-        const extent = this.getCurrentExtent();
-        const pointList = [];
-        const newList = [];
-        that.pickedList.map((item) => {
-          // console.log('fuck', item._position)
-          if (item.geometry) {
-            if (
-              item.geometry.x >= extent.xmin &&
-              item.geometry.y >= extent.ymin &&
-              item.geometry.x <= extent.xmax &&
-              item.geometry.y <= extent.ymax
-            ) {
-              const position = item._position
-                ? item._position._value
-                : item.primitive._position;
-              const pointToWindow = Cesium.SceneTransforms.wgs84ToWindowCoordinates(
-                window.earth.scene,
-                position
-              );
-
-              pointList.push(pointToWindow);
-              newList.push(item);
-            }
-          }
-        });
-
-        that.$bus.$emit("cesium-3d-mvt", {
-          scene: window.earth.scene,
-          pickedList: newList,
-          pointList,
-        });
-      });
-    },
     eventRegsiter() {
       // 根据父窗口参数选中对应图层
       this.$bus.$off("check-tree");
-      this.$bus.$on(
-        "check-tree", ({ key }) => {
-          console.log('oncheck-tree!!!')
-          this.timer = setInterval(() => {
-            if (this.feverObj) {
-              this.$refs.tree.setCheckedKeys([key]);
-              clearInterval(this.timer)
-            }
-          }, 200)
-        }
-      );
-      this.eventRegsiter_ex();
+      this.$bus.$on("check-tree", ({ key }) => {
+        console.log("oncheck-tree!!!");
+        this.timer = setInterval(() => {
+          if (this.feverObj) {
+            this.$refs.tree.setCheckedKeys([key]);
+            clearInterval(this.timer);
+          }
+        }, 200);
+      });
     },
     /**
      * 发热人数获取
@@ -280,7 +196,6 @@ export default {
      */
     getPOIPickedFeature(SMID, node) {
       const that = this;
-
       let currentDataServer;
       CESIUM_TREE_OPTION.forEach((item) => {
         item.children.forEach((citem) => {
@@ -336,10 +251,8 @@ export default {
       window.earth.dataSources.add(poiEntityCollection).then((datasource) => {
         this.entityMap[node.id] = datasource;
       });
-
       const features = res.result.features;
       const sArr = Object.keys(that.feverObj);
-
       features.map((item) => {
         if (~sArr.indexOf(item.attributes.SHORTNAME)) {
           poiLabelEntityCollection.entities.add(
@@ -361,31 +274,72 @@ export default {
             })
           );
         } else {
-          poiEntityCollection.entities.add(
-            new Cesium.Entity({
-              id: `${item.attributes.SMID}@${node.icon}@${node.dataset}`,
-              position: Cesium.Cartesian3.fromDegrees(
-                item.geometry.x,
-                item.geometry.y,
-                30
+          const entityOption = {
+            id: `${item.attributes.SMID}@${node.icon}@${node.dataset}`,
+            label: {
+              text: item.attributes.SHORTNAME || item.attributes.NAME,
+              color: Cesium.Color.fromCssColorString("#fff"),
+              style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+              font: "10px",
+              distanceDisplayCondition: new Cesium.DistanceDisplayCondition(
+                0,
+                2000
               ),
-              billboard: {
-                image: `/static/images/${node.icon}.png`,
-                width: node.icon_size == "large" ? 48 : 32,
-                height: node.icon_size == "large" ? 52 : 35,
-              },
-              label: {
-                text: item.attributes.SHORTNAME || item.attributes.NAME,
-                font: "10px",
-                distanceDisplayCondition: new Cesium.DistanceDisplayCondition(
-                  0,
-                  2000
+              pixelOffset: new Cesium.Cartesian2(0, -40),
+            },
+            name: node.id,
+            geometry: item.geometry,
+          };
+          const polygonGeometry = node.polygon
+            ? [].concat.apply(
+                [],
+                item.geometry.components[0].components.map((v) => [
+                  parseFloat(v.x),
+                  parseFloat(v.y),
+                ])
+              )
+            : [];
+          const entityInstance = node.polygon
+            ? {
+                ...entityOption,
+                position: Cesium.Cartesian3.fromDegrees(
+                  ...this.getCenterOfPolygon(polygonGeometry, 30)
                 ),
-                pixelOffset: new Cesium.Cartesian2(0, -40),
-              },
-              name: node.id,
-              geometry: item.geometry,
-            })
+                polygon: {
+                  hierarchy: Cesium.Cartesian3.fromDegreesArray(
+                    polygonGeometry
+                  ),
+                  outline: true,
+                  outlineWidth: 4,
+                  outlineColor: new Cesium.Color.fromCssColorString("#FFD700"),
+                  material: new Cesium.Color.fromCssColorString(
+                    "#7FFF00"
+                  ).withAlpha(0.6),
+                  perPositionHeight: true,
+                  height: 2,
+                },
+              }
+            : {
+                ...entityOption,
+                position: Cesium.Cartesian3.fromDegrees(
+                  item.geometry.x,
+                  item.geometry.y,
+                  30
+                ),
+                billboard: {
+                  image: `/static/images/${node.icon}.png`,
+                  width: node.icon_size == "large" ? 48 : 32,
+                  height: node.icon_size == "large" ? 52 : 35,
+                },
+              };
+
+          poiEntityCollection.entities.add(
+            new Cesium.Entity(
+              Object.assign(
+                entityOption,
+                node.detail ? { extra_data: item.attributes } : {}
+              )
+            )
           );
         }
       });
@@ -396,14 +350,12 @@ export default {
       ];
       this.hospitalList = this.pickedList;
     },
-
     filterNode(value, data) {
       return !value ? true : data.label.indexOf(value) !== -1;
     },
-
     checkChange(node, checked, c) {
       if (checked) {
-        if (node.type == "mvt" && node.id && node.icon) {
+        if (node.type == "mvt" && node.id) {
           if (node.id && this.entityMap[node.id]) {
             this.entityMap[node.id].show = true;
 
@@ -465,7 +417,14 @@ export default {
           this.$bus.$emit(node.componentEvent, { value: null });
       }
     },
-
+    getCenterOfPolygon(arr, height) {
+      let x = 0,
+        y = 0;
+      arr.map((v, index) => {
+        index % 2 == 0 ? (x += v) : (y += v);
+      });
+      return [(x * 2) / arr.length, (y * 2) / arr.length, height];
+    },
     toogleVisible() {
       this.serachBoxVisible = false;
       this.visible = !this.visible;

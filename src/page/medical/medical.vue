@@ -50,8 +50,6 @@ export default {
             key: data.label
           });
           this.$bus.$emit("cesium-3d-video-circle", {
-            doDraw: true,
-            id: 123,
             geometry: {
               lng: data.geometry[0],
               lat: data.geometry[1],

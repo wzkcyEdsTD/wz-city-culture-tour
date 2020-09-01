@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-07-29 16:10:06
- * @LastEditTime: 2020-08-31 14:36:14
+ * @LastEditTime: 2020-09-01 14:51:28
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\config\server\medicalTreeOption.js
@@ -143,6 +143,24 @@ const EMERGENCY_TOPIC = [
   }
 ];
 
+//  农贸专题
+const FARM_TOPIC = [
+  {
+    label: "农贸市场面",
+    url: SERVER_DEFAULT_DATA,
+    icon: "农贸市场面",
+    polygon: true,
+    dataset: "FarmersMarket_SiQu_M"
+  },
+  {
+    label: "农贸市场点",
+    url: SERVER_DEFAULT_DATA,
+    icon: "农贸市场点",
+    icon_size: "large",
+    dataset: "FarmersMarket_SiQu_P"
+  }
+];
+
 const MODEL_3D_FINE = [
   {
     label: "精细三维",
@@ -213,7 +231,21 @@ export const CESIUM_TREE_OPTION = [
         ...v,
         id: v.label,
         type: "mvt",
-        newdataset: `${SW_DATA_NAME}${v.dataset}`
+        newdataset: `${SW_DATA_NAME}${v.dataset}`,
+        detail: true
+      };
+    })
+  },
+  {
+    id: "农贸专题",
+    label: "农贸专题",
+    children: FARM_TOPIC.map(v => {
+      return {
+        ...v,
+        id: v.label,
+        type: "mvt",
+        newdataset: `${SW_DATA_NAME}${v.dataset}`,
+        detail: true
       };
     })
   },
