@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-07 10:57:45
- * @LastEditTime: 2020-09-01 15:07:35
+ * @LastEditTime: 2020-09-01 16:24:10
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\treeTool\TreeTool.vue
@@ -336,7 +336,7 @@ export default {
           poiEntityCollection.entities.add(
             new Cesium.Entity(
               Object.assign(
-                entityOption,
+                entityInstance,
                 node.detail ? { extra_data: item.attributes } : {}
               )
             )
