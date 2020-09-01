@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-20 18:52:41
- * @LastEditTime: 2020-08-31 10:50:43
+ * @LastEditTime: 2020-09-01 15:45:47
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\cesium_map.vue
@@ -10,7 +10,7 @@
   <div class="cesiumContainer">
     <div id="cesiumContainer" />
     <div v-if="mapLoaded">
-      <Coverage />
+      <Coverage ref="treetool" />
       <Area />
       <Turntable />
       <TotalTarget />
@@ -37,6 +37,7 @@ import Popup from "./commonFrame/popup";
 import RtmpVideo from "./extraModel/RtmpVideo/RtmpVideo";
 import Population from "./extraModel/Population/Population";
 import VideoCircle from "./commonFrame/videoCircle";
+import { getCurrentExtent } from "./commonFrame/mapTool";
 const Cesium = window.Cesium;
 import { mapActions } from "vuex";
 
@@ -61,16 +62,51 @@ export default {
     Popup,
     RtmpVideo,
     Population,
-    VideoCircle
+    VideoCircle,
   },
   mounted() {
     this.init3DMap(() => {
       this.mapLoaded = true;
+      this.mapEventRegsiter();
     });
     this.eventRegsiter();
   },
   methods: {
     ...mapActions("map", ["SetForceBimData"]),
+    mapEventRegsiter() {
+      window.earth.scene.postRender.addEventListener(() => {
+        if (!this.$refs.treetool.pickedList || !window.earth) return;
+        const extent = getCurrentExtent();
+        const pointList = [];
+        const newList = [];
+        this.$refs.treetool.pickedList.map((item) => {
+          if (item.geometry) {
+            if (
+              item.geometry.x >= extent.xmin &&
+              item.geometry.y >= extent.ymin &&
+              item.geometry.x <= extent.xmax &&
+              item.geometry.y <= extent.ymax
+            ) {
+              const position = item._position
+                ? item._position._value
+                : item.primitive._position;
+              const pointToWindow = Cesium.SceneTransforms.wgs84ToWindowCoordinates(
+                window.earth.scene,
+                position
+              );
+
+              pointList.push(pointToWindow);
+              newList.push(item);
+            }
+          }
+        });
+        this.$bus.$emit("cesium-3d-mvt", {
+          scene: window.earth.scene,
+          pickedList: newList,
+          pointList,
+        });
+      });
+    },
     eventRegsiter() {
       this.$bus.$off("cesium-3d-event");
       this.$bus.$on("cesium-3d-event", ({ value }) => {
@@ -150,11 +186,11 @@ export default {
       });
       // 移除缓冲圈
       $(".cesium-widget-credits").hide();
-      fn && fn();
       viewer.scene.globe.depthTestAgainstTerrain = false;
       window.earth = viewer;
       this.cameraMove();
       this.addPointLight();
+      fn && fn();
     },
     addPointLight() {
       const position = new Cesium.Cartesian3(
