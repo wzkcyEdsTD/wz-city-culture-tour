@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-07 10:57:45
- * @LastEditTime: 2020-09-01 16:24:10
+ * @LastEditTime: 2020-09-02 16:37:53
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\treeTool\TreeTool.vue
@@ -136,7 +136,6 @@ export default {
       //  cesium Object
       handler: undefined,
       pickedList: [],
-      pickedAttr: null,
       entityMap: {},
       timer: null,
     };
@@ -216,16 +215,8 @@ export default {
       var url = currentDataServer.url;
       getFeatureBySQLService = new SuperMap.REST.GetFeaturesBySQLService(url, {
         eventListeners: {
-          processCompleted: (res) => {
-            if (SMID != null && res.result.featureCount) {
-              this.pickedAttr = res.result.features[0].attributes;
-            } else {
-              this.completed(res, node);
-            }
-          },
-          processFailed: (msg) => {
-            console.log(msg);
-          },
+          processCompleted: (res) => this.completed(res, node),
+          processFailed: (msg) => console.log(msg),
         },
       });
       getFeatureBySQLService.processAsync(getFeatureBySQLParams);
@@ -358,18 +349,18 @@ export default {
         if (node.type == "mvt" && node.id) {
           if (node.id && this.entityMap[node.id]) {
             this.entityMap[node.id].show = true;
-
             if (this.entityMap[`${node.id}_label`]) {
               this.entityMap[`${node.id}_label`].show = true;
-              this.pickedList = [
-                ...this.pickedList,
-                ...this.entityMap[`${node.id}_label`].entities.values,
-              ];
             }
             return;
           }
-          // 专题集合添加
-          this.getPOIPickedFeature(null, node);
+          //  打开具体模块[Popup]
+          if (node.xxxx) {
+            // this.$bus[node.xxxx](node.xxxxkey);
+          } else {
+            //  专题集合添加
+            this.getPOIPickedFeature(null, node);
+          }
         } else if (node.type == "model") {
           node.componentEvent &&
             node.componentKey &&

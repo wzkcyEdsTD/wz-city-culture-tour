@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-20 18:52:41
- * @LastEditTime: 2020-09-02 12:50:11
+ * @LastEditTime: 2020-09-02 16:35:31
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\cesium_map.vue
@@ -139,6 +139,15 @@ export default {
       }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
     },
     eventRegsiter() {
+      this.$bus.$off("cesium-3d-event");
+      this.$bus.$on("cesium-3d-event", ({ value }) => {
+        this.SetForceBimData([]);
+        this.showSubFrame = value;
+      });
+      this.$bus.$off("cesium-3d-maptool");
+      this.$bus.$on("cesium-3d-maptool", ({ value }) => {
+        this.showSubTool = value;
+      });
       this.$bus.$off("cesium-3d-switch");
       this.$bus.$on("cesium-3d-switch", ({ value }) => {
         const _LAYER_ = window.earth.scene.layers.find("baimo");

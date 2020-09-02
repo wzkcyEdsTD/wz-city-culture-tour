@@ -53,6 +53,7 @@ export default {
     };
   },
   async mounted() {
+    //  await feverList();
     this.eventRegsiter();
   },
   methods: {
