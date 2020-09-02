@@ -1,13 +1,13 @@
 /*
  * @Author: eds
  * @Date: 2020-08-31 15:45:25
- * @LastEditTime: 2020-09-02 14:04:25
+ * @LastEditTime: 2020-09-02 17:05:29
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\api\validation\config.js
  */
-const prodURL_HOST = "www.sourcelayer.wzcitybrain.com";
-const signURL = "https://www.sourceserver.wzcitybrain.com/api/user/getSignStr";
+const prodURL_HOST = "sourcelayer.wzcitybrain.com";
+const signURL = "https://sourceserver.wzcitybrain.com/api/user/getSignStr";
 const validationURL_PROD =
   "https://api-szjsc.wenzhou.gov.cn/cockpit/wzdsjjsc/wzsjjsc-server/scenario/v1/validAuthorCode";
 const validationURL_DEV =
