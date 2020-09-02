@@ -19,6 +19,7 @@
       <RtmpVideo v-if="mapLoaded" />
       <Population v-if="mapLoaded" />
       <VideoCircle ref="videoCircle" v-if="mapLoaded" />
+      <AuthFailPopup ref="authFailPopup" v-if="mapLoaded" />
     </div>
   </div>
 </template>
@@ -35,8 +36,9 @@ import DetailPopup from "./commonFrame/DetailPopup/DetailPopup";
 import RtmpVideo from "./extraModel/RtmpVideo/RtmpVideo";
 import Population from "./extraModel/Population/Population";
 import VideoCircle from "./commonFrame/videoCircle";
+import AuthFailPopup from "./commonFrame/AuthFailPopup/AuthFailPopup";
 import { getCurrentExtent, isContainByExtent } from "./commonFrame/mapTool";
-import { doValidation } from "api/validation/validation";
+// import { doValidation } from "api/validation/validation";
 const Cesium = window.Cesium;
 import { mapActions } from "vuex";
 
@@ -62,6 +64,7 @@ export default {
     RtmpVideo,
     Population,
     VideoCircle,
+    AuthFailPopup
   },
   async mounted() {
     // await doValidation("72642aa9a19c419dbbb39d94d3d110b9");
@@ -120,6 +123,7 @@ export default {
         if (!pick.id || typeof pick.id != "object") return;
         //  *****[]  监控视频点*****
         if (pick && pick.id.id && ~pick.id.id.indexOf("videopoint_")) {
+          this.$refs.videoCircle.doSetRtmpList()
           this.$bus.$emit("cesium-3d-videoPointClick", {
             mp_id: pick.id.id,
             mp_name: pick.id.name,

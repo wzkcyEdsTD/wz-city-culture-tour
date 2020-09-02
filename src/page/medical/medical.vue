@@ -22,6 +22,7 @@ import MapCenterBtn from "./modules/map-center-btn/map-center-btn";
 import MBottom from "components/m-bottom/m-bottom";
 import CesiumMap from "components/medical-view/cesium_map";
 import { mapGetters, mapActions } from "vuex";
+import { doValidation } from "api/validation/validation";
 
 export default {
   name: "Medical",
@@ -45,17 +46,19 @@ export default {
     eventRegsiter() {
       this.$bus.$off("medical-message");
       this.$bus.$on(
-        "medical-message", ({ data }) => {
-          this.$bus.$emit("check-tree", {
-            key: data.label
-          });
-          this.$bus.$emit("cesium-3d-video-circle", {
-            geometry: {
-              lng: data.geometry[0],
-              lat: data.geometry[1],
-            },
-            queryRadius: data.radius
-          });
+        "medical-message", async({ authorCode, layer }) => {
+          let result = await doValidation(authorCode);
+          console.log('result', result)
+          // this.$bus.$emit("check-tree", {
+          //   key: layer.label
+          // });
+          // this.$bus.$emit("cesium-3d-video-circle", {
+          //   geometry: {
+          //     lng: layer.geometry[0],
+          //     lat: layer.geometry[1],
+          //   },
+          //   queryRadius: layer.radius
+          // });
         }
       );
     },

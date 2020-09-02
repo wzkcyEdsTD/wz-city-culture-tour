@@ -1,11 +1,11 @@
 <template>
-  <div class="videoCircle" v-show="shallPop">
+  <div class="videoCircle" v-if="shallPop">
     <div
       class="vc-popup"
       :style="{transform:`translate3d(${item.x}px,${item.y+4}px, 0)`}"
     >
       <div class="popup-container">
-        <div class="clear" @click="removeVideoCircle(null)"></div>
+        <div class="remove" @click="removeVideoCircle(null)"></div>
         <div class="position"></div>
         <div class="resource" @click="resourceClick()"></div>
       </div>
@@ -154,7 +154,6 @@ export default {
         queryRadius,
       );
       this.rtmpVideoList = data
-      this.SetRtmpList(data);
       data.forEach((item) => {
         this.videoPointCollection.entities.add(
           new Cesium.Entity({
@@ -177,6 +176,11 @@ export default {
 
       window.earth.zoomTo(circleEntity);
     },
+
+    doSetRtmpList() {
+      this.SetRtmpList(this.rtmpVideoList);
+    },
+
     /**
      * 删缓冲区
      * @param {string|number|undefined} 有id删id 没id删全部
@@ -197,6 +201,7 @@ export default {
     },
 
     resourceClick() {
+      this.doSetRtmpList()
       this.$bus.$emit("cesium-3d-videoPointClick", {
         mp_id: `videopoint_${this.rtmpVideoList[0].mp_id}`,
         mp_name: this.rtmpVideoList[0].mp_name,
@@ -217,7 +222,7 @@ export default {
   .popup-container {
     display: flex;
     align-items: center;
-    .clear, .resource {
+    .remove, .resource {
       width: 36px;
       height: 73px;
       // font-family: YouSheBiaoTiHei;
@@ -225,8 +230,8 @@ export default {
       // color: #fff;
       // writing-mode: vertical-lr;
     }
-    .clear {
-      .bg-image("../../../common/images/VC-clear-bg");
+    .remove {
+      .bg-image("../../../common/images/VC-remove-bg");
     }
     .position {
       width: 30px;
