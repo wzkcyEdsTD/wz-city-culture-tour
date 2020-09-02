@@ -9,18 +9,18 @@
 <template>
   <div class="cesiumContainer">
     <div id="cesiumContainer" />
-    <div v-if="false">
+    <div v-if="mapLoaded && validated">
       <Coverage ref="treetool" />
       <TotalTarget />
       <NanTangModel v-if="showSubFrame == '3d1'" />
       <InfoFrame ref="infoframe" v-show="isInfoFrame" />
-      <Popup ref="popups" :mapLoaded="mapLoaded" />
+      <Popup ref="popups" />
       <DetailPopup ref="detailPopup" />
-      <RtmpVideo v-if="mapLoaded" />
-      <Population v-if="mapLoaded" />
-      <VideoCircle ref="videoCircle" v-if="mapLoaded" />
-      <AuthFailPopup ref="authFailPopup" v-if="mapLoaded" />
+      <RtmpVideo />
+      <Population />
+      <VideoCircle ref="videoCircle" />
     </div>
+    <AuthFailPopup ref="authFailPopup" v-if="mapLoaded"/>
   </div>
 </template>
 
@@ -38,7 +38,7 @@ import Population from "./extraModel/Population/Population";
 import VideoCircle from "./commonFrame/videoCircle";
 import AuthFailPopup from "./commonFrame/AuthFailPopup/AuthFailPopup";
 import { getCurrentExtent, isContainByExtent } from "./commonFrame/mapTool";
-// import { doValidation } from "api/validation/validation";
+import { doValidation } from "api/validation/validation";
 const Cesium = window.Cesium;
 import { mapActions } from "vuex";
 
@@ -48,6 +48,7 @@ export default {
       showSubFrame: null,
       showSubTool: null,
       mapLoaded: false,
+      validated: false,
       imagelayer: undefined,
       datalayer: undefined,
       isInfoFrame: false,
@@ -71,14 +72,26 @@ export default {
       this.mapLoaded = true;
       this.initPostRender();
       this.initHandler();
+      this.validate();
     });
     this.eventRegsiter();
   },
   methods: {
     ...mapActions("map", ["SetForceBimData"]),
+    async validate() {
+      let authorCode = this.$route.query.authorCode
+      if (authorCode) {
+        let res = await doValidation(authorCode)
+        if (res) {
+          this.validated = true
+        } else {
+          this.$refs.authFailPopup.shallPop = true
+        }
+      }
+    },
     initPostRender() {
       window.earth.scene.postRender.addEventListener(() => {
-        if (!window.earth || !this.mapLoaded || !Object.keys(this.$refs).length)
+        if (!window.earth || !this.mapLoaded || !this.validated || !Object.keys(this.$refs).length)
           return;
         //  *****[pickedList] 医疗点位*****
         const pickedList = this.$refs.treetool.pickedList;

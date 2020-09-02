@@ -19,9 +19,6 @@ export default {
     };
   },
   async mounted() {
-    this.$bus.$on("open-authfail-popup", () => {
-      this.shallPop = true
-    });
   },
   methods: {
     closePopup() {
@@ -90,6 +87,8 @@ export default {
     height: 28px;
     line-height: 28px;
     .bg-image("./images/btn");
+    font-size: 14px;
+    color: #2acbfe;
   }
 }
 </style>

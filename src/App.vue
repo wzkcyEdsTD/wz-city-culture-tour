@@ -38,13 +38,12 @@ export default {
   },
   watch: {
     $route(to) {
-      console.log('tooooooooooo', to)
+      console.log('to', to)
+      console.log('onMessage', this.onMessage)
       if (this.onMessage) {
         if (to.name == 'Medical') {
-          console.log('kamier')
           this.$nextTick(() => {
             this.$bus.$emit("medical-message", {
-              authorCode: to.params.authorCode,
               layer: to.params.layer
             });
           });
@@ -56,13 +55,13 @@ export default {
     // 监听父窗口事件
     window.addEventListener("message", e => {
       console.log('message', e)
-      console.log('route', this.$route)
-      this.onMessage = true
       let data = e.data
+      if (!data.layer)
+        return;
+      this.onMessage = true
       if (this.$route.name == data.layer.eventName) {
         if (data.layer.eventName == 'Medical') {
           this.$bus.$emit("medical-message", {
-            authorCode: data.authorCode,
             layer: data.layer
           });
         }
