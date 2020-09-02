@@ -223,8 +223,8 @@ export default {
     display: flex;
     align-items: center;
     .remove, .resource {
-      width: 36px;
-      height: 73px;
+      width: 50px;
+      height: 101px;
       // font-family: YouSheBiaoTiHei;
       // font-size: 14px;
       // color: #fff;

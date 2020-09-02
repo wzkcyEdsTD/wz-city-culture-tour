@@ -46,7 +46,7 @@ export default {
       this.$bus.$on(
         "medical-message", async({ layer }) => {
           this.$bus.$emit("check-tree", {
-            key: layer.label
+            key: layer.sourceName
           });
           this.$bus.$emit("cesium-3d-video-circle", {
             geometry: {
