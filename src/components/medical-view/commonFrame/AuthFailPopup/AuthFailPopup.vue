@@ -1,5 +1,13 @@
+<!--
+ * @Author: eds
+ * @Date: 2020-09-02 16:38:50
+ * @LastEditTime: 2020-09-02 19:23:51
+ * @LastEditors: eds
+ * @Description:
+ * @FilePath: \wz-city-culture-tour\src\components\medical-view\commonFrame\AuthFailPopup\AuthFailPopup.vue
+-->
 <template>
-  <div class="authfail-popup" v-if="shallPop">
+  <div class="authfail-popup">
     <a class="authfail-popup-close-button" href="#" @click="closePopup">×</a>
     <div class="authfail-popup-content-wrapper">
       <div class="authfail-popup-content">
@@ -13,16 +21,10 @@
 
 <script>
 export default {
-  data() {
-    return {
-      shallPop: false
-    };
-  },
-  async mounted() {
-  },
+  async mounted() {},
   methods: {
     closePopup() {
-      this.shallPop = false
+      this.$parent.authFailshallPop = false;
     },
   },
 };

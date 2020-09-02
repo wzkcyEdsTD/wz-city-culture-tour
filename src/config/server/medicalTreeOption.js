@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-07-29 16:10:06
- * @LastEditTime: 2020-09-01 14:51:28
+ * @LastEditTime: 2020-09-02 18:37:46
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\config\server\medicalTreeOption.js
@@ -144,7 +144,7 @@ const EMERGENCY_TOPIC = [
 ];
 
 //  农贸专题
-const FARM_TOPIC = [
+const SOURCE_TOPIC = [
   {
     label: "农贸市场面",
     url: SERVER_DEFAULT_DATA,
@@ -237,9 +237,9 @@ export const CESIUM_TREE_OPTION = [
     })
   },
   {
-    id: "农贸专题",
-    label: "农贸专题",
-    children: FARM_TOPIC.map(v => {
+    id: "资源专题",
+    label: "资源专题",
+    children: SOURCE_TOPIC.map(v => {
       return {
         ...v,
         id: v.label,

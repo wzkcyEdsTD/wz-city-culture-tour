@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-08-31 15:27:32
- * @LastEditTime: 2020-09-02 14:05:22
+ * @LastEditTime: 2020-09-02 19:21:59
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\api\validation\validation.js

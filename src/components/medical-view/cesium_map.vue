@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-20 18:52:41
- * @LastEditTime: 2020-09-02 16:35:31
+ * @LastEditTime: 2020-09-02 19:25:46
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\cesium_map.vue
@@ -20,7 +20,7 @@
       <Population />
       <VideoCircle ref="videoCircle" />
     </div>
-    <AuthFailPopup ref="authFailPopup" v-if="mapLoaded"/>
+    <AuthFailPopup ref="authFailPopup" v-if="mapLoaded && authFailshallPop" />
   </div>
 </template>
 
@@ -53,6 +53,7 @@ export default {
       datalayer: undefined,
       isInfoFrame: false,
       handler: undefined,
+      authFailshallPop: false,
     };
   },
   components: {
@@ -79,19 +80,26 @@ export default {
   methods: {
     ...mapActions("map", ["SetForceBimData"]),
     async validate() {
-      let authorCode = this.$route.query.authorCode
+      let authorCode = this.$route.query.authorCode;
       if (authorCode) {
-        let res = await doValidation(authorCode)
+        let res = await doValidation(authorCode);
         if (res) {
-          this.validated = true
+          this.validated = true;
         } else {
-          this.$refs.authFailPopup.shallPop = true
+          this.authFailshallPop = true;
         }
+      } else {
+        this.authFailshallPop = true;
       }
     },
     initPostRender() {
       window.earth.scene.postRender.addEventListener(() => {
-        if (!window.earth || !this.mapLoaded || !this.validated || !Object.keys(this.$refs).length)
+        if (
+          !window.earth ||
+          !this.mapLoaded ||
+          !this.validated ||
+          !Object.keys(this.$refs).length
+        )
           return;
         //  *****[pickedList] 医疗点位*****
         const pickedList = this.$refs.treetool.pickedList;
