@@ -19,6 +19,9 @@ export default {
     };
   },
   async mounted() {
+    this.$bus.$on("open-authfail-popup", () => {
+      this.shallPop = true
+    });
   },
   methods: {
     closePopup() {

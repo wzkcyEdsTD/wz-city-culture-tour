@@ -49,16 +49,20 @@ export default {
         "medical-message", async({ authorCode, layer }) => {
           let result = await doValidation(authorCode);
           console.log('result', result)
-          // this.$bus.$emit("check-tree", {
-          //   key: layer.label
-          // });
-          // this.$bus.$emit("cesium-3d-video-circle", {
-          //   geometry: {
-          //     lng: layer.geometry[0],
-          //     lat: layer.geometry[1],
-          //   },
-          //   queryRadius: layer.radius
-          // });
+          if (result) {
+            this.$bus.$emit("check-tree", {
+              key: layer.label
+            });
+            this.$bus.$emit("cesium-3d-video-circle", {
+              geometry: {
+                lng: layer.geometry[0],
+                lat: layer.geometry[1],
+              },
+              queryRadius: layer.radius
+            });
+          } else {
+            this.$bus.$emit("open-authfail-popup");
+          }
         }
       );
     },
