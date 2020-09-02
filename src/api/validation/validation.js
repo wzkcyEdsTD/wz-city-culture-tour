@@ -1,14 +1,19 @@
 /*
  * @Author: eds
  * @Date: 2020-08-31 15:27:32
- * @LastEditTime: 2020-09-02 14:04:46
+ * @LastEditTime: 2020-09-02 14:05:22
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\api\validation\validation.js
  */
 import axios from "axios";
 import validationObject from "./config";
-const { signURL, validationURL, validationJson } = validationObject;
+const {
+  signURL,
+  validationURL,
+  validationJson,
+  avoidValidationString
+} = validationObject;
 const instance = axios.create();
 
 /**
@@ -47,7 +52,7 @@ const validation = (sign, authorCode) => {
  * @param {*} authorCode
  */
 export const doValidation = async authorCode => {
-  if (authorCode === avoidValidationString) return true;
+  if (authorCode == avoidValidationString) return true;
   const sign = await fetchSignByTimestamp();
   const { errorCode, success } = await validation(sign, authorCode);
   return errorCode == "0" && success ? true : false;
