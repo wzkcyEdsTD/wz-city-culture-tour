@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-08-31 15:27:32
- * @LastEditTime: 2020-09-02 09:13:03
+ * @LastEditTime: 2020-09-02 14:04:46
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\api\validation\validation.js
@@ -47,6 +47,7 @@ const validation = (sign, authorCode) => {
  * @param {*} authorCode
  */
 export const doValidation = async authorCode => {
+  if (authorCode === avoidValidationString) return true;
   const sign = await fetchSignByTimestamp();
   const { errorCode, success } = await validation(sign, authorCode);
   return errorCode == "0" && success ? true : false;

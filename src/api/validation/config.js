@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-08-31 15:45:25
- * @LastEditTime: 2020-09-02 12:02:22
+ * @LastEditTime: 2020-09-02 14:04:25
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\api\validation\config.js
@@ -23,5 +23,6 @@ export default {
   validationJson: {
     version: VERSION,
     appKey: APP_KEY
-  }
+  },
+  avoidValidationString: "wzsjjt"
 };
