@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-20 18:52:41
- * @LastEditTime: 2020-09-02 09:13:21
+ * @LastEditTime: 2020-09-02 12:50:11
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\cesium_map.vue
@@ -9,7 +9,7 @@
 <template>
   <div class="cesiumContainer">
     <div id="cesiumContainer" />
-    <div v-if="mapLoaded">
+    <div v-if="false">
       <Coverage ref="treetool" />
       <TotalTarget />
       <NanTangModel v-if="showSubFrame == '3d1'" />
@@ -64,7 +64,7 @@ export default {
     RtmpVideo,
     Population,
     VideoCircle,
-    AuthFailPopup
+    AuthFailPopup,
   },
   async mounted() {
     this.init3DMap(() => {
@@ -78,7 +78,8 @@ export default {
     ...mapActions("map", ["SetForceBimData"]),
     initPostRender() {
       window.earth.scene.postRender.addEventListener(() => {
-        if (!window.earth) return;
+        if (!window.earth || !this.mapLoaded || !Object.keys(this.$refs).length)
+          return;
         //  *****[pickedList] 医疗点位*****
         const pickedList = this.$refs.treetool.pickedList;
         if (pickedList && pickedList.length) {
@@ -122,7 +123,7 @@ export default {
         if (!pick.id || typeof pick.id != "object") return;
         //  *****[]  监控视频点*****
         if (pick && pick.id.id && ~pick.id.id.indexOf("videopoint_")) {
-          this.$refs.videoCircle.doSetRtmpList()
+          this.$refs.videoCircle.doSetRtmpList();
           this.$bus.$emit("cesium-3d-videoPointClick", {
             mp_id: pick.id.id,
             mp_name: pick.id.name,
