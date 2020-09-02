@@ -38,8 +38,6 @@ export default {
   },
   watch: {
     $route(to) {
-      console.log('to', to)
-      console.log('onMessage', this.onMessage)
       if (this.onMessage) {
         if (to.name == 'Medical') {
           this.$nextTick(() => {
