@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-20 18:52:41
- * @LastEditTime: 2020-09-01 19:14:48
+ * @LastEditTime: 2020-09-02 09:13:21
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\cesium_map.vue
@@ -64,7 +64,6 @@ export default {
     VideoCircle,
   },
   async mounted() {
-    // await doValidation("72642aa9a19c419dbbb39d94d3d110b9");
     this.init3DMap(() => {
       this.mapLoaded = true;
       this.initPostRender();

@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-08-31 15:27:32
- * @LastEditTime: 2020-09-01 18:55:48
+ * @LastEditTime: 2020-09-02 09:13:03
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\api\validation\validation.js
@@ -35,10 +35,10 @@ const validation = (sign, authorCode) => {
     .request({
       url: validationURL,
       method: "post",
-      data: { ...validationJson, sign, authorCode }
+      data: { ...validationJson, ...sign, authorCode }
     })
     .then(res => {
-      return Promise.resolve(res);
+      return Promise.resolve(res.data);
     });
 };
 
@@ -48,7 +48,6 @@ const validation = (sign, authorCode) => {
  */
 export const doValidation = async authorCode => {
   const sign = await fetchSignByTimestamp();
-  const result = await validation(sign, authorCode);
-  // return errorCode == "0" && data.userId ? true : false;
-  console.log(result);
+  const { errorCode, success } = await validation(sign, authorCode);
+  return errorCode == "0" && success ? true : false;
 };
