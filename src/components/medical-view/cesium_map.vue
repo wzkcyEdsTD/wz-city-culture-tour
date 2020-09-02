@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-20 18:52:41
- * @LastEditTime: 2020-09-02 09:13:21
+ * @LastEditTime: 2020-09-02 12:50:11
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\cesium_map.vue
@@ -9,18 +9,18 @@
 <template>
   <div class="cesiumContainer">
     <div id="cesiumContainer" />
-    <!-- <div v-if="mapLoaded">
+    <div v-if="mapLoaded && validated">
       <Coverage ref="treetool" />
       <TotalTarget />
       <NanTangModel v-if="showSubFrame == '3d1'" />
       <InfoFrame ref="infoframe" v-show="isInfoFrame" />
-      <Popup ref="popups" :mapLoaded="mapLoaded" />
+      <Popup ref="popups" />
       <DetailPopup ref="detailPopup" />
-      <RtmpVideo v-if="mapLoaded" />
-      <Population v-if="mapLoaded" />
-      <VideoCircle ref="videoCircle" v-if="mapLoaded" />
+      <RtmpVideo />
+      <Population />
+      <VideoCircle ref="videoCircle" />
     </div>
-    <AuthFailPopup ref="authFailPopup" v-if="mapLoaded" /> -->
+    <AuthFailPopup ref="authFailPopup" v-if="mapLoaded"/>
   </div>
 </template>
 
@@ -48,6 +48,7 @@ export default {
       showSubFrame: null,
       showSubTool: null,
       mapLoaded: false,
+      validated: false,
       imagelayer: undefined,
       datalayer: undefined,
       isInfoFrame: false,
@@ -64,14 +65,14 @@ export default {
     RtmpVideo,
     Population,
     VideoCircle,
-    AuthFailPopup
+    AuthFailPopup,
   },
   async mounted() {
-    // this.validate()
     this.init3DMap(() => {
       this.mapLoaded = true;
       this.initPostRender();
       this.initHandler();
+      this.validate();
     });
     this.eventRegsiter();
   },
@@ -79,10 +80,8 @@ export default {
     ...mapActions("map", ["SetForceBimData"]),
     async validate() {
       let authorCode = this.$route.query.authorCode
-      console.log('authorCode', authorCode)
       if (authorCode) {
         let res = await doValidation(authorCode)
-        console.log('res', res)
         if (res) {
           this.validated = true
         } else {
@@ -92,7 +91,8 @@ export default {
     },
     initPostRender() {
       window.earth.scene.postRender.addEventListener(() => {
-        if (!window.earth) return;
+        if (!window.earth || !this.mapLoaded || !this.validated || !Object.keys(this.$refs).length)
+          return;
         //  *****[pickedList] 医疗点位*****
         const pickedList = this.$refs.treetool.pickedList;
         if (pickedList && pickedList.length) {
@@ -136,7 +136,7 @@ export default {
         if (!pick.id || typeof pick.id != "object") return;
         //  *****[]  监控视频点*****
         if (pick && pick.id.id && ~pick.id.id.indexOf("videopoint_")) {
-          this.$refs.videoCircle.doSetRtmpList()
+          this.$refs.videoCircle.doSetRtmpList();
           this.$bus.$emit("cesium-3d-videoPointClick", {
             mp_id: pick.id.id,
             mp_name: pick.id.name,
