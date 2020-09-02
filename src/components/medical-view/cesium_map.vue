@@ -9,7 +9,7 @@
 <template>
   <div class="cesiumContainer">
     <div id="cesiumContainer" />
-    <div v-if="mapLoaded">
+    <!-- <div v-if="mapLoaded">
       <Coverage ref="treetool" />
       <TotalTarget />
       <NanTangModel v-if="showSubFrame == '3d1'" />
@@ -19,8 +19,8 @@
       <RtmpVideo v-if="mapLoaded" />
       <Population v-if="mapLoaded" />
       <VideoCircle ref="videoCircle" v-if="mapLoaded" />
-      <AuthFailPopup ref="authFailPopup" v-if="mapLoaded" />
     </div>
+    <AuthFailPopup ref="authFailPopup" v-if="mapLoaded" /> -->
   </div>
 </template>
 
@@ -38,7 +38,7 @@ import Population from "./extraModel/Population/Population";
 import VideoCircle from "./commonFrame/videoCircle";
 import AuthFailPopup from "./commonFrame/AuthFailPopup/AuthFailPopup";
 import { getCurrentExtent, isContainByExtent } from "./commonFrame/mapTool";
-// import { doValidation } from "api/validation/validation";
+import { doValidation } from "api/validation/validation";
 const Cesium = window.Cesium;
 import { mapActions } from "vuex";
 
@@ -67,6 +67,7 @@ export default {
     AuthFailPopup
   },
   async mounted() {
+    // this.validate()
     this.init3DMap(() => {
       this.mapLoaded = true;
       this.initPostRender();
@@ -76,6 +77,19 @@ export default {
   },
   methods: {
     ...mapActions("map", ["SetForceBimData"]),
+    async validate() {
+      let authorCode = this.$route.query.authorCode
+      console.log('authorCode', authorCode)
+      if (authorCode) {
+        let res = await doValidation(authorCode)
+        console.log('res', res)
+        if (res) {
+          this.validated = true
+        } else {
+          this.$refs.authFailPopup.shallPop = true
+        }
+      }
+    },
     initPostRender() {
       window.earth.scene.postRender.addEventListener(() => {
         if (!window.earth) return;

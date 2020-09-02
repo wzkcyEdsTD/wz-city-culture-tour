@@ -11,7 +11,6 @@
     <m-bottom />
     <div class="mask-wrapper">
       <div class="left"></div>
-      <!-- <div class="right"></div> -->
       <!-- <div class="top"></div> -->
       <div class="bottom"></div>
     </div>
@@ -22,7 +21,6 @@ import MapCenterBtn from "./modules/map-center-btn/map-center-btn";
 import MBottom from "components/m-bottom/m-bottom";
 import CesiumMap from "components/medical-view/cesium_map";
 import { mapGetters, mapActions } from "vuex";
-import { doValidation } from "api/validation/validation";
 
 export default {
   name: "Medical",
@@ -46,23 +44,17 @@ export default {
     eventRegsiter() {
       this.$bus.$off("medical-message");
       this.$bus.$on(
-        "medical-message", async({ authorCode, layer }) => {
-          let result = await doValidation(authorCode);
-          console.log('result', result)
-          if (result) {
-            this.$bus.$emit("check-tree", {
-              key: layer.label
-            });
-            this.$bus.$emit("cesium-3d-video-circle", {
-              geometry: {
-                lng: layer.geometry[0],
-                lat: layer.geometry[1],
-              },
-              queryRadius: layer.radius
-            });
-          } else {
-            this.$bus.$emit("open-authfail-popup");
-          }
+        "medical-message", async({ layer }) => {
+          this.$bus.$emit("check-tree", {
+            key: layer.label
+          });
+          this.$bus.$emit("cesium-3d-video-circle", {
+            geometry: {
+              lng: layer.geometry[0],
+              lat: layer.geometry[1],
+            },
+            queryRadius: layer.radius
+          });
         }
       );
     },
@@ -315,14 +307,6 @@ export default {
     height: 100%;
     background-image: linear-gradient(90deg, rgba(0, 13, 26, 0.84) 0%, rgba(0, 17, 34, 0.55) 70%, rgba(0, 19, 38, 0) 100%);
   }
-  // .right {
-  //   position: fixed;
-  //   top: 0;
-  //   right: 0;
-  //   width: 20%;
-  //   height: 100%;
-  //   .bg-image('../../common/images/mask-right')
-  // }
   // .top {
   //   position: fixed;
   //   top: 0.3rem;

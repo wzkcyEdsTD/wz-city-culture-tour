@@ -44,7 +44,6 @@ export default {
           console.log('kamier')
           this.$nextTick(() => {
             this.$bus.$emit("medical-message", {
-              authorCode: to.params.authorCode,
               layer: to.params.layer
             });
           });
@@ -62,7 +61,6 @@ export default {
       if (this.$route.name == data.layer.eventName) {
         if (data.layer.eventName == 'Medical') {
           this.$bus.$emit("medical-message", {
-            authorCode: data.authorCode,
             layer: data.layer
           });
         }
