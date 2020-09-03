@@ -1,10 +1,10 @@
 /*
  * @Author: eds
  * @Date: 2020-08-20 09:03:09
- * @LastEditTime: 2020-09-01 18:51:48
+ * @LastEditTime: 2020-09-03 14:34:36
  * @LastEditors: eds
  * @Description:
- * @FilePath: \wz-city-culture-tour\src\api\fetch.js
+ * @FilePath: \wz-city-culture-tour\src\api\cityBrainAPI.js
  */
 import axios from "axios";
 const BASEURL = "https://api-hub.wenzhou.gov.cn/api/v1";
@@ -49,10 +49,11 @@ export const getAccessToken = () => {
 };
 /**
  * 发热病人数 100004005
+ * export const getMedicalList = () => {
+ *    return getAxios("/data/100004005");
+ * };
  */
-export const getFarebr = () => {
-  return getAxios("/data/100004005");
-};
+
 /**
  * 获取视频列表 100006019
  * @param {*} param0

@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-07-29 16:10:06
- * @LastEditTime: 2020-09-03 11:29:22
+ * @LastEditTime: 2020-09-03 15:43:55
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\config\server\medicalTreeOption.js
@@ -15,7 +15,9 @@ const MEDICAL_TOPIC = [
   {
     label: "医疗场所",
     icon_size: "large",
-    dataset: "JZJZNL_YLJH_JHCS"
+    dataset: "JZJZNL_YLJH_JHCS",
+    withExtraData: "medicalList",
+    saveExtraDataByGeometry: "setMedicalListWithGeometry"
   }
 ];
 
@@ -145,6 +147,14 @@ const KG_INFO = [
     url: `${SERVER_HOST}/map-KongGui_LuCheng/rest/maps/%E6%8E%A7%E8%A7%84%E4%B8%89%E5%8C%BA20200304%40172.20.83.196_swdata`
   }
 ];
+
+/**
+ * 对应需要额外数据的点位
+ */
+export const CESIUM_TREE_EXTRA_DATA_WITH_GEOMETRY = [
+  "setMedicalListWithGeometry"
+];
+export const CESIUM_TREE_EXTRA_DATA = ["medicalList"];
 export const CESIUM_TREE_OPTION = [
   {
     id: "精细三维",

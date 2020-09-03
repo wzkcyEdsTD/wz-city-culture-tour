@@ -1,13 +1,21 @@
+/*
+ * @Author: eds
+ * @Date: 2020-08-21 18:30:30
+ * @LastEditTime: 2020-09-03 18:49:59
+ * @LastEditors: eds
+ * @Description:
+ * @FilePath: \wz-city-culture-tour\src\store\modules\map\actions.js
+ */
 import * as types from "./mutation-types";
 import {
-  getFarebr,
   getWzAllOutpatientCount,
   getWzAllDesignatedHospitals,
   getWzAllMedicalInsuranceInstitution,
   getWzAllMedicalInsurancePayment
-} from "api/fetch";
+} from "api/cityBrainAPI";
+import { getMedicalList } from "api/layerServerAPI";
 
-//  设置全市橄榄数据
+//  设置全市概览数据
 export const SetWzAllData = async ({ commit }) => {
   const outpatientCount = await getWzAllOutpatientCount();
   const designatedHospitals = await getWzAllDesignatedHospitals();
@@ -32,11 +40,21 @@ export const SetHospitalList = ({ commit }, data) => {
   commit(types.SET_HOSPITAL_LIST, data);
 };
 
+/**
+ * 设置带空间参数的医院信息
+ * @param {*} param0
+ * @param {*} data
+ */
+export const setMedicalListWithGeometry = ({ commit }, data) => {
+  commit(types.SET_MEDICAL_LIST_WITH_GEOMETRY, data);
+};
+
 //  设置发热数据
-export const SetFeverList = async function({ commit }) {
-  const result = await getFarebr();
-  const res = result.data.ranking_data;
-  commit(types.SET_FEVER_LIST, res);
+export const fetchMedicalList = async ({ commit }) => {
+  const result = await getMedicalList();
+  console.log(result);
+  const res = result.result;
+  commit(types.SET_MEDICAL_LIST, res);
 };
 
 //  设置监控视频

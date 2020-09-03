@@ -1,10 +1,10 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-12 14:32:09
- * @LastEditTime: 2020-09-03 11:53:11
+ * @LastEditTime: 2020-09-03 19:27:13
  * @LastEditors: eds
  * @Description:
- * @FilePath: \wz-city-culture-tour\src\components\medical-view\commonFrame\popup.vue
+ * @FilePath: \wz-city-culture-tour\src\components\medical-view\commonFrame\medicalPopup.vue
 -->
 <template>
   <div id="trackPopUp" v-show="shallPop">
@@ -43,6 +43,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
   data() {
     return {
@@ -53,33 +54,34 @@ export default {
     };
   },
   async mounted() {
-    //  await feverList();
+    await this.fetchMedicalList();
     this.eventRegsiter();
   },
   methods: {
+    ...mapActions("map", ["fetchMedicalList"]),
     eventRegsiter() {},
-    doPopup(pickedList, pointList) {
+    doPopup(G_medicalList) {
       const popList = [];
-      if (pickedList.length) {
-        pickedList.map((item, index) => {
-          if (pointList[index]) {
-            popList.push({
-              id: item.id,
-              name: item.attributes.NAME,
-              grade: this.fixGrade(item.attributes.DEFINING_T),
-              shortname: item.attributes.SHORTNAME,
-              feverNum: item.feverNum || 0,
-              attributes: item.attributes,
-              geometry: item.geometry,
-              x:
-                pointList[index].x -
-                ($(`#trackPopUpContent_${index}`).width() || 0) / 2,
-              y:
-                pointList[index].y -
-                ($(`#trackPopUpContent_${index}`).height() || 0),
-            });
-          }
+      if (G_medicalList.length) {
+        G_medicalList.map((item, index) => {
+          popList.push({
+            id: item.id,
+            name: item.attributes.NAME,
+            grade: this.fixGrade(item.attributes.DEFINING_T),
+            shortname: item.attributes.SHORTNAME,
+            feverNum: item.extra_data["发热病人"] || 0,
+            attributes: item.attributes,
+            geometry: item.geometry,
+            x:
+              item.pointToWindow.x -
+              ($(`#trackPopUpContent_${index}`).width() || 0) / 2,
+            y:
+              item.pointToWindow.y -
+              ($(`#trackPopUpContent_${index}`).height() || 0),
+          });
         });
+      } else {
+        this.closePopup();
       }
       this.popList = popList;
       !this.shallPop &&
@@ -107,7 +109,6 @@ export default {
 
     // 展示详情
     showDetail(obj) {
-      console.log("showDetail", obj);
       this.$parent.isInfoFrame = true;
       this.$parent.$refs.infoframe.indexOption = obj;
     },
@@ -118,8 +119,6 @@ export default {
      */
     doCircleBuffer(obj) {
       const that = this;
-      console.log(obj);
-
       if (!this.bufferHash[obj.id]) {
         this.bufferHash[obj.id] = true;
       } else {
@@ -136,13 +135,6 @@ export default {
       });
     },
 
-    /**
-     * @param {string} id?:string 有id去id 没有id去全部
-     * 关闭周边人口按钮触发
-     */
-    clearCircleBuffer(id) {
-      //  code
-    },
     /**
      * 仅传参数给RtmpVideo组件,不参与后续功能
      * @param {object} param0 该医疗点的对象信息

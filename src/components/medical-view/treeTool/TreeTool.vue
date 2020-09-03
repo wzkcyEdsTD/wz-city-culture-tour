@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-07 10:57:45
- * @LastEditTime: 2020-09-03 11:35:16
+ * @LastEditTime: 2020-09-03 19:44:12
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\treeTool\TreeTool.vue
@@ -17,7 +17,6 @@
         @click="toogleVisible"
       />
     </div>
-    <!-- <el-input v-model="filterText" class="treeFilterInput" placeholder="搜索" size="small" /> -->
     <el-popover
       placement="right-end"
       width="280"
@@ -95,271 +94,100 @@
         </li>
       </ul>
     </el-popover>
-    <!-- <img
-      slot="reference"
-      :class="{animated: true, pulse: rotateIn}"
-      style="animation-duration: 0.5s; cursor: pointer;"
-      :src="avatar"
-      width="59px"
-      height="60px"
-      @click="toogleVisible"
-    />-->
   </div>
 </template>
 
 <script>
-import $ from "jquery";
 import { mapGetters, mapActions } from "vuex";
-import { CESIUM_TREE_OPTION } from "config/server/medicalTreeOption";
+import { treeDrawTool, fixTreeWithExtra } from "./TreeDrawTool";
+import {
+  CESIUM_TREE_OPTION,
+  CESIUM_TREE_EXTRA_DATA,
+  CESIUM_TREE_EXTRA_DATA_WITH_GEOMETRY,
+} from "config/server/medicalTreeOption";
 const Cesium = window.Cesium;
-// import { BimSourceURL } from "config/server/mapConfig";
-// const { SCENE_DATA_URL } = BimSourceURL;
 
 export default {
   name: "TreeTool",
   data() {
     return {
-      rotateIn: true,
       visible: true,
       serachBoxVisible: false,
-      filterText: "",
       searchText: "",
       hospitalList: [],
       hospitalChecked: [],
       data: CESIUM_TREE_OPTION,
-      imageLayer: {},
       avatar: require("common/images/coverage.png"),
       menuImg: require("common/images/menu-un.png"),
       menuSelImg: require("common/images/menu-sel.png"),
       //  tile layers
       tileLayers: {},
       //  cesium Object
-      handler: undefined,
       pickedList: [],
       entityMap: {},
-      timer: null,
+      featureMap: {}, //  源数据,量小
     };
   },
   computed: {
-    ...mapGetters("map", ["feverList"]),
-  },
-  watch: {
-    filterText(val) {
-      this.$refs.tree.filter(val);
-    },
-    searchText(val) {
-      if (val === "") {
-        this.hospitalList = this.pickedList;
-      }
-    },
+    ...mapGetters("map", CESIUM_TREE_EXTRA_DATA),
   },
   async mounted() {
     this.eventRegsiter();
-    await this.fetchFeverList();
-  },
-  beforeDestroy() {
-    this.handler && this.handler.destroy();
-    window.earth.entities.removeAll();
   },
   methods: {
-    ...mapActions("map", ["SetFeverList"]),
+    ...mapActions("map", CESIUM_TREE_EXTRA_DATA_WITH_GEOMETRY),
     eventRegsiter() {
-      // 根据父窗口参数选中对应图层
+      /**
+       * 事件传递打开对应专题图层
+       */
       this.$bus.$off("check-tree");
       this.$bus.$on("check-tree", ({ key }) => {
-        console.log("oncheck-tree!!!");
-        this.timer = setInterval(() => {
-          if (this.feverObj) {
-            this.$refs.tree.setCheckedKeys([key]);
-            clearInterval(this.timer);
-          }
-        }, 200);
+        this.$refs.tree.setCheckedKeys([key]);
       });
-    },
-    /**
-     * 发热人数获取
-     */
-    async fetchFeverList() {
-      await this.SetFeverList();
-      const feverObj = {};
-      this.feverList.map((item) => {
-        if (!feverObj[item.name]) {
-          feverObj[item.name] = parseInt(item.value);
-        }
-      });
-      this.feverObj = feverObj;
     },
     /**
      * 2020/8/16
      * 旅游专题数据
+     * @param {object} node
      */
-    getPOIPickedFeature(SMID, node) {
-      const that = this;
-      let currentDataServer;
-      CESIUM_TREE_OPTION.forEach((item) => {
-        item.children.forEach((citem) => {
-          if (node.label === citem.label) {
-            currentDataServer = citem;
-          }
-        });
-      });
+    getPOIPickedFeature(node) {
+      const { newdataset, url } = node;
       var getFeatureParam, getFeatureBySQLService, getFeatureBySQLParams;
       getFeatureParam = new SuperMap.REST.FilterParameter({
-        attributeFilter: `SMID ${SMID == null ? `>= 1` : `= ${SMID}`}`,
+        attributeFilter: `SMID <= 1000`,
       });
       getFeatureBySQLParams = new SuperMap.REST.GetFeaturesBySQLParameters({
         queryParameter: getFeatureParam,
         toIndex: -1,
-        datasetNames: [currentDataServer.newdataset],
+        datasetNames: [newdataset],
       });
-      var url = currentDataServer.url;
       getFeatureBySQLService = new SuperMap.REST.GetFeaturesBySQLService(url, {
         eventListeners: {
-          processCompleted: (res) => this.completed(res, node),
+          processCompleted: (res) => treeDrawTool(this, res, node),
           processFailed: (msg) => console.log(msg),
         },
       });
       getFeatureBySQLService.processAsync(getFeatureBySQLParams);
     },
-
-    // 查询完成
-    completed(res, node) {
-      const that = this;
-      /**
-       * 2020/8/20
-       * 筛选显示气泡框
-       */
-      const poiLabelEntityCollection = new Cesium.CustomDataSource(
-        `${node.id}_label`
-      );
-      window.earth.dataSources
-        .add(poiLabelEntityCollection)
-        .then((datasource) => {
-          this.entityMap[`${node.id}_label`] = datasource;
-        });
-
-      const poiEntityCollection = new Cesium.CustomDataSource(node.id);
-      window.earth.dataSources.add(poiEntityCollection).then((datasource) => {
-        this.entityMap[node.id] = datasource;
-      });
-      const features = res.result.features;
-      const sArr = Object.keys(that.feverObj);
-      features.map((item) => {
-        if (~sArr.indexOf(item.attributes.SHORTNAME)) {
-          poiLabelEntityCollection.entities.add(
-            new Cesium.Entity({
-              id: `${item.attributes.SMID}@${node.icon}@${node.dataset}`,
-              position: Cesium.Cartesian3.fromDegrees(
-                item.geometry.x,
-                item.geometry.y,
-                30
-              ),
-              point: {
-                color: Cesium.Color.WHITE.withAlpha(0.1),
-                outlineColor: Cesium.Color.WHITE.withAlpha(0.1),
-              },
-              name: node.id,
-              feverNum: that.feverObj[item.attributes.SHORTNAME],
-              attributes: item.attributes,
-              geometry: item.geometry,
-            })
-          );
-        } else {
-          const entityOption = {
-            id: `${item.attributes.SMID}@${node.icon}@${node.dataset}`,
-            label: {
-              text: item.attributes.SHORTNAME || item.attributes.NAME,
-              color: Cesium.Color.fromCssColorString("#fff"),
-              style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-              font: "10px",
-              distanceDisplayCondition: new Cesium.DistanceDisplayCondition(
-                0,
-                2000
-              ),
-              pixelOffset: new Cesium.Cartesian2(0, -40),
-            },
-            name: node.id,
-            geometry: item.geometry,
-          };
-          const polygonGeometry = node.polygon
-            ? [].concat.apply(
-                [],
-                item.geometry.components[0].components.map((v) => [
-                  parseFloat(v.x),
-                  parseFloat(v.y),
-                ])
-              )
-            : [];
-          const entityInstance = node.polygon
-            ? {
-                ...entityOption,
-                position: Cesium.Cartesian3.fromDegrees(
-                  ...this.getCenterOfPolygon(polygonGeometry, 30)
-                ),
-                polygon: {
-                  hierarchy: Cesium.Cartesian3.fromDegreesArray(
-                    polygonGeometry
-                  ),
-                  outline: true,
-                  outlineWidth: 4,
-                  outlineColor: new Cesium.Color.fromCssColorString("#FFD700"),
-                  material: new Cesium.Color.fromCssColorString(
-                    "#7FFF00"
-                  ).withAlpha(0.6),
-                  perPositionHeight: true,
-                  height: 2,
-                },
-              }
-            : {
-                ...entityOption,
-                position: Cesium.Cartesian3.fromDegrees(
-                  item.geometry.x,
-                  item.geometry.y,
-                  30
-                ),
-                billboard: {
-                  image: `/static/images/${node.icon}.png`,
-                  width: node.icon_size == "large" ? 48 : 32,
-                  height: node.icon_size == "large" ? 48 : 35,
-                },
-              };
-
-          poiEntityCollection.entities.add(
-            new Cesium.Entity(
-              Object.assign(
-                entityInstance,
-                node.detail ? { extra_data: item.attributes } : {}
-              )
-            )
-          );
-        }
-      });
-
-      this.pickedList = [
-        ...this.pickedList,
-        ...poiLabelEntityCollection.entities.values,
-      ];
-      this.hospitalList = this.pickedList;
-    },
     filterNode(value, data) {
       return !value ? true : data.label.indexOf(value) !== -1;
     },
-    checkChange(node, checked, c) {
+    checkChange(node, checked) {
       if (checked) {
         if (node.type == "mvt" && node.id) {
           if (node.id && this.entityMap[node.id]) {
             this.entityMap[node.id].show = true;
-            if (this.entityMap[`${node.id}_label`]) {
-              this.entityMap[`${node.id}_label`].show = true;
-            }
-            return;
-          }
-          //  打开具体模块[Popup]
-          if (node.xxxx) {
-            // this.$bus[node.xxxx](node.xxxxkey);
+            //  若该节点有额外数据/模块,则触发
+            node.withExtraData
+              ? fixTreeWithExtra(
+                  this.featureMap[node.id],
+                  this[node.withExtraData],
+                  node,
+                  this
+                )
+              : null;
           } else {
-            //  专题集合添加
-            this.getPOIPickedFeature(null, node);
+            this.getPOIPickedFeature(node);
           }
         } else if (node.type == "model") {
           node.componentEvent &&
@@ -376,6 +204,7 @@ export default {
             })
           );
         }
+        //  有相机视角配置 -> 跳视角
         node.camera && window.earth.scene.camera.setView(node.camera);
       } else {
         const LAYER =
@@ -383,66 +212,44 @@ export default {
             ? window.earth.scene.layers.find(node.id)
             : this.tileLayers[node.id];
         LAYER && (LAYER.show = false);
-
-        // dataSources 实体集合隐藏
         if (
           node.icon &&
           this.entityMap[node.id] &&
           window.earth.dataSources.length
         ) {
           this.entityMap[node.id].show = false;
-
-          this.entityMap[`${node.id}_label`] &&
-            (this.entityMap[`${node.id}_label`].show = false);
-
-          this.pickedList = [];
-
-          Object.values(this.entityMap).map((item) => {
-            if (item.show && item.name.includes("_label")) {
-              this.pickedList = [...this.pickedList, ...item.entities.values];
-            }
-          });
+          if (node.withExtraData) {
+            this[node.saveExtraDataByGeometry]([]);
+          }
         }
-
         node.componentEvent &&
           this.$bus.$emit(node.componentEvent, { value: null });
       }
-    },
-    getCenterOfPolygon(arr, height) {
-      let x = 0,
-        y = 0;
-      arr.map((v, index) => {
-        index % 2 == 0 ? (x += v) : (y += v);
-      });
-      return [(x * 2) / arr.length, (y * 2) / arr.length, height];
     },
     toogleVisible() {
       this.serachBoxVisible = false;
       this.visible = !this.visible;
     },
-
     showSearchBox(key) {
       this.$refs.tree.setCheckedKeys([key]);
       this.visible = false;
       this.serachBoxVisible = true;
     },
-
     searchClear() {
       this.searchText = "";
     },
-
     backToTree() {
       this.searchClear();
       this.serachBoxVisible = false;
       this.visible = true;
     },
-
     searchFilter() {
-      this.hospitalList = this.pickedList.filter((item) => {
-        return item.attributes.SHORTNAME.indexOf(this.searchText) >= 0;
-      });
+      this.hospitalList = this.searchText
+        ? this.pickedList.filter((item) => {
+            return item.attributes.SHORTNAME.indexOf(this.searchText) >= 0;
+          })
+        : this.pickedList;
     },
-
     checkedOne(item) {
       let idIndex = this.hospitalChecked.indexOf(item.attributes.SHORTNAME);
       if (idIndex >= 0) {
@@ -457,7 +264,6 @@ export default {
         window.earth.zoomTo(item);
       }
     },
-
     // 三维定位
     setview(cameraSight) {
       window.earth.scene.camera.setView({

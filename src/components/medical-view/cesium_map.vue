@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-20 18:52:41
- * @LastEditTime: 2020-09-02 19:25:46
+ * @LastEditTime: 2020-09-03 19:23:45
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\cesium_map.vue
@@ -14,7 +14,7 @@
       <TotalTarget />
       <NanTangModel v-if="showSubFrame == '3d1'" />
       <InfoFrame ref="infoframe" v-show="isInfoFrame" />
-      <Popup ref="popups" />
+      <MedicalPopup ref="medicalPopup" />
       <DetailPopup ref="detailPopup" />
       <RtmpVideo />
       <Population />
@@ -31,7 +31,7 @@ import Coverage from "./treeTool/TreeTool";
 import TotalTarget from "./totalTarget/totalTarget";
 import NanTangModel from "./extraModel/NanTangModel";
 import InfoFrame from "./commonFrame/InfoFrame";
-import Popup from "./commonFrame/popup";
+import MedicalPopup from "./commonFrame/medicalPopup";
 import DetailPopup from "./commonFrame/DetailPopup/DetailPopup";
 import RtmpVideo from "./extraModel/RtmpVideo/RtmpVideo";
 import Population from "./extraModel/Population/Population";
@@ -40,7 +40,7 @@ import AuthFailPopup from "./commonFrame/AuthFailPopup/AuthFailPopup";
 import { getCurrentExtent, isContainByExtent } from "./commonFrame/mapTool";
 import { doValidation } from "api/validation/validation";
 const Cesium = window.Cesium;
-import { mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   data() {
@@ -56,12 +56,15 @@ export default {
       authFailshallPop: false,
     };
   },
+  computed: {
+    ...mapGetters("map", ["medicalListWithGeometry"]),
+  },
   components: {
     Coverage,
     TotalTarget,
     NanTangModel,
     InfoFrame,
-    Popup,
+    MedicalPopup,
     DetailPopup,
     RtmpVideo,
     Population,
@@ -76,22 +79,14 @@ export default {
       this.validate();
     });
     this.eventRegsiter();
-
   },
   methods: {
     ...mapActions("map", ["SetForceBimData"]),
     async validate() {
       let authorCode = this.$route.query.authorCode;
-      if (authorCode) {
-        let res = await doValidation(authorCode);
-        if (res) {
-          this.validated = true;
-        } else {
-          this.authFailshallPop = true;
-        }
-      } else {
-        this.authFailshallPop = true;
-      }
+      if (!authorCode) return (this.authFailshallPop = true);
+      const res = await doValidation(authorCode);
+      res ? (this.validated = true) : (this.authFailshallPop = true);
     },
     initPostRender() {
       window.earth.scene.postRender.addEventListener(() => {
@@ -102,23 +97,26 @@ export default {
           !Object.keys(this.$refs).length
         )
           return;
-        //  *****[pickedList] 医疗点位*****
-        const pickedList = this.$refs.treetool.pickedList;
-        if (pickedList && pickedList.length) {
+        //  *****[medicalList] 医疗点位*****
+        const medicalList = this.medicalListWithGeometry;
+        if (medicalList && medicalList.length) {
           const extent = getCurrentExtent();
-          const pointList = [];
-          const newList = [];
-          pickedList.map((item) => {
+          const G_medicalList = [];
+          medicalList.map((item) => {
             if (item.geometry && isContainByExtent(extent, item.geometry)) {
+              const { x, y } = item.geometry;
               const pointToWindow = Cesium.SceneTransforms.wgs84ToWindowCoordinates(
                 window.earth.scene,
-                item._position._value
+                Cesium.Cartesian3.fromDegrees(x, y, 0)
               );
-              pointList.push(pointToWindow);
-              newList.push(item);
+              G_medicalList.push({ ...item, pointToWindow });
             }
           });
-          this.$refs.popups && this.$refs.popups.doPopup(newList, pointList);
+          this.$refs.medicalPopup &&
+            this.$refs.medicalPopup.doPopup(G_medicalList);
+        } else {
+          this.$refs.medicalPopup &&
+            this.$refs.medicalPopup.doPopup([]);
         }
         //  *****[]  事件传递点位*****
         if (this.$refs.videoCircle.shallPop) {
@@ -180,7 +178,6 @@ export default {
       const that = this;
       const viewer = new Cesium.Viewer("cesiumContainer", {
         infoBox: false,
-        // 隐藏绿框标识
         selectionIndicator: false,
       });
 
@@ -189,24 +186,24 @@ export default {
           url: ServiceUrl.DataImage,
         })
       );
-      const mapMvt = viewer.scene.addVectorTilesMap({
-        url: ServiceUrl.YJMVT,
-        name: "mapMvt",
-        viewer,
-      });
-      const baimoPromise = viewer.scene.addS3MTilesLayerByScp(
-        ServiceUrl.WZBaimo,
-        {
-          name: "baimo",
-        }
-      );
-      Cesium.when(baimoPromise, async (layers) => {
-        const LAYER = viewer.scene.layers.find("baimo");
-        LAYER.style3D.fillForeColor = new Cesium.Color.fromCssColorString(
-          "rgba(137,137,137, 1)"
-        );
-        LAYER.visibleDistanceMax = 5500;
-      });
+      // const mapMvt = viewer.scene.addVectorTilesMap({
+      //   url: ServiceUrl.YJMVT,
+      //   name: "mapMvt",
+      //   viewer,
+      // });
+      // const baimoPromise = viewer.scene.addS3MTilesLayerByScp(
+      //   ServiceUrl.WZBaimo,
+      //   {
+      //     name: "baimo",
+      //   }
+      // );
+      // Cesium.when(baimoPromise, async (layers) => {
+      //   const LAYER = viewer.scene.layers.find("baimo");
+      //   LAYER.style3D.fillForeColor = new Cesium.Color.fromCssColorString(
+      //     "rgba(137,137,137, 1)"
+      //   );
+      //   LAYER.visibleDistanceMax = 5500;
+      // });
       // 移除缓冲圈
       $(".cesium-widget-credits").hide();
       viewer.scene.globe.depthTestAgainstTerrain = false;

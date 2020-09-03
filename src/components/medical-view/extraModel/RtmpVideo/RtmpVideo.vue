@@ -48,7 +48,7 @@
 <script>
 const Cesium = window.Cesium;
 import { mapGetters, mapActions } from "vuex";
-import { getRtmpVideoList, getRtmpVideoURL } from "api/fetch";
+import { getRtmpVideoList, getRtmpVideoURL } from "api/cityBrainAPI";
 import flv from "./Flv";
 
 export default {

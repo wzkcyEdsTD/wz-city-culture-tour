@@ -27,22 +27,22 @@ export default {
   data() {
     return {
       nameList: [],
-      onMessage: false
+      onMessage: false,
     };
   },
   computed: {
     ...mapGetters(["userInfo"]),
     ...mapState({
-      isLoading: "isLoading"
-    })
+      isLoading: "isLoading",
+    }),
   },
   watch: {
     $route(to) {
       if (this.onMessage) {
-        if (to.name == 'Medical') {
+        if (to.name == "Medical") {
           this.$nextTick(() => {
             this.$bus.$emit("medical-message", {
-              layer: to.params.layer
+              layer: to.params.layer,
             });
           });
         }
@@ -51,22 +51,25 @@ export default {
   },
   created() {
     // 监听父窗口事件
-    window.addEventListener("message", e => {
-      console.log('message', e)
-      let data = e.data
-      if (!data.layer)
-        return;
-      this.onMessage = true
-      if (this.$route.name == data.layer.eventName) {
-        if (data.layer.eventName == 'Medical') {
-          this.$bus.$emit("medical-message", {
-            layer: data.layer
-          });
+    window.addEventListener(
+      "message",
+      (e) => {
+        let data = e.data;
+        if (!data.layer) return;
+        console.log("message", e);
+        this.onMessage = true;
+        if (this.$route.name == data.layer.eventName) {
+          if (data.layer.eventName == "Medical") {
+            this.$bus.$emit("medical-message", {
+              layer: data.layer,
+            });
+          }
+        } else {
+          this.$router.push({ name: data.layer.eventName, params: data });
         }
-      } else {
-        this.$router.push({name: data.layer.eventName, params: data})
-      }
-    }, false);
+      },
+      false
+    );
   },
   mounted() {
     // getUserInfo().then(data => {
@@ -94,8 +97,8 @@ export default {
           this.getName(arr[i].children);
         }
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

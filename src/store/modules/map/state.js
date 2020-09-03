@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-07-01 15:22:07
- * @LastEditTime: 2020-08-31 10:15:25
+ * @LastEditTime: 2020-09-03 15:52:48
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\store\modules\map\state.js
@@ -14,8 +14,9 @@ const state = {
   isInfoFrame: false,
   //  视频列表
   rtmpList: [],
-  //  发热数据
-  feverList: [],
+  //  医院数据
+  medicalList: {},
+  medicalListWithGeometry: [],
   //  医院
   hospitalList: [],
   //  总体概览

@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-07-01 15:22:07
- * @LastEditTime: 2020-08-31 10:19:32
+ * @LastEditTime: 2020-09-03 15:41:28
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\store\modules\map\mutations.js
@@ -16,8 +16,11 @@ const mutations = {
   [types.SET_HOSPITAL_LIST](state, data) {
     state.hospitalList = data;
   },
-  [types.SET_FEVER_LIST](state, data) {
-    state.feverList = data;
+  [types.SET_MEDICAL_LIST_WITH_GEOMETRY](state, data) {
+    state.medicalListWithGeometry = data;
+  },
+  [types.SET_MEDICAL_LIST](state, data) {
+    state.medicalList = data;
   },
   [types.SET_RTMP_LIST](state, data) {
     state.rtmpList = data;

@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { getPopulation } from "api/fetch";
+import { getPopulation } from "api/cityBrainAPI";
 const Cesium = window.Cesium;
 
 export default {

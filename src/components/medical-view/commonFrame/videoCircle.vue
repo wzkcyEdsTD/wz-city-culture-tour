@@ -15,7 +15,7 @@
 
 <script>
 import { mapActions } from "vuex";
-import { getRtmpVideoList } from "api/fetch";
+import { getRtmpVideoList } from "api/cityBrainAPI";
 const Cesium = window.Cesium;
 
 export default {
@@ -127,7 +127,7 @@ export default {
       });
       this.videoCircleCollection.entities.add(circleEntity);
       this.videoCircleList[circleEntity.name] = circleEntity;
-      
+
       const circleLabelEntity = new Cesium.Entity({
         position: Cesium.Cartesian3.fromDegrees(lng, lat, 200),
         label: {
