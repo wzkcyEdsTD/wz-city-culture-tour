@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-07 10:57:45
- * @LastEditTime: 2020-09-03 21:29:56
+ * @LastEditTime: 2020-09-03 21:38:33
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\treeTool\TreeTool.vue
@@ -118,7 +118,6 @@ export default {
       forceNode: {},
       extraSearchList: [],
       hospitalChecked: [],
-      timer: null,
       data: CESIUM_TREE_OPTION,
       avatar: require("common/images/coverage.png"),
       menuImg: require("common/images/menu-un.png"),
@@ -147,13 +146,7 @@ export default {
        */
       this.$bus.$off("check-tree");
       this.$bus.$on("check-tree", ({ key }) => {
-        console.log("oncheck-tree!!!");
-        this.timer = setInterval(() => {
-          if (this.feverObj) {
-            this.$refs.tree.setCheckedKeys([key]);
-            clearInterval(this.timer);
-          }
-        }, 200);
+        this.$refs.tree.setCheckedKeys([key]);
       });
     },
     /**
