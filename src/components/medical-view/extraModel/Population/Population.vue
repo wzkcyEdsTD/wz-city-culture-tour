@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-21 18:30:30
- * @LastEditTime: 2020-08-31 10:04:01
+ * @LastEditTime: 2020-09-03 14:07:34
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\extraModel\Population\Population.vue
@@ -96,7 +96,7 @@ export default {
      * @param {radius?} 单位[米] 先默认 不屌他
      */
     async drawPopulationCircle(id, { lng, lat }, raidus = 500) {
-      console.log('drawPopulationCircle', lng, lat)
+      console.log("[drawPopulationCircle]", lng, lat);
       const circleEntity = new Cesium.Entity({
         position: Cesium.Cartesian3.fromDegrees(lng, lat, 0),
         ellipse: {
@@ -117,8 +117,10 @@ export default {
         position: Cesium.Cartesian3.fromDegrees(lng, lat, 200),
         label: {
           text: `周边500米实时人口\n时间:${result.task_time}\n人数:${result.data}人`,
-          color: Cesium.Color.fromCssColorString("#fff"),
-          font: "normal 16px MicroSoft YaHei",
+          fillColor: Cesium.Color.YELLOW,
+          font: "strong 16px MicroSoft YaHei",
+          outlineWidth: 2,
+          outlineColor: Cesium.Color.GRAY,
           style: Cesium.LabelStyle.FILL_AND_OUTLINE,
           distanceDisplayCondition: new Cesium.DistanceDisplayCondition(
             0,

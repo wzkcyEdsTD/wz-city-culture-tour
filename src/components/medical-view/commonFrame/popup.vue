@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-12 14:32:09
- * @LastEditTime: 2020-09-01 16:16:29
+ * @LastEditTime: 2020-09-03 11:53:11
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\commonFrame\popup.vue
@@ -101,7 +101,7 @@ export default {
     },
 
     closePopup() {
-      // this.$bus.$emit("cesium-3d-mvt-down");
+      this.$bus.$emit("cesium-3d-population-circle", { doDraw: false });
       this.shallPop = false;
     },
 
