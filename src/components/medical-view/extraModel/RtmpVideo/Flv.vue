@@ -19,18 +19,18 @@ export default {
         rePlay: true,
         playsinline: true,
         preload: true,
-        language: "zh-cn",
-        controlBarVisibility: "hover",
-        useH5Prism: this.mode === "h5",
-        useFlashPrism: this.mode === "flash",
+        skinLayout: false,
+        stashInitialSizeForFlv: 30,
+        trackLog: false,
+        // controlBarVisibility: "hover",
+        // useH5Prism: this.mode === "h5",
+        // useFlashPrism: this.mode === "flash",
+        useH5Prism: true,
       },
       function (player) {
         console.log("播放器创建了。");
       }
     );
-    aliplayer.autoplay = true;
-    const whereYouAt = parseFloat(aliplayer.getCurrentTime()) + 1;
-    const totalTime = parseFloat(aliplayer.getDuration());
   },
   methods: {},
 };

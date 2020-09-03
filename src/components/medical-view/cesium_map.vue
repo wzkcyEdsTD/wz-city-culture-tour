@@ -76,6 +76,7 @@ export default {
       this.validate();
     });
     this.eventRegsiter();
+
   },
   methods: {
     ...mapActions("map", ["SetForceBimData"]),

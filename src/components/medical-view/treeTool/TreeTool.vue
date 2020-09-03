@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-07 10:57:45
- * @LastEditTime: 2020-09-02 16:37:53
+ * @LastEditTime: 2020-09-03 11:35:16
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\treeTool\TreeTool.vue
@@ -320,7 +320,7 @@ export default {
                 billboard: {
                   image: `/static/images/${node.icon}.png`,
                   width: node.icon_size == "large" ? 48 : 32,
-                  height: node.icon_size == "large" ? 52 : 35,
+                  height: node.icon_size == "large" ? 48 : 35,
                 },
               };
 
