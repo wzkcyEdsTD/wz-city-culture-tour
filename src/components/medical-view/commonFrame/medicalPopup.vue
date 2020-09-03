@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-12 14:32:09
- * @LastEditTime: 2020-09-03 19:27:13
+ * @LastEditTime: 2020-09-03 21:24:20
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\commonFrame\medicalPopup.vue
@@ -71,6 +71,7 @@ export default {
             shortname: item.attributes.SHORTNAME,
             feverNum: item.extra_data["发热病人"] || 0,
             attributes: item.attributes,
+            extra_data: item.extra_data,
             geometry: item.geometry,
             x:
               item.pointToWindow.x -
@@ -110,7 +111,10 @@ export default {
     // 展示详情
     showDetail(obj) {
       this.$parent.isInfoFrame = true;
-      this.$parent.$refs.infoframe.indexOption = obj;
+      this.$parent.$refs.infoframe.attributes = {
+        ...obj.attributes,
+        ...obj.extra_data,
+      };
     },
 
     /**

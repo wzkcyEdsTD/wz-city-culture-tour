@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-20 18:52:41
- * @LastEditTime: 2020-09-03 19:52:08
+ * @LastEditTime: 2020-09-03 21:24:58
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\cesium_map.vue
@@ -185,24 +185,24 @@ export default {
           url: ServiceUrl.DataImage,
         })
       );
-      // const mapMvt = viewer.scene.addVectorTilesMap({
-      //   url: ServiceUrl.YJMVT,
-      //   name: "mapMvt",
-      //   viewer,
-      // });
-      // const baimoPromise = viewer.scene.addS3MTilesLayerByScp(
-      //   ServiceUrl.WZBaimo,
-      //   {
-      //     name: "baimo",
-      //   }
-      // );
-      // Cesium.when(baimoPromise, async (layers) => {
-      //   const LAYER = viewer.scene.layers.find("baimo");
-      //   LAYER.style3D.fillForeColor = new Cesium.Color.fromCssColorString(
-      //     "rgba(137,137,137, 1)"
-      //   );
-      //   LAYER.visibleDistanceMax = 5500;
-      // });
+      const mapMvt = viewer.scene.addVectorTilesMap({
+        url: ServiceUrl.YJMVT,
+        name: "mapMvt",
+        viewer,
+      });
+      const baimoPromise = viewer.scene.addS3MTilesLayerByScp(
+        ServiceUrl.WZBaimo,
+        {
+          name: "baimo",
+        }
+      );
+      Cesium.when(baimoPromise, async (layers) => {
+        const LAYER = viewer.scene.layers.find("baimo");
+        LAYER.style3D.fillForeColor = new Cesium.Color.fromCssColorString(
+          "rgba(137,137,137, 1)"
+        );
+        LAYER.visibleDistanceMax = 5500;
+      });
       // 移除缓冲圈
       $(".cesium-widget-credits").hide();
       viewer.scene.globe.depthTestAgainstTerrain = false;
