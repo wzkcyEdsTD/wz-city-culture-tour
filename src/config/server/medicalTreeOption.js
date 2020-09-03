@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-07-29 16:10:06
- * @LastEditTime: 2020-09-03 15:43:55
+ * @LastEditTime: 2020-09-03 20:21:14
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\config\server\medicalTreeOption.js
@@ -17,6 +17,7 @@ const MEDICAL_TOPIC = [
     icon_size: "large",
     dataset: "JZJZNL_YLJH_JHCS",
     withExtraData: "medicalList",
+    withExtraDataGeometry: "medicalListWithGeometry",
     saveExtraDataByGeometry: "setMedicalListWithGeometry"
   }
 ];
@@ -151,9 +152,10 @@ const KG_INFO = [
 /**
  * 对应需要额外数据的点位
  */
-export const CESIUM_TREE_EXTRA_DATA_WITH_GEOMETRY = [
+export const SET_CESIUM_TREE_EXTRA_DATA_WITH_GEOMETRY = [
   "setMedicalListWithGeometry"
 ];
+export const CESIUM_TREE_EXTRA_DATA_WITH_GEOMETRY = ["medicalListWithGeometry"];
 export const CESIUM_TREE_EXTRA_DATA = ["medicalList"];
 export const CESIUM_TREE_OPTION = [
   {

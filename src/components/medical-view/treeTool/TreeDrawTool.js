@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-09-03 15:04:37
- * @LastEditTime: 2020-09-03 19:46:00
+ * @LastEditTime: 2020-09-03 20:34:49
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\treeTool\TreeDrawTool.js
@@ -39,6 +39,7 @@ export const fixTreeWithExtra = (gArr, eObj, node, context) => {
       : drawFeatures.push(item);
   });
   context[node.saveExtraDataByGeometry](extraFeatures);
+  context.searchFilter();
   return { drawFeatures };
 };
 

@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-20 18:52:41
- * @LastEditTime: 2020-09-03 19:23:45
+ * @LastEditTime: 2020-09-03 19:52:08
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\cesium_map.vue
@@ -115,14 +115,13 @@ export default {
           this.$refs.medicalPopup &&
             this.$refs.medicalPopup.doPopup(G_medicalList);
         } else {
-          this.$refs.medicalPopup &&
-            this.$refs.medicalPopup.doPopup([]);
+          this.$refs.medicalPopup && this.$refs.medicalPopup.doPopup([]);
         }
-        //  *****[]  事件传递点位*****
+        //  *****[videoCircle]  事件传递点位*****
         if (this.$refs.videoCircle.shallPop) {
           this.$refs.videoCircle && this.$refs.videoCircle.doPopup();
         }
-        //  *****[]  详情查看点位*****
+        //  *****[detailPopup]  详情查看点位*****
         const forceEntity = this.$refs.detailPopup.forceEntity;
         if (forceEntity.extra_data) {
           const pointToWindow = Cesium.SceneTransforms.wgs84ToWindowCoordinates(
@@ -141,7 +140,7 @@ export default {
       this.handler.setInputAction((e) => {
         const pick = window.earth.scene.pick(e.position);
         if (!pick.id || typeof pick.id != "object") return;
-        //  *****[]  监控视频点*****
+        //  *****[videoCircle]  监控视频点*****
         if (pick && pick.id.id && ~pick.id.id.indexOf("videopoint_")) {
           this.$refs.videoCircle.doSetRtmpList();
           this.$bus.$emit("cesium-3d-videoPointClick", {
@@ -149,7 +148,7 @@ export default {
             mp_name: pick.id.name,
           });
         }
-        //  *****[]  资源详情点*****
+        //  *****[detailPopup]  资源详情点*****
         if (pick.id.extra_data) {
           this.$refs.detailPopup.getForceEntity({
             extra_data: pick.id.extra_data,

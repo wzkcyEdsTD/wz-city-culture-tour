@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-07 10:57:45
- * @LastEditTime: 2020-09-03 19:44:12
+ * @LastEditTime: 2020-09-03 20:52:02
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\treeTool\TreeTool.vue
@@ -34,10 +34,10 @@
           default-expand-all
           @check-change="checkChange"
         >
-          <span class="custom-tree-node" slot-scope="{ node }">
+          <span class="custom-tree-node" slot-scope="{ node, data }">
             <span>{{ node.label }}</span>
-            <span v-if="node.label == '医疗场所'">
-              <i class="icon-search" @click="showSearchBox(node.label)"></i>
+            <span v-if="data.withExtraData">
+              <i class="icon-search" @click="showSearchBox(data)"></i>
             </span>
           </span>
         </el-tree>
@@ -74,7 +74,7 @@
         <li
           class="result-item"
           :class="{checked: ~hospitalChecked.indexOf(item.attributes.SHORTNAME)}"
-          v-for="item in hospitalList"
+          v-for="item in extraSearchList"
           :key="item.attributes.SMID"
         >
           <div class="left">
@@ -104,6 +104,7 @@ import {
   CESIUM_TREE_OPTION,
   CESIUM_TREE_EXTRA_DATA,
   CESIUM_TREE_EXTRA_DATA_WITH_GEOMETRY,
+  SET_CESIUM_TREE_EXTRA_DATA_WITH_GEOMETRY,
 } from "config/server/medicalTreeOption";
 const Cesium = window.Cesium;
 
@@ -114,7 +115,8 @@ export default {
       visible: true,
       serachBoxVisible: false,
       searchText: "",
-      hospitalList: [],
+      forceNode: {},
+      extraSearchList: [],
       hospitalChecked: [],
       data: CESIUM_TREE_OPTION,
       avatar: require("common/images/coverage.png"),
@@ -123,19 +125,21 @@ export default {
       //  tile layers
       tileLayers: {},
       //  cesium Object
-      pickedList: [],
       entityMap: {},
       featureMap: {}, //  源数据,量小
     };
   },
   computed: {
-    ...mapGetters("map", CESIUM_TREE_EXTRA_DATA),
+    ...mapGetters("map", [
+      ...CESIUM_TREE_EXTRA_DATA,
+      ...CESIUM_TREE_EXTRA_DATA_WITH_GEOMETRY,
+    ]),
   },
   async mounted() {
     this.eventRegsiter();
   },
   methods: {
-    ...mapActions("map", CESIUM_TREE_EXTRA_DATA_WITH_GEOMETRY),
+    ...mapActions("map", SET_CESIUM_TREE_EXTRA_DATA_WITH_GEOMETRY),
     eventRegsiter() {
       /**
        * 事件传递打开对应专题图层
@@ -230,13 +234,17 @@ export default {
       this.serachBoxVisible = false;
       this.visible = !this.visible;
     },
-    showSearchBox(key) {
-      this.$refs.tree.setCheckedKeys([key]);
+    showSearchBox(node) {
       this.visible = false;
       this.serachBoxVisible = true;
+      this.forceNode = node;
+      this.$nextTick().then(() => this.$refs.tree.setCheckedKeys([node.label]));
     },
     searchClear() {
       this.searchText = "";
+      this.extraSearchList = [];
+      this.hospitalChecked = [];
+      this.forceSearchSource = [];
     },
     backToTree() {
       this.searchClear();
@@ -244,11 +252,16 @@ export default {
       this.visible = true;
     },
     searchFilter() {
-      this.hospitalList = this.searchText
-        ? this.pickedList.filter((item) => {
+      if (!this.serachBoxVisible) return;
+      const withExtraDataGeometry = this[this.forceNode.withExtraDataGeometry];
+      const allSearchList = Object.keys(withExtraDataGeometry).map((key) => {
+        return withExtraDataGeometry[key];
+      });
+      this.extraSearchList = this.searchText
+        ? allSearchList.filter((item) => {
             return item.attributes.SHORTNAME.indexOf(this.searchText) >= 0;
           })
-        : this.pickedList;
+        : allSearchList;
     },
     checkedOne(item) {
       let idIndex = this.hospitalChecked.indexOf(item.attributes.SHORTNAME);
@@ -261,7 +274,18 @@ export default {
         this.hospitalChecked.push(item.attributes.SHORTNAME);
 
         // 移动到对应实例位置
-        window.earth.zoomTo(item);
+        const { x, y } = item.geometry;
+        window.earth.camera.flyTo({
+          destination: Cesium.Cartesian3.fromDegrees(x, y - 0.0042, 500),
+          orientation: {
+            heading: Cesium.Math.toRadians(0.0),
+            pitch: Cesium.Math.toRadians(-50.0),
+            roll: 0.0,
+          },
+        });
+        // window.earth.zoomTo({
+        //   position: new Cesium.Cartesian3(geometry.x, geometry.y, 0),
+        // });
       }
     },
     // 三维定位
