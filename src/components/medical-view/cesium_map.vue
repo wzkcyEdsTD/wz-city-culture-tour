@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-20 18:52:41
- * @LastEditTime: 2020-09-03 21:24:58
+ * @LastEditTime: 2020-09-04 08:33:30
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\cesium_map.vue
@@ -83,10 +83,11 @@ export default {
   methods: {
     ...mapActions("map", ["SetForceBimData"]),
     async validate() {
-      let authorCode = this.$route.query.authorCode;
-      if (!authorCode) return (this.authFailshallPop = true);
-      const res = await doValidation(authorCode);
-      res ? (this.validated = true) : (this.authFailshallPop = true);
+      // let authorCode = this.$route.query.authorCode;
+      // if (!authorCode) return (this.authFailshallPop = true);
+      // const res = await doValidation(authorCode);
+      // res ? (this.validated = true) : (this.authFailshallPop = true);
+      this.validated = true;
     },
     initPostRender() {
       window.earth.scene.postRender.addEventListener(() => {

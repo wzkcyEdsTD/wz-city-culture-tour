@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-28 14:09:16
- * @LastEditTime: 2020-09-03 21:27:20
+ * @LastEditTime: 2020-09-04 08:44:21
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\commonFrame\InfoFrame.vue
@@ -101,8 +101,8 @@ export default {
           {
             label: "今日就诊指标",
             data: [
-              { label: "门诊费用", num: n.门诊费用, ratio: 0, unit: "万元" },
-              { label: "住院费用", num: n.住院费用, ratio: 0, unit: "万元" },
+              { label: "门诊费用", num: n.门诊费用 ? (n.门诊费用/10000).toFixed(2) : 0, ratio: 0, unit: "万元" },
+              { label: "住院费用", num: n.住院费用 ? (n.住院费用/10000).toFixed(2) : 0, ratio: 0, unit: "万元" },
               { label: "住院床位数", num: 0, ratio: 0, unit: "床" },
               { label: "住院人数", num: n.住院人次, ratio: 0, unit: "人" },
             ],

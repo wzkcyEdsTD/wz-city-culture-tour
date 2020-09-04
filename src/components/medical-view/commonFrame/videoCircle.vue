@@ -1,9 +1,6 @@
 <template>
   <div class="videoCircle" v-if="shallPop">
-    <div
-      class="vc-popup"
-      :style="{transform:`translate3d(${item.x}px,${item.y+4}px, 0)`}"
-    >
+    <div class="vc-popup" :style="{transform:`translate3d(${item.x}px,${item.y+4}px, 0)`}">
       <div class="popup-container">
         <div class="remove" @click="removeVideoCircle(null)"></div>
         <div class="position"></div>
@@ -28,9 +25,9 @@ export default {
       videoCircleLabelCollection: undefined,
       videoPointCollection: undefined,
       geometry: {},
-      queryRadius: '',
+      queryRadius: 200,
       item: {},
-      rtmpVideoList: []
+      rtmpVideoList: [],
     };
   },
   mounted() {
@@ -42,35 +39,32 @@ export default {
     eventRegsiter() {
       const that = this;
       this.$bus.$off("cesium-3d-video-circle");
-      this.$bus.$on(
-        "cesium-3d-video-circle",
-        ({ geometry, queryRadius }) => {
-          console.log('cesium-3d-video-circle')
-          this.geometry = geometry
-          this.queryRadius = queryRadius
-          this.doPopup()
-          this.drawVideoCircle(geometry, queryRadius)
-        }
-      );
+      this.$bus.$on("cesium-3d-video-circle", ({ geometry, queryRadius }) => {
+        console.log("cesium-3d-video-circle");
+        this.geometry = geometry;
+        this.queryRadius = queryRadius;
+        this.doPopup();
+        this.drawVideoCircle(geometry, queryRadius);
+      });
     },
     doPopup() {
-      let position = Cesium.Cartesian3.fromDegrees(this.geometry.lng, this.geometry.lat, 0)
+      let position = Cesium.Cartesian3.fromDegrees(
+        this.geometry.lng,
+        this.geometry.lat,
+        0
+      );
       let pointToWindow = Cesium.SceneTransforms.wgs84ToWindowCoordinates(
         window.earth.scene,
         position
       );
       this.item = {
-        x:
-          pointToWindow.x -
-          $('.vc-popup').width() / 2,
-        y:
-          pointToWindow.y -
-          $('.vc-popup').height(),
-      }
+        x: pointToWindow.x - $(".vc-popup").width() / 2,
+        y: pointToWindow.y - $(".vc-popup").height(),
+      };
       !this.shallPop &&
-      this.$nextTick(() => {
-        this.shallPop = true;
-      });
+        this.$nextTick(() => {
+          this.shallPop = true;
+        });
     },
     /**
      * 创建datesource
@@ -99,7 +93,7 @@ export default {
         .add(VideoPointEntityCollection)
         .then((datasource) => {
           this.videoPointCollection = VideoPointEntityCollection;
-      });
+        });
       window.earth.scene.globe.depthTestAgainstTerrain = false;
     },
     /**
@@ -107,23 +101,22 @@ export default {
      * @param {string!|number!} 没id不画
      * @param {geometry!} 没geometry不画
      * @param {queryRadius!} 监控点查询半径
-     * @param {circleRadius?} 单位[米] 先默认 不屌他
      */
-    async drawVideoCircle({ lng, lat }, queryRadius, circleRadius = 500) {
+    async drawVideoCircle({ lng, lat }, queryRadius = 200) {
       // 画圈
-      console.log('drawVideoCircle', lng, lat, queryRadius)
+      console.log("[drawVideoCircle]", lng, lat, queryRadius);
       const circleEntity = new Cesium.Entity({
         position: Cesium.Cartesian3.fromDegrees(lng, lat, 0),
         ellipse: {
-          semiMinorAxis: queryRadius*2,
-          semiMajorAxis: queryRadius*2,
+          semiMinorAxis: queryRadius * 2,
+          semiMajorAxis: queryRadius * 2,
           height: 4,
           material: Cesium.Color.YELLOW.withAlpha(0.2),
           outline: true,
           outlineWidth: 3,
           outlineColor: Cesium.Color.YELLOW,
         },
-        name: 'videoCircle',
+        name: "videoCircle",
       });
       this.videoCircleCollection.entities.add(circleEntity);
       this.videoCircleList[circleEntity.name] = circleEntity;
@@ -141,19 +134,16 @@ export default {
           ),
           eyeOffset: new Cesium.Cartesian3(0.0, -260.0, 0),
           scaleByDistance: new Cesium.NearFarScalar(5000, 1, 10000, 0.5),
-          disableDepthTestDistance: Number.POSITIVE_INFINITY
+          disableDepthTestDistance: Number.POSITIVE_INFINITY,
         },
-        name: 'videoCircleLabel',
+        name: "videoCircleLabel",
       });
       this.videoCircleLabelCollection.entities.add(circleLabelEntity);
       this.videoCircleLabelList[circleLabelEntity.name] = circleLabelEntity;
 
       // 画监控点
-      const { data } = await getRtmpVideoList(
-        {lng, lat},
-        queryRadius,
-      );
-      this.rtmpVideoList = data
+      const { data } = await getRtmpVideoList({ lng, lat }, queryRadius);
+      this.rtmpVideoList = data;
       data.forEach((item) => {
         this.videoPointCollection.entities.add(
           new Cesium.Entity({
@@ -164,7 +154,7 @@ export default {
               30
             ),
             billboard: {
-              image: '/static/images/视频监控.png',
+              image: "/static/images/视频监控.png",
               width: 37,
               height: 41,
               disableDepthTestDistance: Number.POSITIVE_INFINITY,
@@ -172,7 +162,7 @@ export default {
             name: item.mp_name,
           })
         );
-      })
+      });
 
       window.earth.zoomTo(circleEntity);
     },
@@ -197,16 +187,16 @@ export default {
           )
         : this.videoCircleLabelCollection.entities.removeAll();
       this.videoPointCollection.entities.removeAll();
-      this.shallPop = false
+      this.shallPop = false;
     },
 
     resourceClick() {
-      this.doSetRtmpList()
+      this.doSetRtmpList();
       this.$bus.$emit("cesium-3d-videoPointClick", {
         mp_id: `videopoint_${this.rtmpVideoList[0].mp_id}`,
         mp_name: this.rtmpVideoList[0].mp_name,
       });
-    }
+    },
   },
 };
 </script>
@@ -222,7 +212,8 @@ export default {
   .popup-container {
     display: flex;
     align-items: center;
-    .remove, .resource {
+    .remove,
+    .resource {
       width: 50px;
       height: 101px;
       // font-family: YouSheBiaoTiHei;
