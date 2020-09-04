@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-12 14:32:09
- * @LastEditTime: 2020-08-14 11:22:28
+ * @LastEditTime: 2020-09-04 16:33:16
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\map-view\commonFrame\popup.vue
@@ -86,9 +86,9 @@ export default {
       this.$bus.$on(
         "cesium-3d-mvt",
         ({ pickResult, pointToWindow, name, attrs }) => {
-          console.log('oncesium-3d-mvt')
+          console.log("oncesium-3d-mvt");
           if (attrs) {
-            console.log(999)
+            console.log(999);
             this.mvtObj.名称 = attrs.NAME;
             this.mvtObj.地址 = attrs.ADDRESS;
             this.mvtObj.类型 = attrs.STYLENAME || attrs.LB || attrs.TYPE;
@@ -121,65 +121,67 @@ export default {
 };
 </script>
 
-<style>
-.leaflet-popup {
-  position: absolute;
-  text-align: center;
-  top: -20px;
-  left: 0;
-  z-index: 99999;
-}
+<style lang="less" scoped>
+#trackPopUp {
+  .leaflet-popup {
+    position: absolute;
+    text-align: center;
+    top: -20px;
+    left: 0;
+    z-index: 99999;
+  }
 
-.leaflet-popup-close-button {
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 4px 4px 0 0;
-  text-align: center;
-  width: 18px;
-  height: 14px;
-  font: 16px/14px Tahoma, Verdana, sans-serif;
-  color: #c3c3c3;
-  text-decoration: none;
-  font-weight: bold;
-  background: transparent;
-}
+  .leaflet-popup-close-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 4px 4px 0 0;
+    text-align: center;
+    width: 18px;
+    height: 14px;
+    font: 16px/14px Tahoma, Verdana, sans-serif;
+    color: #c3c3c3;
+    text-decoration: none;
+    font-weight: bold;
+    background: transparent;
+  }
 
-.leaflet-popup-content-wrapper {
-  text-align: center;
-  /* max-height: 200px; */
-  overflow-y: auto;
-  background: white;
-  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.4);
-  padding: 1px;
-  text-align: left;
-  border-radius: 12px;
-}
+  .leaflet-popup-content-wrapper {
+    text-align: center;
+    /* max-height: 200px; */
+    overflow-y: auto;
+    background: white;
+    box-shadow: 0 3px 14px rgba(0, 0, 0, 0.4);
+    padding: 1px;
+    text-align: left;
+    border-radius: 12px;
+  }
 
-.leaflet-popup-content {
-  margin: 13px 19px;
-  line-height: 1.4;
-}
+  .leaflet-popup-content {
+    margin: 13px 19px;
+    line-height: 1.4;
+  }
 
-.leaflet-popup-tip-container {
-  margin: 0 auto;
-  width: 40px;
-  height: 20px;
-  position: relative;
-  overflow: hidden;
-}
+  .leaflet-popup-tip-container {
+    margin: 0 auto;
+    width: 40px;
+    height: 20px;
+    position: relative;
+    overflow: hidden;
+  }
 
-.leaflet-popup-tip {
-  background: white;
-  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.4);
-  width: 17px;
-  height: 17px;
-  padding: 1px;
-  margin: -10px auto 0;
-  -webkit-transform: rotate(45deg);
-  -moz-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  -o-transform: rotate(45deg);
-  transform: rotate(45deg);
+  .leaflet-popup-tip {
+    background: white;
+    box-shadow: 0 3px 14px rgba(0, 0, 0, 0.4);
+    width: 17px;
+    height: 17px;
+    padding: 1px;
+    margin: -10px auto 0;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
 }
 </style>
