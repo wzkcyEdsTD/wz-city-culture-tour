@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-07-29 16:10:06
- * @LastEditTime: 2020-09-03 20:21:14
+ * @LastEditTime: 2020-09-04 11:30:29
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\config\server\medicalTreeOption.js
@@ -222,7 +222,6 @@ export const CESIUM_TREE_OPTION = [
         url: SERVER_DEFAULT_DATA,
         type: "mvt",
         newdataset: `${SW_DATA_NAME}${v.dataset}`,
-        detail: true
       };
     })
   },
@@ -237,7 +236,6 @@ export const CESIUM_TREE_OPTION = [
         url: SERVER_DEFAULT_DATA,
         type: "mvt",
         newdataset: `${SW_DATA_NAME}${v.dataset}`,
-        detail: true
       };
     })
   },
@@ -252,7 +250,6 @@ export const CESIUM_TREE_OPTION = [
         url: SERVER_DEFAULT_DATA,
         type: "mvt",
         newdataset: `${SW_DATA_NAME}${v.dataset}`,
-        detail: true
       };
     })
   },

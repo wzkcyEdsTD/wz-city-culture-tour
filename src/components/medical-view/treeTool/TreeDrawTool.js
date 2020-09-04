@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-09-03 15:04:37
- * @LastEditTime: 2020-09-03 20:34:49
+ * @LastEditTime: 2020-09-04 11:30:21
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\treeTool\TreeDrawTool.js
@@ -126,10 +126,7 @@ export const treeDrawTool = (context, { result }, node) => {
 
     poiEntityCollection.entities.add(
       new Cesium.Entity(
-        Object.assign(
-          entityInstance,
-          node.detail ? { extra_data: item.attributes } : {}
-        )
+        Object.assign(entityInstance, { extra_data: item.attributes })
       )
     );
   });
