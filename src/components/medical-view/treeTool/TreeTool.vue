@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-07 10:57:45
- * @LastEditTime: 2020-09-03 21:38:33
+ * @LastEditTime: 2020-09-04 14:43:44
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\treeTool\TreeTool.vue
@@ -100,6 +100,7 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import { treeDrawTool, fixTreeWithExtra } from "./TreeDrawTool";
+import { getIserverFields } from "api/iServerAPI";
 import {
   CESIUM_TREE_OPTION,
   CESIUM_TREE_EXTRA_DATA,
@@ -167,7 +168,10 @@ export default {
       });
       getFeatureBySQLService = new SuperMap.REST.GetFeaturesBySQLService(url, {
         eventListeners: {
-          processCompleted: (res) => treeDrawTool(this, res, node),
+          processCompleted: async (res) => {
+            const fields = await getIserverFields(url, newdataset);
+            treeDrawTool(this, res, node, fields);
+          },
           processFailed: (msg) => console.log(msg),
         },
       });

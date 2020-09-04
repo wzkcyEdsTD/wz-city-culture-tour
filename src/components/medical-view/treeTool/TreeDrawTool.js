@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-09-03 15:04:37
- * @LastEditTime: 2020-09-04 11:30:21
+ * @LastEditTime: 2020-09-04 15:17:37
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\treeTool\TreeDrawTool.js
@@ -19,6 +19,33 @@ const getCenterOfPolygon = (arr, height) => {
     index % 2 == 0 ? (x += v) : (y += v);
   });
   return [(x * 2) / arr.length, (y * 2) / arr.length, height];
+};
+
+/**
+ * 别名数组转对象
+ * @param {*} fields
+ */
+const fixFieldsByArr = fields => {
+  const fieldHash = {};
+  fields.map(({ name, caption }) => {
+    const reg = new RegExp("[\\u4E00-\\u9FFF]+", "g");
+    reg.test(caption) ? (fieldHash[name] = caption) : undefined;
+  });
+  return fieldHash;
+};
+
+/**
+ * 属性名替换中文别名
+ * @param {*} attributes
+ * @param {*} fields
+ */
+const fixAttributesByOrigin = (attributes, fields) => {
+  const fixAttributes = {};
+  for (let v in attributes) {
+    const V = v.toLowerCase();
+    fields[V] ? (fixAttributes[fields[V]] = attributes[v]) : undefined;
+  }
+  return fixAttributes;
 };
 
 /**
@@ -48,8 +75,10 @@ export const fixTreeWithExtra = (gArr, eObj, node, context) => {
  * @param {*} context
  * @param {*} param1
  * @param {*} node
+ * @param {*} fields 别名数组
  */
-export const treeDrawTool = (context, { result }, node) => {
+export const treeDrawTool = (context, { result }, node, fields = []) => {
+  const fieldHash = fixFieldsByArr(fields);
   const poiEntityCollection = new Cesium.CustomDataSource(node.id);
   window.earth.dataSources.add(poiEntityCollection).then(datasource => {
     context.entityMap[node.id] = datasource;
@@ -80,7 +109,9 @@ export const treeDrawTool = (context, { result }, node) => {
         pixelOffset: new Cesium.Cartesian2(0, -40)
       },
       name: node.id,
-      attributes: item.attributes,
+      fieldHash,
+      extra_data: item.attributes,
+      fix_data: fixAttributesByOrigin(item.attributes, fieldHash),
       geometry: item.geometry
     };
     const polygonGeometry = node.polygon
@@ -115,7 +146,7 @@ export const treeDrawTool = (context, { result }, node) => {
           position: Cesium.Cartesian3.fromDegrees(
             item.geometry.x,
             item.geometry.y,
-            30
+            10
           ),
           billboard: {
             image: `/static/images/${node.icon}.png`,
@@ -124,10 +155,6 @@ export const treeDrawTool = (context, { result }, node) => {
           }
         };
 
-    poiEntityCollection.entities.add(
-      new Cesium.Entity(
-        Object.assign(entityInstance, { extra_data: item.attributes })
-      )
-    );
+    poiEntityCollection.entities.add(entityInstance);
   });
 };

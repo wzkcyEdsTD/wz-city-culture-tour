@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-08-21 18:30:30
- * @LastEditTime: 2020-09-03 18:49:59
+ * @LastEditTime: 2020-09-04 15:08:51
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\store\modules\map\actions.js
@@ -52,7 +52,6 @@ export const setMedicalListWithGeometry = ({ commit }, data) => {
 //  设置发热数据
 export const fetchMedicalList = async ({ commit }) => {
   const result = await getMedicalList();
-  console.log(result);
   const res = result.result;
   commit(types.SET_MEDICAL_LIST, res);
 };

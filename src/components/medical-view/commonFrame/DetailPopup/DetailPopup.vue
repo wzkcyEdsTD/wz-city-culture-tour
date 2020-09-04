@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-12 14:32:09
- * @LastEditTime: 2020-09-01 18:38:20
+ * @LastEditTime: 2020-09-04 15:22:03
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\commonFrame\DetailPopup\DetailPopup.vue
@@ -17,9 +17,9 @@
       <div class="leaflet-popup-content-wrapper">
         <div id="forcePopUpLink" class="leaflet-popup-content">
           <div class="leaflet-popup-content">
-            <header>{{forceEntity.extra_data.SHORTNAME || forceEntity.extra_data.NAME}}</header>
+            <header>{{forceEntity.extra_data.SHORTNAME || forceEntity.extra_data[名称]}}</header>
             <ul class="content-body">
-              <li v-for="(item,key) in forceEntity.extra_data" :key="key">
+              <li v-for="(item,key,index) in forceEntity.fix_data" :key="index">
                 <span>{{key}}</span>
                 <span>{{item}}</span>
               </li>
