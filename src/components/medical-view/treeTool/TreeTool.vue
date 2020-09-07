@@ -70,29 +70,31 @@
           </div>
         </div>
       </div>
-      <ul class="result-list">
-        <li
-          class="result-item"
-          :class="{checked: ~hospitalChecked.indexOf(item.attributes.SHORTNAME)}"
-          v-for="item in extraSearchList"
-          :key="item.attributes.SMID"
-        >
-          <div class="left">
-            <p class="name">{{item.attributes.SHORTNAME}}</p>
-            <div class="address">
-              <i class="icon-position"></i>
-              <span>{{item.attributes.ADDRESS}}</span>
+      <div class="result-wrapper">
+        <ul class="result-list">
+          <li
+            class="result-item"
+            :class="{checked: ~hospitalChecked.indexOf(item.attributes.SHORTNAME)}"
+            v-for="item in extraSearchList"
+            :key="item.attributes.SMID"
+          >
+            <div class="left">
+              <p class="name">{{item.attributes.SHORTNAME}}</p>
+              <div class="address">
+                <i class="icon-position"></i>
+                <span>{{item.attributes.ADDRESS}}</span>
+              </div>
             </div>
-          </div>
-          <div class="right">
-            <input
-              type="checkbox"
-              :checked="hospitalChecked.indexOf(item.attributes.SHORTNAME)>=0"
-              @click="checkedOne(item)"
-            />
-          </div>
-        </li>
-      </ul>
+            <div class="right">
+              <input
+                type="checkbox"
+                :checked="hospitalChecked.indexOf(item.attributes.SHORTNAME)>=0"
+                @click="checkedOne(item)"
+              />
+            </div>
+          </li>
+        </ul>
+      </div>
     </el-popover>
   </div>
 </template>
