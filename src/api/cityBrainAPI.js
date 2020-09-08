@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-08-20 09:03:09
- * @LastEditTime: 2020-09-03 14:34:36
+ * @LastEditTime: 2020-09-07 16:32:04
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\api\cityBrainAPI.js
@@ -47,13 +47,13 @@ export const getAccessToken = () => {
       return Promise.resolve(res);
     });
 };
-/**
- * 发热病人数 100004005
- * export const getMedicalList = () => {
- *    return getAxios("/data/100004005");
- * };
- */
 
+/**
+ * 获取雪亮所有视频点
+ */
+export const getRtmpVideoAll = () => {
+  return getAxios("/data/100007018");
+};
 /**
  * 获取视频列表 100006019
  * @param {*} param0

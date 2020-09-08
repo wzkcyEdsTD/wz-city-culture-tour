@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-20 09:03:10
- * @LastEditTime: 2020-08-26 15:05:41
+ * @LastEditTime: 2020-09-08 14:51:25
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\extraModel\NanTangModel.vue
@@ -27,17 +27,12 @@ export default {
     // this.addEntities();
     this.eventRegsiter();
     // this.cameraMove();
-    // this.SetIsInfoFrame(true);
   },
   beforeDestroy() {
-    window.earth.entities.removeAll();
-    this.SetIsInfoFrame(false);
     this.$bus.$emit("cesium-3d-switch", { value: true });
     this.closeNanTangModel();
-    window.earth = undefined;
   },
   methods: {
-    ...mapActions("map", ["SetIsInfoFrame"]),
     //  事件绑定
     eventRegsiter() {
       const that = this;

@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-20 18:52:41
- * @LastEditTime: 2020-09-04 15:50:49
+ * @LastEditTime: 2020-09-08 18:29:13
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\cesium_map.vue
@@ -81,7 +81,6 @@ export default {
     this.eventRegsiter();
   },
   methods: {
-    ...mapActions("map", ["SetForceBimData"]),
     async validate() {
       // let authorCode = this.$route.query.authorCode;
       // if (!authorCode) return (this.authFailshallPop = true);
@@ -162,7 +161,6 @@ export default {
     eventRegsiter() {
       this.$bus.$off("cesium-3d-event");
       this.$bus.$on("cesium-3d-event", ({ value }) => {
-        this.SetForceBimData([]);
         this.showSubFrame = value;
       });
       this.$bus.$off("cesium-3d-maptool");
@@ -181,7 +179,10 @@ export default {
         infoBox: false,
         selectionIndicator: false,
       });
-
+      viewer.imageryLayers.get(0).show = false;
+      viewer.scene.globe.baseColor = new Cesium.Color.fromCssColorString(
+        "rgba(13,24,45, 1)"
+      );
       this.datalayer = viewer.imageryLayers.addImageryProvider(
         new Cesium.SuperMapImageryProvider({
           url: ServiceUrl.DataImage,
@@ -198,18 +199,35 @@ export default {
           name: "baimo",
         }
       );
-      Cesium.when(baimoPromise, async (layers) => {
+      Cesium.when(baimoPromise, async ([forceLayer, ...oLayer]) => {
         const LAYER = viewer.scene.layers.find("baimo");
         LAYER.style3D.fillForeColor = new Cesium.Color.fromCssColorString(
           "rgba(137,137,137, 1)"
         );
-        LAYER.visibleDistanceMax = 5500;
+        var hyp = new Cesium.HypsometricSetting();
+        var colorTable = new Cesium.ColorTable();
+        hyp.MaxVisibleValue = 300;
+        hyp.MinVisibleValue = 0;
+        colorTable.insert(300, new Cesium.Color(1, 1, 1));
+        colorTable.insert(150, new Cesium.Color(0.95, 0.95, 0.95));
+        colorTable.insert(0, new Cesium.Color(13 / 255, 24 / 255, 45 / 255));
+        hyp.ColorTable = colorTable;
+        hyp.DisplayMode = Cesium.HypsometricSettingEnum.DisplayMode.FACE;
+        hyp.Opacity = 1;
+        hyp.LineInterval = 20.0;
+        LAYER.hypsometricSetting = {
+          hypsometricSetting: hyp,
+          analysisMode:
+            Cesium.HypsometricSettingEnum.AnalysisRegionMode.ARM_ALL,
+        };
+        // LAYER.visibleDistanceMax = 5500;
       });
       // 移除缓冲圈
       $(".cesium-widget-credits").hide();
       viewer.scene.globe.depthTestAgainstTerrain = false;
+      viewer.scene
       window.earth = viewer;
-      fn && fn();
+      // fn && fn();
       this.cameraMove();
       this.addPointLight();
       fn && fn();
