@@ -209,7 +209,7 @@ export default {
       $(".cesium-widget-credits").hide();
       viewer.scene.globe.depthTestAgainstTerrain = false;
       window.earth = viewer;
-      fn && fn();
+      // fn && fn();
       this.cameraMove();
       this.addPointLight();
       fn && fn();
