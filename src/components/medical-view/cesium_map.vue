@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-20 18:52:41
- * @LastEditTime: 2020-09-04 15:50:49
+ * @LastEditTime: 2020-09-08 15:22:28
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\cesium_map.vue
@@ -81,7 +81,6 @@ export default {
     this.eventRegsiter();
   },
   methods: {
-    ...mapActions("map", ["SetForceBimData"]),
     async validate() {
       // let authorCode = this.$route.query.authorCode;
       // if (!authorCode) return (this.authFailshallPop = true);
@@ -162,7 +161,6 @@ export default {
     eventRegsiter() {
       this.$bus.$off("cesium-3d-event");
       this.$bus.$on("cesium-3d-event", ({ value }) => {
-        this.SetForceBimData([]);
         this.showSubFrame = value;
       });
       this.$bus.$off("cesium-3d-maptool");
@@ -181,7 +179,10 @@ export default {
         infoBox: false,
         selectionIndicator: false,
       });
-
+      viewer.imageryLayers.get(0).show = false;
+      viewer.scene.globe.baseColor = new Cesium.Color.fromCssColorString(
+        "rgba(13,24,45, 1)"
+      );
       this.datalayer = viewer.imageryLayers.addImageryProvider(
         new Cesium.SuperMapImageryProvider({
           url: ServiceUrl.DataImage,
@@ -200,6 +201,7 @@ export default {
       );
       Cesium.when(baimoPromise, async (layers) => {
         const LAYER = viewer.scene.layers.find("baimo");
+        console.log(LAYER)
         LAYER.style3D.fillForeColor = new Cesium.Color.fromCssColorString(
           "rgba(137,137,137, 1)"
         );
