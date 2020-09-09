@@ -251,7 +251,7 @@ export default {
       this.searchText = "";
       this.extraSearchList = [];
       this.hospitalChecked = [];
-      this.forceSearchSource = [];
+      this.searchFilter();
     },
     backToTree() {
       this.searchClear();
