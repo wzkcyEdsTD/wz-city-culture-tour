@@ -227,7 +227,7 @@ export default {
       viewer.scene.globe.depthTestAgainstTerrain = false;
       viewer.scene
       window.earth = viewer;
-      fn && fn();
+      // fn && fn();
       this.cameraMove();
       this.addPointLight();
       fn && fn();
