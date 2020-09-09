@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-20 18:52:41
- * @LastEditTime: 2020-09-09 16:22:15
+ * @LastEditTime: 2020-09-09 16:31:10
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\cesium_map.vue
@@ -227,7 +227,6 @@ export default {
       viewer.scene.globe.depthTestAgainstTerrain = false;
       viewer.scene
       window.earth = viewer;
-      // fn && fn();
       this.cameraMove();
       this.addPointLight();
       fn && fn();
