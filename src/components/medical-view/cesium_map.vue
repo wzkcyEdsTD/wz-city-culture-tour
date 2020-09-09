@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-20 18:52:41
- * @LastEditTime: 2020-09-08 18:29:13
+ * @LastEditTime: 2020-09-09 16:22:15
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\cesium_map.vue
@@ -204,22 +204,22 @@ export default {
         LAYER.style3D.fillForeColor = new Cesium.Color.fromCssColorString(
           "rgba(137,137,137, 1)"
         );
-        var hyp = new Cesium.HypsometricSetting();
-        var colorTable = new Cesium.ColorTable();
-        hyp.MaxVisibleValue = 300;
-        hyp.MinVisibleValue = 0;
-        colorTable.insert(300, new Cesium.Color(1, 1, 1));
-        colorTable.insert(150, new Cesium.Color(0.95, 0.95, 0.95));
-        colorTable.insert(0, new Cesium.Color(13 / 255, 24 / 255, 45 / 255));
-        hyp.ColorTable = colorTable;
-        hyp.DisplayMode = Cesium.HypsometricSettingEnum.DisplayMode.FACE;
-        hyp.Opacity = 1;
-        hyp.LineInterval = 20.0;
-        LAYER.hypsometricSetting = {
-          hypsometricSetting: hyp,
-          analysisMode:
-            Cesium.HypsometricSettingEnum.AnalysisRegionMode.ARM_ALL,
-        };
+        // var hyp = new Cesium.HypsometricSetting();
+        // var colorTable = new Cesium.ColorTable();
+        // hyp.MaxVisibleValue = 300;
+        // hyp.MinVisibleValue = 0;
+        // colorTable.insert(300, new Cesium.Color(1, 1, 1));
+        // colorTable.insert(150, new Cesium.Color(0.95, 0.95, 0.95));
+        // colorTable.insert(0, new Cesium.Color(13 / 255, 24 / 255, 45 / 255));
+        // hyp.ColorTable = colorTable;
+        // hyp.DisplayMode = Cesium.HypsometricSettingEnum.DisplayMode.FACE;
+        // hyp.Opacity = 1;
+        // hyp.LineInterval = 20.0;
+        // LAYER.hypsometricSetting = {
+        //   hypsometricSetting: hyp,
+        //   analysisMode:
+        //     Cesium.HypsometricSettingEnum.AnalysisRegionMode.ARM_ALL,
+        // };
         // LAYER.visibleDistanceMax = 5500;
       });
       // 移除缓冲圈

@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-09-03 15:04:37
- * @LastEditTime: 2020-09-04 15:54:00
+ * @LastEditTime: 2020-09-09 11:27:04
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\treeTool\TreeDrawTool.js
@@ -106,7 +106,8 @@ export const treeDrawTool = (context, { result }, node, fields = []) => {
         style: Cesium.LabelStyle.FILL_AND_OUTLINE,
         font: "10px",
         distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 2000),
-        pixelOffset: new Cesium.Cartesian2(0, -40)
+        pixelOffset: new Cesium.Cartesian2(0, -40),
+        disableDepthTestDistance: Number.POSITIVE_INFINITY
       },
       name: node.id,
       fieldHash,
@@ -151,7 +152,8 @@ export const treeDrawTool = (context, { result }, node, fields = []) => {
           billboard: {
             image: `/static/images/${node.icon}.png`,
             width: node.icon_size == "large" ? 48 : 32,
-            height: node.icon_size == "large" ? 48 : 35
+            height: node.icon_size == "large" ? 48 : 35,
+            disableDepthTestDistance: Number.POSITIVE_INFINITY
           }
         };
 
