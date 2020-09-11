@@ -40,7 +40,7 @@ export default {
       const that = this;
       this.$bus.$off("cesium-3d-video-circle");
       this.$bus.$on("cesium-3d-video-circle", ({ geometry, queryRadius }) => {
-        console.log("cesium-3d-video-circle");
+        this.removeVideoCircle()
         this.geometry = geometry;
         this.queryRadius = queryRadius;
         this.doPopup();
@@ -177,14 +177,10 @@ export default {
      */
     removeVideoCircle(id) {
       id
-        ? this.videoCircleCollection.entities.removeById(
-            this.videoCircleList[id].id
-          )
+        ? this.videoCircleCollection.entities.removeById(this.videoCircleList[id].id)
         : this.videoCircleCollection.entities.removeAll();
       id
-        ? this.videoCircleLabelCollection.entities.removeById(
-            this.videoCircleLabelList[id].id
-          )
+        ? this.videoCircleLabelCollection.entities.removeById(this.videoCircleLabelList[id].id)
         : this.videoCircleLabelCollection.entities.removeAll();
       this.videoPointCollection.entities.removeAll();
       this.shallPop = false;
