@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-09-10 20:30:07
- * @LastEditTime: 2020-09-10 21:49:03
+ * @LastEditTime: 2020-09-11 10:32:43
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\commonFrame\baimoLoader.js
@@ -59,7 +59,8 @@ PolylineTrailLinkMaterialProperty.prototype.equals = function(other) {
 
 Cesium.PolylineTrailLinkMaterialProperty = PolylineTrailLinkMaterialProperty;
 Cesium.Material.PolylineTrailLinkType = "PolylineTrailLink";
-Cesium.Material.PolylineTrailLinkImage = "/static/images/area/line_blue.png";
+Cesium.Material.PolylineTrailLinkImage =
+  "https://sourcelayer.wzcitybrain.com/static/images/area/line_blue.png";
 Cesium.Material.PolylineTrailLinkSource =
   " czm_material czm_getMaterial(czm_materialInput materialInput)\n\
 {\n\

@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-08-11 20:39:44
- * @LastEditTime: 2020-09-10 20:06:21
+ * @LastEditTime: 2020-09-11 11:04:20
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\config\server\mapConfig.js
@@ -9,9 +9,8 @@
 export const ServiceUrl = {
   // 温州白模
   WZBaimo:
-    // "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-RESPYQSY/rest/realspace/datas/RES_PY_QSY/config",
     "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-BaiMoLuCheng/rest/realspace/datas/BaiMo_LuCheng/config",
-  // "http://10.36.217.240:8098/iserver/services/3D-mongodb-RESLCModelYH/rest/realspace/datas/RES_LC_Model_YH/config",
+    // "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb/rest/realspace/datas/RES_LC_Model@baimo/config",
   //  影像底图
   SWImage:
     "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-YX2019SW/rest/realspace/datas/YX_2019_SW",
