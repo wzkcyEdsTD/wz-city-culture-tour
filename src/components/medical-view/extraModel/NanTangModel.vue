@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-20 09:03:10
- * @LastEditTime: 2020-09-08 14:51:25
+ * @LastEditTime: 2020-09-10 18:14:18
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\extraModel\NanTangModel.vue
@@ -65,7 +65,6 @@ export default {
         );
         Cesium.when(promise, async (layers) => {
           const layer = window.earth.scene.layers.find(LAYER_NAME);
-          layer.visibleDistanceMax = 1400;
         });
       }
     },

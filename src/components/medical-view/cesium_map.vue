@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-20 18:52:41
- * @LastEditTime: 2020-09-09 16:31:10
+ * @LastEditTime: 2020-09-10 21:47:44
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\cesium_map.vue
@@ -18,6 +18,7 @@
       <DetailPopup ref="detailPopup" />
       <RtmpVideo />
       <Population />
+      <RoadLine ref="roadline" />
       <VideoCircle ref="videoCircle" />
     </div>
     <AuthFailPopup ref="authFailPopup" v-if="mapLoaded && authFailshallPop" />
@@ -35,12 +36,13 @@ import MedicalPopup from "./commonFrame/medicalPopup";
 import DetailPopup from "./commonFrame/DetailPopup/DetailPopup";
 import RtmpVideo from "./extraModel/RtmpVideo/RtmpVideo";
 import Population from "./extraModel/Population/Population";
+import RoadLine from "./extraModel/PolylineTrailLink/RoadLine";
 import VideoCircle from "./commonFrame/videoCircle";
 import AuthFailPopup from "./commonFrame/AuthFailPopup/AuthFailPopup";
 import { getCurrentExtent, isContainByExtent } from "./commonFrame/mapTool";
 import { doValidation } from "api/validation/validation";
-const Cesium = window.Cesium;
 import { mapGetters, mapActions } from "vuex";
+const Cesium = window.Cesium;
 
 export default {
   data() {
@@ -68,6 +70,7 @@ export default {
     DetailPopup,
     RtmpVideo,
     Population,
+    RoadLine,
     VideoCircle,
     AuthFailPopup,
   },
@@ -170,7 +173,18 @@ export default {
       this.$bus.$off("cesium-3d-switch");
       this.$bus.$on("cesium-3d-switch", ({ value }) => {
         const _LAYER_ = window.earth.scene.layers.find("baimo");
-        _LAYER_.visibleDistanceMin = !value ? 1400 : 0;
+        _LAYER_.visible = !value ? false : true;
+        //  底图切换
+        this.datalayer.show = !value ? false : true;
+        this.imagelayer
+          ? (this.imagelayer.show = !value ? true : false)
+          : !value
+          ? (this.imagelayer = window.earth.imageryLayers.addImageryProvider(
+              new Cesium.SuperMapImageryProvider({
+                url: ServiceUrl.SWImage,
+              })
+            ))
+          : undefined;
       });
     },
     init3DMap(fn) {
@@ -178,6 +192,7 @@ export default {
       const viewer = new Cesium.Viewer("cesiumContainer", {
         infoBox: false,
         selectionIndicator: false,
+        shadows: false, //  内存吃不消
       });
       viewer.imageryLayers.get(0).show = false;
       viewer.scene.globe.baseColor = new Cesium.Color.fromCssColorString(
@@ -193,6 +208,7 @@ export default {
         name: "mapMvt",
         viewer,
       });
+      window.earth = viewer;
       const baimoPromise = viewer.scene.addS3MTilesLayerByScp(
         ServiceUrl.WZBaimo,
         {
@@ -204,55 +220,56 @@ export default {
         LAYER.style3D.fillForeColor = new Cesium.Color.fromCssColorString(
           "rgba(137,137,137, 1)"
         );
-        // var hyp = new Cesium.HypsometricSetting();
-        // var colorTable = new Cesium.ColorTable();
-        // hyp.MaxVisibleValue = 300;
-        // hyp.MinVisibleValue = 0;
-        // colorTable.insert(300, new Cesium.Color(1, 1, 1));
-        // colorTable.insert(150, new Cesium.Color(0.95, 0.95, 0.95));
-        // colorTable.insert(0, new Cesium.Color(13 / 255, 24 / 255, 45 / 255));
-        // hyp.ColorTable = colorTable;
-        // hyp.DisplayMode = Cesium.HypsometricSettingEnum.DisplayMode.FACE;
-        // hyp.Opacity = 1;
-        // hyp.LineInterval = 20.0;
-        // LAYER.hypsometricSetting = {
-        //   hypsometricSetting: hyp,
-        //   analysisMode:
-        //     Cesium.HypsometricSettingEnum.AnalysisRegionMode.ARM_ALL,
-        // };
-        // LAYER.visibleDistanceMax = 5500;
+        const hyp = new Cesium.HypsometricSetting();
+        const colorTable = new Cesium.ColorTable();
+        hyp.MaxVisibleValue = 300;
+        hyp.MinVisibleValue = 0;
+        colorTable.insert(300, new Cesium.Color(1, 1, 1));
+        colorTable.insert(160, new Cesium.Color(0.95, 0.95, 0.95));
+        colorTable.insert(76, new Cesium.Color(0.7, 0.7, 0.7));
+        colorTable.insert(0, new Cesium.Color(13 / 255, 24 / 255, 45 / 255));
+        hyp.ColorTable = colorTable;
+        hyp.DisplayMode = Cesium.HypsometricSettingEnum.DisplayMode.FACE;
+        hyp.Opacity = 1;
+        hyp.LineInterval = 20.0;
+        LAYER.hypsometricSetting = {
+          hypsometricSetting: hyp,
+          analysisMode:
+            Cesium.HypsometricSettingEnum.AnalysisRegionMode.ARM_ALL,
+        };
       });
       // 移除缓冲圈
       $(".cesium-widget-credits").hide();
       viewer.scene.globe.depthTestAgainstTerrain = false;
-      viewer.scene
-      window.earth = viewer;
       this.cameraMove();
       this.addPointLight();
       fn && fn();
     },
     addPointLight() {
-      const position = new Cesium.Cartesian3(
-        -2876658.347784866,
-        4840022.695245349,
-        2996644.580693739
-      );
-      const options = {
-        intensity: 0.5,
-      };
-      const directionalLight_v = new Cesium.DirectionalLight(position, options);
-      window.earth.scene.addLightSource(directionalLight_v);
+      // window.earth.scene.bloomEffect.threshold = 0.85;
+      // window.earth.scene.bloomEffect.bloomIntensity = 5;
+      window.earth.scene.fxaa = true;
+      // const position = new Cesium.Cartesian3(
+      //   -2876658.347784866,
+      //   4840022.695245349,
+      //   2996644.580693739
+      // );
+      // const options = {
+      //   intensity: 0.5,
+      // };
+      // const directionalLight_v = new Cesium.DirectionalLight(position, options);
+      // window.earth.scene.addLightSource(directionalLight_v);
     },
     cameraMove() {
       window.earth.scene.camera.setView({
         destination: {
-          x: -2875301.1196146533,
-          y: 4843728.17360857,
-          z: 2993569.51865382,
+          x: -2872292.003256429,
+          y: 4845616.29911175,
+          z: 2994201.158413711,
         },
         orientation: {
-          heading: 0.0033168860454315663,
-          pitch: -0.5808830390057396,
+          heading: 0.003020869834280404,
+          pitch: -0.5809627905093806,
           roll: 0,
         },
       });
