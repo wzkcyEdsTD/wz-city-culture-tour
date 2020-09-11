@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-09-03 15:04:37
- * @LastEditTime: 2020-09-09 11:27:04
+ * @LastEditTime: 2020-09-11 17:05:49
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\treeTool\TreeDrawTool.js
@@ -147,7 +147,7 @@ export const treeDrawTool = (context, { result }, node, fields = []) => {
           position: Cesium.Cartesian3.fromDegrees(
             item.geometry.x,
             item.geometry.y,
-            24
+            4
           ),
           billboard: {
             image: `/static/images/${node.icon}.png`,

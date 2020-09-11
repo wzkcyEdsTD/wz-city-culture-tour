@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-20 18:52:41
- * @LastEditTime: 2020-09-10 21:47:44
+ * @LastEditTime: 2020-09-11 17:25:04
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\cesium_map.vue
@@ -237,6 +237,7 @@ export default {
           analysisMode:
             Cesium.HypsometricSettingEnum.AnalysisRegionMode.ARM_ALL,
         };
+        LAYER.visibleDistanceMax = 5000;
       });
       // 移除缓冲圈
       $(".cesium-widget-credits").hide();
@@ -263,13 +264,13 @@ export default {
     cameraMove() {
       window.earth.scene.camera.setView({
         destination: {
-          x: -2872292.003256429,
-          y: 4845616.29911175,
-          z: 2994201.158413711,
+          x: -2875301.1196146533,
+          y: 4843728.17360857,
+          z: 2993569.51865382,
         },
         orientation: {
-          heading: 0.003020869834280404,
-          pitch: -0.5809627905093806,
+          heading: 0.0033168860454315663,
+          pitch: -0.5808830390057396,
           roll: 0,
         },
       });

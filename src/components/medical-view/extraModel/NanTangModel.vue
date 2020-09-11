@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-20 09:03:10
- * @LastEditTime: 2020-09-10 18:14:18
+ * @LastEditTime: 2020-09-11 17:27:50
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\extraModel\NanTangModel.vue
@@ -14,8 +14,11 @@
 const Cesium = window.Cesium;
 import { ServiceUrl } from "config/server/mapConfig";
 import { mapGetters, mapActions } from "vuex";
-const SERVER_HOST = "http://10.36.217.240:8098/iserver/services";
-const LAYER_NAME = "南塘精细三维";
+const { BUILDING, OTHERS } = ServiceUrl.SCENE_WZMODEL;
+const LAYERS = [
+  { name: "BUILDING", url: BUILDING },
+  { name: "OTHERS", url: OTHERS },
+];
 export default {
   data() {
     return {
@@ -55,16 +58,23 @@ export default {
     },
     //  初始化BIM场景
     initBimScene(fn) {
-      const _LAYER_ = window.earth.scene.layers.find(LAYER_NAME);
+      const _LAYER_ = window.earth.scene.layers.find(LAYERS[0].name);
       if (_LAYER_) {
-        _LAYER_.visible = true;
+        LAYERS.map((v) => {
+          const V_LAYER = window.earth.scene.layers.find(v.name);
+          V_LAYER.visible = true;
+        });
       } else {
-        const promise = window.earth.scene.addS3MTilesLayerByScp(
-          ServiceUrl.WZMODEL,
-          { name: LAYER_NAME }
-        );
-        Cesium.when(promise, async (layers) => {
-          const layer = window.earth.scene.layers.find(LAYER_NAME);
+        const PROMISES = LAYERS.map((v) => {
+          return window.earth.scene.addS3MTilesLayerByScp(v.url, {
+            name: v.name,
+          });
+        });
+        Cesium.when(PROMISES[PROMISES.length - 1], () => {
+          const otherLayer = window.earth.scene.layers.find("OTHERS");
+          otherLayer.visibleDistanceMax = 1400;
+          const buildLayer = window.earth.scene.layers.find("BUILDING");
+          buildLayer.visibleDistanceMax = 5000;
         });
       }
     },
@@ -102,7 +112,10 @@ export default {
     },
     //  清除BIM模块
     clearNanTangModel() {
-      window.earth.scene.layers.find(LAYER_NAME).visible = false;
+      LAYERS.map((v) => {
+        const V_LAYER = window.earth.scene.layers.find(v.name);
+        V_LAYER.visible = false;
+      });
     },
   },
 };

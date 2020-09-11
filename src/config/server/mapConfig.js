@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-08-11 20:39:44
- * @LastEditTime: 2020-09-11 11:04:20
+ * @LastEditTime: 2020-09-11 16:46:13
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\config\server\mapConfig.js
@@ -10,7 +10,7 @@ export const ServiceUrl = {
   // 温州白模
   WZBaimo:
     "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-BaiMoLuCheng/rest/realspace/datas/BaiMo_LuCheng/config",
-    // "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb/rest/realspace/datas/RES_LC_Model@baimo/config",
+  // "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb/rest/realspace/datas/RES_LC_Model@baimo/config",
   //  影像底图
   SWImage:
     "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-YX2019SW/rest/realspace/datas/YX_2019_SW",
@@ -25,9 +25,13 @@ export const ServiceUrl = {
     "https://ditu.wzcitybrain.com/iserver/services/map-mongodbMvt-SWmap/restjsr/v1/vectortile/maps/SW_map",
   //  全市区精模
   WZMODEL:
-    // "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-JMLC20121/rest/realspace/datas/JM_LC_2012_1/config"
-    "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-JMLC20121/rest/realspace/datas/JM_LC_2012_1/config"
-  // "http://10.36.217.240:8098/iserver/services/3D-mongodb/rest/realspace/datas/JM_LC_2012_1/config"
+    "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-JMLC20121/rest/realspace/datas/JM_LC_2012_1/config",
+  SCENE_WZMODEL: {
+    BUILDING:
+      "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb2/rest/realspace/datas/MAXShiQu2012JZ/config",
+    OTHERS:
+      "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb2/rest/realspace/datas/MAXShiQu2012QT/config"
+  }
 };
 
 export const BimSourceURL = {
