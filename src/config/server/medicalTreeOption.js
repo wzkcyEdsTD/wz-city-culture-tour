@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-07-29 16:10:06
- * @LastEditTime: 2020-09-10 10:12:50
+ * @LastEditTime: 2020-09-14 18:14:30
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\config\server\medicalTreeOption.js
@@ -21,7 +21,7 @@ const MEDICAL_TOPIC = [
     saveExtraDataByGeometry: "setMedicalListWithGeometry"
   }
 ];
-
+//  旅游专题
 const TOUR_TOPIC = [
   { label: "精品农家乐", dataset: "温州农家乐" },
   { label: "旅游景点", dataset: "永嘉旅游景点地图" },
@@ -29,11 +29,12 @@ const TOUR_TOPIC = [
   { label: "百姓健身房", dataset: "百姓健身房" },
   { label: "森林康养基地", dataset: "温州市森林康养基地" },
   { label: "夜光经济", dataset: "夜景" },
-  // {
-  //   label: "精品旅游路线",
-  //   componentEvent: "cesium-3d-event",
-  //   componentKey: "line1"
-  // }
+  { label: "AAA级景区村庄", dataset: "AAAJiFengJingQuCunZhuang" },
+  { label: "A级风景区", dataset: "AJiFengJingQu" },
+  { label: "其他景点", dataset: "QiTaJingDIan" },
+  { label: "星级旅行社", dataset: "XingJiLvXingShe" },
+  { label: "星级酒店", dataset: "XingJiJiuDian" },
+  { label: "民宿客栈", dataset: "MinSuKeZhan" }
 ];
 
 // 基础设施
@@ -79,7 +80,6 @@ const EMERGENCY_TOPIC = [
     dataset: "D_HAZARDS_GasStation"
   }
 ];
-
 //  农贸专题
 const SOURCE_TOPIC = [
   {
@@ -133,7 +133,7 @@ const SOURCE_TOPIC = [
     dataset: "passenger_trans_unit"
   }
 ];
-
+//  精细三维
 const MODEL_3D_FINE = [
   {
     label: "精细三维",
@@ -142,6 +142,7 @@ const MODEL_3D_FINE = [
     action: "SetIsInfoFrame"
   }
 ];
+//  控规专题
 const KG_INFO = [
   {
     label: "控规信息",
@@ -221,7 +222,7 @@ export const CESIUM_TREE_OPTION = [
         icon: v.label,
         url: SERVER_DEFAULT_DATA,
         type: "mvt",
-        newdataset: `${SW_DATA_NAME}${v.dataset}`,
+        newdataset: `${SW_DATA_NAME}${v.dataset}`
       };
     })
   },
@@ -235,7 +236,7 @@ export const CESIUM_TREE_OPTION = [
         icon: v.label,
         url: SERVER_DEFAULT_DATA,
         type: "mvt",
-        newdataset: `${SW_DATA_NAME}${v.dataset}`,
+        newdataset: `${SW_DATA_NAME}${v.dataset}`
       };
     })
   },
@@ -249,7 +250,7 @@ export const CESIUM_TREE_OPTION = [
         icon: v.label,
         url: SERVER_DEFAULT_DATA,
         type: "mvt",
-        newdataset: `${SW_DATA_NAME}${v.dataset}`,
+        newdataset: `${SW_DATA_NAME}${v.dataset}`
       };
     })
   },

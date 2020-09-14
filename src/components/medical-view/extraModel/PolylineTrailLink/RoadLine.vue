@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-09-10 10:16:26
- * @LastEditTime: 2020-09-11 17:30:59
+ * @LastEditTime: 2020-09-14 15:31:21
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\extraModel\PolylineTrailLink\RoadLine.vue
@@ -21,9 +21,6 @@ export default {
       viewer: undefined,
     };
   },
-  created() {
-    this.viewer = window.earth;
-  },
   async mounted() {
     this.drawWall();
     this.addDynamicLine();
@@ -31,18 +28,17 @@ export default {
     this.eventRegsiter();
   },
   beforeDestroy() {
-    this.viewer.entities.removeAll();
-    this.viewer.scene.bloomEffect.show = false;
-    this.viewer = undefined;
+    window.earth.entities.removeAll();
+    window.earth.scene.bloomEffect.show = false;
   },
   methods: {
     //  事件绑定
     eventRegsiter() {
       const that = this;
-      this.viewer.scene.bloomEffect.show = true;
+      window.earth.scene.bloomEffect.show = true;
       this.$bus.$on("cesium-3d-switch", ({ value }) => {
         const _LAYER_ = window.earth.scene.layers.find("baimo");
-        this.viewer.scene.bloomEffect.show = !value ? false : true;
+        window.earth.scene.bloomEffect.show = !value ? false : true;
       });
     },
     //  相机移动
@@ -66,7 +62,7 @@ export default {
       );
       promiseroute_level1
         .then((dataSource) => {
-          this.viewer.dataSources.add(dataSource);
+          window.earth.dataSources.add(dataSource);
           const Routes_level1 = dataSource.entities.values;
           for (var i = 0; i < Routes_level1.length; i++) {
             var line = Routes_level1[i];
@@ -84,7 +80,7 @@ export default {
       );
       promiseroute_level2
         .then((dataSource) => {
-          this.viewer.dataSources.add(dataSource);
+          window.earth.dataSources.add(dataSource);
           const Routes_level2 = dataSource.entities.values;
           for (var i = 0; i < Routes_level2.length; i++) {
             var line = Routes_level2[i];
@@ -109,7 +105,7 @@ export default {
       );
     },
     drawPolyline(linePoints) {
-      this.viewer.entities.add({
+      window.earth.entities.add({
         name: "PolylineTrail",
         polyline: {
           positions: Cesium.Cartesian3.fromDegreesArray(linePoints),
@@ -125,7 +121,7 @@ export default {
     drawWall() {
       let alp = 1,
         num = 0;
-      this.viewer.entities.add({
+      window.earth.entities.add({
         name: "wall",
         wall: {
           show: true,

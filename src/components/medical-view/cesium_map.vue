@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-20 18:52:41
- * @LastEditTime: 2020-09-11 17:25:04
+ * @LastEditTime: 2020-09-14 16:52:05
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\cesium_map.vue
@@ -231,7 +231,9 @@ export default {
         hyp.ColorTable = colorTable;
         hyp.DisplayMode = Cesium.HypsometricSettingEnum.DisplayMode.FACE;
         hyp.Opacity = 1;
-        hyp.LineInterval = 20.0;
+        //  贴图纹理
+        hyp.emissionTextureUrl = "/static/images/area/speedline.png";
+        hyp.emissionTexCoordUSpeed = 0.2;
         LAYER.hypsometricSetting = {
           hypsometricSetting: hyp,
           analysisMode:

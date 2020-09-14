@@ -8,7 +8,7 @@
     <div class="cesium-map" v-if="currentMapType == 'cesiumMap'">
       <CesiumMap />
     </div>
-    <!-- <m-bottom /> -->
+    <m-bottom />
     <div class="mask-wrapper">
       <div class="left"></div>
       <!-- <div class="top"></div> -->
