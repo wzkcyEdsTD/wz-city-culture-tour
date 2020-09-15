@@ -2,7 +2,7 @@
   position: absolute;
   bottom  : 4vh;
   left    : 2vw;
-  z-index: 200000;             
+  z-index: 200000;
   height: 46vh;
 
   .header {
@@ -59,7 +59,7 @@
       height: 42vh;
     }
     .result-wrapper {
-      .bg-image('../../../common/images/search-bg');
+      .bg-image('/static/images/common/search-bg');
       width: 99%;
       height  : calc(100% - 40px);
       padding: 10px 10px 10px 0;
@@ -87,7 +87,7 @@
                 width: 0.12rem;
                 height: 0.12rem;
                 vertical-align: middle;
-                .bg-image('../../../common/images/position');
+                .bg-image('/static/images/common/position');
               }
             }
           }
@@ -102,15 +102,15 @@
               outline: none;
             }
             input[type=checkbox]:checked{
-              background: url("../../../common/images/checked.png")no-repeat center;
+              background: url("/static/images/common/checked.png")no-repeat center;
               background-size: 16px;
             }
           }
         }
         .checked {
-          .bg-image('../../../common/images/search-checked');
+          .bg-image('/static/images/common/search-checked');
           .icon-position {
-            .bg-image('../../../common/images/position-sel') !important;
+            .bg-image('/static/images/common/position-sel') !important;
           }
         }
       }
@@ -133,7 +133,7 @@
     justify-content: space-between;
     width: 99%;
     margin: 5px 0;
-    .bg-image('../../../common/images/search-input');
+    .bg-image('/static/images/common/search-input');
     .searchFilterInput {
       width          : 80%;
       .el-input__inner {
@@ -175,13 +175,13 @@
         height: 0.2rem;
       }
       .icon-clear {
-        .bg-image('../../../common/images/clear');
+        .bg-image('/static/images/common/clear');
       }
       .icon-back {
-        .bg-image('../../../common/images/back');
+        .bg-image('/static/images/common/back');
       }
       .icon-search {
-        .bg-image('../../../common/images/search2');
+        .bg-image('/static/images/common/search2');
       }
     }
   }
@@ -325,7 +325,7 @@
   .el-popover {
     position: relative;
     height         : 39vh;
-    background     : url("../../../common/images/popover2.png") no-repeat;
+    background     : url("/static/images/common/popover2.png") no-repeat;
     background-size: 100% 100%;
     border         : none !important;
   }
@@ -344,7 +344,7 @@
       width: 0.16rem;
       height: 0.16rem;
       display: block;
-      .bg-image('../../../common/images/search2');
+      .bg-image('/static/images/common/search2');
       margin-left: 0.1rem;
     }
   }

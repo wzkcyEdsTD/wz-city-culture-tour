@@ -1,6 +1,6 @@
 <template>
   <div class="hud-container">
-    <img :src="src" alt="">
+    <img src="/static/images/common/loading.gif" alt />
     <!-- <div id="hud" class='loading'>
       <svg
         version="1.1"
@@ -97,24 +97,23 @@
           />
         </g>
       </svg>
-    </div> -->
-    <div class="load-text"><span>加</span><span>载</span><span>中</span>...</div>
+    </div>-->
+    <div class="load-text">
+      <span>加</span>
+      <span>载</span>
+      <span>中</span>...
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Loading',
-  data() {
-    return {
-      src: require('../../common/images/loading.gif')
-    }
-  }
-}
+  name: "Loading",
+};
 </script>
 
 <style scoped>
-img{
+img {
   width: 300px;
   height: 300px;
   position: absolute;
@@ -122,46 +121,47 @@ img{
   left: 50%;
   transform: translate(-50%, -50%);
 }
-.load-text{
+.load-text {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: #00b7ff;}
-.load-text span{
+  color: #00b7ff;
+}
+.load-text span {
   font-size: 0.18rem;
-  font-family: "Microsoft Yahei",sans-serif;
+  font-family: "Microsoft Yahei", sans-serif;
   display: inline-block;
-  animation:flip 2.6s infinite linear;
-  transform-origin:0 70%;
+  animation: flip 2.6s infinite linear;
+  transform-origin: 0 70%;
   letter-spacing: 0.1rem;
   font-weight: 600;
-  transform-style:preserve-3d;
-  -webkit-transform-style:preserve-3d;
-  }
-@keyframes flip{
-  35%{
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+}
+@keyframes flip {
+  35% {
     transform: rotateX(360deg);
   }
-  100%{
+  100% {
     transform: rotatex(360deg);
   }
 }
-.load-text>span:nth-child(2){
+.load-text > span:nth-child(2) {
   animation-delay: 0.3s;
 }
 
-.load-text>span:nth-child(3){
+.load-text > span:nth-child(3) {
   animation-delay: 0.6s;
 }
-.hud-container{
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-    background: rgba(1,30,51,0.5);
-    width: 100%;
-    height: 100%;
+.hud-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  background: rgba(1, 30, 51, 0.5);
+  width: 100%;
+  height: 100%;
 }
 #hud {
   height: 100%;

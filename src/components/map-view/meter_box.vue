@@ -1,3 +1,11 @@
+<!--
+ * @Author: eds
+ * @Date: 2020-08-11 20:39:44
+ * @LastEditTime: 2020-09-15 10:55:07
+ * @LastEditors: eds
+ * @Description:
+ * @FilePath: \wz-city-culture-tour\src\components\map-view\meter_box.vue
+-->
 <template>
   <transition
     enter-active-class="animated lightSpeedIn"
@@ -64,7 +72,7 @@ export default {
       width: 0.2rem;
       height: 0.2rem;
       display: block;
-      .bg-image('../../page/map/images/zoom-in');
+      .bg-image('/static/images/icons/zoom-in.png');
       transform: rotate(-45deg);
       transition: all 0.1s linear;
       cursor: pointer;

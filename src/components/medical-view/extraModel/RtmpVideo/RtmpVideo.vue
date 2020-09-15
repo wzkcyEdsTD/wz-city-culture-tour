@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-21 18:30:30
- * @LastEditTime: 2020-08-31 17:16:32
+ * @LastEditTime: 2020-09-15 10:53:32
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\extraModel\RtmpVideo\RtmpVideo.vue
@@ -161,7 +161,7 @@ export default {
         width: 0.2rem;
         height: 0.2rem;
         display: block;
-        .bg-image("../../../../page/map/images/zoom-in");
+        .bg-image("/static/images/icons/zoom-in.png");
         transform: rotate(-45deg);
         transition: all 0.1s linear;
         cursor: pointer;

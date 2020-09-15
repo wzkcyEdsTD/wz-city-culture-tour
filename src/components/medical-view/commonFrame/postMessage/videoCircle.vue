@@ -218,15 +218,15 @@ export default {
       // writing-mode: vertical-lr;
     }
     .remove {
-      .bg-image("../../../common/images/VC-remove-bg");
+      .bg-image("/static/images/common/VC-remove-bg");
     }
     .position {
       width: 30px;
       height: 30px;
-      .bg-image("../../../common/images/my-position");
+      .bg-image("/static/images/common/my-position");
     }
     .resource {
-      .bg-image("../../../common/images/VC-show-bg");
+      .bg-image("/static/images/common/VC-show-bg");
     }
   }
 }

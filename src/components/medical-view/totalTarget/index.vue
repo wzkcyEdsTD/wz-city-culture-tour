@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-09-15 09:07:19
- * @LastEditTime: 2020-09-15 09:11:50
+ * @LastEditTime: 2020-09-15 11:04:10
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\totalTarget\index.vue
@@ -9,10 +9,12 @@
 <template>
   <div class="totalTarget">
     <component :is="target" />
+    <scene-switch />
   </div>
 </template>
 
 <script>
+import SceneSwitch from "../commonFrame/SceneSwitch/SceneSwitch";
 import medicalTarget from "./medicalTarget";
 export default {
   data() {
@@ -20,7 +22,7 @@ export default {
       target: "medicalTarget",
     };
   },
-  components: { medicalTarget },
+  components: { medicalTarget, SceneSwitch },
 };
 </script>
 

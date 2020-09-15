@@ -58,7 +58,7 @@ export default {
       filterText: "",
       data: CESIUM_TREE_OPTION,
       imageLayer: {},
-      avatar: require("common/images/coverage.png"),
+      avatar: "/static/images/common/coverage.png",
       //  tile layers
       tileLayers: {},
       //  cesium Object

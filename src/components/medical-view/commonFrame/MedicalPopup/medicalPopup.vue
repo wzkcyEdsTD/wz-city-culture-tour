@@ -168,7 +168,7 @@ export default {
   position: relative;
   width: 160px;
   height: 130px;
-  background-image: url("../../../common/images/pop_bg.png");
+  background-image: url("/static/images/common/pop_bg.png");
   background-size: 100% 100%;
   background-repeat: no-repeat;
 }
@@ -253,13 +253,13 @@ export default {
 }
 
 .right-btns span:first-child {
-  background-image: url("../../../common/images/rtmpVideo.png");
+  background-image: url("/static/images/common/rtmpVideo.png");
   background-size: 100% 100%;
   background-repeat: no-repeat;
 }
 
 .right-btns span:last-child {
-  background-image: url("../../../common/images/population.png");
+  background-image: url("/static/images/common/population.png");
   background-size: 100% 100%;
   background-repeat: no-repeat;
 }

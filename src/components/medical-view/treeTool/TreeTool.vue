@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-07 10:57:45
- * @LastEditTime: 2020-09-04 14:43:44
+ * @LastEditTime: 2020-09-15 11:07:30
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\treeTool\TreeTool.vue
@@ -122,9 +122,8 @@ export default {
       extraSearchList: [],
       hospitalChecked: [],
       data: CESIUM_TREE_OPTION,
-      avatar: require("common/images/coverage.png"),
-      menuImg: require("common/images/menu-un.png"),
-      menuSelImg: require("common/images/menu-sel.png"),
+      menuImg: "/static/images/common/menu-un.png",
+      menuSelImg: "/static/images/common/menu-sel.png",
       //  tile layers
       tileLayers: {},
       //  cesium Object

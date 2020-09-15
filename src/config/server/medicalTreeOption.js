@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-07-29 16:10:06
- * @LastEditTime: 2020-09-14 18:14:30
+ * @LastEditTime: 2020-09-15 10:45:53
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\config\server\medicalTreeOption.js
@@ -29,12 +29,16 @@ const TOUR_TOPIC = [
   { label: "百姓健身房", dataset: "百姓健身房" },
   { label: "森林康养基地", dataset: "温州市森林康养基地" },
   { label: "夜光经济", dataset: "夜景" },
-  { label: "AAA级景区村庄", dataset: "AAAJiFengJingQuCunZhuang" },
-  { label: "A级风景区", dataset: "AJiFengJingQu" },
-  { label: "其他景点", dataset: "QiTaJingDIan" },
-  { label: "星级旅行社", dataset: "XingJiLvXingShe" },
-  { label: "星级酒店", dataset: "XingJiJiuDian" },
-  { label: "民宿客栈", dataset: "MinSuKeZhan" }
+  {
+    label: "AAA级景区村庄",
+    icon_size: "large",
+    dataset: "AAAJiFengJingQuCunZhuang"
+  },
+  { label: "A级风景区", icon_size: "large", dataset: "AJiFengJingQu" },
+  { label: "其他景点", icon_size: "large", dataset: "QiTaJingDIan" },
+  { label: "星级旅行社", icon_size: "large", dataset: "XingJiLvXingShe" },
+  { label: "星级酒店", icon_size: "large", dataset: "XingJiJiuDian" },
+  { label: "民宿客栈", icon_size: "large", dataset: "MinSuKeZhan" }
 ];
 
 // 基础设施

@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-20 18:52:41
- * @LastEditTime: 2020-09-15 09:41:35
+ * @LastEditTime: 2020-09-15 11:01:20
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\cesium_map.vue
@@ -33,13 +33,13 @@ import TreeTool from "./treeTool/TreeTool";
 import TotalTarget from "./totalTarget/index";
 import Roulette from "./roulette/roulette";
 import NanTangModel from "./extraModel/NanTangModel";
-import InfoFrame from "./commonFrame/InfoFrame";
-import MedicalPopup from "./commonFrame/medicalPopup";
+import InfoFrame from "./commonFrame/InfoFrame/InfoFrame";
+import MedicalPopup from "./commonFrame/MedicalPopup/medicalPopup";
 import DetailPopup from "./commonFrame/DetailPopup/DetailPopup";
 import RtmpVideo from "./extraModel/RtmpVideo/RtmpVideo";
 import Population from "./extraModel/Population/Population";
 import RoadLine from "./extraModel/PolylineTrailLink/RoadLine";
-import VideoCircle from "./commonFrame/videoCircle";
+import VideoCircle from "./commonFrame/postMessage/videoCircle";
 import AuthFailPopup from "./commonFrame/AuthFailPopup/AuthFailPopup";
 import { getCurrentExtent, isContainByExtent } from "./commonFrame/mapTool";
 import { doValidation } from "api/validation/validation";

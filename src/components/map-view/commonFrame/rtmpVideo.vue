@@ -1,10 +1,10 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-06 15:51:22
- * @LastEditTime: 2020-08-12 16:06:45
+ * @LastEditTime: 2020-09-15 10:54:47
  * @LastEditors: eds
  * @Description:
- * @FilePath: \旅游\src\components\map-view\commonFrame\rtmpVideo.vue
+ * @FilePath: \wz-city-culture-tour\src\components\map-view\commonFrame\rtmpVideo.vue
 -->
 <template>
   <div class="rtmpVideo">
@@ -43,7 +43,7 @@ export default {
     width: 0.2rem;
     height: 0.2rem;
     display: block;
-    .bg-image("../../../page/map/images/zoom-in");
+    .bg-image("/static/images/icons/zoom-in.png");
     transform: rotate(-45deg);
     transition: all 0.1s linear;
     cursor: pointer;

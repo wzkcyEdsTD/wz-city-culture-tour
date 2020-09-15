@@ -107,7 +107,7 @@ export default {
       width: 0.2rem;
       height: 0.2rem;
       display: block;
-      .bg-image('../../page/map/images/zoom-in');
+      .bg-image('/static/images/icons/zoom-in.png');
       transform: rotate(-45deg);
       transition: all 0.1s linear;
       cursor: pointer;

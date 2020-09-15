@@ -21,7 +21,7 @@
           :value="item.value">
         </el-option>
       </el-select>
-      <img @click="showSearch" src="../../common/images/search.png" alt="">
+      <img @click="showSearch" src="/static/images/common/search.png" alt="">
       <transition
         enter-active-class="animated lightSpeedIn"
         leave-active-class="animated lightSpeedOut"

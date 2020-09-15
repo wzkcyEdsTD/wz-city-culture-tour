@@ -1,3 +1,11 @@
+<!--
+ * @Author: eds
+ * @Date: 2020-08-11 20:39:44
+ * @LastEditTime: 2020-09-15 11:02:00
+ * @LastEditors: eds
+ * @Description:
+ * @FilePath: \wz-city-culture-tour\src\components\map-view\longitude_search.vue
+-->
 <template>
   <div class="wrapper" :class="{collapse: collapse2}" @click.stop>
     <div class="search-body">
@@ -9,7 +17,7 @@
         class="input"
         type="text"
         placeholder="经纬度用英文逗号隔开">
-      <img @click.stop="search" src="../../common/images/loglat_search.png" alt="">
+      <img @click.stop="search" src="/static/images/common/loglat_search.png" alt="">
     </div>
   </div>
 </template>
