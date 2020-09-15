@@ -80,7 +80,6 @@ export default {
     //   document.getElementsByTagName("title")[0].innerText =
     //     "温州设计集团大数据可视化分析基础平台";
     // });
-    // // 下面跟我没关系
     // getRoleCategory().then(res => {
     //   // this.getName(category);
     //   this.getName(res);
@@ -90,14 +89,6 @@ export default {
   methods: {
     ...mapActions(["SetUserInfo", "changeLoad", "SetResize"]),
     ...mapActions("map", ["SetNameList"]),
-    getName(arr) {
-      if (arr && arr.length) {
-        for (let i = 0; i < arr.length; i++) {
-          this.nameList.push(arr[i].name);
-          this.getName(arr[i].children);
-        }
-      }
-    },
   },
 };
 </script>

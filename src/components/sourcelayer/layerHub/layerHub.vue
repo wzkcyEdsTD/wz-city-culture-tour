@@ -1,0 +1,210 @@
+<!--
+ * @Author: eds
+ * @Date: 2020-08-25 14:06:37
+ * @LastEditTime: 2020-08-31 15:11:46
+ * @LastEditors: eds
+ * @Description:
+ * @FilePath: \wz-city-culture-tour\src\components\m-bottom\m-bottom.vue
+-->
+<template>
+  <div class="bottom-wrapper">
+    <div class="bottom-layers-container" v-show="forceTreeTopic.length">
+      <div class="swiper-buttons swiper-button-left"></div>
+      <swiper ref="mySwiper" class="layers" :options="swiperOptions">
+        <swiper-slide
+          v-for="(item,i) in forceTreeTopic"
+          :key="i"
+          :class="{item:true,active:~forceTrueTopicLabels.indexOf(item.id)}"
+        >
+          <div>
+            <img :src="`/static/images/${item.icon}.png`" @click="doForceTrueTopicLabels(item.id)" />
+            <p>{{item.id}}</p>
+          </div>
+        </swiper-slide>
+      </swiper>
+      <div class="swiper-buttons swiper-button-right"></div>
+    </div>
+    <div class="bottom-topics-container">
+      <ul class="labels">
+        <li
+          v-for="(item,i) in CESIUM_TREE_OPTION"
+          :key="i"
+          :class="{item:true,active:item.id==forceTreeLabel}"
+          @click="forceTreeLabel=item.id"
+        >
+          <i>{{item.label}}</i>
+        </li>
+      </ul>
+    </div>
+  </div>
+</template>
+
+<script>
+import { mapGetters, mapActions } from "vuex";
+import { treeDrawTool, fixTreeWithExtra } from "./TreeDrawTool";
+import { getIserverFields } from "api/iServerAPI";
+import {
+  CESIUM_TREE_OPTION,
+  CESIUM_TREE_EXTRA_DATA,
+  CESIUM_TREE_EXTRA_DATA_WITH_GEOMETRY,
+  SET_CESIUM_TREE_EXTRA_DATA_WITH_GEOMETRY,
+} from "config/server/medicalTreeOption";
+const Cesium = window.Cesium;
+
+export default {
+  name: "layerHub",
+  data() {
+    return {
+      //  底部树
+      CESIUM_TREE_OPTION,
+      forceTreeLabel: "旅游专题",
+      forceTreeTopic: [],
+      //  资源选中层
+      forceTrueTopic: {},
+      forceTrueTopicLabels: [],
+      swiperOptions: {
+        slidesPerView: 8,
+        navigation: {
+          nextEl: ".swiper-button-right",
+          prevEl: ".swiper-button-left",
+        },
+      },
+      //  tile layers
+      tileLayers: {},
+      //  cesium Object
+      entityMap: {},
+      featureMap: {}, //  源数据,量小
+    };
+  },
+  watch: {
+    forceTreeLabel(n) {
+      this.initForceTreeTopic();
+    },
+  },
+  created() {
+    this.initForceTreeTopic();
+  },
+  methods: {
+    /**
+     * 一级菜单点击切换
+     * 默认选中二级菜单第一个点
+     */
+    initForceTreeTopic() {
+      this.forceTreeTopic = this.CESIUM_TREE_OPTION.filter(
+        (v) => v.label == this.forceTreeLabel
+      )[0].children;
+      this.forceTrueTopic = this.forceTreeTopic.length
+        ? this.forceTreeTopic[0]
+        : {};
+      this.forceTrueTopicLabels = this.forceTreeTopic.length
+        ? [this.forceTrueTopic.id]
+        : [];
+    },
+    /**
+     * 选中状态
+     * @param {string} id
+     */
+    doForceTrueTopicLabels(id) {
+      const label = this.forceTreeTopic.filter((v) => v.id == id)[0];
+      if (~this.forceTrueTopicLabels.indexOf(label.id)) {
+        if (this.forceTrueTopicLabels.length > 1) {
+          this.forceTrueTopicLabels.splice(
+            this.forceTrueTopicLabels.indexOf(label.id),
+            1
+          );
+          this.nodeCheckChange(label, false);
+        }
+      } else {
+        this.forceTrueTopicLabels = [
+          ...new Set(this.forceTrueTopicLabels.concat([label.id])),
+        ];
+        this.nodeCheckChange(label, true);
+      }
+    },
+    /**
+     * POI fetch
+     * @param {object} node
+     */
+    getPOIPickedFeature(node) {
+      const { newdataset, url } = node;
+      var getFeatureParam, getFeatureBySQLService, getFeatureBySQLParams;
+      getFeatureParam = new SuperMap.REST.FilterParameter({
+        attributeFilter: `SMID <= 1000`,
+      });
+      getFeatureBySQLParams = new SuperMap.REST.GetFeaturesBySQLParameters({
+        queryParameter: getFeatureParam,
+        toIndex: -1,
+        datasetNames: [newdataset],
+      });
+      getFeatureBySQLService = new SuperMap.REST.GetFeaturesBySQLService(url, {
+        eventListeners: {
+          processCompleted: async (res) => {
+            const fields = await getIserverFields(url, newdataset);
+            treeDrawTool(this, res, node, fields);
+          },
+          processFailed: (msg) => console.log(msg),
+        },
+      });
+      getFeatureBySQLService.processAsync(getFeatureBySQLParams);
+    },
+    nodeCheckChange(node, checked) {
+      if (checked) {
+        if (node.type == "mvt" && node.id) {
+          if (node.id && this.entityMap[node.id]) {
+            this.entityMap[node.id].show = true;
+            //  若该节点有额外数据/模块,则触发
+            node.withExtraData
+              ? fixTreeWithExtra(
+                  this.featureMap[node.id],
+                  this[node.withExtraData],
+                  node,
+                  this
+                )
+              : null;
+          } else {
+            this.getPOIPickedFeature(node);
+          }
+        } else if (node.type == "model") {
+          node.componentEvent &&
+            node.componentKey &&
+            this.$bus.$emit(node.componentEvent, { value: node.componentKey });
+        } else if (node.type == "image") {
+          const LAYER = this.tileLayers[node.id];
+          this.tileLayers[
+            node.id
+          ] = window.earth.imageryLayers.addImageryProvider(
+            new Cesium.SuperMapImageryProvider({
+              url: node.url,
+              name: node.id,
+            })
+          );
+        }
+        //  有相机视角配置 -> 跳视角
+        node.camera && window.earth.scene.camera.setView(node.camera);
+      } else {
+        const LAYER =
+          node.type == "model"
+            ? window.earth.scene.layers.find(node.id)
+            : this.tileLayers[node.id];
+        LAYER && (LAYER.show = false);
+        if (
+          node.icon &&
+          this.entityMap[node.id] &&
+          window.earth.dataSources.length
+        ) {
+          this.entityMap[node.id].show = false;
+          if (node.withExtraData) {
+            this[node.saveExtraDataByGeometry]([]);
+          }
+        }
+        node.componentEvent &&
+          this.$bus.$emit(node.componentEvent, { value: null });
+      }
+    },
+  },
+};
+</script>
+
+<style scoped lang="less">
+@import url("./layerHub.less");
+</style>

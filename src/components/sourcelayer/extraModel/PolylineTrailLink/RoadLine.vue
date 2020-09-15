@@ -22,9 +22,9 @@ export default {
     };
   },
   async mounted() {
-    this.drawWall();
-    this.addDynamicLine();
-    // this.addHaloLine();
+    // this.drawWall();
+    // this.addDynamicLine();
+    this.addHaloLine();
     this.eventRegsiter();
   },
   beforeDestroy() {

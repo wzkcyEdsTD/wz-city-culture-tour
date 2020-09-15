@@ -1,14 +1,9 @@
 <template>
   <div class="page-map">
-    <!-- <MapCenterBtn
-      ref="mapCenterBtn"
-      class="no-print"
-      @setMapTollBar="setMapTollBar"
-    ></MapCenterBtn>-->
     <div class="cesium-map" v-if="currentMapType == 'cesiumMap'">
-      <CesiumMap />
+      <cesium-map />
     </div>
-    <m-bottom />
+    <layer-hub />
     <div class="mask-wrapper">
       <div class="left"></div>
       <div class="right"></div>
@@ -18,7 +13,7 @@
 </template>
 <script>
 import MapCenterBtn from "./modules/map-center-btn/map-center-btn";
-import MBottom from "components/m-bottom/m-bottom";
+import LayerHub from "components/sourcelayer/layerHub/layerHub";
 import CesiumMap from "components/sourcelayer/cesium_map";
 import { mapGetters, mapActions } from "vuex";
 
@@ -64,7 +59,7 @@ export default {
   components: {
     MapCenterBtn,
     CesiumMap,
-    MBottom,
+    LayerHub,
   },
   watch: {},
 };

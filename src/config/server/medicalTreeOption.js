@@ -164,13 +164,13 @@ export const CESIUM_TREE_EXTRA_DATA_WITH_GEOMETRY = ["medicalListWithGeometry"];
 export const CESIUM_TREE_EXTRA_DATA = ["medicalList"];
 export const CESIUM_TREE_OPTION = [
   {
-    id: "精细三维",
-    label: "精细三维",
-    children: MODEL_3D_FINE.map(v => {
+    id: "城市总览",
+    label: "控规信息",
+    children: KG_INFO.map(v => {
       return {
         ...v,
         id: v.label,
-        type: "model"
+        type: "image"
       };
     })
   },
@@ -188,6 +188,7 @@ export const CESIUM_TREE_OPTION = [
       };
     })
   },
+
   {
     id: "旅游专题",
     label: "旅游专题",
@@ -231,8 +232,8 @@ export const CESIUM_TREE_OPTION = [
     })
   },
   {
-    id: "基础设施专题",
-    label: "基础设施专题",
+    id: "基础设施",
+    label: "基础设施",
     children: BASIC_TOPIC.map(v => {
       return {
         ...v,
@@ -259,14 +260,19 @@ export const CESIUM_TREE_OPTION = [
     })
   },
   {
-    id: "控规信息",
-    label: "控规信息",
-    children: KG_INFO.map(v => {
-      return {
-        ...v,
-        id: v.label,
-        type: "image"
-      };
-    })
-  }
+    id: "交通专题",
+    label: "交通专题",
+    children: []
+  },
+  // {
+  //   id: "精细三维",
+  //   label: "精细三维",
+  //   children: MODEL_3D_FINE.map(v => {
+  //     return {
+  //       ...v,
+  //       id: v.label,
+  //       type: "model"
+  //     };
+  //   })
+  // },
 ];
