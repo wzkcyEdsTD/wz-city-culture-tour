@@ -1,7 +1,7 @@
 /*
  * @Author: eds
  * @Date: 2020-07-01 14:19:49
- * @LastEditTime: 2020-08-27 10:55:57
+ * @LastEditTime: 2020-09-15 11:14:22
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\router\index.js
@@ -13,9 +13,10 @@ Vue.use(Router);
 
 const router = new Router({
   mode: "hash",
-  routes: [{
+  routes: [
+    {
       path: "/",
-      redirect: "Medical"
+      redirect: "sourcelayer"
     },
     // {
     //   path: "/state",
@@ -31,21 +32,21 @@ const router = new Router({
       component: resolve => require(["page/map/map"], resolve)
     },
     {
-      path: "/medical", // 医疗
-      name: "Medical",
+      path: "/sourcelayer", // 医疗
+      name: "sourcelayer",
       meta: {
         title: "城市大脑·医疗生活"
       },
-      component: resolve => require(["page/medical/medical"], resolve)
-    },
+      component: resolve => require(["page/sourcelayer/sourcelayer"], resolve)
+    }
   ]
-})
+});
 
 router.beforeEach((to, from, next) => {
   if (to.meta.title) {
     document.title = to.meta.title;
   }
-  next()
-})
+  next();
+});
 
 export default router;
