@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-08-20 18:52:41
- * @LastEditTime: 2020-09-14 16:52:05
+ * @LastEditTime: 2020-09-15 09:41:35
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\cesium_map.vue
@@ -10,8 +10,9 @@
   <div class="cesiumContainer">
     <div id="cesiumContainer" />
     <div v-if="mapLoaded && validated">
-      <Coverage ref="treetool" />
-      <TotalTarget />
+      <TreeTool ref="treetool" />
+      <TotalTarget ref="totalTarget" />
+      <Roulette />
       <NanTangModel v-if="showSubFrame == '3d1'" />
       <InfoFrame ref="infoframe" v-show="isInfoFrame" />
       <MedicalPopup ref="medicalPopup" />
@@ -28,8 +29,9 @@
 <script>
 import { ServiceUrl } from "config/server/mapConfig";
 import "./basicTools/ThreeTools.less";
-import Coverage from "./treeTool/TreeTool";
-import TotalTarget from "./totalTarget/totalTarget";
+import TreeTool from "./treeTool/TreeTool";
+import TotalTarget from "./totalTarget/index";
+import Roulette from "./roulette/roulette";
 import NanTangModel from "./extraModel/NanTangModel";
 import InfoFrame from "./commonFrame/InfoFrame";
 import MedicalPopup from "./commonFrame/medicalPopup";
@@ -62,8 +64,9 @@ export default {
     ...mapGetters("map", ["medicalListWithGeometry"]),
   },
   components: {
-    Coverage,
+    TreeTool,
     TotalTarget,
+    Roulette,
     NanTangModel,
     InfoFrame,
     MedicalPopup,

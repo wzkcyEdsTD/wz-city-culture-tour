@@ -1,7 +1,7 @@
 <!--
  * @Author: eds
  * @Date: 2020-07-28 14:09:16
- * @LastEditTime: 2020-09-04 08:44:21
+ * @LastEditTime: 2020-09-15 10:32:15
  * @LastEditors: eds
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\medical-view\commonFrame\InfoFrame.vue
@@ -22,7 +22,7 @@
                 <tbody>
                   <tr>
                     <td>{{ _item.label }}</td>
-                    <td>同比昨日</td>
+                    <td><i class="block-compare">同比昨日</i></td>
                   </tr>
                   <tr>
                     <td>
@@ -55,7 +55,6 @@
         </section>
       </div>
     </div>
-    <div class="mask-right"></div>
   </div>
 </template>
 

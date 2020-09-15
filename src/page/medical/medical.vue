@@ -11,7 +11,7 @@
     <m-bottom />
     <div class="mask-wrapper">
       <div class="left"></div>
-      <!-- <div class="top"></div> -->
+      <div class="right"></div>
       <div class="bottom"></div>
     </div>
   </div>
@@ -301,7 +301,7 @@ export default {
     position: fixed;
     top: 0;
     left: 0;
-    width: 22vw;
+    width: 18vw;
     height: 100%;
     background-image: linear-gradient(
       90deg,
@@ -310,18 +310,24 @@ export default {
       rgba(0, 19, 38, 0) 100%
     );
   }
-  // .top {
-  //   position: fixed;
-  //   top: 0.3rem;
-  //   width: 100%;
-  //   height: 10%;
-  //   .bg-image('../../common/images/mask-top')
-  // }
+  .right {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 20vw;
+    height: 100%;
+    background-image: linear-gradient(
+      270deg,
+      rgba(0, 13, 26, 0.84) 0%,
+      rgba(0, 17, 34, 0.55) 70%,
+      rgba(0, 19, 38, 0) 100%
+    );
+  }
   .bottom {
     position: fixed;
     bottom: 0;
     width: 100%;
-    height: 15vh;
+    height: 14vh;
     background-image: linear-gradient(
       0deg,
       #031d38 0%,
