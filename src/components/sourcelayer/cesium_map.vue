@@ -9,8 +9,7 @@
 <template>
   <div class="cesiumContainer">
     <div id="cesiumContainer" />
-    <div v-show="mapLoaded && validated">
-      <SearchBox ref="searchBox" />
+    <div v-if="mapLoaded && validated">
       <TotalTarget ref="totalTarget" />
       <Roulette />
       <NanTangModel v-if="showSubFrame == '3d1'" />
@@ -21,6 +20,8 @@
       <Population />
       <RoadLine ref="roadline" v-if="mapLoaded" />
       <VideoCircle ref="videoCircle" v-if="mapLoaded" />
+      <LayerHub />
+      <SearchBox ref="searchBox" />
     </div>
     <AuthFailPopup ref="authFailPopup" v-if="authFailshallPop" />
   </div>
@@ -29,6 +30,7 @@
 <script>
 import { ServiceUrl } from "config/server/mapConfig";
 import "./basicTools/ThreeTools.less";
+import LayerHub from "components/sourcelayer/layerHub/layerHub";
 import SearchBox from "./layerHub/searchBox";
 import TotalTarget from "./totalTarget/index";
 import Roulette from "./roulette/roulette";
@@ -50,13 +52,11 @@ export default {
   data() {
     return {
       showSubFrame: null,
-      showSubTool: null,
       mapLoaded: false,
       validated: false,
       imagelayer: undefined,
       datalayer: undefined,
       isInfoFrame: false,
-      handler: undefined,
       authFailshallPop: false,
     };
   },
@@ -64,6 +64,7 @@ export default {
     ...mapGetters("map", ["medicalListWithGeometry"]),
   },
   components: {
+    LayerHub,
     SearchBox,
     TotalTarget,
     Roulette,
@@ -139,11 +140,11 @@ export default {
       });
     },
     initHandler() {
-      this.handler = new Cesium.ScreenSpaceEventHandler(
+      const handler = new Cesium.ScreenSpaceEventHandler(
         window.earth.scene.canvas
       );
       // 监听左键点击事件
-      this.handler.setInputAction((e) => {
+      handler.setInputAction((e) => {
         const pick = window.earth.scene.pick(e.position);
         if (!pick.id || typeof pick.id != "object") return;
         //  *****[videoCircle]  监控视频点*****
@@ -169,12 +170,9 @@ export default {
       this.$bus.$on("cesium-3d-event", ({ value }) => {
         this.showSubFrame = value;
       });
-      this.$bus.$off("cesium-3d-maptool");
-      this.$bus.$on("cesium-3d-maptool", ({ value }) => {
-        this.showSubTool = value;
-      });
       this.$bus.$off("cesium-3d-switch");
       this.$bus.$on("cesium-3d-switch", ({ value }) => {
+        this.$bus.$emit("cesium-3d-event", { value: !value ? "3d1" : null });
         const _LAYER_ = window.earth.scene.layers.find("baimo");
         _LAYER_.visible = !value ? false : true;
         //  底图切换
@@ -242,7 +240,7 @@ export default {
           analysisMode:
             Cesium.HypsometricSettingEnum.AnalysisRegionMode.ARM_ALL,
         };
-        LAYER.visibleDistanceMax = 5000;
+        // LAYER.visibleDistanceMax = 5000;
       });
       // 移除缓冲圈
       $(".cesium-widget-credits").hide();

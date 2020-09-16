@@ -3,7 +3,6 @@
     <div class="cesium-map" v-if="currentMapType == 'cesiumMap'">
       <cesium-map />
     </div>
-    <layer-hub />
     <div class="mask-wrapper">
       <div class="left"></div>
       <div class="right"></div>
@@ -12,8 +11,6 @@
   </div>
 </template>
 <script>
-import MapCenterBtn from "./modules/map-center-btn/map-center-btn";
-import LayerHub from "components/sourcelayer/layerHub/layerHub";
 import CesiumMap from "components/sourcelayer/cesium_map";
 import { mapGetters, mapActions } from "vuex";
 
@@ -57,9 +54,7 @@ export default {
     },
   },
   components: {
-    MapCenterBtn,
     CesiumMap,
-    LayerHub,
   },
   watch: {},
 };

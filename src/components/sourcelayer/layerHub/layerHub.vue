@@ -17,7 +17,10 @@
           :class="{item:true,active:~forceTrueTopicLabels.indexOf(item.id)}"
         >
           <div>
-            <img :src="`/static/images/${item.icon}.png`" @click="doForceTrueTopicLabels(item.id)" />
+            <img
+              :src="`/static/images/hubico/${item.icon}@2x.png`"
+              @click="doForceTrueTopicLabels(item.id)"
+            />
             <p>{{item.id}}</p>
           </div>
         </swiper-slide>
@@ -57,7 +60,7 @@ export default {
     return {
       //  底部树
       CESIUM_TREE_OPTION,
-      forceTreeLabel: "旅游专题",
+      forceTreeLabel: "应急专题",
       forceTreeTopic: [],
       //  资源选中层
       forceTrueTopicLabels: [],

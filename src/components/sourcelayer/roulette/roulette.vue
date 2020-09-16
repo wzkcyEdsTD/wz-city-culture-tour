@@ -32,7 +32,7 @@ export default {
   data() {
     return {
       selectedValue: "today",
-      todayImg: require("./images/today.png"),
+      todayImg: require("./images/roulette@2x.png"),
     };
   },
   methods: {

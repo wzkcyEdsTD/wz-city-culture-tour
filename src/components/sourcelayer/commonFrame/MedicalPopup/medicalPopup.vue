@@ -27,7 +27,7 @@
                 </tr>
                 <tr>
                   <td>人数</td>
-                  <td>{{ item.feverNum }}</td>
+                  <td>{{ bufferHash[item.id] ? 1 : 0 }}</td>
                 </tr>
               </tbody>
             </table>
@@ -59,7 +59,12 @@ export default {
   },
   methods: {
     ...mapActions("map", ["fetchMedicalList"]),
-    eventRegsiter() {},
+    eventRegsiter() {
+      this.$bus.$off("cesium-3d-around-people");
+      this.$bus.$on("cesium-3d-around-people", ({ id, result }) => {
+        this.bufferHash[id] = result;
+      });
+    },
     doPopup(G_medicalList) {
       const popList = [];
       if (G_medicalList.length) {
@@ -91,16 +96,8 @@ export default {
       }
     },
 
-    /**
-     * 2020/8/20
-     * 等级展示（目前先展示三甲医院）
-     */
     fixGrade(defining) {
-      if (~defining.indexOf("三级甲等")) {
-        return "三级甲等";
-      } else {
-        return "";
-      }
+      return ~defining.indexOf("三级甲等") ? "三级甲等" : "";
     },
 
     closePopup() {
@@ -122,15 +119,13 @@ export default {
      * 开专门的缓冲区collection
      */
     doCircleBuffer(obj) {
-      const that = this;
       if (!this.bufferHash[obj.id]) {
-        this.bufferHash[obj.id] = true;
+        this.bufferHash[obj.id] = {};
       } else {
-        this.bufferHash[obj.id] = !this.bufferHash[obj.id];
+        this.bufferHash[obj.id] = null;
       }
-
       this.$bus.$emit("cesium-3d-population-circle", {
-        doDraw: that.bufferHash[obj.id],
+        doDraw: this.bufferHash[obj.id],
         id: obj.id,
         geometry: {
           lng: obj.geometry.x,

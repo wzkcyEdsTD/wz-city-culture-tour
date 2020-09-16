@@ -161,7 +161,7 @@ export default {
         width: 0.2rem;
         height: 0.2rem;
         display: block;
-        .bg-image("/static/images/icons/zoom-in.png");
+        .bg-image("/static/images/icons/zoom-in");
         transform: rotate(-45deg);
         transition: all 0.1s linear;
         cursor: pointer;

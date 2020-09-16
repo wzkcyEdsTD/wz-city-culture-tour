@@ -17,9 +17,7 @@ const Cesium = window.Cesium;
 export default {
   data() {
     return {
-      populationCircleList: {},
-      populationCircleLabelList: {},
-      medicalCircleCollection: undefined,
+      populationCircleList: [],
     };
   },
   mounted() {
@@ -48,19 +46,7 @@ export default {
       const MedicalCircleEntityCollection = new Cesium.CustomDataSource(
         "medical"
       );
-      const MedicalCircleLabelEntityCollection = new Cesium.CustomDataSource(
-        "medical_label"
-      );
-      window.earth.dataSources
-        .add(MedicalCircleEntityCollection)
-        .then((datasource) => {
-          this.medicalCircleCollection = MedicalCircleEntityCollection;
-        });
-      window.earth.dataSources
-        .add(MedicalCircleLabelEntityCollection)
-        .then((datasource) => {
-          this.medicalCircleLabelCollection = MedicalCircleLabelEntityCollection;
-        });
+      window.earth.dataSources.add(MedicalCircleEntityCollection);
     },
     /**
      * 开启扫描
@@ -96,6 +82,7 @@ export default {
      */
     async drawPopulationCircle(id, { lng, lat }, raidus = 500) {
       console.log("[drawPopulationCircle]", lng, lat);
+      const datasource = window.earth.dataSources.getByName("medical")[0];
       const circleEntity = new Cesium.Entity({
         position: Cesium.Cartesian3.fromDegrees(lng, lat, 0),
         ellipse: {
@@ -107,51 +94,20 @@ export default {
           outlineWidth: 3,
           outlineColor: Cesium.Color.WHITE,
         },
-        name: id,
+        id,
       });
-      this.medicalCircleCollection.entities.add(circleEntity);
-      this.populationCircleList[circleEntity.name] = circleEntity;
+      datasource.entities.add(circleEntity);
       const result = await getPopulation({ lng, lat });
-      const circleLabelEntity = new Cesium.Entity({
-        position: Cesium.Cartesian3.fromDegrees(lng, lat, 200),
-        label: {
-          text: `周边500米实时人口\n时间:${result.task_time}\n人数:${result.data}人`,
-          fillColor: Cesium.Color.YELLOW,
-          font: "strong 16px MicroSoft YaHei",
-          outlineWidth: 2,
-          outlineColor: Cesium.Color.GRAY,
-          style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-          distanceDisplayCondition: new Cesium.DistanceDisplayCondition(
-            0,
-            10000
-          ),
-          eyeOffset: new Cesium.Cartesian3(0.0, -160.0, 0),
-          scaleByDistance: new Cesium.NearFarScalar(5000, 1, 10000, 0.5),
-        },
-        name: id,
-      });
-      this.populationCircleLabelList[
-        circleLabelEntity.name
-      ] = circleLabelEntity;
-      this.medicalCircleLabelCollection.entities.add(circleLabelEntity);
       this.drawPopulationScan(true, id, { lng, lat });
+      this.$bus.$emit("cesium-3d-around-people", { id, result });
     },
     /**
      * 删缓冲区
      * @param {string|number|undefined} 有id删id 没id删全部
      */
     removePopulationCircle(id) {
-      id
-        ? this.medicalCircleCollection.entities.removeById(
-            this.populationCircleList[id].id
-          )
-        : this.medicalCircleCollection.entities.removeAll();
-      id
-        ? this.medicalCircleLabelCollection.entities.removeById(
-            this.populationCircleLabelList[id].id
-          )
-        : this.medicalCircleLabelCollection.entities.removeAll();
-
+      const datasource = window.earth.dataSources.getByName("medical")[0];
+      id ? datasource.entities.removeById(id) : datasource.entities.removeAll();
       this.drawPopulationScan(false);
     },
   },
