@@ -32,7 +32,7 @@ export default {
   },
   mounted() {
     this.eventRegsiter();
-    this.createEntityCollection();
+    // this.createEntityCollection();
   },
   methods: {
     ...mapActions("map", ["SetRtmpList"]),
@@ -40,7 +40,7 @@ export default {
       const that = this;
       this.$bus.$off("cesium-3d-video-circle");
       this.$bus.$on("cesium-3d-video-circle", ({ geometry, queryRadius }) => {
-        this.removeVideoCircle()
+        this.removeVideoCircle();
         this.geometry = geometry;
         this.queryRadius = queryRadius;
         this.doPopup();
@@ -61,10 +61,7 @@ export default {
         x: pointToWindow.x - $(".vc-popup").width() / 2,
         y: pointToWindow.y - $(".vc-popup").height(),
       };
-      !this.shallPop &&
-        this.$nextTick(() => {
-          this.shallPop = true;
-        });
+      !this.shallPop && (this.shallPop = true);
     },
     /**
      * 创建datesource
@@ -94,7 +91,6 @@ export default {
         .then((datasource) => {
           this.videoPointCollection = VideoPointEntityCollection;
         });
-      window.earth.scene.globe.depthTestAgainstTerrain = false;
     },
     /**
      * 画缓冲区
@@ -177,10 +173,14 @@ export default {
      */
     removeVideoCircle(id) {
       id
-        ? this.videoCircleCollection.entities.removeById(this.videoCircleList[id].id)
+        ? this.videoCircleCollection.entities.removeById(
+            this.videoCircleList[id].id
+          )
         : this.videoCircleCollection.entities.removeAll();
       id
-        ? this.videoCircleLabelCollection.entities.removeById(this.videoCircleLabelList[id].id)
+        ? this.videoCircleLabelCollection.entities.removeById(
+            this.videoCircleLabelList[id].id
+          )
         : this.videoCircleLabelCollection.entities.removeAll();
       this.videoPointCollection.entities.removeAll();
       this.shallPop = false;

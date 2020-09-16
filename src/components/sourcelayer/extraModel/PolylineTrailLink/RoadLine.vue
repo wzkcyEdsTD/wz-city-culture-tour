@@ -23,8 +23,8 @@ export default {
   },
   async mounted() {
     // this.drawWall();
-    // this.addDynamicLine();
-    this.addHaloLine();
+    this.addDynamicLine();
+    // this.addHaloLine();
     this.eventRegsiter();
   },
   beforeDestroy() {

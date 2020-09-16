@@ -60,7 +60,6 @@ export default {
       forceTreeLabel: "旅游专题",
       forceTreeTopic: [],
       //  资源选中层
-      forceTrueTopic: {},
       forceTrueTopicLabels: [],
       swiperOptions: {
         slidesPerView: 8,
@@ -76,6 +75,12 @@ export default {
       featureMap: {}, //  源数据,量小
     };
   },
+  computed: {
+    ...mapGetters("map", [
+      ...CESIUM_TREE_EXTRA_DATA,
+      ...CESIUM_TREE_EXTRA_DATA_WITH_GEOMETRY,
+    ]),
+  },
   watch: {
     forceTreeLabel(n) {
       this.initForceTreeTopic();
@@ -85,20 +90,28 @@ export default {
     this.initForceTreeTopic();
   },
   methods: {
+    ...mapActions("map", SET_CESIUM_TREE_EXTRA_DATA_WITH_GEOMETRY),
     /**
      * 一级菜单点击切换
      * 默认选中二级菜单第一个点
      */
     initForceTreeTopic() {
-      this.forceTreeTopic = this.CESIUM_TREE_OPTION.filter(
+      //  清除旧图层
+      this.forceTreeTopic
+        .filter((v) => ~this.forceTrueTopicLabels.indexOf(v.id))
+        .map((v) => this.nodeCheckChange(v, false));
+      //  处理新图层
+      const Topics = this.CESIUM_TREE_OPTION.filter(
         (v) => v.label == this.forceTreeLabel
-      )[0].children;
-      this.forceTrueTopic = this.forceTreeTopic.length
-        ? this.forceTreeTopic[0]
-        : {};
-      this.forceTrueTopicLabels = this.forceTreeTopic.length
-        ? [this.forceTrueTopic.id]
-        : [];
+      );
+      this.forceTreeTopic = Topics.length ? Topics[0].children : [];
+      if (this.forceTreeTopic.length) {
+        const forceNode = this.forceTreeTopic[0];
+        this.forceTrueTopicLabels = [forceNode.id];
+        this.nodeCheckChange(forceNode, true, true);
+      } else {
+        this.forceTrueTopicLabels = [];
+      }
     },
     /**
      * 选中状态
@@ -125,7 +138,7 @@ export default {
      * POI fetch
      * @param {object} node
      */
-    getPOIPickedFeature(node) {
+    getPOIPickedFeature(node, fn) {
       const { newdataset, url } = node;
       var getFeatureParam, getFeatureBySQLService, getFeatureBySQLParams;
       getFeatureParam = new SuperMap.REST.FilterParameter({
@@ -141,13 +154,14 @@ export default {
           processCompleted: async (res) => {
             const fields = await getIserverFields(url, newdataset);
             treeDrawTool(this, res, node, fields);
+            fn && fn();
           },
           processFailed: (msg) => console.log(msg),
         },
       });
       getFeatureBySQLService.processAsync(getFeatureBySQLParams);
     },
-    nodeCheckChange(node, checked) {
+    nodeCheckChange(node, checked, topicLoad) {
       if (checked) {
         if (node.type == "mvt" && node.id) {
           if (node.id && this.entityMap[node.id]) {
@@ -162,7 +176,9 @@ export default {
                 )
               : null;
           } else {
-            this.getPOIPickedFeature(node);
+            this.getPOIPickedFeature(node, () => {
+              this.switchSearchBox(node, topicLoad);
+            });
           }
         } else if (node.type == "model") {
           node.componentEvent &&
@@ -179,6 +195,7 @@ export default {
             })
           );
         }
+        this.switchSearchBox(node, topicLoad);
         //  有相机视角配置 -> 跳视角
         node.camera && window.earth.scene.camera.setView(node.camera);
       } else {
@@ -200,6 +217,14 @@ export default {
         node.componentEvent &&
           this.$bus.$emit(node.componentEvent, { value: null });
       }
+    },
+    switchSearchBox(node, topicLoad) {
+      topicLoad
+        ? this.$bus.$emit("cesium-3d-switch-searchBox", {
+            shall: node.withExtraData ? true : false,
+            node,
+          })
+        : undefined;
     },
   },
 };

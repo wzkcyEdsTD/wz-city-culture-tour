@@ -61,7 +61,6 @@ export default {
         .then((datasource) => {
           this.medicalCircleLabelCollection = MedicalCircleLabelEntityCollection;
         });
-      window.earth.scene.globe.depthTestAgainstTerrain = false;
     },
     /**
      * 开启扫描

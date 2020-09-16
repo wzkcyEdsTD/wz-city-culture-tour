@@ -9,8 +9,8 @@
 <template>
   <div class="cesiumContainer">
     <div id="cesiumContainer" />
-    <div v-if="mapLoaded && validated">
-      <TreeTool ref="treetool" />
+    <div v-show="mapLoaded && validated">
+      <SearchBox ref="searchBox" />
       <TotalTarget ref="totalTarget" />
       <Roulette />
       <NanTangModel v-if="showSubFrame == '3d1'" />
@@ -19,17 +19,17 @@
       <DetailPopup ref="detailPopup" />
       <RtmpVideo />
       <Population />
-      <RoadLine ref="roadline" />
-      <VideoCircle ref="videoCircle" />
+      <RoadLine ref="roadline" v-if="mapLoaded" />
+      <VideoCircle ref="videoCircle" v-if="mapLoaded" />
     </div>
-    <AuthFailPopup ref="authFailPopup" v-if="mapLoaded && authFailshallPop" />
+    <AuthFailPopup ref="authFailPopup" v-if="authFailshallPop" />
   </div>
 </template>
 
 <script>
 import { ServiceUrl } from "config/server/mapConfig";
 import "./basicTools/ThreeTools.less";
-import TreeTool from "./treeTool/TreeTool";
+import SearchBox from "./layerHub/searchBox";
 import TotalTarget from "./totalTarget/index";
 import Roulette from "./roulette/roulette";
 import NanTangModel from "./extraModel/NanTangModel";
@@ -64,7 +64,7 @@ export default {
     ...mapGetters("map", ["medicalListWithGeometry"]),
   },
   components: {
-    TreeTool,
+    SearchBox,
     TotalTarget,
     Roulette,
     NanTangModel,
@@ -124,8 +124,8 @@ export default {
           this.$refs.medicalPopup && this.$refs.medicalPopup.doPopup([]);
         }
         //  *****[videoCircle]  事件传递点位*****
-        if (this.$refs.videoCircle.shallPop) {
-          this.$refs.videoCircle && this.$refs.videoCircle.doPopup();
+        if (this.$refs.videoCircle && this.$refs.videoCircle.shallPop) {
+          this.$refs.videoCircle.doPopup();
         }
         //  *****[detailPopup]  详情查看点位*****
         const forceEntity = this.$refs.detailPopup.forceEntity;
@@ -195,8 +195,8 @@ export default {
       const viewer = new Cesium.Viewer("cesiumContainer", {
         infoBox: false,
         selectionIndicator: false,
-        shadows: false, //  内存吃不消
       });
+      viewer.scene.debugShowFramesPerSecond = true;
       viewer.imageryLayers.get(0).show = false;
       viewer.scene.globe.baseColor = new Cesium.Color.fromCssColorString(
         "rgba(13,24,45, 1)"
@@ -212,49 +212,49 @@ export default {
         viewer,
       });
       window.earth = viewer;
-      // const baimoPromise = viewer.scene.addS3MTilesLayerByScp(
-      //   ServiceUrl.WZBaimo,
-      //   {
-      //     name: "baimo",
-      //   }
-      // );
-      // Cesium.when(baimoPromise, async ([forceLayer, ...oLayer]) => {
-      //   const LAYER = viewer.scene.layers.find("baimo");
-      //   LAYER.style3D.fillForeColor = new Cesium.Color.fromCssColorString(
-      //     "rgba(137,137,137, 1)"
-      //   );
-      //   const hyp = new Cesium.HypsometricSetting();
-      //   const colorTable = new Cesium.ColorTable();
-      //   hyp.MaxVisibleValue = 300;
-      //   hyp.MinVisibleValue = 0;
-      //   colorTable.insert(300, new Cesium.Color(1, 1, 1));
-      //   colorTable.insert(160, new Cesium.Color(0.95, 0.95, 0.95));
-      //   colorTable.insert(76, new Cesium.Color(0.7, 0.7, 0.7));
-      //   colorTable.insert(0, new Cesium.Color(13 / 255, 24 / 255, 45 / 255));
-      //   hyp.ColorTable = colorTable;
-      //   hyp.DisplayMode = Cesium.HypsometricSettingEnum.DisplayMode.FACE;
-      //   hyp.Opacity = 1;
-      //   //  贴图纹理
-      //   hyp.emissionTextureUrl = "/static/images/area/speedline.png";
-      //   hyp.emissionTexCoordUSpeed = 0.2;
-      //   LAYER.hypsometricSetting = {
-      //     hypsometricSetting: hyp,
-      //     analysisMode:
-      //       Cesium.HypsometricSettingEnum.AnalysisRegionMode.ARM_ALL,
-      //   };
-      //   LAYER.visibleDistanceMax = 5000;
-      // });
+      const baimoPromise = viewer.scene.addS3MTilesLayerByScp(
+        ServiceUrl.WZBaimo,
+        {
+          name: "baimo",
+        }
+      );
+      Cesium.when(baimoPromise, async ([forceLayer, ...oLayer]) => {
+        const LAYER = viewer.scene.layers.find("baimo");
+        LAYER.style3D.fillForeColor = new Cesium.Color.fromCssColorString(
+          "rgba(137,137,137, 1)"
+        );
+        const hyp = new Cesium.HypsometricSetting();
+        const colorTable = new Cesium.ColorTable();
+        hyp.MaxVisibleValue = 300;
+        hyp.MinVisibleValue = 0;
+        colorTable.insert(300, new Cesium.Color(1, 1, 1));
+        colorTable.insert(160, new Cesium.Color(0.95, 0.95, 0.95));
+        colorTable.insert(76, new Cesium.Color(0.7, 0.7, 0.7));
+        colorTable.insert(0, new Cesium.Color(13 / 255, 24 / 255, 45 / 255));
+        hyp.ColorTable = colorTable;
+        hyp.DisplayMode = Cesium.HypsometricSettingEnum.DisplayMode.FACE;
+        hyp.Opacity = 1;
+        //  贴图纹理
+        // hyp.emissionTextureUrl = "/static/images/area/speedline.png";
+        // hyp.emissionTexCoordUSpeed = 0.2;
+        LAYER.hypsometricSetting = {
+          hypsometricSetting: hyp,
+          analysisMode:
+            Cesium.HypsometricSettingEnum.AnalysisRegionMode.ARM_ALL,
+        };
+        LAYER.visibleDistanceMax = 5000;
+      });
       // 移除缓冲圈
       $(".cesium-widget-credits").hide();
       viewer.scene.globe.depthTestAgainstTerrain = false;
       this.cameraMove();
-      this.addPointLight();
+      // this.addPointLight();
       fn && fn();
     },
     addPointLight() {
       // window.earth.scene.bloomEffect.threshold = 0.85;
       // window.earth.scene.bloomEffect.bloomIntensity = 5;
-      window.earth.scene.fxaa = true;
+      // window.earth.scene.fxaa = true;
       // const position = new Cesium.Cartesian3(
       //   -2876658.347784866,
       //   4840022.695245349,

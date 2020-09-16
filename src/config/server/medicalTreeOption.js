@@ -18,7 +18,7 @@ const MEDICAL_TOPIC = [
     dataset: "JZJZNL_YLJH_JHCS",
     withExtraData: "medicalList",
     withExtraDataGeometry: "medicalListWithGeometry",
-    saveExtraDataByGeometry: "setMedicalListWithGeometry"
+    saveExtraDataByGeometry: "setMedicalListWithGeometry",
   }
 ];
 //  旅游专题
@@ -164,7 +164,7 @@ export const CESIUM_TREE_EXTRA_DATA_WITH_GEOMETRY = ["medicalListWithGeometry"];
 export const CESIUM_TREE_EXTRA_DATA = ["medicalList"];
 export const CESIUM_TREE_OPTION = [
   {
-    id: "城市总览",
+    id: "控规信息",
     label: "控规信息",
     children: KG_INFO.map(v => {
       return {

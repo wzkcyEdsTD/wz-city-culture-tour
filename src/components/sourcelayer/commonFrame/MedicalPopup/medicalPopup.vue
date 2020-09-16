@@ -7,7 +7,7 @@
  * @FilePath: \wz-city-culture-tour\src\components\sourcelayer\commonFrame\medicalPopup.vue
 -->
 <template>
-  <div id="trackPopUp" v-show="shallPop">
+  <div id="trackPopUp" v-if="shallPop">
     <div
       v-for="(item, index) in popList"
       :key="index"
@@ -81,14 +81,14 @@ export default {
               ($(`#trackPopUpContent_${index}`).height() || 0),
           });
         });
+        this.popList = popList;
+        !this.shallPop &&
+          this.$nextTick(() => {
+            this.shallPop = true;
+          });
       } else {
-        this.closePopup();
+        this.shallPop && this.closePopup();
       }
-      this.popList = popList;
-      !this.shallPop &&
-        this.$nextTick(() => {
-          this.shallPop = true;
-        });
     },
 
     /**

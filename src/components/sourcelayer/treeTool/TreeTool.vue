@@ -9,7 +9,7 @@
 <template>
   <div class="medical-coverage">
     <div class="header">
-      <p class="title">资源图层</p>
+      <p class="title">资源选择</p>
       <img
         class="menu"
         :src="visible||serachBoxVisible?menuSelImg:menuImg"

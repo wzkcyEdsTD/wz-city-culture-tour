@@ -66,7 +66,7 @@ export const fixTreeWithExtra = (gArr, eObj, node, context) => {
       : drawFeatures.push(item);
   });
   context[node.saveExtraDataByGeometry](extraFeatures);
-  context.searchFilter();
+  // context.searchFilter();
   return { drawFeatures };
 };
 
