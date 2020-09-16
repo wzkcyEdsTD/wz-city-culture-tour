@@ -14,7 +14,6 @@ const SERVER_DEFAULT_DATA = SERVER_HOST + SW_DATA;
 const MEDICAL_TOPIC = [
   {
     label: "医疗场所",
-    icon_size: "large",
     dataset: "JZJZNL_YLJH_JHCS",
     withExtraData: "medicalList",
     withExtraDataGeometry: "medicalListWithGeometry",
@@ -31,21 +30,20 @@ const TOUR_TOPIC = [
   { label: "夜光经济", dataset: "夜景" },
   {
     label: "AAA级景区村庄",
-    icon_size: "large",
     dataset: "AAAJiFengJingQuCunZhuang"
   },
-  { label: "A级风景区", icon_size: "large", dataset: "AJiFengJingQu" },
-  { label: "其他景点", icon_size: "large", dataset: "QiTaJingDIan" },
-  { label: "星级旅行社", icon_size: "large", dataset: "XingJiLvXingShe" },
-  { label: "星级酒店", icon_size: "large", dataset: "XingJiJiuDian" },
-  { label: "民宿客栈", icon_size: "large", dataset: "MinSuKeZhan" }
+  { label: "A级风景区", dataset: "AJiFengJingQu" },
+  { label: "其他景点", dataset: "QiTaJingDIan" },
+  { label: "星级旅行社", dataset: "XingJiLvXingShe" },
+  { label: "星级酒店", dataset: "XingJiJiuDian" },
+  { label: "民宿客栈", dataset: "MinSuKeZhan" }
 ];
 
 // 基础设施
 const BASIC_TOPIC = [
   {
     label: "公厕",
-    icon_size: "large",
+
     dataset: "PublicToilet"
   }
 ];
@@ -60,27 +58,22 @@ const CULTURE_TOPIC = [
 const EMERGENCY_TOPIC = [
   {
     label: "非煤矿山",
-    icon_size: "large",
     dataset: "D_HARAZDS_NONCOALMINE"
   },
   {
     label: "烟花爆竹经营单位",
-    icon_size: "large",
     dataset: "D_HARAZDS_FIREWORKS"
   },
   {
     label: "应急避灾场所",
-    icon_size: "large",
     dataset: "JZJZNL_BZAZCS"
   },
   {
     label: "应急队伍",
-    icon_size: "large",
     dataset: "JZJZNL_YJDW"
   },
   {
     label: "加油站",
-    icon_size: "large",
     dataset: "D_HAZARDS_GasStation"
   }
 ];
@@ -93,47 +86,38 @@ const SOURCE_TOPIC = [
   },
   {
     label: "农贸市场点",
-    icon_size: "large",
     dataset: "FarmersMarket_SiQu_P"
   },
   {
     label: "市场商场",
-    icon_size: "large",
     dataset: "market_mall"
   },
   {
     label: "学校",
-    icon_size: "large",
     dataset: "school"
   },
   {
     label: "社会福利机构",
-    icon_size: "large",
     dataset: "D_HAZARDS_BEADHOUSESHP"
   },
   {
     label: "高层建筑",
-    icon_size: "large",
     dataset: "high_buildings_P"
   },
   {
     label: "娱乐场所",
-    icon_size: "large",
     dataset: "entertainment_place"
   },
   {
     label: "文化场所",
-    icon_size: "large",
     dataset: "D_HAZARDS_CULTURALPLACE"
   },
   {
     label: "体育运动场馆",
-    icon_size: "large",
     dataset: "sports_gymnasium"
   },
   {
     label: "客运单位",
-    icon_size: "large",
     dataset: "passenger_trans_unit"
   }
 ];
@@ -264,15 +248,4 @@ export const CESIUM_TREE_OPTION = [
     label: "交通专题",
     children: []
   },
-  // {
-  //   id: "精细三维",
-  //   label: "精细三维",
-  //   children: MODEL_3D_FINE.map(v => {
-  //     return {
-  //       ...v,
-  //       id: v.label,
-  //       type: "model"
-  //     };
-  //   })
-  // },
 ];

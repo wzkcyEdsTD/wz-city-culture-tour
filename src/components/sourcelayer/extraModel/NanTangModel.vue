@@ -27,9 +27,7 @@ export default {
   },
   async mounted() {
     this.initBimScene();
-    // this.addEntities();
     this.eventRegsiter();
-    // this.cameraMove();
   },
   beforeDestroy() {
     this.$bus.$emit("cesium-3d-switch", { value: true });
@@ -77,33 +75,6 @@ export default {
           buildLayer.visibleDistanceMax = 5000;
         });
       }
-    },
-    addEntities() {
-      //  监控点
-      this.addEntity(
-        [120.66728999999999, 27.998789999999999],
-        "/static/images/video.png",
-        "video"
-      );
-      //  vr全景
-      this.addEntity(
-        [120.66468464400009, 27.99854437800019],
-        "/static/images/VR.png",
-        "vr"
-      );
-      //  流量点
-      this.addEntity([120.661, 27.999], "/static/images/people.png", "people");
-    },
-    addEntity([x, y], image, name = +new Date()) {
-      window.earth.entities.add({
-        position: Cesium.Cartesian3.fromDegrees(x, y, 40),
-        billboard: {
-          image,
-          width: 94,
-          height: 94,
-        },
-        name,
-      });
     },
     //  关闭BIM分析模块
     closeNanTangModel() {
