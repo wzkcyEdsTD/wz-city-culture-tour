@@ -91,9 +91,19 @@ export default {
   },
   created() {
     this.initForceTreeTopic();
+    this.eventRegsiter();
   },
   methods: {
     ...mapActions("map", SET_CESIUM_TREE_EXTRA_DATA_WITH_GEOMETRY),
+    eventRegsiter() {
+      /**
+       * 事件传递打开对应专题图层
+       */
+      this.$bus.$off("check-hub");
+      this.$bus.$on("check-hub", ({ key }) => {
+        this.forceTreeLabel = key
+      });
+    },
     /**
      * 一级菜单点击切换
      * 默认选中二级菜单第一个点
