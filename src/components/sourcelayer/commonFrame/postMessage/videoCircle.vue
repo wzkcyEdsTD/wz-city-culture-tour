@@ -28,11 +28,11 @@ export default {
       queryRadius: 200,
       item: {},
       rtmpVideoList: [],
+      entitiesID: [],
     };
   },
   mounted() {
     this.eventRegsiter();
-    // this.createEntityCollection();
   },
   methods: {
     ...mapActions("map", ["SetRtmpList"]),
@@ -64,35 +64,6 @@ export default {
       !this.shallPop && (this.shallPop = true);
     },
     /**
-     * 创建datesource
-     */
-    createEntityCollection() {
-      const VideoCircleEntityCollection = new Cesium.CustomDataSource(
-        "VideoCircle"
-      );
-      const VideoCircleLabelEntityCollection = new Cesium.CustomDataSource(
-        "VideoCircleLabel"
-      );
-      const VideoPointEntityCollection = new Cesium.CustomDataSource(
-        "VideoPoint"
-      );
-      window.earth.dataSources
-        .add(VideoCircleEntityCollection)
-        .then((datasource) => {
-          this.videoCircleCollection = VideoCircleEntityCollection;
-        });
-      window.earth.dataSources
-        .add(VideoCircleLabelEntityCollection)
-        .then((datasource) => {
-          this.videoCircleLabelCollection = VideoCircleLabelEntityCollection;
-        });
-      window.earth.dataSources
-        .add(VideoPointEntityCollection)
-        .then((datasource) => {
-          this.videoPointCollection = VideoPointEntityCollection;
-        });
-    },
-    /**
      * 画缓冲区
      * @param {string!|number!} 没id不画
      * @param {geometry!} 没geometry不画
@@ -114,8 +85,8 @@ export default {
         },
         name: "videoCircle",
       });
-      this.videoCircleCollection.entities.add(circleEntity);
-      this.videoCircleList[circleEntity.name] = circleEntity;
+      window.earth.entities.add(circleEntity);
+      this.entitiesID.push(circleEntity.id);
 
       const circleLabelEntity = new Cesium.Entity({
         position: Cesium.Cartesian3.fromDegrees(lng, lat, 200),
@@ -134,30 +105,30 @@ export default {
         },
         name: "videoCircleLabel",
       });
-      this.videoCircleLabelCollection.entities.add(circleLabelEntity);
-      this.videoCircleLabelList[circleLabelEntity.name] = circleLabelEntity;
+      window.earth.entities.add(circleLabelEntity);
+      this.entitiesID.push(circleLabelEntity.id);
 
       // 画监控点
       const { data } = await getRtmpVideoList({ lng, lat }, queryRadius);
       this.rtmpVideoList = data;
       data.forEach((item) => {
-        this.videoPointCollection.entities.add(
-          new Cesium.Entity({
-            id: `videopoint_${item.mp_id}`,
-            position: Cesium.Cartesian3.fromDegrees(
-              Number(item.lng),
-              Number(item.lat),
-              30
-            ),
-            billboard: {
-              image: "/static/images/视频监控.png",
-              width: 37,
-              height: 41,
-              disableDepthTestDistance: Number.POSITIVE_INFINITY,
-            },
-            name: item.mp_name,
-          })
-        );
+        const videoPointEntity = new Cesium.Entity({
+          id: `videopoint_${item.mp_id}`,
+          position: Cesium.Cartesian3.fromDegrees(
+            Number(item.lng),
+            Number(item.lat),
+            30
+          ),
+          billboard: {
+            image: "/static/images/视频监控.png",
+            width: 37,
+            height: 41,
+            disableDepthTestDistance: Number.POSITIVE_INFINITY,
+          },
+          name: item.mp_name,
+        });
+        window.earth.entities.add(videoPointEntity);
+        this.entitiesID.push(videoPointEntity.id);
       });
 
       window.earth.zoomTo(circleEntity);
@@ -172,17 +143,9 @@ export default {
      * @param {string|number|undefined} 有id删id 没id删全部
      */
     removeVideoCircle(id) {
-      id
-        ? this.videoCircleCollection.entities.removeById(
-            this.videoCircleList[id].id
-          )
-        : this.videoCircleCollection.entities.removeAll();
-      id
-        ? this.videoCircleLabelCollection.entities.removeById(
-            this.videoCircleLabelList[id].id
-          )
-        : this.videoCircleLabelCollection.entities.removeAll();
-      this.videoPointCollection.entities.removeAll();
+      this.entitiesID.forEach(item => {
+        window.earth.entities.removeById(item);
+      })
       this.shallPop = false;
     },
 

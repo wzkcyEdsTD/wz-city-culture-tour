@@ -27,7 +27,7 @@ export default {
   data() {
     return {
       nameList: [],
-      onMessage: false,
+      // onMessage: false,
     };
   },
   computed: {
@@ -35,19 +35,6 @@ export default {
     ...mapState({
       isLoading: "isLoading",
     }),
-  },
-  watch: {
-    $route(to) {
-      if (this.onMessage) {
-        if (to.name == "Medical") {
-          this.$nextTick(() => {
-            this.$bus.$emit("medical-message", {
-              layer: to.params.layer,
-            });
-          });
-        }
-      }
-    },
   },
   created() {
     // 监听父窗口事件
@@ -57,16 +44,9 @@ export default {
         let data = e.data;
         if (!data.layer) return;
         console.log("message", e);
-        this.onMessage = true;
-        if (this.$route.name == data.layer.eventName) {
-          if (data.layer.eventName == "Medical") {
-            this.$bus.$emit("medical-message", {
-              layer: data.layer,
-            });
-          }
-        } else {
-          this.$router.push({ name: data.layer.eventName, params: data });
-        }
+        this.$bus.$emit("medical-message", {
+          layer: data.layer,
+        });
       },
       false
     );
