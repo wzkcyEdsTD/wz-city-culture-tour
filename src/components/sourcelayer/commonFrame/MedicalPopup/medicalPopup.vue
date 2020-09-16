@@ -26,8 +26,16 @@
                   <td>{{ item.grade }}</td>
                 </tr>
                 <tr>
-                  <td>人数</td>
-                  <td>{{ bufferHash[item.id] ? 1 : 0 }}</td>
+                  <td>发热人数</td>
+                  <td>{{ item.extra_data['发热病人'] || '-' }}</td>
+                </tr>
+                <tr>
+                  <td>门诊人次</td>
+                  <td>{{ item.extra_data['实时门诊人次'] || '-' }}</td>
+                </tr>
+                <tr>
+                  <td>住院人数</td>
+                  <td>{{ item.extra_data['住院人数'] || '-' }}</td>
                 </tr>
               </tbody>
             </table>
@@ -36,6 +44,16 @@
         <div class="right-btns">
           <span @click="doVideoRtmp(item)">直达现场</span>
           <span @click="doCircleBuffer(item)">周边人口</span>
+        </div>
+        <div class="around-people" v-if="bufferHash[item.id]">
+          <img src="/static/images/common/frameline@2x.png" />
+          <div>
+            <header>周边200米实时人口</header>
+            <div>
+              <p>{{bufferHash[item.id].task_time}}</p>
+              <p>{{`人数：${bufferHash[item.id].data || '-'}人`}}</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -62,6 +80,7 @@ export default {
     eventRegsiter() {
       this.$bus.$off("cesium-3d-around-people");
       this.$bus.$on("cesium-3d-around-people", ({ id, result }) => {
+        console.log(id, result);
         this.bufferHash[id] = result;
       });
     },
@@ -103,6 +122,7 @@ export default {
     closePopup() {
       this.$bus.$emit("cesium-3d-population-circle", { doDraw: false });
       this.shallPop = false;
+      this.bufferHash = {};
     },
 
     // 展示详情
@@ -149,7 +169,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="less">
 .leaflet-popup {
   position: absolute;
   text-align: center;
@@ -160,30 +180,30 @@ export default {
 }
 
 .popup-tip-container {
-  position: relative;
-  width: 160px;
-  height: 130px;
-  background-image: url("/static/images/common/pop_bg.png");
+  width: 200px;
+  height: 200px;
+  background-image: url("/static/images/common/pop_bg@2x.png");
   background-size: 100% 100%;
   background-repeat: no-repeat;
 }
 
 .popup-tip-inner {
-  position: relative;
-  left: 10px;
-  top: 7px;
-  height: 50px;
+  height: 102px;
   display: flex;
   color: #fff;
 }
 
 .tip-name {
   width: 60px;
+  box-sizing: border-box;
+  writing-mode: vertical-lr;
+  letter-spacing: -0.34em;
   height: 100%;
-  padding: 0 2px;
+  line-height: 17px;
+  padding: 4px 0 2px 7px;
   position: relative;
   font-family: YouSheBiaoTiHei;
-  font-size: 14px;
+  font-size: 17px;
   text-shadow: 0 2px 2px #000;
   display: flex;
   align-items: center;
@@ -202,13 +222,15 @@ export default {
 }
 
 .tip-num {
-  padding: 0px 2px;
+  flex: 1;
+  box-sizing: border-box;
+  padding: 18px 6px 6px 6px;
 }
 
 .tip-num table {
   height: 100%;
   border-collapse: separate;
-  border-spacing: 0px 4px;
+  border-spacing: 0px 5px;
   font-size: 10px;
 }
 
@@ -217,34 +239,33 @@ export default {
 }
 
 .tip-num table tbody tr td:first-child {
-  width: 30px;
+  width: 60px;
   font-weight: bolder;
   vertical-align: middle;
 }
 
 .tip-num table tbody tr td:last-child {
-  text-align: left;
   vertical-align: middle;
 }
 
 .right-btns {
-  width: 160px;
+  width: 100%;
+  height: 26px;
+  box-sizing: border-box;
+  padding: 2px 20px 0 30px;
   color: #fff;
-  margin-top: 14px;
-  padding-left: 19px;
 }
 
 .right-btns span {
   font-family: YouSheBiaoTiHei;
-  font-size: 14px;
+  font-size: 16px;
   display: block;
-  width: 63px;
-  height: 20px;
-  line-height: 20px;
+  width: 50%;
+  height: 26px;
+  line-height: 26px;
   letter-spacing: 1px;
   float: left;
-  padding: 2px;
-  text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.64);
+  text-shadow: 0px 2px 3px rgba(0, 0, 0, 0);
 }
 
 .right-btns span:first-child {
@@ -257,5 +278,42 @@ export default {
   background-image: url("/static/images/common/population.png");
   background-size: 100% 100%;
   background-repeat: no-repeat;
+}
+
+.around-people {
+  height: 0px;
+  > img {
+    width: 350px;
+    height: 70px;
+    position: absolute;
+    right: 90px;
+    bottom: 10px;
+  }
+  > div {
+    position: absolute;
+    width: 170px;
+    height: 70px;
+    left: -240px;
+    bottom: 10px;
+    box-sizing: border-box;
+    padding: 2px 8px;
+    background: url("/static/images/common/people-frame.png");
+    background-size: 100% 100%;
+    // background: linear-gradient(to bottom, #2287f1 0%, rgba(0, 0, 0, 0.2) 50%);
+    > header {
+      width: 100%;
+      height: 24px;
+      line-height: 24px;
+      color: #fff;
+      font-size: 0.9em;
+      text-align: left;
+    }
+    > div {
+      color: #cbcbcb;
+      text-align: left;
+      font-size: 0.8em;
+      line-height: 20px;
+    }
+  }
 }
 </style>

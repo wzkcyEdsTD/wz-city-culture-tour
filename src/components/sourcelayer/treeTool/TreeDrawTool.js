@@ -150,7 +150,7 @@ export const treeDrawTool = (context, { result }, node, fields = []) => {
             4
           ),
           billboard: {
-            image: `/static/images/${node.icon}.png`,
+            image: `/static/images/map-ico/${node.icon}.png`,
             width: node.icon_size == "large" ? 48 : 32,
             height: node.icon_size == "large" ? 48 : 35,
             disableDepthTestDistance: Number.POSITIVE_INFINITY

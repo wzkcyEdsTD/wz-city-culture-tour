@@ -233,8 +233,8 @@ export default {
         hyp.DisplayMode = Cesium.HypsometricSettingEnum.DisplayMode.FACE;
         hyp.Opacity = 1;
         //  贴图纹理
-        // hyp.emissionTextureUrl = "/static/images/area/speedline.png";
-        // hyp.emissionTexCoordUSpeed = 0.2;
+        hyp.emissionTextureUrl = "/static/images/area/speedline.png";
+        hyp.emissionTexCoordUSpeed = 0.2;
         LAYER.hypsometricSetting = {
           hypsometricSetting: hyp,
           analysisMode:

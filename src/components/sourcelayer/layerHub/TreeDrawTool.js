@@ -117,45 +117,45 @@ export const treeDrawTool = (context, { result }, node, fields = []) => {
     };
     const polygonGeometry = node.polygon
       ? [].concat.apply(
-          [],
-          item.geometry.components[0].components.map(v => [
-            parseFloat(v.x),
-            parseFloat(v.y)
-          ])
-        )
+        [],
+        item.geometry.components[0].components.map(v => [
+          parseFloat(v.x),
+          parseFloat(v.y)
+        ])
+      )
       : [];
     const entityInstance = node.polygon
       ? {
-          ...entityOption,
-          position: Cesium.Cartesian3.fromDegrees(
-            ...getCenterOfPolygon(polygonGeometry, 30)
+        ...entityOption,
+        position: Cesium.Cartesian3.fromDegrees(
+          ...getCenterOfPolygon(polygonGeometry, 30)
+        ),
+        polygon: {
+          hierarchy: Cesium.Cartesian3.fromDegreesArray(polygonGeometry),
+          outline: true,
+          outlineWidth: 4,
+          outlineColor: new Cesium.Color.fromCssColorString("#FFD700"),
+          material: new Cesium.Color.fromCssColorString("#7FFF00").withAlpha(
+            0.6
           ),
-          polygon: {
-            hierarchy: Cesium.Cartesian3.fromDegreesArray(polygonGeometry),
-            outline: true,
-            outlineWidth: 4,
-            outlineColor: new Cesium.Color.fromCssColorString("#FFD700"),
-            material: new Cesium.Color.fromCssColorString("#7FFF00").withAlpha(
-              0.6
-            ),
-            perPositionHeight: true,
-            height: 2
-          }
+          perPositionHeight: true,
+          height: 2
         }
+      }
       : {
-          ...entityOption,
-          position: Cesium.Cartesian3.fromDegrees(
-            item.geometry.x,
-            item.geometry.y,
-            4
-          ),
-          billboard: {
-            image: `/static/images/${node.icon}.png`,
-            width: node.icon_size == "large" ? 48 : 32,
-            height: node.icon_size == "large" ? 48 : 35,
-            disableDepthTestDistance: Number.POSITIVE_INFINITY
-          }
-        };
+        ...entityOption,
+        position: Cesium.Cartesian3.fromDegrees(
+          item.geometry.x,
+          item.geometry.y,
+          4
+        ),
+        billboard: {
+          image: `/static/images/map-ico/${node.icon}.png`,
+          width: 48,
+          height: 48,
+          disableDepthTestDistance: Number.POSITIVE_INFINITY
+        }
+      };
 
     poiEntityCollection.entities.add(entityInstance);
   });

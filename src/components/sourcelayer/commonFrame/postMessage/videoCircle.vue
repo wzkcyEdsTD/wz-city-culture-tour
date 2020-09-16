@@ -19,11 +19,6 @@ export default {
   data() {
     return {
       shallPop: false,
-      videoCircleList: {},
-      videoCircleLabelList: {},
-      videoCircleCollection: undefined,
-      videoCircleLabelCollection: undefined,
-      videoPointCollection: undefined,
       geometry: {},
       queryRadius: 200,
       item: {},

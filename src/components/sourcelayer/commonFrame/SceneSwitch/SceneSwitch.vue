@@ -58,7 +58,6 @@ export default {
     color: #ffffff;
     font-size: 0.9em;
     font-family: PingFang SC;
-    user-select: none;
   }
 }
 </style>

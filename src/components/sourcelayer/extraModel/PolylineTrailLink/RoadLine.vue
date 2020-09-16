@@ -28,7 +28,6 @@ export default {
     this.eventRegsiter();
   },
   beforeDestroy() {
-    window.earth.entities.removeAll();
     window.earth.scene.bloomEffect.show = false;
   },
   methods: {

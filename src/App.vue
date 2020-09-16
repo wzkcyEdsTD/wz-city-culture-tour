@@ -81,6 +81,7 @@ export default {
 * {
   box-sizing: border-box;
   font-family: "Microsoft YaHei";
+  user-select: none;
 }
 body {
   font-size: 0.16rem;

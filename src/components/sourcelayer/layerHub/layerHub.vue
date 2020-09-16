@@ -18,7 +18,7 @@
         >
           <div>
             <img
-              :src="`/static/images/hubico/${item.icon}@2x.png`"
+              :src="`/static/images/hub-ico/${item.icon}@2x.png`"
               @click="doForceTrueTopicLabels(item.id)"
             />
             <p>{{item.id}}</p>
