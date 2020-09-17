@@ -17,7 +17,12 @@ export const ServiceUrl = {
     {
       KEY: 'WZBaimo_POINT_AROUND',
       URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-BaiMoLuChengEraShiZhengFu/rest/realspace/datas/BaiMo_LuCheng_EraShiZhengFu/config",
-      FLOW : true
+      FLOW: true
+    },
+    {
+      KEY: 'WZBaimo_POINT_CENTER',
+      URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-ShiZhengFuModel/rest/realspace/datas/ShiZhengFu_Model/config",
+      FLOW: true
     }
   ]
   ,

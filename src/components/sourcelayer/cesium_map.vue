@@ -250,12 +250,13 @@ export default {
           if (FLOW) {
             hyp.emissionTextureUrl = "/static/images/area/speedline.png";
             hyp.emissionTexCoordUSpeed = 0.2;
+            LAYER.hypsometricSetting = {
+              hypsometricSetting: hyp,
+              analysisMode:
+                Cesium.HypsometricSettingEnum.AnalysisRegionMode.ARM_ALL,
+            };
           }
-          LAYER.hypsometricSetting = {
-            hypsometricSetting: hyp,
-            analysisMode:
-              Cesium.HypsometricSettingEnum.AnalysisRegionMode.ARM_ALL,
-          };
+
           // LAYER.visibleDistanceMax = 5000;
         });
       });
