@@ -9,7 +9,7 @@
 const state = {
   forceMapTypeBase: true,
   currentMapType: "cesiumMap", // 地图类型  四色图 sandian cesiumMap
-  mapLoaded: false, // 地图底图是否加载完毕
+  initDataLoaded: false, // 地图底图是否加载完毕
   //  详情
   isInfoFrame: false,
   //  视频列表

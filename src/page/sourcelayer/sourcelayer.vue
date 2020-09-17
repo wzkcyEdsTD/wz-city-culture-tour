@@ -1,7 +1,7 @@
 <template>
   <div class="page-map">
     <div class="cesium-map" v-if="currentMapType == 'cesiumMap'">
-      <cesium-map />
+      <cesium-map ref="cesiumMap" />
     </div>
     <div class="mask-wrapper">
       <div class="left"></div>
@@ -36,15 +36,18 @@ export default {
     eventRegsiter() {
       this.$bus.$off("medical-message");
       this.$bus.$on("medical-message", async ({ layer }) => {
-        this.$bus.$emit("check-hub", {
-          key: layer.sourceName,
-        });
-        this.$bus.$emit("cesium-3d-video-circle", {
-          geometry: {
-            lng: layer.geometry[0],
-            lat: layer.geometry[1],
-          },
-          queryRadius: layer.radius,
+        this.$refs.cesiumMap.isOverview = false;
+        this.$nextTick(() => {
+          this.$bus.$emit("check-hub", {
+            key: layer.sourceName,
+          });
+          this.$bus.$emit("cesium-3d-video-circle", {
+            geometry: {
+              lng: layer.geometry[0],
+              lat: layer.geometry[1],
+            },
+            queryRadius: layer.radius,
+          });
         });
       });
     },

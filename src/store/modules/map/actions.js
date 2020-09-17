@@ -49,11 +49,12 @@ export const setMedicalListWithGeometry = ({ commit }, data) => {
   commit(types.SET_MEDICAL_LIST_WITH_GEOMETRY, data);
 };
 
-//  设置发热数据
+//  设置医院数据
 export const fetchMedicalList = async ({ commit }) => {
   const result = await getMedicalList();
   const res = result.result;
   commit(types.SET_MEDICAL_LIST, res);
+  commit(types.SET_INIT_DATA_LOADED, true)
 };
 
 //  设置监控视频

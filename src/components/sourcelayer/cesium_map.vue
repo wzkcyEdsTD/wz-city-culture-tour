@@ -9,19 +9,27 @@
 <template>
   <div class="cesiumContainer">
     <div id="cesiumContainer" />
+    <div class="popup-groups">
+      <MedicalPopup ref="medicalPopup" />
+      <DetailPopup ref="detailPopup" />
+    </div>
+    <div class="mapCover" v-show="isOverview" />
     <div v-if="mapLoaded && validated">
       <TotalTarget ref="totalTarget" />
       <Roulette />
       <NanTangModel v-if="showSubFrame == '3d1'" />
+      <VideoCircle ref="videoCircle" />
+      <RoadLine ref="roadline" />
       <InfoFrame ref="infoframe" v-show="isInfoFrame" />
-      <MedicalPopup ref="medicalPopup" />
-      <DetailPopup ref="detailPopup" />
-      <RtmpVideo />
-      <Population />
-      <RoadLine ref="roadline" v-if="mapLoaded" />
-      <VideoCircle ref="videoCircle" v-if="mapLoaded" />
-      <LayerHub />
-      <SearchBox ref="searchBox" />
+      <transition name="fade">
+        <div v-show="!isOverview">
+          <RtmpVideo />
+          <Population />
+          <LayerHub v-if="initDataLoaded" />
+          <SearchBox ref="searchBox" />
+        </div>
+      </transition>
+      <Overview v-if="isOverview" />
     </div>
     <AuthFailPopup ref="authFailPopup" v-if="authFailshallPop" />
   </div>
@@ -43,6 +51,7 @@ import Population from "./extraModel/Population/Population";
 import RoadLine from "./extraModel/PolylineTrailLink/RoadLine";
 import VideoCircle from "./commonFrame/postMessage/videoCircle";
 import AuthFailPopup from "./commonFrame/AuthFailPopup/AuthFailPopup";
+import Overview from "./extraModel/Overview/Overview";
 import { getCurrentExtent, isContainByExtent } from "./commonFrame/mapTool";
 import { doValidation } from "api/validation/validation";
 import { mapGetters, mapActions } from "vuex";
@@ -58,10 +67,11 @@ export default {
       datalayer: undefined,
       isInfoFrame: false,
       authFailshallPop: false,
+      isOverview: true,
     };
   },
   computed: {
-    ...mapGetters("map", ["medicalListWithGeometry"]),
+    ...mapGetters("map", ["medicalListWithGeometry", "initDataLoaded"]),
   },
   components: {
     LayerHub,
@@ -77,6 +87,7 @@ export default {
     RoadLine,
     VideoCircle,
     AuthFailPopup,
+    Overview,
   },
   async mounted() {
     this.init3DMap(() => {
@@ -86,6 +97,9 @@ export default {
       this.validate();
     });
     this.eventRegsiter();
+  },
+  watch: {
+    isOverview(n) {},
   },
   methods: {
     async validate() {
@@ -173,8 +187,10 @@ export default {
       this.$bus.$off("cesium-3d-switch");
       this.$bus.$on("cesium-3d-switch", ({ value }) => {
         this.$bus.$emit("cesium-3d-event", { value: !value ? "3d1" : null });
-        const _LAYER_ = window.earth.scene.layers.find("baimo");
-        _LAYER_.visible = !value ? false : true;
+        ServiceUrl.WZBaimo_OBJ.map(({ KEY }) => {
+          const _LAYER_ = window.earth.scene.layers.find(KEY);
+          _LAYER_.visible = !value ? false : true;
+        });
         //  底图切换
         this.datalayer.show = !value ? false : true;
         this.imagelayer
@@ -210,38 +226,40 @@ export default {
         viewer,
       });
       window.earth = viewer;
-      const baimoPromise = viewer.scene.addS3MTilesLayerByScp(
-        ServiceUrl.WZBaimo,
-        {
-          name: "baimo",
-        }
-      );
-      Cesium.when(baimoPromise, async ([forceLayer, ...oLayer]) => {
-        const LAYER = viewer.scene.layers.find("baimo");
-        LAYER.style3D.fillForeColor = new Cesium.Color.fromCssColorString(
-          "rgba(137,137,137, 1)"
-        );
-        const hyp = new Cesium.HypsometricSetting();
-        const colorTable = new Cesium.ColorTable();
-        hyp.MaxVisibleValue = 300;
-        hyp.MinVisibleValue = 0;
-        colorTable.insert(300, new Cesium.Color(1, 1, 1));
-        colorTable.insert(160, new Cesium.Color(0.95, 0.95, 0.95));
-        colorTable.insert(76, new Cesium.Color(0.7, 0.7, 0.7));
-        colorTable.insert(0, new Cesium.Color(13 / 255, 24 / 255, 45 / 255));
-        hyp.ColorTable = colorTable;
-        hyp.DisplayMode = Cesium.HypsometricSettingEnum.DisplayMode.FACE;
-        hyp.Opacity = 1;
-        //  贴图纹理
-        hyp.emissionTextureUrl = "/static/images/area/speedline.png";
-        hyp.emissionTexCoordUSpeed = 0.2;
-        LAYER.hypsometricSetting = {
-          hypsometricSetting: hyp,
-          analysisMode:
-            Cesium.HypsometricSettingEnum.AnalysisRegionMode.ARM_ALL,
-        };
-        // LAYER.visibleDistanceMax = 5000;
+      ServiceUrl.WZBaimo_OBJ.map(({ KEY, URL, FLOW }) => {
+        const baimoPromise = viewer.scene.addS3MTilesLayerByScp(URL, {
+          name: KEY,
+        });
+        Cesium.when(baimoPromise, async ([forceLayer, ...oLayer]) => {
+          const LAYER = viewer.scene.layers.find(KEY);
+          LAYER.style3D.fillForeColor = new Cesium.Color.fromCssColorString(
+            "rgba(137,137,137, 1)"
+          );
+          const hyp = new Cesium.HypsometricSetting();
+          const colorTable = new Cesium.ColorTable();
+          hyp.MaxVisibleValue = 300;
+          hyp.MinVisibleValue = 0;
+          colorTable.insert(300, new Cesium.Color(1, 1, 1));
+          colorTable.insert(160, new Cesium.Color(0.95, 0.95, 0.95));
+          colorTable.insert(76, new Cesium.Color(0.7, 0.7, 0.7));
+          colorTable.insert(0, new Cesium.Color(13 / 255, 24 / 255, 45 / 255));
+          hyp.ColorTable = colorTable;
+          hyp.DisplayMode = Cesium.HypsometricSettingEnum.DisplayMode.FACE;
+          hyp.Opacity = 1;
+          //  贴图纹理
+          if (FLOW) {
+            hyp.emissionTextureUrl = "/static/images/area/speedline.png";
+            hyp.emissionTexCoordUSpeed = 0.2;
+          }
+          LAYER.hypsometricSetting = {
+            hypsometricSetting: hyp,
+            analysisMode:
+              Cesium.HypsometricSettingEnum.AnalysisRegionMode.ARM_ALL,
+          };
+          // LAYER.visibleDistanceMax = 5000;
+        });
       });
+
       // 移除缓冲圈
       $(".cesium-widget-credits").hide();
       viewer.scene.globe.depthTestAgainstTerrain = false;
@@ -250,19 +268,7 @@ export default {
       fn && fn();
     },
     addPointLight() {
-      // window.earth.scene.bloomEffect.threshold = 0.85;
-      // window.earth.scene.bloomEffect.bloomIntensity = 5;
-      // window.earth.scene.fxaa = true;
-      // const position = new Cesium.Cartesian3(
-      //   -2876658.347784866,
-      //   4840022.695245349,
-      //   2996644.580693739
-      // );
-      // const options = {
-      //   intensity: 0.5,
-      // };
-      // const directionalLight_v = new Cesium.DirectionalLight(position, options);
-      // window.earth.scene.addLightSource(directionalLight_v);
+      window.earth.scene.fxaa = true;
     },
     cameraMove() {
       window.earth.scene.camera.setView({
@@ -282,7 +288,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 .cesiumContainer {
   height: 100%;
   width: 100%;
@@ -291,5 +297,20 @@ export default {
     width: 100%;
     // color: rgb(42, 104, 163);
   }
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+.mapCover {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 8;
 }
 </style>

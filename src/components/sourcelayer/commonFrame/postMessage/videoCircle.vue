@@ -125,8 +125,14 @@ export default {
         window.earth.entities.add(videoPointEntity);
         this.entitiesID.push(videoPointEntity.id);
       });
-
-      window.earth.zoomTo(circleEntity);
+      window.earth.camera.flyTo({
+        destination: Cesium.Cartesian3.fromDegrees(lng, lat - 0.005, 450),
+        orientation: {
+          heading: 0.003336768850279448,
+          pitch: -0.5808830390057418,
+          roll: 0.0,
+        },
+      });
     },
 
     doSetRtmpList() {
@@ -138,9 +144,9 @@ export default {
      * @param {string|number|undefined} 有id删id 没id删全部
      */
     removeVideoCircle(id) {
-      this.entitiesID.forEach(item => {
+      this.entitiesID.forEach((item) => {
         window.earth.entities.removeById(item);
-      })
+      });
       this.shallPop = false;
     },
 
@@ -161,7 +167,7 @@ export default {
   text-align: center;
   top: -20px;
   left: 0;
-  z-index: 99999;
+  z-index: 2;
   cursor: pointer;
   .popup-container {
     display: flex;

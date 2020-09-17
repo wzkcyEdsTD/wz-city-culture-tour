@@ -10,6 +10,7 @@
 export const forceMapTypeBase = state => state.forceMapTypeBase;
 export const currentMapType = state => state.currentMapType;
 export const mapLoaded = state => state.mapLoaded;
+export const initDataLoaded = state => state.initDataLoaded;
 export const isInfoFrame = state => state.isInfoFrame;
 export const rtmpList = state => state.rtmpList;
 export const medicalList = state => state.medicalList;

@@ -60,7 +60,7 @@ export default {
     return {
       //  底部树
       CESIUM_TREE_OPTION,
-      forceTreeLabel: "应急专题",
+      forceTreeLabel: "医疗专题",
       forceTreeTopic: [],
       //  资源选中层
       forceTrueTopicLabels: [],
@@ -101,7 +101,7 @@ export default {
        */
       this.$bus.$off("check-hub");
       this.$bus.$on("check-hub", ({ key }) => {
-        this.forceTreeLabel = key
+        this.forceTreeLabel = key;
       });
     },
     /**

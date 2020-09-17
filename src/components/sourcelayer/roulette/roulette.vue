@@ -8,35 +8,30 @@
 -->
 <template>
   <div class="roulette-wrapper">
-    <div class="forceImg">
-      <img :src="todayImg" />
-    </div>
-    <div class="forceBtn">
-      <div
-        v-for="(item,index) in ['history','today','future']"
-        :key="index"
-        @click="turnAround(item)"
-      />
+    <div class="forceImg" @click="this.changeOverview">
+      <img :src="`/static/images/common/roulette-${selectedValue}@2x.png`" />
     </div>
   </div>
 </template>
 
 <script>
-const rouletteIndex = {
-  history: "left",
-  today: "center",
-  future: "right",
-};
 export default {
   name: "roulette",
   data() {
     return {
-      selectedValue: "today",
-      todayImg: require("./images/roulette@2x.png"),
+      shallOverview: true,
     };
   },
+  computed: {
+    selectedValue() {
+      return this.shallOverview ? "overview" : "source";
+    },
+  },
   methods: {
-    turnAround(index) {},
+    changeOverview() {
+      this.shallOverview = !this.shallOverview;
+      this.$parent.isOverview = !this.$parent.isOverview;
+    },
   },
 };
 </script>
@@ -44,10 +39,11 @@ export default {
 <style scoped lang="less">
 .roulette-wrapper {
   position: absolute;
-  top: -7vh;
+  top: 0vh;
   right: 0vh;
-  height: 11vw;
-  z-index: 1;
+  height: 6.6vw;
+  z-index: 9;
+  cursor: pointer;
   > div {
     height: 100%;
   }

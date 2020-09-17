@@ -175,7 +175,6 @@ export default {
   text-align: center;
   top: -20px;
   left: 0;
-  z-index: 99999;
   cursor: pointer;
 }
 

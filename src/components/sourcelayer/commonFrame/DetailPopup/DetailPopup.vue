@@ -96,10 +96,11 @@ export default {
   }
 
   .leaflet-popup-content-wrapper {
-    background-image: url("./images/detail.png");
+    background-image: url("/static/images/common/detail@2x.png");
+    background-size: 100% 100%;
     text-align: center;
-    height: 151px;
-    width: 271px;
+    height: 216px;
+    width: 270px;
     box-sizing: border-box;
     padding: 28px 26px;
   }

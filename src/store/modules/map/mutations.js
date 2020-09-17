@@ -34,6 +34,9 @@ const mutations = {
   [types.SET_MAP_LOADED](state, data) {
     state.mapLoaded = data;
   },
+  [types.SET_INIT_DATA_LOADED](state, data) {
+    state.initDataLoaded = data;
+  },
   [types.SET_FORCE_MAP_TYPE](state, data) {
     state.forceMapTypeBase = data;
   }
