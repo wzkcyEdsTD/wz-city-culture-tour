@@ -7,6 +7,11 @@
 <script>
 const Aliplayer = window.Aliplayer;
 export default {
+  data() {
+    return {
+      video: undefined,
+    };
+  },
   props: ["url", "mode", "type"],
   watch: {
     type: {
@@ -17,12 +22,16 @@ export default {
       },
     },
   },
+  beforeDestroy() {
+    this.video = undefined;
+  },
   mounted() {
     this.initRtmp();
   },
   methods: {
     initRtmp() {
-      const aliplayer = new Aliplayer(
+      this.video = undefined;
+      this.video = new Aliplayer(
         {
           id: `player-con-${this.type ? 1 : 2}`,
           source: this.url,
