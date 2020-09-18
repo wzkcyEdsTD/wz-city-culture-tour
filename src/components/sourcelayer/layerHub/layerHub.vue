@@ -39,11 +39,16 @@
         </li>
       </ul>
     </div>
+    <!-- extra Components -->
+    <transition name="fade">
+      <KgLegend v-if="forceTreeLabel == '控规信息'" />
+    </transition>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import KgLegend from "./components/KgLegend";
 import { treeDrawTool, fixTreeWithExtra } from "./TreeDrawTool";
 import { getIserverFields } from "api/iServerAPI";
 import {
@@ -78,6 +83,7 @@ export default {
       featureMap: {}, //  源数据,量小
     };
   },
+  components: { KgLegend },
   computed: {
     ...mapGetters("map", [
       ...CESIUM_TREE_EXTRA_DATA,
@@ -87,6 +93,7 @@ export default {
   watch: {
     forceTreeLabel(n) {
       this.initForceTreeTopic();
+      this.SetForceIndex(n);
     },
   },
   created() {
@@ -94,7 +101,10 @@ export default {
     this.eventRegsiter();
   },
   methods: {
-    ...mapActions("map", SET_CESIUM_TREE_EXTRA_DATA_WITH_GEOMETRY),
+    ...mapActions("map", [
+      ...SET_CESIUM_TREE_EXTRA_DATA_WITH_GEOMETRY,
+      ...["SetForceIndex"],
+    ]),
     eventRegsiter() {
       /**
        * 事件传递打开对应专题图层

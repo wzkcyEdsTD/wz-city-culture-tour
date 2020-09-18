@@ -37,8 +37,9 @@ export default {
 <style scoped lang="less">
 .scene-switch {
   position: absolute;
+  width: 130px;
   top: 0;
-  right: -6vh;
+  left: 120px;
   cursor: pointer;
   > * {
     vertical-align: middle;

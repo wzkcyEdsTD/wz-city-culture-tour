@@ -15,7 +15,7 @@
     </div>
     <div class="mapCover" v-show="isOverview" />
     <div v-if="mapLoaded && validated">
-      <TotalTarget ref="totalTarget" />
+      <CityIndex ref="totalTarget" />
       <Roulette />
       <NanTangModel v-if="showSubFrame == '3d1'" />
       <VideoCircle ref="videoCircle" />
@@ -40,7 +40,7 @@ import { ServiceUrl } from "config/server/mapConfig";
 import "./basicTools/ThreeTools.less";
 import LayerHub from "components/sourcelayer/layerHub/layerHub";
 import SearchBox from "./layerHub/searchBox";
-import TotalTarget from "./totalTarget/index";
+import CityIndex from "./CityIndex/index";
 import Roulette from "./roulette/roulette";
 import NanTangModel from "./extraModel/NanTangModel";
 import InfoFrame from "./commonFrame/InfoFrame/InfoFrame";
@@ -51,10 +51,10 @@ import Population from "./extraModel/Population/Population";
 import RoadLine from "./extraModel/PolylineTrailLink/RoadLine";
 import VideoCircle from "./commonFrame/postMessage/videoCircle";
 import AuthFailPopup from "./commonFrame/AuthFailPopup/AuthFailPopup";
-import Overview from "./extraModel/Overview/Overview";
+import Overview from "./extraModel/Overview/Overview.vue";
 import { getCurrentExtent, isContainByExtent } from "./commonFrame/mapTool";
 import { doValidation } from "api/validation/validation";
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters } from "vuex";
 const Cesium = window.Cesium;
 
 export default {
@@ -76,7 +76,7 @@ export default {
   components: {
     LayerHub,
     SearchBox,
-    TotalTarget,
+    CityIndex,
     Roulette,
     NanTangModel,
     InfoFrame,
@@ -298,13 +298,6 @@ export default {
     width: 100%;
     // color: rgb(42, 104, 163);
   }
-}
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
 }
 .mapCover {
   position: fixed;

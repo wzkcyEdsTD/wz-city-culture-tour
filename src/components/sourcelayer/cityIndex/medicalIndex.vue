@@ -3,7 +3,7 @@
     <span class="header">医疗体征</span>
     <ul class="content">
       <li class="item">
-        <img class="icon hospital" src="/static/images/common/hospital.png" />
+        <img class="icon hospital" src="/static/images/index/hospital.png" />
         <div class="right">
           <div class="title">
             实时门诊人次
@@ -17,7 +17,7 @@
         </div>
       </li>
       <li class="item">
-        <img class="icon ambulance" src="/static/images/common/ambulance.png" />
+        <img class="icon ambulance" src="/static/images/index/ambulance.png" />
         <div class="right">
           <div class="title">
             定点医院数
@@ -31,7 +31,7 @@
         </div>
       </li>
       <li class="item">
-        <img class="icon doctor" src="/static/images/common/doctor.png" />
+        <img class="icon doctor" src="/static/images/index/doctor.png" />
         <div class="right">
           <div class="title">
             医保参保单位
@@ -45,7 +45,7 @@
         </div>
       </li>
       <li class="item">
-        <img class="icon nurce" src="/static/images/common/nurse.png" />
+        <img class="icon nurce" src="/static/images/index/nurse.png" />
         <div class="right">
           <div class="title">
             医保支付额
@@ -66,7 +66,7 @@
 import { mapGetters, mapActions } from "vuex";
 
 export default {
-  name: "medicalTarget",
+  name: "medicalIndex",
   computed: {
     ...mapGetters("map", ["WzAllData"]),
   },

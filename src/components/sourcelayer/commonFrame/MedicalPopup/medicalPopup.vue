@@ -48,7 +48,7 @@
         <div class="around-people" v-if="bufferHash[item.id]">
           <img src="/static/images/common/frameline@2x.png" />
           <div>
-            <header>周边200米实时人口</header>
+            <header>周边500米实时人口</header>
             <div>
               <p>{{bufferHash[item.id].task_time}}</p>
               <p>{{`人数：${bufferHash[item.id].data || '-'}人`}}</p>

@@ -20,6 +20,8 @@ const state = {
   //  医院
   hospitalList: [],
   //  总体概览
-  WzAllData: {}
+  WzAllData: {},
+  //  指标下表
+  forceIndex: '城市总览',
 };
 export default state;

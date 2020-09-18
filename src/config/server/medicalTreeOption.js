@@ -22,10 +22,10 @@ const MEDICAL_TOPIC = [
 ];
 //  旅游专题
 const TOUR_TOPIC = [
+  { label: "百姓健身房", dataset: "百姓健身房" },
   { label: "精品农家乐", dataset: "温州农家乐" },
   { label: "旅游景点", dataset: "永嘉旅游景点地图" },
   { label: "温州民宿", dataset: "温州民宿" },
-  { label: "百姓健身房", dataset: "百姓健身房" },
   { label: "森林康养基地", dataset: "温州市森林康养基地" },
   { label: "夜光经济", dataset: "夜景" },
   {
@@ -154,6 +154,7 @@ export const CESIUM_TREE_OPTION = [
       return {
         ...v,
         id: v.label,
+        icon: v.label,
         type: "image"
       };
     })

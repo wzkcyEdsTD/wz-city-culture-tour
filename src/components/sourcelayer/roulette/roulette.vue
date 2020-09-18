@@ -15,22 +15,34 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "roulette",
   data() {
     return {
       shallOverview: true,
+      lastIndex: "医疗专题",
     };
   },
   computed: {
+    ...mapGetters("map", ["forceIndex"]),
     selectedValue() {
       return this.shallOverview ? "overview" : "source";
     },
   },
   methods: {
+    ...mapActions("map", ["SetForceIndex"]),
     changeOverview() {
-      this.shallOverview = !this.shallOverview;
+      const toValue = !this.shallOverview;
+      this.shallOverview = toValue;
       this.$parent.isOverview = !this.$parent.isOverview;
+      //  切换城市 记住上一次选项
+      if (toValue) {
+        this.lastIndex = this.forceIndex;
+        this.SetForceIndex("城市总览");
+      } else {
+        this.SetForceIndex(this.lastIndex);
+      }
     },
   },
 };

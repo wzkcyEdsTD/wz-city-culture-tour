@@ -115,7 +115,7 @@ export default {
             30
           ),
           billboard: {
-            image: "/static/images/视频监控.png",
+            image: "/static/images/map-ico/视频监控.png",
             width: 37,
             height: 41,
             disableDepthTestDistance: Number.POSITIVE_INFINITY,

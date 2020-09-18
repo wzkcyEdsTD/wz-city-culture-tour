@@ -39,6 +39,9 @@ const mutations = {
   },
   [types.SET_FORCE_MAP_TYPE](state, data) {
     state.forceMapTypeBase = data;
+  },
+  [types.SET_FORCE_INDEX](state, data) {
+    state.forceIndex = data
   }
 };
 

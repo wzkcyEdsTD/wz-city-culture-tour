@@ -17,3 +17,4 @@ export const medicalList = state => state.medicalList;
 export const medicalListWithGeometry = state => state.medicalListWithGeometry;
 export const hospitalList = state => state.hospitalList;
 export const WzAllData = state => state.WzAllData;
+export const forceIndex = state => state.forceIndex;

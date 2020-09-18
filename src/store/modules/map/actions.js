@@ -65,3 +65,7 @@ export const SetRtmpList = ({ commit }, data) => {
 export const SetIsInfoFrame = ({ commit }, data) => {
   commit(types.SET_IS_INFO_FRAME, data);
 };
+//  设置展示指标
+export const SetForceIndex = ({ commit }, data) => {
+  commit(types.SET_FORCE_INDEX, data);
+};
