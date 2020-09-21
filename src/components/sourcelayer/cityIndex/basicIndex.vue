@@ -7,7 +7,7 @@
         <div>
           <div class="title">
             全市新建商品住宅可售（待售）套数
-            <span class="small">(%)</span>
+            <span class="small">(套)</span>
           </div>
           <div class="desc">
             温州全市 /
@@ -21,7 +21,7 @@
         <div>
           <div class="title">
             全市新建商品住宅可售（待售）面积
-            <span class="small">(%)</span>
+            <span class="small">(㎡)</span>
           </div>
           <div class="desc">
             温州全市 /
@@ -35,7 +35,7 @@
         <div>
           <div class="title">
             全市每月存量商品住宅成交套数
-            <span class="small">(%)</span>
+            <span class="small">(套)</span>
           </div>
           <div class="desc">
             温州全市 /
@@ -49,7 +49,7 @@
         <div>
           <div class="title">
             全市每月存量商品住宅成交面积
-            <span class="small">(%)</span>
+            <span class="small">(㎡)</span>
           </div>
           <div class="desc">
             温州全市 /
@@ -63,7 +63,7 @@
         <div>
           <div class="title">
             全市每月存量商品住宅成交均价
-            <span class="small">(%)</span>
+            <span class="small">(万元)</span>
           </div>
           <div class="desc">
             温州全市 /
@@ -77,7 +77,7 @@
         <div>
           <div class="title">
             全市每月新建商品住宅成交均价
-            <span class="small">(%)</span>
+            <span class="small">(万元)</span>
           </div>
           <div class="desc">
             温州全市 /
