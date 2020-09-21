@@ -17,7 +17,7 @@
     >
       <div class="popup-tip-container">
         <div class="popup-tip-inner">
-          <div class="tip-name">{{ item.shortname }}</div>
+          <div class="tip-name">{{ item.attributes.MC }}</div>
           <div class="tip-num">
             <table border="0">
               <tbody>
@@ -53,10 +53,17 @@
         </div>
       </div>
       <div class="main-body">
+        <!-- <img :src="`/static/images/common/快速路流量-绿.png`" />
+        <img src="/static/images/common/warn@2x.png" />-->
         <img
-          :src="`/static/images/common/${item.extra_data.category}-${item.extra_data.status}.png`"
+          class="bayonet-ico"
+          :src="`/static/images/common/${item.extra_data.category || '快速路流量'}-${item.extra_data.status || '绿'}.png`"
         />
-        <img v-if="item.extra_data.status=='红'" src="/static/images/common/warn@2x.png" />
+        <img
+          class="bayonet-warn"
+          v-if="item.extra_data.status=='红'"
+          src="/static/images/common/warn@2x.png"
+        />
       </div>
     </div>
   </div>
@@ -113,7 +120,6 @@ export default {
     },
     doPopup(G_bayonetList) {
       const popList = [];
-      console.log(G_bayonetList[0]);
       if (G_bayonetList.length) {
         G_bayonetList.map((item, index) => {
           popList.push({
@@ -190,6 +196,22 @@ export default {
   cursor: pointer;
   .main-body {
     width: 100%;
+    height: 0;
+    > .bayonet-ico {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      bottom: 0px;
+      left: 50%;
+      transform: translateX(-32%);
+    }
+    > .bayonet-warn {
+      position: absolute;
+      width: 100px;
+      bottom: -24px;
+      left: 50%;
+      transform: translateX(-44%);
+    }
   }
   .popup-tip-container {
     width: 200px;

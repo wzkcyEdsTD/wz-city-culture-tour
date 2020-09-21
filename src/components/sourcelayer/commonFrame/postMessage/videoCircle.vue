@@ -73,10 +73,10 @@ export default {
           semiMinorAxis: queryRadius * 2,
           semiMajorAxis: queryRadius * 2,
           height: 4,
-          material: Cesium.Color.YELLOW.withAlpha(0.2),
+          material: Cesium.Color.WHITE.withAlpha(0.2),
           outline: true,
           outlineWidth: 3,
-          outlineColor: Cesium.Color.YELLOW,
+          outlineColor: Cesium.Color.WHITE,
         },
         name: "videoCircle",
       });

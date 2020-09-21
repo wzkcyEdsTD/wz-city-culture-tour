@@ -248,7 +248,10 @@ export default {
             shall: node.withExtraData ? true : false,
             node,
           })
-        : undefined;
+        : this.$bus.$emit("cesium-3d-switch-searchBox", {
+            shall: false,
+            node,
+          });
     },
   },
 };
