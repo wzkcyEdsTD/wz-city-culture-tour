@@ -84,7 +84,6 @@ export default {
   methods: {
     ...mapActions("map", ["fetchMedicalList"]),
     eventRegsiter() {
-      this.$bus.$off("cesium-3d-around-people");
       this.$bus.$on("cesium-3d-around-people", ({ id, result }) => {
         console.log(id, result);
         this.bufferHash[id] = result;
