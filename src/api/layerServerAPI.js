@@ -33,7 +33,7 @@ const getAxios = (url = "", data = {}) => {
  * 8.卡口
  */
 const getWzKindsData = (type) => {
-  return getAxios("/statistics/GetCityBraainData?type=" + type)
+  return getAxios(`/statistics/GetCityBraainData?time=202008&type=${type}&businessType=1&workTime=20200101`)
 }
 
 /**
@@ -54,14 +54,14 @@ export const getBayonetList = () => {
  * 获取全市总览数据
  */
 export const fetchWzOverviewData = () => {
-  return getAxios("/statistics/GetCityBraainData?type=4")
+  return getWzKindsData(4)
 }
 
 /**
  * 获取全市医疗数据
  */
 export const fetchMedicalData = () => {
-  return getWzKindsData(4)
+  return getWzKindsData(2)
 };
 
 /**
@@ -69,6 +69,20 @@ export const fetchMedicalData = () => {
  */
 export const fetchTourData = () => {
   return getWzKindsData(6)
+};
+
+/**
+ * 获取全市资源数据
+ */
+export const fetchSourceData = () => {
+  return getWzKindsData(3)
+};
+
+/**
+ * 获取全市基础数据
+ */
+export const fetchBasicData = () => {
+  return getWzKindsData(7)
 };
 
 /**
@@ -82,5 +96,5 @@ export const fetchCultureData = () => {
  * 获取全市交通数据
  */
 export const fetchWzTrafficData = () => {
-  return getAxios("/statistics/GetCityBraainData?type=1")
+  return getWzKindsData(1)
 }

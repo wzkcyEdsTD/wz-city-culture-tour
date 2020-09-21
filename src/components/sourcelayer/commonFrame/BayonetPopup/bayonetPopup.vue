@@ -57,7 +57,7 @@
         <img src="/static/images/common/warn@2x.png" />-->
         <img
           class="bayonet-ico"
-          :src="`/static/images/common/${item.extra_data.category || '快速路流量'}-${item.extra_data.status || '绿'}.png`"
+          :src="`/static/images/common/${item.extra_data.category}-${item.extra_data.status}.png`"
         />
         <img
           class="bayonet-warn"
@@ -273,7 +273,7 @@ export default {
   }
 
   .tip-num table tbody tr td:first-child {
-    width: 60px;
+    width: 54px;
     font-weight: bolder;
     vertical-align: middle;
   }

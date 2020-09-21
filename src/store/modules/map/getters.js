@@ -25,4 +25,6 @@ export const WzOverviewData = state => state.WzOverviewData;
 export const WzTrafficData = state => state.WzTrafficData;
 export const WzTourData = state => state.WzTourData;
 export const WzCultureData = state => state.WzCultureData;
+export const WzBasicData = state => state.WzBasicData;
+export const WzSourceData = state => state.WzSourceData;
 export const forceIndex = state => state.forceIndex;

@@ -13,7 +13,7 @@ import {
   getWzAllMedicalInsuranceInstitution,
   getWzAllMedicalInsurancePayment
 } from "api/cityBrainAPI";
-import { getMedicalList, getBayonetList, fetchWzOverviewData, fetchWzTrafficData, fetchTourData, fetchCultureData } from "api/layerServerAPI";
+import { getMedicalList, getBayonetList, fetchWzOverviewData, fetchWzTrafficData, fetchTourData, fetchCultureData, fetchSourceData, fetchBasicData } from "api/layerServerAPI";
 
 //  获取全市总览数据
 export const SetWzOverviewData = async ({ commit, state }) => {
@@ -32,6 +32,23 @@ export const SetWzTourData = async ({ commit, state }) => {
       _result_[key] = result[key].count
     }
     commit(types.SET_WZ_TOUR_DATA, _result_);
+  }
+}
+
+//  获取全市资源数据
+export const SetWzSourceData = async ({ commit, state }) => {
+  if (!Object.keys(state.WzSourceData).length) {
+    const { result } = await fetchSourceData();
+    commit(types.SET_WZ_SOURCE_DATA, result.全市);
+  }
+}
+
+//  获取全市基础数据
+export const SetWzBasicData = async ({ commit, state }) => {
+  if (!Object.keys(state.WzBasicData).length) {
+    const { result } = await fetchBasicData();
+    console.log(result);
+    commit(types.SET_WZ_BASIC_DATA, result);
   }
 }
 

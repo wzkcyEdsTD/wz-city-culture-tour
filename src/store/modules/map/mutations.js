@@ -10,6 +10,12 @@
 import * as types from "./mutation-types";
 
 const mutations = {
+  [types.SET_WZ_BASIC_DATA](state, data) {
+    state.WzBasicData = data;
+  },
+  [types.SET_WZ_SOURCE_DATA](state, data) {
+    state.WzSourceData = data;
+  },
   [types.SET_WZ_TOUR_DATA](state, data) {
     state.WzTourData = data;
   },

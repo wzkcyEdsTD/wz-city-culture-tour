@@ -30,6 +30,8 @@ const state = {
   WzMedicalData: {},    //  城市医疗指标
   WzTourData: {},       //  城市旅游指标
   WzCultureData: {},    //  城市文化指标
+  WzBasicData: {},      //  城市基础指标
+  WzSourceData: {},     //  城市资源指标
   WzTrafficData: {},    //  城市交通指标
   //  指标下表
   forceIndex: '城市总览',
