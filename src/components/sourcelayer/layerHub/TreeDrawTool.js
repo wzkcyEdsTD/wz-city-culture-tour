@@ -61,8 +61,8 @@ export const fixTreeWithExtra = (gArr, eObj, node, context) => {
   const extraFeatures = [];
   gArr.map(item => {
     const { attributes } = item;
-    ~extraKeys.indexOf(attributes.SHORTNAME)
-      ? extraFeatures.push({ ...item, extra_data: eObj[attributes.SHORTNAME] })
+    ~extraKeys.indexOf(attributes[node.withExtraKey])
+      ? extraFeatures.push({ ...item, extra_data: eObj[attributes[node.withExtraKey]] })
       : drawFeatures.push(item);
   });
   context[node.saveExtraDataByGeometry](extraFeatures);
@@ -101,7 +101,7 @@ export const treeDrawTool = (context, { result }, node, fields = []) => {
     const entityOption = {
       id: `${item.attributes.SMID}@${node.icon}@${node.dataset}`,
       label: {
-        text: item.attributes.SHORTNAME || item.attributes.NAME,
+        text: item.attributes[node.withExtraKey] || item.attributes.NAME,
         color: Cesium.Color.fromCssColorString("#fff"),
         style: Cesium.LabelStyle.FILL_AND_OUTLINE,
         font: "10px",

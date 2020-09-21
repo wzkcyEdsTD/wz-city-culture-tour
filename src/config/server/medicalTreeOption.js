@@ -18,6 +18,7 @@ const MEDICAL_TOPIC = [
     withExtraData: "medicalList",
     withExtraDataGeometry: "medicalListWithGeometry",
     saveExtraDataByGeometry: "setMedicalListWithGeometry",
+    withExtraKey: "SHORTNAME",
   }
 ];
 //  旅游专题
@@ -121,13 +122,29 @@ const SOURCE_TOPIC = [
     dataset: "passenger_trans_unit"
   }
 ];
-//  精细三维
-const MODEL_3D_FINE = [
+//  交通专题
+const TRAFFIC_TOPIC = [
   {
-    label: "精细三维",
-    componentEvent: "cesium-3d-event",
-    componentKey: "3d1",
-    action: "SetIsInfoFrame"
+    label: "交通卡口",
+    dataset: "KaKouDianWei",
+    withExtraData: "bayonetList",
+    withExtraDataGeometry: "bayonetListWithGeometry",
+    saveExtraDataByGeometry: "setBayonetListWithGeometry",
+    withExtraKey: "MC",
+  },
+  {
+    label: "S1线路",
+    componentEvent: "cesium-3d-hub-event",
+    componentKey: "3d2",
+    type: 'model'
+  },
+  {
+    label: "S1站点",
+    dataset: "T2_WZ_S1_Station_2019",
+    withExtraData: "stationList",
+    withExtraDataGeometry: "stationListWithGeometry",
+    saveExtraDataByGeometry: "setStationListWithGeometry",
+    withExtraKey: "MC",
   }
 ];
 //  控规专题
@@ -142,10 +159,11 @@ const KG_INFO = [
  * 对应需要额外数据的点位
  */
 export const SET_CESIUM_TREE_EXTRA_DATA_WITH_GEOMETRY = [
-  "setMedicalListWithGeometry"
+  "setMedicalListWithGeometry", "setBayonetListWithGeometry",
+  "setStationListWithGeometry"
 ];
-export const CESIUM_TREE_EXTRA_DATA_WITH_GEOMETRY = ["medicalListWithGeometry"];
-export const CESIUM_TREE_EXTRA_DATA = ["medicalList"];
+export const CESIUM_TREE_EXTRA_DATA_WITH_GEOMETRY = ["medicalListWithGeometry", "bayonetListWithGeometry", "stationListWithGeometry"];
+export const CESIUM_TREE_EXTRA_DATA = ["medicalList", "bayonetList", "stationList"];
 export const CESIUM_TREE_OPTION = [
   {
     id: "控规信息",
@@ -205,6 +223,7 @@ export const CESIUM_TREE_OPTION = [
   {
     id: "应急专题",
     label: "应急专题",
+    disabled: true,
     children: EMERGENCY_TOPIC.map(v => {
       return {
         ...v,
@@ -247,6 +266,15 @@ export const CESIUM_TREE_OPTION = [
   {
     id: "交通专题",
     label: "交通专题",
-    children: []
+    children: TRAFFIC_TOPIC.map(v => {
+      return {
+        ...v,
+        id: v.label,
+        icon: v.label,
+        url: SERVER_DEFAULT_DATA,
+        type: v.type || "mvt",
+        newdataset: `${SW_DATA_NAME}${v.dataset}`
+      };
+    })
   },
 ];

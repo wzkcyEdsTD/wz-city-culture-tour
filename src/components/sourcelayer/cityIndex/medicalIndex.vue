@@ -3,8 +3,8 @@
     <span class="header">医疗体征</span>
     <ul class="content">
       <li class="item">
-        <img class="icon hospital" src="/static/images/index/hospital.png" />
-        <div class="right">
+        <img src="/static/images/index/medical/hospital.png" />
+        <div>
           <div class="title">
             实时门诊人次
             <span class="small">(人)</span>
@@ -13,12 +13,12 @@
             温州全市 /
             <span>当日</span>
           </div>
-          <div class="number">{{WzAllData.outpatientCount}}</div>
+          <div class="number">{{WzMedicalData.outpatientCount}}</div>
         </div>
       </li>
       <li class="item">
-        <img class="icon ambulance" src="/static/images/index/ambulance.png" />
-        <div class="right">
+        <img src="/static/images/index/medical/ambulance.png" />
+        <div>
           <div class="title">
             定点医院数
             <span class="small">(家)</span>
@@ -27,12 +27,12 @@
             温州全市 /
             <span>2020年7月</span>
           </div>
-          <div class="number">{{WzAllData.designatedHospitals}}</div>
+          <div class="number">{{WzMedicalData.designatedHospitals}}</div>
         </div>
       </li>
       <li class="item">
-        <img class="icon doctor" src="/static/images/index/doctor.png" />
-        <div class="right">
+        <img src="/static/images/index/medical/doctor.png" />
+        <div>
           <div class="title">
             医保参保单位
             <span class="small">(家)</span>
@@ -41,12 +41,12 @@
             温州全市 /
             <span>2020年</span>
           </div>
-          <div class="number">{{WzAllData.medicalInsuranceInstitution}}</div>
+          <div class="number">{{WzMedicalData.medicalInsuranceInstitution}}</div>
         </div>
       </li>
       <li class="item">
-        <img class="icon nurce" src="/static/images/index/nurse.png" />
-        <div class="right">
+        <img src="/static/images/index/medical/nurse.png" />
+        <div>
           <div class="title">
             医保支付额
             <span class="small">(万元)</span>
@@ -55,7 +55,7 @@
             温州全市 /
             <span>2020年8月</span>
           </div>
-          <div class="number">{{WzAllData.medicalInsurancePayment}}</div>
+          <div class="number">{{WzMedicalData.medicalInsurancePayment}}</div>
         </div>
       </li>
     </ul>
@@ -68,18 +68,18 @@ import { mapGetters, mapActions } from "vuex";
 export default {
   name: "medicalIndex",
   computed: {
-    ...mapGetters("map", ["WzAllData"]),
+    ...mapGetters("map", ["WzMedicalData"]),
   },
-  async mounted() {
-    await this.fetchWzAllData();
+  async created() {
+    await this.fetchWzMedicalData();
   },
   methods: {
-    ...mapActions("map", ["SetWzAllData"]),
+    ...mapActions("map", ["SetWzMedicalData"]),
     /**
      * 概览数据
      */
-    async fetchWzAllData() {
-      await this.SetWzAllData();
+    async fetchWzMedicalData() {
+      await this.SetWzMedicalData();
     },
   },
 };

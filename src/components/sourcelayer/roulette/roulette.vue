@@ -21,7 +21,7 @@ export default {
   data() {
     return {
       shallOverview: true,
-      lastIndex: "医疗专题",
+      lastIndex: "旅游专题",
     };
   },
   computed: {

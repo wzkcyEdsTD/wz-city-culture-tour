@@ -32,8 +32,8 @@
         <li
           v-for="(item,i) in CESIUM_TREE_OPTION"
           :key="i"
-          :class="{item:true,active:item.id==forceTreeLabel}"
-          @click="forceTreeLabel=item.id"
+          :class="{item:true,active:item.id==forceTreeLabel,disabled:item.disabled}"
+          @click="!item.disabled?forceTreeLabel=item.id:undefined"
         >
           <i>{{item.label}}</i>
         </li>
@@ -65,7 +65,7 @@ export default {
     return {
       //  底部树
       CESIUM_TREE_OPTION,
-      forceTreeLabel: "医疗专题",
+      forceTreeLabel: "旅游专题",
       forceTreeTopic: [],
       //  资源选中层
       forceTrueTopicLabels: [],
@@ -241,8 +241,9 @@ export default {
           this.$bus.$emit(node.componentEvent, { value: null });
       }
     },
+    //  先只显示医疗
     switchSearchBox(node, topicLoad) {
-      topicLoad
+      topicLoad && this.forceTreeLabel == "医疗专题"
         ? this.$bus.$emit("cesium-3d-switch-searchBox", {
             shall: node.withExtraData ? true : false,
             node,

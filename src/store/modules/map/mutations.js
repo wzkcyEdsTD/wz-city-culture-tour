@@ -10,8 +10,20 @@
 import * as types from "./mutation-types";
 
 const mutations = {
-  [types.SET_WZ_ALL_DATA](state, data) {
-    state.WzAllData = data;
+  [types.SET_WZ_TOUR_DATA](state, data) {
+    state.WzTourData = data;
+  },
+  [types.SET_WZ_CULTURE_DATA](state, data) {
+    state.WzCultureData = data;
+  },
+  [types.SET_WZ_TRAFFIC_DATA](state, data) {
+    state.WzTrafficData = data;
+  },
+  [types.SET_WZ_OVERVIEW_dATA](state, data) {
+    state.WzOverviewData = data;
+  },
+  [types.SET_WZ_MEDICAL_DATA](state, data) {
+    state.WzMedicalData = data;
   },
   [types.SET_HOSPITAL_LIST](state, data) {
     state.hospitalList = data;
@@ -21,6 +33,18 @@ const mutations = {
   },
   [types.SET_MEDICAL_LIST](state, data) {
     state.medicalList = data;
+  },
+  [types.SET_STATION_LIST_WITH_GEOMETRY](state, data) {
+    state.stationListWithGeometry = data;
+  },
+  [types.SET_STATION_LIST](state, data) {
+    state.stationList = data;
+  },
+  [types.SET_BAYONET_LIST_WITH_GEOMETRY](state, data) {
+    state.bayonetListWithGeometry = data;
+  },
+  [types.SET_BAYONET_LIST](state, data) {
+    state.bayonetList = data;
   },
   [types.SET_RTMP_LIST](state, data) {
     state.rtmpList = data;

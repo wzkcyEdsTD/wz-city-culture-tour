@@ -55,12 +55,19 @@ export default {
      *  框体移动
      *  @param {object} position
      */
-    renderForceEntity(pointToWindow) {
-      if (
-        this.forcePosition.x !== pointToWindow.x ||
-        this.forcePosition.y !== pointToWindow.y
-      ) {
-        this.forcePosition = pointToWindow;
+    renderForceEntity() {
+      const forceEntity = this.forceEntity;
+      if (forceEntity.extra_data) {
+        const pointToWindow = Cesium.SceneTransforms.wgs84ToWindowCoordinates(
+          window.earth.scene,
+          forceEntity.position
+        );
+        if (
+          this.forcePosition.x !== pointToWindow.x ||
+          this.forcePosition.y !== pointToWindow.y
+        ) {
+          this.forcePosition = pointToWindow;
+        }
       }
     },
     closePopup() {

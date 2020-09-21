@@ -9,15 +9,20 @@
 <template>
   <div class="cesiumContainer">
     <div id="cesiumContainer" />
+    <!-- 气泡框 -->
     <div class="popup-groups">
+      <BayonetPopup ref="bayonetPopup" />
       <MedicalPopup ref="medicalPopup" />
       <DetailPopup ref="detailPopup" />
     </div>
+    <!-- 蒙板 -->
     <div class="mapCover" v-show="isOverview" />
+    <!-- 功能组件 -->
     <div v-if="mapLoaded && validated">
       <CityIndex ref="totalTarget" />
       <Roulette />
       <NanTangModel v-if="showSubFrame == '3d1'" />
+      <TrafficSubwayModel v-if="showSubHubFrame == '3d2'" />
       <VideoCircle ref="videoCircle" />
       <RoadLine ref="roadline" />
       <InfoFrame ref="infoframe" v-show="isInfoFrame" />
@@ -29,7 +34,7 @@
           <SearchBox ref="searchBox" />
         </div>
       </transition>
-      <Overview v-if="isOverview" />
+      <Overview ref="overview" v-if="isOverview" />
     </div>
     <AuthFailPopup ref="authFailPopup" v-if="authFailshallPop" />
   </div>
@@ -43,8 +48,10 @@ import SearchBox from "./layerHub/searchBox";
 import CityIndex from "./CityIndex/index";
 import Roulette from "./roulette/roulette";
 import NanTangModel from "./extraModel/NanTangModel";
+import TrafficSubwayModel from "./extraModel/TrafficSubwayModel";
 import InfoFrame from "./commonFrame/InfoFrame/InfoFrame";
 import MedicalPopup from "./commonFrame/MedicalPopup/medicalPopup";
+import BayonetPopup from "./commonFrame/BayonetPopup/bayonetPopup";
 import DetailPopup from "./commonFrame/DetailPopup/DetailPopup";
 import RtmpVideo from "./extraModel/RtmpVideo/RtmpVideo";
 import Population from "./extraModel/Population/Population";
@@ -61,6 +68,7 @@ export default {
   data() {
     return {
       showSubFrame: null,
+      showSubHubFrame: null,
       mapLoaded: false,
       validated: false,
       imagelayer: undefined,
@@ -71,7 +79,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("map", ["medicalListWithGeometry", "initDataLoaded"]),
+    ...mapGetters("map", ["initDataLoaded"]),
   },
   components: {
     LayerHub,
@@ -79,8 +87,10 @@ export default {
     CityIndex,
     Roulette,
     NanTangModel,
+    TrafficSubwayModel,
     InfoFrame,
     MedicalPopup,
+    BayonetPopup,
     DetailPopup,
     RtmpVideo,
     Population,
@@ -118,38 +128,25 @@ export default {
           !Object.keys(this.$refs).length
         )
           return;
-        //  *****[medicalList] 医疗点位*****
-        const medicalList = this.medicalListWithGeometry;
-        if (medicalList && medicalList.length) {
-          const extent = getCurrentExtent();
-          const G_medicalList = [];
-          medicalList.map((item) => {
-            if (item.geometry && isContainByExtent(extent, item.geometry)) {
-              const { x, y } = item.geometry;
-              const pointToWindow = Cesium.SceneTransforms.wgs84ToWindowCoordinates(
-                window.earth.scene,
-                Cesium.Cartesian3.fromDegrees(x, y, 0)
-              );
-              G_medicalList.push({ ...item, pointToWindow });
-            }
-          });
-          this.$refs.medicalPopup &&
-            this.$refs.medicalPopup.doPopup(G_medicalList);
-        } else {
-          this.$refs.medicalPopup && this.$refs.medicalPopup.doPopup([]);
+        //  *****[medicalList] 医疗点位***** 暂不判断是否在屏幕内 有bug
+        if (this.$refs.medicalPopup && this.$refs.medicalPopup.fixPopup) {
+          this.$refs.medicalPopup.fixPopup();
+        }
+        //  *****[bayonetList] 医疗点位***** 暂不判断是否在屏幕内 有bug
+        if (this.$refs.bayonetPopup && this.$refs.bayonetPopup.fixPopup) {
+          this.$refs.bayonetPopup.fixPopup();
+        }
+        //  *****[indexPoints]  城市总览指标*****
+        if (this.isOverview && this.$refs.overview.indexPoints) {
+          this.$refs.overview.doIndexPoints();
         }
         //  *****[videoCircle]  事件传递点位*****
         if (this.$refs.videoCircle && this.$refs.videoCircle.shallPop) {
           this.$refs.videoCircle.doPopup();
         }
         //  *****[detailPopup]  详情查看点位*****
-        const forceEntity = this.$refs.detailPopup.forceEntity;
-        if (forceEntity.extra_data) {
-          const pointToWindow = Cesium.SceneTransforms.wgs84ToWindowCoordinates(
-            window.earth.scene,
-            forceEntity.position
-          );
-          this.$refs.detailPopup.renderForceEntity(pointToWindow);
+        if (this.$refs.detailPopup) {
+          this.$refs.detailPopup.renderForceEntity();
         }
       });
     },
@@ -202,6 +199,9 @@ export default {
               })
             ))
           : undefined;
+      });
+      this.$bus.$on("cesium-3d-hub-event", ({ value }) => {
+        this.showSubHubFrame = value;
       });
     },
     init3DMap(fn) {

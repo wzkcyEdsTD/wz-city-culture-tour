@@ -4,7 +4,7 @@
  * @LastEditTime: 2020-09-03 21:24:20
  * @LastEditors: eds
  * @Description:
- * @FilePath: \wz-city-culture-tour\src\components\sourcelayer\commonFrame\medicalPopup.vue
+ * @FilePath: \wz-city-culture-tour\src\components\sourcelayer\commonFrame\bayonetPopup.vue
 -->
 <template>
   <div id="trackPopUp" v-if="shallPop">
@@ -12,30 +12,26 @@
       v-for="(item, index) in popList"
       :key="index"
       :id="`trackPopUpContent_${index}`"
-      class="leaflet-popup-medical"
+      class="leaflet-popup-bayonet"
       :style="{transform:`translate3d(${item.x}px,${item.y+4}px, 0)`}"
     >
       <div class="popup-tip-container">
         <div class="popup-tip-inner">
-          <div class="tip-name" @click="showDetail(item)">{{ item.shortname }}</div>
+          <div class="tip-name">{{ item.shortname }}</div>
           <div class="tip-num">
             <table border="0">
               <tbody>
                 <tr>
-                  <td>等级</td>
-                  <td>{{ item.grade }}</td>
+                  <td>卡口类型</td>
+                  <td>{{ item.extra_data.category || '-' }}</td>
                 </tr>
                 <tr>
-                  <td>发热人数</td>
-                  <td>{{ item.extra_data['发热病人'] || '-' }}</td>
+                  <td>卡口流量</td>
+                  <td>{{ item.extra_data.current_num || '-' }}</td>
                 </tr>
                 <tr>
-                  <td>门诊人次</td>
-                  <td>{{ item.extra_data['实时门诊人次'] || '-' }}</td>
-                </tr>
-                <tr>
-                  <td>住院人数</td>
-                  <td>{{ item.extra_data['住院人数'] || '-' }}</td>
+                  <td>卡口状态</td>
+                  <td>{{ item.extra_data.status || '-' }}</td>
                 </tr>
               </tbody>
             </table>
@@ -56,6 +52,12 @@
           </div>
         </div>
       </div>
+      <div class="main-body">
+        <img
+          :src="`/static/images/common/${item.extra_data.category}-${item.extra_data.status}.png`"
+        />
+        <img v-if="item.extra_data.status=='红'" src="/static/images/common/warn@2x.png" />
+      </div>
     </div>
   </div>
 </template>
@@ -63,7 +65,7 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 export default {
-  name : "medicalPopup",
+  name: "bayonetPopup",
   data() {
     return {
       shallPop: false,
@@ -73,16 +75,16 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("map", ["medicalListWithGeometry"]),
+    ...mapGetters("map", ["bayonetListWithGeometry"]),
   },
   async created() {
-    await this.fetchMedicalList();
+    await this.fetchBayonetList();
   },
   async mounted() {
     this.eventRegsiter();
   },
   methods: {
-    ...mapActions("map", ["fetchMedicalList"]),
+    ...mapActions("map", ["fetchBayonetList"]),
     eventRegsiter() {
       this.$bus.$off("cesium-3d-around-people");
       this.$bus.$on("cesium-3d-around-people", ({ id, result }) => {
@@ -91,36 +93,32 @@ export default {
       });
     },
     fixPopup() {
-      const medicalList = this.medicalListWithGeometry;
-      if (medicalList && medicalList.length) {
-        // const extent = getCurrentExtent();
-        const G_medicalList = [];
-        medicalList.map((item) => {
+      const bayonetList = this.bayonetListWithGeometry;
+      if (bayonetList && bayonetList.length) {
+        const G_bayonetList = [];
+        bayonetList.map((item) => {
           if (item.geometry) {
-            //&& isContainByExtent(extent, item.geometry)
             const { x, y } = item.geometry;
             const pointToWindow = Cesium.SceneTransforms.wgs84ToWindowCoordinates(
               window.earth.scene,
               Cesium.Cartesian3.fromDegrees(x, y, 0)
             );
-            pointToWindow && G_medicalList.push({ ...item, pointToWindow });
+            pointToWindow && G_bayonetList.push({ ...item, pointToWindow });
           }
         });
-        this.doPopup(G_medicalList);
+        this.doPopup(G_bayonetList);
       } else {
         this.doPopup([]);
       }
     },
-    doPopup(G_medicalList) {
+    doPopup(G_bayonetList) {
       const popList = [];
-      if (G_medicalList.length) {
-        G_medicalList.map((item, index) => {
+      console.log(G_bayonetList[0]);
+      if (G_bayonetList.length) {
+        G_bayonetList.map((item, index) => {
           popList.push({
             id: item.id,
-            name: item.attributes.NAME,
-            grade: this.fixGrade(item.attributes.DEFINING_T),
-            shortname: item.attributes.SHORTNAME,
-            feverNum: item.extra_data["发热病人"] || 0,
+            name: item.attributes.MC,
             attributes: item.attributes,
             extra_data: item.extra_data,
             geometry: item.geometry,
@@ -142,23 +140,10 @@ export default {
       }
     },
 
-    fixGrade(defining) {
-      return ~defining.indexOf("三级甲等") ? "三级甲等" : "";
-    },
-
     closePopup() {
       this.$bus.$emit("cesium-3d-population-circle", { doDraw: false });
       this.shallPop = false;
       this.bufferHash = {};
-    },
-
-    // 展示详情
-    showDetail(obj) {
-      this.$parent.isInfoFrame = true;
-      this.$parent.$refs.infoframe.attributes = {
-        ...obj.attributes,
-        ...obj.extra_data,
-      };
     },
 
     /**
@@ -197,16 +182,19 @@ export default {
 </script>
 
 <style lang="less">
-.leaflet-popup-medical {
-  position: absolute;
+.leaflet-popup-bayonet {
+  position: fixed;
   text-align: center;
   top: -20px;
   left: 0;
   cursor: pointer;
+  .main-body {
+    width: 100%;
+  }
   .popup-tip-container {
     width: 200px;
     height: 200px;
-    background-image: url("/static/images/common/pop_bg@2x.png");
+    background-image: url("/static/images/common/bayonet-frame@2x.png");
     background-size: 100% 100%;
     background-repeat: no-repeat;
   }
@@ -296,7 +284,7 @@ export default {
   }
 
   .right-btns span:first-child {
-    background-image: url("/static/images/common/rtmpVideo.png");
+    background-image: url("/static/images/common/bayonet-rtmpVideo.png");
     background-size: 100% 100%;
     background-repeat: no-repeat;
   }

@@ -23,8 +23,64 @@ const getAxios = (url = "", data = {}) => {
 };
 
 /**
+ * 获取全市各模块数据
+ * @param {*} type 
+ * 1.交通
+ * 2.医疗
+ * 3.
+ * 4.经济
+ * 5.
+ * 8.卡口
+ */
+const getWzKindsData = (type) => {
+  return getAxios("/statistics/GetCityBraainData?type=" + type)
+}
+
+/**
  * 获取医院各类数据
  */
 export const getMedicalList = () => {
   return getAxios("/statistics/getDataDic");
 };
+
+/**
+ * 获取卡口各类数据
+ */
+export const getBayonetList = () => {
+  return getWzKindsData(8);
+};
+
+/**
+ * 获取全市总览数据
+ */
+export const fetchWzOverviewData = () => {
+  return getAxios("/statistics/GetCityBraainData?type=4")
+}
+
+/**
+ * 获取全市医疗数据
+ */
+export const fetchMedicalData = () => {
+  return getWzKindsData(4)
+};
+
+/**
+ * 获取全市旅游数据
+ */
+export const fetchTourData = () => {
+  return getWzKindsData(6)
+};
+
+/**
+ * 获取全市文化数据
+ */
+export const fetchCultureData = () => {
+  return getWzKindsData(5)
+};
+
+/**
+ * 获取全市交通数据
+ */
+export const fetchWzTrafficData = () => {
+  return getAxios("/statistics/GetCityBraainData?type=1")
+}

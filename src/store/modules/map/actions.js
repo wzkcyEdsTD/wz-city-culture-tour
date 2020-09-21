@@ -13,10 +13,59 @@ import {
   getWzAllMedicalInsuranceInstitution,
   getWzAllMedicalInsurancePayment
 } from "api/cityBrainAPI";
-import { getMedicalList } from "api/layerServerAPI";
+import { getMedicalList, getBayonetList, fetchWzOverviewData, fetchWzTrafficData, fetchTourData, fetchCultureData } from "api/layerServerAPI";
 
-//  设置全市概览数据
-export const SetWzAllData = async ({ commit }) => {
+//  获取全市总览数据
+export const SetWzOverviewData = async ({ commit, state }) => {
+  if (!Object.keys(state.WzOverviewData).length) {
+    const { result } = await fetchWzOverviewData();
+    commit(types.SET_WZ_OVERVIEW_dATA, result);
+  }
+}
+
+//  获取全市旅游数据
+export const SetWzTourData = async ({ commit, state }) => {
+  if (!Object.keys(state.WzTourData).length) {
+    const { result } = await fetchTourData();
+    const _result_ = {}
+    for (let key in result) {
+      _result_[key] = result[key].count
+    }
+    commit(types.SET_WZ_TOUR_DATA, _result_);
+  }
+}
+
+//  获取全市文化数据
+export const SetWzCultureData = async ({ commit, state }) => {
+  if (!Object.keys(state.WzCultureData).length) {
+    const { result } = await fetchCultureData();
+    const _result_ = {}
+    for (let key in result) {
+      _result_[key] = result[key].count || result[key].currentNum
+    }
+    commit(types.SET_WZ_CULTURE_DATA, _result_);
+  }
+}
+
+//  获取全市交通数据
+export const SetTrafficData = async ({ commit, state }) => {
+  if (!Object.keys(state.WzTrafficData).length) {
+    const { result } = await fetchWzTrafficData();
+    const _result_ = {};
+    for (let key in result) {
+      const obj = result[key];
+      let num = 0;
+      for (let i in obj) {
+        num += parseInt(obj[i]);
+      }
+      _result_[key] = (num / 10000).toFixed(2)
+    }
+    commit(types.SET_WZ_TRAFFIC_DATA, _result_);
+  }
+}
+
+//  获取全市医疗数据
+export const SetWzMedicalData = async ({ commit }) => {
   const outpatientCount = await getWzAllOutpatientCount();
   const designatedHospitals = await getWzAllDesignatedHospitals();
   const medicalInsuranceInstitution = await getWzAllMedicalInsuranceInstitution();
@@ -27,7 +76,7 @@ export const SetWzAllData = async ({ commit }) => {
   const medicalInsurancePaymentNum = eval(
     medicalInsurancePayment.data.map(v => parseFloat(v.je)).join("+")
   );
-  commit(types.SET_WZ_ALL_DATA, {
+  commit(types.SET_WZ_MEDICAL_DATA, {
     outpatientCount: outpatientCount.data.currentNum,
     designatedHospitals: designatedHospitalsNum,
     medicalInsuranceInstitution: medicalInsuranceInstitution.data.currentNum,
@@ -54,6 +103,40 @@ export const fetchMedicalList = async ({ commit }) => {
   const result = await getMedicalList();
   const res = result.result;
   commit(types.SET_MEDICAL_LIST, res);
+  commit(types.SET_INIT_DATA_LOADED, true)
+};
+
+/**
+ * 设置带空间参数的站点信息
+ * @param {*} param0
+ * @param {*} data
+ */
+export const setStationListWithGeometry = ({ commit }, data) => {
+  commit(types.SET_STATION_LIST_WITH_GEOMETRY, data);
+};
+
+//  设置站点数据
+export const fetchStationList = async ({ commit }) => {
+  const result = await getStationList();
+  const res = result.result;
+  commit(types.SET_STATION_LIST, res);
+  commit(types.SET_INIT_DATA_LOADED, true)
+};
+
+/**
+ * 设置带空间参数的卡口信息
+ * @param {*} param0
+ * @param {*} data
+ */
+export const setBayonetListWithGeometry = ({ commit }, data) => {
+  commit(types.SET_BAYONET_LIST_WITH_GEOMETRY, data);
+};
+
+//  设置卡口数据
+export const fetchBayonetList = async ({ commit }) => {
+  const result = await getBayonetList();
+  const res = result.result;
+  commit(types.SET_BAYONET_LIST, res);
   commit(types.SET_INIT_DATA_LOADED, true)
 };
 

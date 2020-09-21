@@ -49,6 +49,12 @@ export const ServiceUrl = {
   }
 };
 
+export const ExtraSourceURL = {
+  S1:
+    "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-S1/rest/realspace/datas/S1/config",
+};
+
+
 export const BimSourceURL = {
   SCENE_URL:
     "http://172.20.83.223:8098/iserver/services/3D-Placement_house_0728/rest/realspace",

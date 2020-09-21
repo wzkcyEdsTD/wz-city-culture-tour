@@ -1,19 +1,47 @@
 <template>
   <div class="target-wrapper">
     <span class="header">旅游信息</span>
-    <ul class="content">
-      <li class="item" v-for="(item,i) in [0,1,2,3]" :key="i">
-        <img class="icon hospital" src="/static/images/index/unknowns.png" />
-        <div class="right">
+    <ul class="content" v-if="Object.keys(WzTourData).length">
+      <li class="item">
+        <img src="/static/images/index/unknowns.png" />
+        <div>
           <div class="title">
-            unknown
-            <span class="small">(人)</span>
+            3A级景区村数量
+            <span class="small">(个)</span>
           </div>
           <div class="desc">
             温州全市 /
-            <span>当日</span>
+            <span>当月</span>
           </div>
-          <div class="number">-</div>
+          <div class="number">{{WzTourData['3A级景区村数量和分布']}}</div>
+        </div>
+      </li>
+      <li class="item">
+        <img src="/static/images/index/unknowns.png" />
+        <div>
+          <div class="title">
+            星级旅游饭店数量
+            <span class="small">(个)</span>
+          </div>
+          <div class="desc">
+            温州全市 /
+            <span>当月</span>
+          </div>
+          <div class="number">{{WzTourData.星级旅游饭店数量和分布}}</div>
+        </div>
+      </li>
+      <li class="item">
+        <img src="/static/images/index/unknowns.png" />
+        <div>
+          <div class="title">
+            非遗项目数量
+            <span class="small">(个)</span>
+          </div>
+          <div class="desc">
+            温州全市 /
+            <span>当月</span>
+          </div>
+          <div class="number">{{WzTourData.非遗项目数量和分布}}</div>
         </div>
       </li>
     </ul>
@@ -21,7 +49,24 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
+
 export default {
-  name: "tourIndex",
+  name: "trafficIndex",
+  computed: {
+    ...mapGetters("map", ["WzTourData"]),
+  },
+  async created() {
+    await this.fetchTourData();
+  },
+  methods: {
+    ...mapActions("map", ["SetWzTourData"]),
+    /**
+     * 概览数据
+     */
+    async fetchTourData() {
+      await this.SetWzTourData();
+    },
+  },
 };
 </script>
