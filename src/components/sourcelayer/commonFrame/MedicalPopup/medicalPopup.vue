@@ -35,7 +35,7 @@
                 </tr>
                 <tr>
                   <td>住院人数</td>
-                  <td>{{ item.extra_data['住院人数'] || '-' }}</td>
+                  <td>{{ item.extra_data['住院人次'] || '-' }}</td>
                 </tr>
               </tbody>
             </table>

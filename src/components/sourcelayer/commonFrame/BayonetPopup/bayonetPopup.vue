@@ -17,7 +17,7 @@
     >
       <div class="popup-tip-container">
         <div class="popup-tip-inner">
-          <div class="tip-name">{{ item.attributes.MC }}</div>
+          <div class="tip-name">{{ item.name }}</div>
           <div class="tip-num">
             <table border="0">
               <tbody>
@@ -123,7 +123,7 @@ export default {
         G_bayonetList.map((item, index) => {
           popList.push({
             id: item.id,
-            name: item.attributes.MC,
+            name: item.attributes.MC_DISPLAY,
             attributes: item.attributes,
             extra_data: item.extra_data,
             geometry: item.geometry,
