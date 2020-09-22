@@ -169,8 +169,8 @@ export default {
 <style lang="less" scoped>
 .rtmpVideo {
   .rtmpListFrame {
-    height: 400px;
-    width: 840px;
+    height: 550px;
+    width: 1150px;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -178,7 +178,7 @@ export default {
     background-size: 100% 100%;
     background-image: url("/static/images/common/rtmp-frame.png");
     box-sizing: border-box;
-    padding: 20px 34px 28px 34px;
+    padding: 26px 44px 12px 44px;
     z-index: 10;
     color: white;
     > header {
@@ -194,7 +194,7 @@ export default {
       }
       .close {
         position: absolute;
-        right: 30px;
+        right: 46px;
         top: 24px;
         width: 0.2rem;
         height: 0.2rem;
@@ -211,7 +211,7 @@ export default {
       }
     }
     .rtmpVideoContent {
-      height: 310px;
+      height: 460px;
       display: flex;
       > div {
         height: 100%;

@@ -13,7 +13,9 @@
             温州全市 /
             <span>当年</span>
           </div>
-          <div class="number">3076</div>
+          <div class="number">
+            <DynamicNum :value="3076" />
+          </div>
         </div>
       </li>
       <li class="item">
@@ -27,7 +29,9 @@
             温州全市 /
             <span>2019年</span>
           </div>
-          <div class="number">930</div>
+          <div class="number">
+            <DynamicNum :value="930" />
+          </div>
         </div>
       </li>
       <li class="item">
@@ -41,7 +45,9 @@
             温州全市 /
             <span>当月</span>
           </div>
-          <div class="number">{{WzOverviewData.固定资产投资累计增速.currentNum}}</div>
+          <div class="number">
+            <DynamicNum :value="WzOverviewData.固定资产投资累计增速.currentNum" />
+          </div>
         </div>
       </li>
       <li class="item">
@@ -55,7 +61,9 @@
             温州全市 /
             <span>当月</span>
           </div>
-          <div class="number">{{WzOverviewData.数字经济核心产业制造业增加值增速.currentNum}}</div>
+          <div class="number">
+            <DynamicNum :value="WzOverviewData.数字经济核心产业制造业增加值增速.currentNum" />
+          </div>
         </div>
       </li>
       <li class="item">
@@ -69,7 +77,9 @@
             温州全市 /
             <span>当月</span>
           </div>
-          <div class="number">{{WzOverviewData.社会消费品零售总额累计增速.currentNum}}</div>
+          <div class="number">
+            <DynamicNum :value="WzOverviewData.社会消费品零售总额累计增速.currentNum" />
+          </div>
         </div>
       </li>
       <li class="item">
@@ -83,7 +93,9 @@
             温州全市 /
             <span>当年</span>
           </div>
-          <div class="number">{{WzOverviewData.规上工业.entNum}}</div>
+          <div class="number">
+            <DynamicNum :value="WzOverviewData.规上工业.entNum" />
+          </div>
         </div>
       </li>
       <li class="item">
@@ -97,7 +109,9 @@
             温州全市 /
             <span>当日</span>
           </div>
-          <div class="number">{{WzOverviewData.规上工业.industryAddValue}}</div>
+          <div class="number">
+            <DynamicNum :value="WzOverviewData.规上工业.industryAddValue" />
+          </div>
         </div>
       </li>
       <li class="item">
@@ -111,7 +125,9 @@
             温州全市 /
             <span>当日</span>
           </div>
-          <div class="number">{{WzOverviewData.规上工业.electricity}}</div>
+          <div class="number">
+            <DynamicNum :value="WzOverviewData.规上工业.electricity" />
+          </div>
         </div>
       </li>
     </ul>
@@ -120,9 +136,11 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import DynamicNum from "./dynamicNum";
 
 export default {
   name: "cityIndex",
+  components: { DynamicNum },
   computed: {
     ...mapGetters("map", ["WzOverviewData"]),
   },

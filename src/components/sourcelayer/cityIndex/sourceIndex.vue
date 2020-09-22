@@ -13,7 +13,9 @@
             温州全市 /
             <span>当月</span>
           </div>
-          <div class="number">{{WzSourceData.万元GDP用水量}}</div>
+          <div class="number">
+            <DynamicNum :value="WzSourceData.万元GDP用水量" />
+          </div>
         </div>
       </li>
       <li class="item">
@@ -27,7 +29,9 @@
             温州全市 /
             <span>当月</span>
           </div>
-          <div class="number">{{WzSourceData.用水总量}}</div>
+          <div class="number">
+            <DynamicNum :value="WzSourceData.用水总量" />
+          </div>
         </div>
       </li>
       <li class="item">
@@ -41,7 +45,9 @@
             温州全市 /
             <span>当月</span>
           </div>
-          <div class="number">{{WzSourceData.水资源总量}}</div>
+          <div class="number">
+            <DynamicNum :value="WzSourceData.水资源总量" />
+          </div>
         </div>
       </li>
     </ul>
@@ -50,9 +56,11 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import DynamicNum from "./dynamicNum";
 
 export default {
   name: "trafficIndex",
+  components: { DynamicNum },
   computed: {
     ...mapGetters("map", ["WzSourceData"]),
   },

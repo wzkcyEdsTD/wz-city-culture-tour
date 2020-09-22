@@ -15,7 +15,7 @@
         </p>
       </div>
       <div class="imgs">
-        <img src="/static/images/common/cloud@2x.png" />
+        <img class="move" src="/static/images/common/cloud_@2x.png" />
         <br />
         <img src="/static/images/common/cloud-line.png" />
       </div>
@@ -160,15 +160,16 @@ export default {
     .texts {
       background-image: url("/static/images/common/cloud-frame@2x.png");
       background-size: 100% 100%;
-      padding: 10px 10px 4px 10px;
+      padding: 14px 10px 4px 10px;
       > header {
         color: #2acbfe;
         font-weight: bold;
+        font-size:1.2em;
         text-shadow: 3px 4px 4px #000000;
       }
       > p {
         font-weight: bold;
-        font-size: 1em;
+        font-size: 1.3em;
         color: #fff;
         line-height: 30px;
         text-shadow: 3px 4px 4px #000000;
@@ -182,7 +183,18 @@ export default {
     .imgs {
       text-align: center;
       > img:first-child {
-        width: 120px;
+        width: 140px;
+      }
+      .move {
+        animation: heart 1.3s ease-in-out 2.7s infinite alternate;
+      }
+      @keyframes heart {
+        from {
+          transform: translate(0, 0);
+        }
+        to {
+          transform: translate(0, 12px);
+        }
       }
     }
   }

@@ -13,7 +13,9 @@
             温州全市 /
             <span>当日</span>
           </div>
-          <div class="number">{{WzMedicalData.outpatientCount}}</div>
+          <div class="number">
+            <DynamicNum :value="WzMedicalData.outpatientCount" />
+          </div>
         </div>
       </li>
       <li class="item">
@@ -27,7 +29,9 @@
             温州全市 /
             <span>2020年7月</span>
           </div>
-          <div class="number">{{WzMedicalData.designatedHospitals}}</div>
+          <div class="number">
+            <DynamicNum :value="WzMedicalData.designatedHospitals" />
+          </div>
         </div>
       </li>
       <li class="item">
@@ -41,7 +45,9 @@
             温州全市 /
             <span>2020年</span>
           </div>
-          <div class="number">{{WzMedicalData.medicalInsuranceInstitution}}</div>
+          <div class="number">
+            <DynamicNum :value="WzMedicalData.medicalInsuranceInstitution" />
+          </div>
         </div>
       </li>
       <li class="item">
@@ -55,7 +61,9 @@
             温州全市 /
             <span>2020年8月</span>
           </div>
-          <div class="number">{{WzMedicalData.medicalInsurancePayment}}</div>
+          <div class="number">
+            <DynamicNum :value="WzMedicalData.medicalInsurancePayment" />
+          </div>
         </div>
       </li>
     </ul>
@@ -64,9 +72,11 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import DynamicNum from "./dynamicNum";
 
 export default {
   name: "medicalIndex",
+  components: { DynamicNum },
   computed: {
     ...mapGetters("map", ["WzMedicalData"]),
   },

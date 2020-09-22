@@ -13,7 +13,9 @@
             温州全市 /
             <span>当月</span>
           </div>
-          <div class="number">{{WzCultureData['博物馆（纪念馆）数量和分布']}}</div>
+          <div class="number">
+            <DynamicNum :value="WzCultureData['博物馆（纪念馆）数量和分布']" />
+          </div>
         </div>
       </li>
       <li class="item">
@@ -27,7 +29,9 @@
             温州全市 /
             <span>当月</span>
           </div>
-          <div class="number">{{WzCultureData.全市百名优秀体育指导员}}</div>
+          <div class="number">
+            <DynamicNum :value="WzCultureData.全市百名优秀体育指导员" />
+          </div>
         </div>
       </li>
       <li class="item">
@@ -41,7 +45,9 @@
             温州全市 /
             <span>当月</span>
           </div>
-          <div class="number">{{WzCultureData.社会体育指导员总人数}}</div>
+          <div class="number">
+            <DynamicNum :value="WzCultureData.社会体育指导员总人数" />
+          </div>
         </div>
       </li>
       <li class="item">
@@ -55,7 +61,9 @@
             温州全市 /
             <span>当月</span>
           </div>
-          <div class="number">{{WzCultureData.文化驿站数量和分布}}</div>
+          <div class="number">
+            <DynamicNum :value="WzCultureData.文化驿站数量和分布" />
+          </div>
         </div>
       </li>
     </ul>
@@ -64,9 +72,11 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import DynamicNum from "./dynamicNum";
 
 export default {
   name: "trafficIndex",
+  components: { DynamicNum },
   computed: {
     ...mapGetters("map", ["WzCultureData"]),
   },

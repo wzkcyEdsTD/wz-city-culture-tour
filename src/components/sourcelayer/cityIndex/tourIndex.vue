@@ -13,7 +13,9 @@
             温州全市 /
             <span>当月</span>
           </div>
-          <div class="number">{{WzTourData['3A级景区村数量和分布']}}</div>
+          <div class="number">
+            <DynamicNum :value="WzTourData['3A级景区村数量和分布']" />
+          </div>
         </div>
       </li>
       <li class="item">
@@ -27,7 +29,9 @@
             温州全市 /
             <span>当月</span>
           </div>
-          <div class="number">{{WzTourData.星级旅游饭店数量和分布}}</div>
+          <div class="number">
+            <DynamicNum :value="WzTourData.星级旅游饭店数量和分布" />
+          </div>
         </div>
       </li>
       <li class="item">
@@ -41,7 +45,9 @@
             温州全市 /
             <span>当月</span>
           </div>
-          <div class="number">{{WzTourData.非遗项目数量和分布}}</div>
+          <div class="number">
+            <DynamicNum :value="WzTourData.非遗项目数量和分布" />
+          </div>
         </div>
       </li>
     </ul>
@@ -50,9 +56,11 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import DynamicNum from "./dynamicNum";
 
 export default {
   name: "trafficIndex",
+  components: { DynamicNum },
   computed: {
     ...mapGetters("map", ["WzTourData"]),
   },

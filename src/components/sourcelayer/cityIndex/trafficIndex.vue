@@ -13,7 +13,9 @@
             温州全市 /
             <span>当月</span>
           </div>
-          <div class="number">{{WzTrafficData.高速收费站入口总量}}</div>
+          <div class="number">
+            <DynamicNum :value="WzTrafficData.高速收费站入口总量" />
+          </div>
         </div>
       </li>
       <li class="item">
@@ -27,7 +29,9 @@
             温州全市 /
             <span>当月</span>
           </div>
-          <div class="number">{{WzTrafficData.高速收费站出口总量}}</div>
+          <div class="number">
+            <DynamicNum :value="WzTrafficData.高速收费站出口总量" />
+          </div>
         </div>
       </li>
       <li class="item">
@@ -41,7 +45,9 @@
             温州全市 /
             <span>当月</span>
           </div>
-          <div class="number">{{WzTrafficData.高速公路收费站流量总量}}</div>
+          <div class="number">
+            <DynamicNum :value="WzTrafficData.高速公路收费站流量总量" />
+          </div>
         </div>
       </li>
       <li class="item">
@@ -55,7 +61,9 @@
             温州全市 /
             <span>当月</span>
           </div>
-          <div class="number">{{WzTrafficData.道路客运发客总量}}</div>
+          <div class="number">
+            <DynamicNum :value="WzTrafficData.道路客运发客总量" />
+          </div>
         </div>
       </li>
     </ul>
@@ -64,9 +72,11 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import DynamicNum from "./dynamicNum";
 
 export default {
   name: "trafficIndex",
+  components: { DynamicNum },
   computed: {
     ...mapGetters("map", ["WzTrafficData"]),
   },
