@@ -49,7 +49,7 @@
         <div>
           <div class="title">
             文化驿站数量和分布
-            <span class="small">(人)</span>
+            <span class="small">(个)</span>
           </div>
           <div class="desc">
             温州全市 /

@@ -7,13 +7,27 @@
         <div>
           <div class="title">
             地区GDP
-            <span class="small">(万元)</span>
+            <span class="small">(亿元)</span>
           </div>
           <div class="desc">
             温州全市 /
-            <span>当月</span>
+            <span>当年</span>
           </div>
-          <div class="number">-</div>
+          <div class="number">3076</div>
+        </div>
+      </li>
+      <li class="item">
+        <img src="/static/images/index/city/规上工业企业数.png" />
+        <div>
+          <div class="title">
+            全市人口
+            <span class="small">(万人)</span>
+          </div>
+          <div class="desc">
+            温州全市 /
+            <span>2019年</span>
+          </div>
+          <div class="number">930</div>
         </div>
       </li>
       <li class="item">

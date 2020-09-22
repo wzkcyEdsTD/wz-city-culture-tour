@@ -151,9 +151,19 @@ const TRAFFIC_TOPIC = [
 const KG_INFO = [
   {
     label: "控规信息",
-    url: `${SERVER_HOST}/map-KongGui_LuCheng/rest/maps/%E6%8E%A7%E8%A7%84%E4%B8%89%E5%8C%BA20200304%40172.20.83.196_swdata`
+    url: `${SERVER_HOST}/map-KongGui_LuCheng/rest/maps/%E6%8E%A7%E8%A7%84%E4%B8%89%E5%8C%BA20200304%40172.20.83.196_swdata`,
+    type: "image"
   }
 ];
+
+const CITY_TOPIC = [
+  {
+    label: "城市总览",
+    componentEvent: "cesium-3d-hub-event",
+    componentKey: "3d1",
+    type: 'model'
+  },
+]
 
 /**
  * 对应需要额外数据的点位
@@ -166,14 +176,13 @@ export const CESIUM_TREE_EXTRA_DATA_WITH_GEOMETRY = ["medicalListWithGeometry", 
 export const CESIUM_TREE_EXTRA_DATA = ["medicalList", "bayonetList", "stationList"];
 export const CESIUM_TREE_OPTION = [
   {
-    id: "控规信息",
-    label: "控规信息",
-    children: KG_INFO.map(v => {
+    id: "城市总览",
+    label: "城市总览",
+    children: CITY_TOPIC.map(v => {
       return {
         ...v,
         id: v.label,
         icon: v.label,
-        type: "image"
       };
     })
   },
@@ -238,13 +247,13 @@ export const CESIUM_TREE_OPTION = [
   {
     id: "基础设施",
     label: "基础设施",
-    children: BASIC_TOPIC.map(v => {
+    children: [...BASIC_TOPIC, ...KG_INFO].map(v => {
       return {
         ...v,
         id: v.label,
         icon: v.label,
-        url: SERVER_DEFAULT_DATA,
-        type: "mvt",
+        url: v.url || SERVER_DEFAULT_DATA,
+        type: v.type || "mvt",
         newdataset: `${SW_DATA_NAME}${v.dataset}`
       };
     })

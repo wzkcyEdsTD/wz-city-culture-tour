@@ -68,35 +68,35 @@ const indexPoints = [{
         "x": 120.6923,
         "y": 27.9936
     },
-    value: '-',
-    unit: '万元',
+    value: '394.4',
+    unit: '亿元',
     label: "一般公共预算收入"
 }, {
     geometry: {
         "x": 120.6985,
         "y": 27.9939
-    }, value: '-',
-    unit: '万元',
+    }, value: '553.3',
+    unit: '亿元',
     label: "规上工业增加值"
 }, {
     geometry: {
         "x": 120.6953,
         "y": 27.9979
-    }, value: '-',
-    unit: '万元',
-    label: "投资"
+    }, value: '4',
+    unit: '%',
+    label: "固定资产投资"
 }, {
     geometry: {
         "x": 120.6989,
         "y": 27.9995
-    }, value: '-',
-    unit: '万元',
+    }, value: '3076',
+    unit: '亿元',
     label: "地区GDP"
 }, {
     geometry: {
         "x": 120.6914,
         "y": 27.9984
-    }, value: '-',
+    }, value: '2.6',
     unit: 'CPI',
     label: "消费者物价指标"
 }]

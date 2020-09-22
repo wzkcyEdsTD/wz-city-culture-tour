@@ -23,15 +23,15 @@
               <tbody>
                 <tr>
                   <td>卡口类型</td>
-                  <td>{{ item.extra_data.category || '-' }}</td>
+                  <td style="color:#2fc25a;">{{ item.extra_data.category || '-' }}</td>
                 </tr>
                 <tr>
                   <td>卡口流量</td>
-                  <td>{{ item.extra_data.current_num || '-' }}</td>
+                  <td style="color:gold;">{{ item.extra_data.current_num || '-' }}</td>
                 </tr>
                 <tr>
                   <td>卡口状态</td>
-                  <td>{{ item.extra_data.status || '-' }}</td>
+                  <td style="color:#2acbfe;">{{ item.extra_data.status || '-' }}</td>
                 </tr>
               </tbody>
             </table>

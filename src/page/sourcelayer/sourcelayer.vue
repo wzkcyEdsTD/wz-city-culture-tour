@@ -36,7 +36,6 @@ export default {
     eventRegsiter() {
       this.$bus.$off("medical-message");
       this.$bus.$on("medical-message", async ({ layer }) => {
-        this.$refs.cesiumMap.isOverview = false;
         this.$nextTick(() => {
           this.$bus.$emit("check-hub", {
             key: layer.sourceName,

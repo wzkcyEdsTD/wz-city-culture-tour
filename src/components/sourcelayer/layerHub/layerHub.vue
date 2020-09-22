@@ -8,7 +8,7 @@
 -->
 <template>
   <div class="bottom-wrapper">
-    <div class="bottom-layers-container" v-show="forceTreeTopic.length">
+    <div class="bottom-layers-container" v-show="forceTreeLabel!='城市总览' && forceTreeTopic.length">
       <div class="swiper-buttons swiper-button-left"></div>
       <swiper ref="mySwiper" class="layers" :options="swiperOptions">
         <swiper-slide
@@ -41,7 +41,7 @@
     </div>
     <!-- extra Components -->
     <transition name="fade">
-      <KgLegend v-if="forceTreeLabel == '控规信息'" />
+      <KgLegend v-if="~forceTrueTopicLabels.indexOf('控规信息')" />
     </transition>
   </div>
 </template>
@@ -65,7 +65,7 @@ export default {
     return {
       //  底部树
       CESIUM_TREE_OPTION,
-      forceTreeLabel: "旅游专题",
+      forceTreeLabel: "城市总览",
       forceTreeTopic: [],
       //  资源选中层
       forceTrueTopicLabels: [],

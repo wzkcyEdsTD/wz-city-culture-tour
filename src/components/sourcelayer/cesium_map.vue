@@ -16,25 +16,25 @@
       <DetailPopup ref="detailPopup" />
     </div>
     <!-- 蒙板 -->
-    <div class="mapCover" v-show="isOverview" />
+    <!-- <div class="mapCover" v-show="isOverview" /> -->
     <!-- 功能组件 -->
     <div v-if="mapLoaded && validated">
       <CityIndex ref="totalTarget" />
       <Roulette />
       <NanTangModel v-if="showSubFrame == '3d1'" />
+      <Overview ref="overview" v-if="showSubHubFrame == '3d1'" />
       <TrafficSubwayModel v-if="showSubHubFrame == '3d2'" />
       <VideoCircle ref="videoCircle" />
       <RoadLine ref="roadline" />
       <InfoFrame ref="infoframe" v-show="isInfoFrame" />
+      <LayerHub v-if="initDataLoaded" />
       <transition name="fade">
         <div v-show="!isOverview">
           <RtmpVideo />
           <Population />
-          <LayerHub v-if="initDataLoaded" />
           <SearchBox ref="searchBox" />
         </div>
       </transition>
-      <Overview ref="overview" v-if="isOverview" />
     </div>
     <AuthFailPopup ref="authFailPopup" v-if="authFailshallPop" />
   </div>
@@ -75,11 +75,13 @@ export default {
       datalayer: undefined,
       isInfoFrame: false,
       authFailshallPop: false,
-      isOverview: true,
     };
   },
   computed: {
     ...mapGetters("map", ["initDataLoaded"]),
+    isOverview() {
+      return this.showSubHubFrame == "3d1";
+    },
   },
   components: {
     LayerHub,
@@ -107,9 +109,6 @@ export default {
       this.validate();
     });
     this.eventRegsiter();
-  },
-  watch: {
-    isOverview(n) {},
   },
   methods: {
     async validate() {

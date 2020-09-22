@@ -9,7 +9,16 @@
 <template>
   <div class="roulette-wrapper">
     <div class="forceImg" @click="this.changeOverview">
-      <img :src="`/static/images/common/roulette-${selectedValue}@2x.png`" />
+      <img :src="`/static/images/roulette/${selectedValue}.png`" />
+    </div>
+    <div class="roulette-btns">
+      <div @click="changeOverview(1)" />
+      <div />
+      <div @click="changeOverview(3)" />
+    </div>
+    <div class="roulette-bg">
+      <div class="future-bg" v-show="selectedValue=='future'"></div>
+      <div class="pass-bg" v-show="selectedValue=='pass'"></div>
     </div>
   </div>
 </template>
@@ -21,28 +30,22 @@ export default {
   data() {
     return {
       shallOverview: true,
-      lastIndex: "旅游专题",
+      selectedValue: "now",
     };
   },
-  computed: {
-    ...mapGetters("map", ["forceIndex"]),
-    selectedValue() {
-      return this.shallOverview ? "overview" : "source";
-    },
-  },
   methods: {
-    ...mapActions("map", ["SetForceIndex"]),
-    changeOverview() {
-      const toValue = !this.shallOverview;
-      this.shallOverview = toValue;
-      this.$parent.isOverview = !this.$parent.isOverview;
-      //  切换城市 记住上一次选项
-      if (toValue) {
-        this.lastIndex = this.forceIndex;
-        this.SetForceIndex("城市总览");
-      } else {
-        this.SetForceIndex(this.lastIndex);
-      }
+    changeOverview(index) {
+      const value =
+        this.selectedValue == "now"
+          ? index == 1
+            ? "future"
+            : "pass"
+          : this.selectedValue == (index == 1 ? "future" : "pass")
+          ? index == 1
+            ? "pass"
+            : "future"
+          : "now";
+      this.selectedValue = value;
     },
   },
 };
@@ -50,18 +53,49 @@ export default {
 
 <style scoped lang="less">
 .roulette-wrapper {
-  position: absolute;
-  top: 0vh;
-  right: 0vh;
-  height: 6.6vw;
-  z-index: 9;
-  cursor: pointer;
   > div {
     height: 100%;
   }
-  > .forceImg {
-    > img {
+  > .roulette-bg {
+    height: 0;
+    width: 0;
+    .future-bg {
+      background-image: url("/static/images/roulette/future-bg.png");
+    }
+    .pass-bg {
+      background-image: url("/static/images/roulette/pass-bg.png");
+    }
+    > div {
+      background-size: 100% 100%;
+      position: fixed;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 8;
+    }
+  }
+  > .roulette-btns {
+    position: absolute;
+    top: -56px;
+    right: 0px;
+    width: 250px;
+    z-index: 9;
+    > div {
+      width: 32%;
       height: 100%;
+      display: inline-block;
+      cursor: pointer;
+    }
+  }
+  > .forceImg {
+    position: absolute;
+    top: -56px;
+    right: 0px;
+    width: 250px;
+    z-index: 9;
+    > img {
+      width: 100%;
     }
   }
 }
