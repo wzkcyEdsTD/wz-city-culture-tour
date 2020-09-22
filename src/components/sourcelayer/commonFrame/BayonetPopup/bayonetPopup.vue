@@ -27,11 +27,11 @@
                 </tr>
                 <tr>
                   <td>卡口流量</td>
-                  <td style="color:gold;">{{ item.extra_data.current_num || '-' }}</td>
+                  <td :class="item.color">{{ item.extra_data.current_num || '-' }}</td>
                 </tr>
                 <tr>
                   <td>卡口状态</td>
-                  <td style="color:#2acbfe;">{{ item.extra_data.status || '-' }}</td>
+                  <td :class="item.color">{{ item.extra_data.status || '-' }}</td>
                 </tr>
               </tbody>
             </table>
@@ -126,6 +126,12 @@ export default {
             name: item.attributes.MC_DISPLAY,
             attributes: item.attributes,
             extra_data: item.extra_data,
+            color:
+              item.extra_data.status == "绿"
+                ? "green"
+                : item.extra_data.status == "红"
+                ? "red"
+                : "gold",
             geometry: item.geometry,
             x:
               item.pointToWindow.x -
@@ -282,6 +288,18 @@ export default {
     font-family: DIN;
     font-weight: 700;
     color: #2acbfe;
+  }
+
+  .green {
+    color: #2fc25a!important;
+  }
+
+  .gold {
+    color: gold!important;
+  }
+
+  .red {
+    color: rgb(255, 72, 72)!important;
   }
 
   .right-btns {
