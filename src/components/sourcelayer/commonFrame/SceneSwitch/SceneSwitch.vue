@@ -39,7 +39,7 @@ export default {
   position: absolute;
   width: 130px;
   top: 0;
-  left: 120px;
+  left: 130px;
   cursor: pointer;
   > * {
     vertical-align: middle;

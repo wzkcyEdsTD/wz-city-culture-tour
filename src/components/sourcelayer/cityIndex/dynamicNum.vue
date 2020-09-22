@@ -4,7 +4,7 @@
       v-if="value"
       :startVal="0"
       :endVal="value?parseFloat(value):0"
-      :duration="1000"
+      :duration="parseInt(Math.random(1)*600+900)"
       :autoplay="true"
       :decimals="2"
     />
