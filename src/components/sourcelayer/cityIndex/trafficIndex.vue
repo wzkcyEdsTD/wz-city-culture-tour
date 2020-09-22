@@ -53,7 +53,7 @@
           </div>
           <div class="desc">
             温州全市 /
-            <span>当夜</span>
+            <span>当月</span>
           </div>
           <div class="number">{{WzTrafficData.道路客运发客总量}}</div>
         </div>

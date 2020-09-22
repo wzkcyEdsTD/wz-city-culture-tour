@@ -67,7 +67,7 @@
           </div>
           <div class="desc">
             温州全市 /
-            <span>当夜</span>
+            <span>当月</span>
           </div>
           <div class="number">{{WzOverviewData.社会消费品零售总额累计增速.currentNum}}</div>
         </div>
