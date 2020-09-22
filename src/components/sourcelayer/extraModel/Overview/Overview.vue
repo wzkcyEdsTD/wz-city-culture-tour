@@ -15,7 +15,7 @@
         </p>
       </div>
       <div class="imgs">
-        <img src="/static/images/common/cloud.png" />
+        <img src="/static/images/common/cloud@2x.png" />
         <br />
         <img src="/static/images/common/cloud-line.png" />
       </div>
@@ -158,9 +158,9 @@ export default {
     left: 0;
     cursor: pointer;
     .texts {
-      // background-image: url("/static/images/common/cloud-frame@2x.png");
-      // background-size: 100% 100%;
-      // padding: 10px 0;
+      background-image: url("/static/images/common/cloud-frame@2x.png");
+      background-size: 100% 100%;
+      padding: 10px 10px 4px 10px;
       > header {
         color: #2acbfe;
         font-weight: bold;
@@ -181,6 +181,9 @@ export default {
     }
     .imgs {
       text-align: center;
+      > img:first-child {
+        width: 120px;
+      }
     }
   }
 }

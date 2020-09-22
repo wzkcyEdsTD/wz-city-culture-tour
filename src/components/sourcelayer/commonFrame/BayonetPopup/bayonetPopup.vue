@@ -59,11 +59,11 @@
           class="bayonet-ico"
           :src="`/static/images/common/${item.extra_data.category}-${item.extra_data.status}.png`"
         />
-        <img
+        <!-- <img
           class="bayonet-warn"
           v-if="item.extra_data.status=='红'"
           src="/static/images/common/warn@2x.png"
-        />
+        />-->
       </div>
     </div>
   </div>
