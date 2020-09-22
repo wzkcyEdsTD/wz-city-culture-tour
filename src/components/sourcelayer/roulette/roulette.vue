@@ -8,13 +8,13 @@
 -->
 <template>
   <div class="roulette-wrapper">
-    <div class="forceImg" @click="this.changeOverview">
+    <div class="forceImg">
       <img :src="`/static/images/roulette/${selectedValue}.png`" />
     </div>
     <div class="roulette-btns">
-      <div @click="changeOverview(1)" />
+      <div @click.prevent="changeOverview(1)" />
       <div />
-      <div @click="changeOverview(3)" />
+      <div @click.prevent="changeOverview(3)" />
     </div>
     <div class="roulette-bg">
       <div class="future-bg" v-show="selectedValue=='future'"></div>
@@ -78,8 +78,9 @@ export default {
   > .roulette-btns {
     position: absolute;
     top: -56px;
-    right: 0px;
+    right: 0;
     width: 250px;
+    height: 170px;
     z-index: 9;
     > div {
       width: 32%;
@@ -93,6 +94,7 @@ export default {
     top: -56px;
     right: 0px;
     width: 250px;
+    height: auto;
     z-index: 9;
     > img {
       width: 100%;
