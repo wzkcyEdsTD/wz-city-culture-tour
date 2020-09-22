@@ -23,7 +23,7 @@ const MEDICAL_TOPIC = [
 ];
 //  旅游专题
 const TOUR_TOPIC = [
-  { label: "百姓健身房", dataset: "百姓健身房" },
+  { label: "星级酒店", dataset: "XingJiJiuDian" },
   { label: "精品农家乐", dataset: "温州农家乐" },
   { label: "旅游景点", dataset: "永嘉旅游景点地图" },
   { label: "温州民宿", dataset: "温州民宿" },
@@ -36,7 +36,6 @@ const TOUR_TOPIC = [
   { label: "A级风景区", dataset: "AJiFengJingQu" },
   { label: "其他景点", dataset: "QiTaJingDIan" },
   { label: "星级旅行社", dataset: "XingJiLvXingShe" },
-  { label: "星级酒店", dataset: "XingJiJiuDian" },
   { label: "民宿客栈", dataset: "MinSuKeZhan" }
 ];
 
@@ -53,7 +52,8 @@ const CULTURE_TOPIC = [
   { label: "爱国义务教育基地", dataset: "爱国主义教育基地" },
   { label: "市区阅读", dataset: "温州市阅读" },
   { label: "文化礼堂", dataset: "文化礼堂" },
-  { label: "文化生活", dataset: "温州文化生活" }
+  { label: "文化生活", dataset: "温州文化生活" },
+  { label: "百姓健身房", dataset: "百姓健身房" },
 ];
 //  应急专题
 const EMERGENCY_TOPIC = [
@@ -81,13 +81,13 @@ const EMERGENCY_TOPIC = [
 //  农贸专题
 const SOURCE_TOPIC = [
   {
+    label: "农贸市场点",
+    dataset: "FarmersMarket_SiQu_P"
+  },
+  {
     label: "农贸市场面",
     polygon: true,
     dataset: "FarmersMarket_SiQu_M"
-  },
-  {
-    label: "农贸市场点",
-    dataset: "FarmersMarket_SiQu_P"
   },
   {
     label: "市场商场",
