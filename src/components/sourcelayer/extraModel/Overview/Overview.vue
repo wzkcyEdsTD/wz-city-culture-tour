@@ -158,6 +158,9 @@ export default {
     left: 0;
     cursor: pointer;
     .texts {
+      // background-image: url("/static/images/common/cloud-frame@2x.png");
+      // background-size: 100% 100%;
+      // padding: 10px 0;
       > header {
         color: #2acbfe;
         font-weight: bold;
