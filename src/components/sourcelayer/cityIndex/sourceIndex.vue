@@ -1,7 +1,7 @@
 <template>
   <div class="target-wrapper">
     <span class="header">资源数据</span>
-    <ul class="content" v-if="Object.keys(WzSourceData).length">
+    <ul class="content">
       <li class="item">
         <img src="/static/images/index/unknowns.png" />
         <div>

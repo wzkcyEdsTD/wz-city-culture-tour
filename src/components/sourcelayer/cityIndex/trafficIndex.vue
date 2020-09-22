@@ -1,7 +1,7 @@
 <template>
   <div class="target-wrapper">
     <span class="header">交通信息</span>
-    <ul class="content" v-if="Object.keys(WzTrafficData).length">
+    <ul class="content">
       <li class="item">
         <img src="/static/images/index/traffic/高速收费站入口总量.png" />
         <div>

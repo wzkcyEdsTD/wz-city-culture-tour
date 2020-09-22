@@ -1,7 +1,7 @@
 <template>
   <div class="target-wrapper">
     <span class="header">城市总览</span>
-    <ul class="content" v-if="Object.keys(WzOverviewData).length">
+    <ul class="content">
       <li class="item">
         <img src="/static/images/index/city/地区生产总值.png" />
         <div>

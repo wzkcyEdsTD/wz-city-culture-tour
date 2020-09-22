@@ -1,11 +1,15 @@
 <template>
-  <countTo
-    :startVal="0"
-    :endVal="value?parseFloat(value):0"
-    :duration="1000"
-    :autoplay="true"
-    :decimals="2"
-  />
+  <div>
+    <countTo
+      v-if="value"
+      :startVal="0"
+      :endVal="value?parseFloat(value):0"
+      :duration="1000"
+      :autoplay="true"
+      :decimals="2"
+    />
+    <span v-if="!value">-</span>
+  </div>
 </template>
 
 <script>

@@ -1,7 +1,7 @@
 <template>
   <div class="target-wrapper">
     <span class="header">旅游信息</span>
-    <ul class="content" v-if="Object.keys(WzTourData).length">
+    <ul class="content">
       <li class="item">
         <img src="/static/images/index/unknowns.png" />
         <div>
