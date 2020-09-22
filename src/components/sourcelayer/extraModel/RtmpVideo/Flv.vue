@@ -23,6 +23,7 @@ export default {
     },
   },
   beforeDestroy() {
+    this.video.dispose();
     this.video = undefined;
   },
   mounted() {
