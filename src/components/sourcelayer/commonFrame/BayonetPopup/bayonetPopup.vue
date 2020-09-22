@@ -212,8 +212,8 @@ export default {
     }
     > .bayonet-warn {
       position: absolute;
-      width: 100px;
-      bottom: -24px;
+      width: 70px;
+      bottom: 0px;
       left: 50%;
       transform: translateX(-44%);
     }
@@ -291,15 +291,15 @@ export default {
   }
 
   .green {
-    color: #2fc25a!important;
+    color: #2fc25a !important;
   }
 
   .gold {
-    color: gold!important;
+    color: gold !important;
   }
 
   .red {
-    color: rgb(255, 72, 72)!important;
+    color: rgb(255, 72, 72) !important;
   }
 
   .right-btns {

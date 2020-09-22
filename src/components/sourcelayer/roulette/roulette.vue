@@ -91,7 +91,7 @@ export default {
   }
   > .forceImg {
     position: absolute;
-    top: -56px;
+    top: 0px;
     right: 0px;
     width: 250px;
     height: auto;
