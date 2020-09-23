@@ -21,6 +21,12 @@
               :src="`/static/images/hub-ico/${item.icon}@2x.png`"
               @click="doForceTrueTopicLabels(item.id)"
             />
+            <!-- 先不用::after 伪类绑定 -->
+            <div
+              class="rings"
+              v-if="~forceTrueTopicLabels.indexOf(item.id)"
+              @click="doForceTrueTopicLabels(item.id)"
+            />
             <p>{{item.id}}</p>
           </div>
         </swiper-slide>
@@ -65,7 +71,7 @@ export default {
     return {
       //  底部树
       CESIUM_TREE_OPTION,
-      forceTreeLabel: "城市总览",
+      forceTreeLabel: "旅游专题",
       forceTreeTopic: [],
       //  资源选中层
       forceTrueTopicLabels: [],

@@ -209,22 +209,37 @@ export default {
         infoBox: false,
         selectionIndicator: false,
       });
+      window.earth = viewer;
+      viewer.scene.globe.depthTestAgainstTerrain = false;
       viewer.scene.debugShowFramesPerSecond = true;
       viewer.imageryLayers.get(0).show = false;
+      viewer.scene.skyAtmosphere.show = false;
       viewer.scene.globe.baseColor = new Cesium.Color.fromCssColorString(
         "rgba(13,24,45, 1)"
       );
+      //  大数据地图
       this.datalayer = viewer.imageryLayers.addImageryProvider(
         new Cesium.SuperMapImageryProvider({
           url: ServiceUrl.DataImage,
         })
       );
+      //  地图注记
       const mapMvt = viewer.scene.addVectorTilesMap({
         url: ServiceUrl.YJMVT,
         name: "mapMvt",
         viewer,
       });
-      window.earth = viewer;
+      //  重要地物注记
+      // const keyMvt = viewer.scene.addVectorTilesMap({
+      //   url: ServiceUrl.KEYMVT,
+      //   name: "keyMvt",
+      //   viewer,
+      // });
+      //  水面
+      window.earth.scene.addS3MTilesLayerByScp(ServiceUrl.RIVER, {
+        name: "RIVER",
+      });
+      //  白模叠加
       ServiceUrl.WZBaimo_OBJ.map(({ KEY, URL, FLOW }) => {
         const baimoPromise = viewer.scene.addS3MTilesLayerByScp(URL, {
           name: KEY,
@@ -255,16 +270,13 @@ export default {
                 Cesium.HypsometricSettingEnum.AnalysisRegionMode.ARM_ALL,
             };
           }
-
           // LAYER.visibleDistanceMax = 5000;
         });
       });
-
       // 移除缓冲圈
       $(".cesium-widget-credits").hide();
-      viewer.scene.globe.depthTestAgainstTerrain = false;
+
       this.cameraMove();
-      // this.addPointLight();
       fn && fn();
     },
     addPointLight() {

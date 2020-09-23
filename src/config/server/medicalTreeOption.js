@@ -200,7 +200,6 @@ export const CESIUM_TREE_OPTION = [
       };
     })
   },
-
   {
     id: "旅游专题",
     label: "旅游专题",

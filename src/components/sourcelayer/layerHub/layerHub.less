@@ -54,22 +54,8 @@
         padding: 0 6px;
         text-align: center;
         width: 12.5%;
-
-        img {
-          height: 40px;
-          filter: grayscale(100%);
-        }
-
-        p {
-          font-size: 0.8em;
-          color: #a8a8a8;
-          opacity: 0.8;
-          line-height: 24px;
-          display: block;
-          height: 24px;
-          width: 100%;
-          overflow: hidden;
-        }
+        position: relative;
+        margin-top: 6px;
 
         &.active {
           p {
@@ -80,7 +66,65 @@
           img {
             filter: grayscale(0%);
           }
+
+          .rings {
+            content: "";
+            width: 54px;
+            height: 54px;
+            display: block;
+            position: absolute;
+            top: -6px;
+            left: 23.6%;
+            transform: translateX(-50%);
+            background-image: url(/static/images/common/ring.png);
+            background-size: 100% 100%;
+            animation: turn 1s linear infinite;
+            pointer-events: auto;
+          }
+
+          @keyframes turn {
+            0% {
+              -webkit-transform: rotate(0deg);
+            }
+
+            25% {
+              -webkit-transform: rotate(90deg);
+            }
+
+            50% {
+              -webkit-transform: rotate(180deg);
+            }
+
+            75% {
+              -webkit-transform: rotate(270deg);
+            }
+
+            100% {
+              -webkit-transform: rotate(360deg);
+            }
+          }
         }
+
+        >div {
+          img {
+            height: 40px;
+            filter: grayscale(100%);
+          }
+
+          p {
+            font-size: 0.8em;
+            color: #a8a8a8;
+            opacity: 0.8;
+            line-height: 24px;
+            display: block;
+            height: 24px;
+            width: 100%;
+            overflow: hidden;
+          }
+
+
+        }
+
       }
     }
   }

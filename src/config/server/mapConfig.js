@@ -23,9 +23,9 @@ export const ServiceUrl = {
       KEY: 'WZBaimo_POINT_CENTER',
       URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-ShiZhengFuModel/rest/realspace/datas/ShiZhengFu_Model/config",
       FLOW: true
-    }
-  ]
-  ,
+    },
+  ],
+  RIVER: "https://ditu.wzcitybrain.com/iserver/services/3D-River_CityBrain/rest/realspace/datas/River_CityBrain/config",
   //  影像底图
   SWImage:
     "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-YX2019SW/rest/realspace/datas/YX_2019_SW",
@@ -37,7 +37,9 @@ export const ServiceUrl = {
     "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-DEMLC/rest/realspace/datas/DEM_LC",
   // mvt矢量服务
   YJMVT:
-    "https://ditu.wzcitybrain.com/iserver/services/map-mongodbMvt-SWmap/restjsr/v1/vectortile/maps/SW_map",
+    "https://ditu.wzcitybrain.com/iserver/services/map-mongodbMvt-Routesdata/restjsr/v1/vectortile/maps/Routes_data",
+  //  重要地物注记
+  KEYMVT: "https://ditu.wzcitybrain.com/iserver/services/map-mongodbMvt-ZhongYaoDiWu/restjsr/v1/vectortile/maps/ZhongYaoDiWu",
   //  全市区精模
   WZMODEL:
     "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-JMLC20121/rest/realspace/datas/JM_LC_2012_1/config",

@@ -102,9 +102,14 @@ export const treeDrawTool = (context, { result }, node, fields = []) => {
       id: `${item.attributes.SMID}@${node.icon}@${node.dataset}`,
       label: {
         text: item.attributes[node.withExtraKey] || item.attributes.NAME,
-        color: Cesium.Color.fromCssColorString("#fff"),
+        fillColor: Cesium.Color.WHITE,
+        outlineColor: Cesium.Color.BLACK,
         style: Cesium.LabelStyle.FILL_AND_OUTLINE,
         font: "10px",
+        scale: 1,
+        outlineWidth: 4,
+        showBackground: true,
+        backgroundColor: Cesium.Color(0.165, 0.165, 0.165, 0.1),
         distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 2000),
         pixelOffset: new Cesium.Cartesian2(0, -40),
         disableDepthTestDistance: Number.POSITIVE_INFINITY

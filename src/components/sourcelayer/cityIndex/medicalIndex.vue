@@ -14,7 +14,7 @@
             <span>当日</span>
           </div>
           <div class="number">
-            <DynamicNum :value="WzMedicalData.outpatientCount" />
+            <DynamicNum :value="WzMedicalData.outpatientCount" decimals="0" />
           </div>
         </div>
       </li>
@@ -30,7 +30,7 @@
             <span>2020年7月</span>
           </div>
           <div class="number">
-            <DynamicNum :value="WzMedicalData.designatedHospitals" />
+            <DynamicNum :value="WzMedicalData.designatedHospitals" decimals="0" />
           </div>
         </div>
       </li>
@@ -46,7 +46,7 @@
             <span>2020年</span>
           </div>
           <div class="number">
-            <DynamicNum :value="WzMedicalData.medicalInsuranceInstitution" />
+            <DynamicNum :value="WzMedicalData.medicalInsuranceInstitution" decimals="0" />
           </div>
         </div>
       </li>

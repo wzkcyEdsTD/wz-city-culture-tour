@@ -45,7 +45,7 @@
             温州全市 /
             <span>当月</span>
           </div>
-          <div class="number">
+          <div class="number" v-if="WzOverviewData.固定资产投资累计增速">
             <DynamicNum :value="WzOverviewData.固定资产投资累计增速.currentNum" />
           </div>
         </div>
@@ -61,7 +61,7 @@
             温州全市 /
             <span>当月</span>
           </div>
-          <div class="number">
+          <div class="number" v-if="WzOverviewData.数字经济核心产业制造业增加值增速">
             <DynamicNum :value="WzOverviewData.数字经济核心产业制造业增加值增速.currentNum" />
           </div>
         </div>
@@ -77,7 +77,7 @@
             温州全市 /
             <span>当月</span>
           </div>
-          <div class="number">
+          <div class="number" v-if="WzOverviewData.社会消费品零售总额累计增速">
             <DynamicNum :value="WzOverviewData.社会消费品零售总额累计增速.currentNum" />
           </div>
         </div>
@@ -93,8 +93,8 @@
             温州全市 /
             <span>当年</span>
           </div>
-          <div class="number">
-            <DynamicNum :value="WzOverviewData.规上工业.entNum" />
+          <div class="number" v-if="WzOverviewData.规上工业">
+            <DynamicNum :value="WzOverviewData.规上工业.entNum" decimals="0" />
           </div>
         </div>
       </li>
@@ -109,7 +109,7 @@
             温州全市 /
             <span>当日</span>
           </div>
-          <div class="number">
+          <div class="number" v-if="WzOverviewData.规上工业">
             <DynamicNum :value="WzOverviewData.规上工业.industryAddValue" />
           </div>
         </div>
@@ -125,7 +125,7 @@
             温州全市 /
             <span>当日</span>
           </div>
-          <div class="number">
+          <div class="number" v-if="WzOverviewData.规上工业">
             <DynamicNum :value="WzOverviewData.规上工业.electricity" />
           </div>
         </div>

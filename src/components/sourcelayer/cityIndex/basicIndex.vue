@@ -14,7 +14,10 @@
             <span>当月</span>
           </div>
           <div class="number">
-            <DynamicNum :value="WzBasicData['全市新建商品住宅可售（待售）套数、可售（待售）面积'].vendibilityTotal" />
+            <DynamicNum
+              :value="WzBasicData['全市新建商品住宅可售（待售）套数、可售（待售）面积'].vendibilityTotal"
+              decimals="0"
+            />
           </div>
         </div>
       </li>
@@ -46,7 +49,10 @@
             <span>当月</span>
           </div>
           <div class="number">
-            <DynamicNum :value="WzBasicData['全市每月存量商品住宅成交套数、成交面积、成交均价'].stockResidenceTotal" />
+            <DynamicNum
+              :value="WzBasicData['全市每月存量商品住宅成交套数、成交面积、成交均价'].stockResidenceTotal"
+              decimals="0"
+            />
           </div>
         </div>
       </li>

@@ -14,7 +14,7 @@
             <span>当月</span>
           </div>
           <div class="number">
-            <DynamicNum :value="WzCultureData['博物馆（纪念馆）数量和分布']" />
+            <DynamicNum :value="WzCultureData['博物馆（纪念馆）数量和分布']" decimals="0" />
           </div>
         </div>
       </li>
@@ -30,7 +30,7 @@
             <span>当月</span>
           </div>
           <div class="number">
-            <DynamicNum :value="WzCultureData.全市百名优秀体育指导员" />
+            <DynamicNum :value="WzCultureData.全市百名优秀体育指导员" decimals="0"/>
           </div>
         </div>
       </li>
@@ -46,7 +46,7 @@
             <span>当月</span>
           </div>
           <div class="number">
-            <DynamicNum :value="WzCultureData.社会体育指导员总人数" />
+            <DynamicNum :value="WzCultureData.社会体育指导员总人数" decimals="0" />
           </div>
         </div>
       </li>
@@ -62,7 +62,7 @@
             <span>当月</span>
           </div>
           <div class="number">
-            <DynamicNum :value="WzCultureData.文化驿站数量和分布" />
+            <DynamicNum :value="WzCultureData.文化驿站数量和分布" decimals="0" />
           </div>
         </div>
       </li>

@@ -14,7 +14,7 @@
             <span>当月</span>
           </div>
           <div class="number">
-            <DynamicNum :value="WzTourData['3A级景区村数量和分布']" />
+            <DynamicNum :value="WzTourData['3A级景区村数量和分布']" decimals="0" />
           </div>
         </div>
       </li>
@@ -30,7 +30,7 @@
             <span>当月</span>
           </div>
           <div class="number">
-            <DynamicNum :value="WzTourData.星级旅游饭店数量和分布" />
+            <DynamicNum :value="WzTourData.星级旅游饭店数量和分布" decimals="0" />
           </div>
         </div>
       </li>
@@ -46,7 +46,7 @@
             <span>当月</span>
           </div>
           <div class="number">
-            <DynamicNum :value="WzTourData.非遗项目数量和分布" />
+            <DynamicNum :value="WzTourData.非遗项目数量和分布" decimals="0" />
           </div>
         </div>
       </li>

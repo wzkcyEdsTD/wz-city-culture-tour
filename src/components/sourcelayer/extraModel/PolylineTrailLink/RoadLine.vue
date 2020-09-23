@@ -22,10 +22,11 @@ export default {
     };
   },
   async mounted() {
+    this.eventRegsiter();
     // this.drawWall();
     this.addDynamicLine();
     // this.addHaloLine();
-    this.eventRegsiter();
+    this.changeSkyBox("night");
   },
   beforeDestroy() {
     window.earth.scene.bloomEffect.show = false;
@@ -35,10 +36,31 @@ export default {
     eventRegsiter() {
       const that = this;
       window.earth.scene.bloomEffect.show = true;
+      window.defaultSkyBox = window.earth.scene.skyBox;
       this.$bus.$on("cesium-3d-switch", ({ value }) => {
         const _LAYER_ = window.earth.scene.layers.find("baimo");
         window.earth.scene.bloomEffect.show = !value ? false : true;
+        this.changeSkyBox(!value ? "day" : "night");
       });
+    },
+    /**
+     * 切换天空盒子
+     * @param {string} boxType day night
+     */
+    changeSkyBox(boxType) {
+      window.earth.scene.skyBox =
+        boxType == "day"
+          ? new Cesium.SkyBox({
+              sources: {
+                positiveX: "/static/images/skyBox/day/posx.png",
+                negativeX: "/static/images/skyBox/day/negx.png",
+                positiveY: "/static/images/skyBox/day/posy1.png",
+                negativeY: "/static/images/skyBox/day/negy1.png",
+                positiveZ: "/static/images/skyBox/day/negz1.png",
+                negativeZ: "/static/images/skyBox/day/posz1.png",
+              },
+            })
+          : window.defaultSkyBox;
     },
     //  相机移动
     cameraMove() {

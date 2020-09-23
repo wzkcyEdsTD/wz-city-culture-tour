@@ -6,7 +6,7 @@
       :endVal="value?parseFloat(value):0"
       :duration="parseInt(Math.random(1)*600+900)"
       :autoplay="true"
-      :decimals="2"
+      :decimals="decimals||decimals==0?parseInt(decimals):2"
     />
     <span v-if="!value">-</span>
   </div>
@@ -18,6 +18,6 @@ import countTo from "vue-count-to";
 export default {
   name: "dynamicNum",
   components: { countTo },
-  props: ["value"],
+  props: ["value", "decimals"],
 };
 </script>
