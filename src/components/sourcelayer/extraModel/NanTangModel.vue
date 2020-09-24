@@ -14,11 +14,7 @@
 const Cesium = window.Cesium;
 import { ServiceUrl } from "config/server/mapConfig";
 import { mapGetters, mapActions } from "vuex";
-const { BUILDING, OTHERS } = ServiceUrl.SCENE_WZMODEL;
-const LAYERS = [
-  { name: "BUILDING", url: BUILDING },
-  { name: "OTHERS", url: OTHERS },
-];
+const LAYERS = ServiceUrl.SCENE_WZMODEL;
 export default {
   data() {
     return {
@@ -39,40 +35,25 @@ export default {
       const that = this;
       this.$bus.$emit("cesium-3d-switch", { value: false });
     },
-    //  相机移动
-    cameraMove() {
-      window.earth.scene.camera.setView({
-        destination: {
-          x: -2872784.3979956135,
-          y: 4845208.573054629,
-          z: 2993662.234962943,
-        },
-        orientation: {
-          heading: 0.0030737118735766344,
-          pitch: -0.582106282953041,
-          roll: 0,
-        },
-      });
-    },
     //  初始化BIM场景
     initBimScene(fn) {
-      const _LAYER_ = window.earth.scene.layers.find(LAYERS[0].name);
+      const _LAYER_ = window.earth.scene.layers.find(LAYERS[0].key);
       if (_LAYER_) {
         LAYERS.map((v) => {
-          const V_LAYER = window.earth.scene.layers.find(v.name);
+          const V_LAYER = window.earth.scene.layers.find(v.key);
           V_LAYER.visible = true;
         });
       } else {
         const PROMISES = LAYERS.map((v) => {
           return window.earth.scene.addS3MTilesLayerByScp(v.url, {
-            name: v.name,
+            name: v.key,
           });
         });
         Cesium.when(PROMISES[PROMISES.length - 1], () => {
-          const otherLayer = window.earth.scene.layers.find("OTHERS");
-          otherLayer.visibleDistanceMax = 1400;
-          const buildLayer = window.earth.scene.layers.find("BUILDING");
-          buildLayer.visibleDistanceMax = 5000;
+          LAYERS.map((v) => {
+            const V_LAYER = window.earth.scene.layers.find(v.key);
+            V_LAYER.visibleDistanceMax = v.d || 1400;
+          });
         });
       }
     },
@@ -84,7 +65,7 @@ export default {
     //  清除BIM模块
     clearNanTangModel() {
       LAYERS.map((v) => {
-        const V_LAYER = window.earth.scene.layers.find(v.name);
+        const V_LAYER = window.earth.scene.layers.find(v.key);
         V_LAYER.visible = false;
       });
     },
