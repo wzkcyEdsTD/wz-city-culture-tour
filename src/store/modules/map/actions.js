@@ -13,13 +13,14 @@ import {
   getWzAllMedicalInsuranceInstitution,
   getWzAllMedicalInsurancePayment
 } from "api/cityBrainAPI";
-import { getMedicalList, getBayonetList, fetchWzOverviewData, fetchWzTrafficData, fetchTourData, fetchCultureData, fetchSourceData, fetchBasicData } from "api/layerServerAPI";
+import { getMedicalList, getBayonetList, getStationList, fetchWzOverviewData, fetchWzTrafficData, fetchTourData, fetchCultureData, fetchSourceData, fetchBasicData, fetchWzPeopleData } from "api/layerServerAPI";
 
 //  获取全市总览数据
 export const SetWzOverviewData = async ({ commit, state }) => {
   if (!Object.keys(state.WzOverviewData).length) {
     const { result } = await fetchWzOverviewData();
-    commit(types.SET_WZ_OVERVIEW_dATA, result);
+    const peopleResponse = await fetchWzPeopleData();
+    commit(types.SET_WZ_OVERVIEW_dATA, { ...result, people: peopleResponse.result["常住人口登记——总数"].currentNum / 10000 || '-' });
   }
 }
 
@@ -47,7 +48,6 @@ export const SetWzSourceData = async ({ commit, state }) => {
 export const SetWzBasicData = async ({ commit, state }) => {
   if (!Object.keys(state.WzBasicData).length) {
     const { result } = await fetchBasicData();
-    console.log(result);
     commit(types.SET_WZ_BASIC_DATA, result);
   }
 }
@@ -117,9 +117,8 @@ export const setMedicalListWithGeometry = ({ commit }, data) => {
 
 //  设置医院数据
 export const fetchMedicalList = async ({ commit }) => {
-  const result = await getMedicalList();
-  const res = result.result;
-  commit(types.SET_MEDICAL_LIST, res);
+  const { result } = await getMedicalList();
+  commit(types.SET_MEDICAL_LIST, result);
   commit(types.SET_INIT_DATA_LOADED, true)
 };
 
@@ -132,11 +131,24 @@ export const setStationListWithGeometry = ({ commit }, data) => {
   commit(types.SET_STATION_LIST_WITH_GEOMETRY, data);
 };
 
-//  设置站点数据
+//  设置卡口数据
 export const fetchStationList = async ({ commit }) => {
-  const result = await getStationList();
-  const res = result.result;
-  commit(types.SET_STATION_LIST, res);
+  const { result } = await getStationList();
+  const flowData = {};
+  for (let key in result["进出站客流排行(出站)"]) {
+    const obj = result["进出站客流排行(出站)"][key];
+    const _k_ = obj.stationName;
+    !flowData[_k_] && (flowData[_k_] = { in: 0, out: 0 });
+    flowData[_k_].out += parseInt(obj.passengerNum);
+  }
+  for (let key in result["进出站客流排行(进站)"]) {
+    const obj = result["进出站客流排行(进站)"][key];
+    const _k_ = obj.stationName;
+    !flowData[_k_] && (flowData[_k_] = { in: 0, out: 0 });
+    flowData[_k_].in += parseInt(obj.passengerNum);
+  }
+  console.log(flowData)
+  commit(types.SET_STATION_LIST, flowData);
   commit(types.SET_INIT_DATA_LOADED, true)
 };
 
@@ -151,9 +163,8 @@ export const setBayonetListWithGeometry = ({ commit }, data) => {
 
 //  设置卡口数据
 export const fetchBayonetList = async ({ commit }) => {
-  const result = await getBayonetList();
-  const res = result.result;
-  commit(types.SET_BAYONET_LIST, res);
+  const { result } = await getBayonetList();
+  commit(types.SET_BAYONET_LIST, result);
   commit(types.SET_INIT_DATA_LOADED, true)
 };
 

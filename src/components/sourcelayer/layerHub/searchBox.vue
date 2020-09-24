@@ -71,7 +71,7 @@ import {
   CESIUM_TREE_EXTRA_DATA,
   CESIUM_TREE_EXTRA_DATA_WITH_GEOMETRY,
   SET_CESIUM_TREE_EXTRA_DATA_WITH_GEOMETRY,
-} from "config/server/medicalTreeOption";
+} from "config/server/sourceTreeOption";
 const Cesium = window.Cesium;
 
 export default {

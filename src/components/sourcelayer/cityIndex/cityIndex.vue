@@ -29,8 +29,8 @@
             温州全市 /
             <span>2019年</span>
           </div>
-          <div class="number">
-            <DynamicNum :value="930" />
+          <div class="number" v-if="WzOverviewData.people">
+            <DynamicNum :value="WzOverviewData.people" />
           </div>
         </div>
       </li>
@@ -46,12 +46,16 @@
             <span>当月</span>
           </div>
           <div class="number" v-if="WzOverviewData.固定资产投资累计增速">
-            <DynamicNum :value="WzOverviewData.固定资产投资累计增速.currentNum" />
+            <DynamicNum
+              :value="WzOverviewData.固定资产投资累计增速.currentNum"
+            />
           </div>
         </div>
       </li>
       <li class="item">
-        <img src="/static/images/index/city/数字经济核心产业制造业增加值增速.png" />
+        <img
+          src="/static/images/index/city/数字经济核心产业制造业增加值增速.png"
+        />
         <div>
           <div class="title">
             数字经济核心产业制造业增加值增速
@@ -61,8 +65,15 @@
             温州全市 /
             <span>当月</span>
           </div>
-          <div class="number" v-if="WzOverviewData.数字经济核心产业制造业增加值增速">
-            <DynamicNum :value="WzOverviewData.数字经济核心产业制造业增加值增速.currentNum" />
+          <div
+            class="number"
+            v-if="WzOverviewData.数字经济核心产业制造业增加值增速"
+          >
+            <DynamicNum
+              :value="
+                WzOverviewData.数字经济核心产业制造业增加值增速.currentNum
+              "
+            />
           </div>
         </div>
       </li>
@@ -78,7 +89,9 @@
             <span>当月</span>
           </div>
           <div class="number" v-if="WzOverviewData.社会消费品零售总额累计增速">
-            <DynamicNum :value="WzOverviewData.社会消费品零售总额累计增速.currentNum" />
+            <DynamicNum
+              :value="WzOverviewData.社会消费品零售总额累计增速.currentNum"
+            />
           </div>
         </div>
       </li>

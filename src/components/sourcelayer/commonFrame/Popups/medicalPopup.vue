@@ -13,11 +13,13 @@
       :key="index"
       :id="`trackPopUpContent_${index}`"
       class="leaflet-popup-medical"
-      :style="{transform:`translate3d(${item.x}px,${item.y+4}px, 0)`}"
+      :style="{ transform: `translate3d(${item.x}px,${item.y + 10}px, 0)` }"
     >
       <div class="popup-tip-container">
         <div class="popup-tip-inner">
-          <div class="tip-name" @click="showDetail(item)">{{ item.shortname }}</div>
+          <div class="tip-name" @click="showDetail(item)">
+            {{ item.shortname }}
+          </div>
           <div class="tip-num">
             <table border="0">
               <tbody>
@@ -27,15 +29,15 @@
                 </tr>
                 <tr>
                   <td>发热人数</td>
-                  <td>{{ item.extra_data['发热病人'] || '-' }}</td>
+                  <td>{{ item.extra_data["发热病人"] || "-" }}</td>
                 </tr>
                 <tr>
                   <td>门诊人次</td>
-                  <td>{{ item.extra_data['实时门诊人次'] || '-' }}</td>
+                  <td>{{ item.extra_data["实时门诊人次"] || "-" }}</td>
                 </tr>
                 <tr>
                   <td>住院人数</td>
-                  <td>{{ item.extra_data['住院人次'] || '-' }}</td>
+                  <td>{{ item.extra_data["住院人次"] || "-" }}</td>
                 </tr>
               </tbody>
             </table>
@@ -48,10 +50,13 @@
         <div class="around-people" v-if="bufferHash[item.id]">
           <img src="/static/images/common/frameline@2x.png" />
           <div>
-            <header>周边500米实时人口</header>
+            <header>周边实时人口</header>
             <div>
-              <p>{{bufferHash[item.id].task_time}}</p>
-              <p>{{`人数：${bufferHash[item.id].data || '-'}人`}}</p>
+              <p>范围：500米</p>
+              <strong>{{
+                `人数：${bufferHash[item.id].data || "-"}人`
+              }}</strong>
+              <p>时间：{{ bufferHash[item.id].task_time }}</p>
             </div>
           </div>
         </div>
@@ -63,7 +68,7 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 export default {
-  name : "medicalPopup",
+  name: "medicalPopup",
   data() {
     return {
       shallPop: false,
@@ -196,6 +201,7 @@ export default {
 </script>
 
 <style lang="less">
+@import url("./aroundPeople.less");
 .leaflet-popup-medical {
   position: absolute;
   text-align: center;
@@ -304,43 +310,6 @@ export default {
     background-image: url("/static/images/common/population.png");
     background-size: 100% 100%;
     background-repeat: no-repeat;
-  }
-}
-
-.around-people {
-  height: 0px;
-  > img {
-    width: 350px;
-    height: 70px;
-    position: absolute;
-    right: 90px;
-    bottom: 10px;
-  }
-  > div {
-    position: absolute;
-    width: 170px;
-    height: 70px;
-    left: -240px;
-    bottom: 10px;
-    box-sizing: border-box;
-    padding: 2px 8px;
-    background: url("/static/images/common/people-frame.png");
-    background-size: 100% 100%;
-    // background: linear-gradient(to bottom, #2287f1 0%, rgba(0, 0, 0, 0.2) 50%);
-    > header {
-      width: 100%;
-      height: 24px;
-      line-height: 24px;
-      color: #fff;
-      font-size: 0.9em;
-      text-align: left;
-    }
-    > div {
-      color: #cbcbcb;
-      text-align: left;
-      font-size: 0.8em;
-      line-height: 20px;
-    }
   }
 }
 </style>

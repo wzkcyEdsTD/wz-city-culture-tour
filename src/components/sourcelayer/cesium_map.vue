@@ -14,6 +14,7 @@
       <BayonetPopup ref="bayonetPopup" />
       <MedicalPopup ref="medicalPopup" />
       <DetailPopup ref="detailPopup" />
+      <StationPopup ref="stationPopup" />
     </div>
     <!-- 蒙板 -->
     <!-- <div class="mapCover" v-show="isOverview" /> -->
@@ -50,9 +51,10 @@ import Roulette from "./roulette/roulette";
 import NanTangModel from "./extraModel/NanTangModel";
 import TrafficSubwayModel from "./extraModel/TrafficSubwayModel";
 import InfoFrame from "./commonFrame/InfoFrame/InfoFrame";
-import MedicalPopup from "./commonFrame/MedicalPopup/medicalPopup";
-import BayonetPopup from "./commonFrame/BayonetPopup/bayonetPopup";
-import DetailPopup from "./commonFrame/DetailPopup/DetailPopup";
+import MedicalPopup from "./commonFrame/Popups/medicalPopup";
+import BayonetPopup from "./commonFrame/Popups/bayonetPopup";
+import StationPopup from "./commonFrame/Popups/stationPopup";
+import DetailPopup from "./commonFrame/Popups/DetailPopup";
 import RtmpVideo from "./extraModel/RtmpVideo/RtmpVideo";
 import Population from "./extraModel/Population/Population";
 import RoadLine from "./extraModel/PolylineTrailLink/RoadLine";
@@ -93,6 +95,7 @@ export default {
     InfoFrame,
     MedicalPopup,
     BayonetPopup,
+    StationPopup,
     DetailPopup,
     RtmpVideo,
     Population,
@@ -127,13 +130,17 @@ export default {
           !Object.keys(this.$refs).length
         )
           return;
-        //  *****[medicalList] 医疗点位***** 暂不判断是否在屏幕内 有bug
-        if (this.$refs.medicalPopup && this.$refs.medicalPopup.fixPopup) {
+        //  *****[medicalList] 医疗点位*****
+        if (this.$refs.medicalPopup) {
           this.$refs.medicalPopup.fixPopup();
         }
-        //  *****[bayonetList] 医疗点位***** 暂不判断是否在屏幕内 有bug
-        if (this.$refs.bayonetPopup && this.$refs.bayonetPopup.fixPopup) {
+        //  *****[bayonetList] 卡口点位*****
+        if (this.$refs.bayonetPopup) {
           this.$refs.bayonetPopup.fixPopup();
+        }
+        //  *****[stationList] 站点点位*****
+        if (this.$refs.stationPopup) {
+          this.$refs.stationPopup.fixPopup();
         }
         //  *****[indexPoints]  城市总览指标*****
         if (this.isOverview && this.$refs.overview.indexPoints) {

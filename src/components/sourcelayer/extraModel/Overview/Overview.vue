@@ -49,17 +49,18 @@ export default {
       fixIndexPoints: [],
     };
   },
-  mounted() {
-    this.eventRegsiter();
+  created() {
     // this.createEntityCollection();
     // this.initLines();
-    this.cameraMove(this.CenterPoint);
     setTimeout(() => {
       this.initOverview();
     }, 1000);
-    setTimeout(() => {
-      this.initLineScan();
-    }, 2000);
+    this.cameraMove(this.CenterPoint);
+    //  开启扫描
+    // this.initLineScan();
+  },
+  mounted() {
+    this.eventRegsiter();
   },
   beforeDestroy() {
     clearInterval(this.cameraTimer);
@@ -67,7 +68,7 @@ export default {
     //  开启鼠标事件
     this.screenSpaceCameraController(true);
     //  关闭线扫描
-    this.removeLineScan();
+    // this.removeLineScan();
     this.cameraMove(this.CenterPoint);
   },
   methods: {

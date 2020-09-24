@@ -13,7 +13,7 @@
       :key="index"
       :id="`trackPopUpContent_${index}`"
       class="leaflet-popup-bayonet"
-      :style="{transform:`translate3d(${item.x}px,${item.y+4}px, 0)`}"
+      :style="{ transform: `translate3d(${item.x}px,${item.y + 10}px, 0)` }"
     >
       <div class="popup-tip-container">
         <div class="popup-tip-inner">
@@ -23,15 +23,21 @@
               <tbody>
                 <tr>
                   <td>卡口类型</td>
-                  <td style="color:#2fc25a;">{{ item.extra_data.category || '-' }}</td>
+                  <td style="color: #2fc25a">
+                    {{ item.extra_data.category || "-" }}
+                  </td>
                 </tr>
                 <tr>
                   <td>卡口流量</td>
-                  <td :class="item.color">{{ item.extra_data.current_num || '-' }}</td>
+                  <td :class="item.color">
+                    {{ item.extra_data.current_num || "-" }}
+                  </td>
                 </tr>
                 <tr>
                   <td>卡口状态</td>
-                  <td :class="item.color">{{ item.extra_data.status || '-' }}</td>
+                  <td :class="item.color">
+                    {{ item.extra_data.status || "-" }}
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -44,10 +50,11 @@
         <div class="around-people" v-if="bufferHash[item.id]">
           <img src="/static/images/common/frameline@2x.png" />
           <div>
-            <header>周边500米实时人口</header>
+            <header>周边实时人口</header>
             <div>
-              <p>{{bufferHash[item.id].task_time}}</p>
-              <p>{{`人数：${bufferHash[item.id].data || '-'}人`}}</p>
+              <p>范围：500米</p>
+              <strong>{{ bufferHash[item.id].task_time }}</strong>
+              <p>{{ `人数：${bufferHash[item.id].data || "-"}人` }}</p>
             </div>
           </div>
         </div>
@@ -193,6 +200,7 @@ export default {
 </script>
 
 <style lang="less">
+@import url("./aroundPeople.less");
 .leaflet-popup-bayonet {
   position: fixed;
   text-align: center;
@@ -246,18 +254,6 @@ export default {
     text-shadow: 0 2px 2px #000;
     display: flex;
     align-items: center;
-  }
-
-  .tip-name::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    right: -1px;
-    transform: translate(0, -50%);
-    height: 100%;
-    width: 1px;
-    background-color: #fff;
-    opacity: 0.43;
   }
 
   .tip-num {
@@ -332,43 +328,6 @@ export default {
     background-image: url("/static/images/common/population.png");
     background-size: 100% 100%;
     background-repeat: no-repeat;
-  }
-}
-
-.around-people {
-  height: 0px;
-  > img {
-    width: 350px;
-    height: 70px;
-    position: absolute;
-    right: 90px;
-    bottom: 10px;
-  }
-  > div {
-    position: absolute;
-    width: 170px;
-    height: 70px;
-    left: -240px;
-    bottom: 10px;
-    box-sizing: border-box;
-    padding: 2px 8px;
-    background: url("/static/images/common/people-frame.png");
-    background-size: 100% 100%;
-    // background: linear-gradient(to bottom, #2287f1 0%, rgba(0, 0, 0, 0.2) 50%);
-    > header {
-      width: 100%;
-      height: 24px;
-      line-height: 24px;
-      color: #fff;
-      font-size: 0.9em;
-      text-align: left;
-    }
-    > div {
-      color: #cbcbcb;
-      text-align: left;
-      font-size: 0.8em;
-      line-height: 20px;
-    }
   }
 }
 </style>

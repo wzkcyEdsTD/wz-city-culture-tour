@@ -51,10 +51,24 @@ export const getBayonetList = () => {
 };
 
 /**
+ * 获取站点各类数据
+ */
+export const getStationList = () => {
+  return getWzKindsData(9);
+};
+
+/**
  * 获取全市总览数据
  */
 export const fetchWzOverviewData = () => {
   return getWzKindsData(4)
+}
+
+/**
+ * 获取全市人口数据
+ */
+export const fetchWzPeopleData = () => {
+  return getWzKindsData(10)
 }
 
 /**

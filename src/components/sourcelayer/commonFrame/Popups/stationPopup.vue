@@ -1,0 +1,242 @@
+<!--
+ * @Author: eds
+ * @Date: 2020-08-12 14:32:09
+ * @LastEditTime: 2020-09-03 21:24:20
+ * @LastEditors: eds
+ * @Description:
+ * @FilePath: \wz-city-culture-tour\src\components\sourcelayer\commonFrame\stationPopup.vue
+-->
+<template>
+  <div id="trackPopUp" v-if="shallPop">
+    <div
+      v-for="(item, index) in popList"
+      :key="index"
+      :id="`trackPopUpContent_${index}`"
+      class="leaflet-popup-station"
+      :style="{ transform: `translate3d(${item.x}px,${item.y+10}px, 0)` }"
+    >
+      <div class="popup-tip-container">
+        <div class="popup-tip-inner">
+          <div class="tip-name">铁路站点</div>
+          <div class="tip-num">
+            <p>{{ item.name }}</p>
+            <table border="0">
+              <tbody>
+                <tr>
+                  <td>进站流量</td>
+                  <td>
+                    <p>{{ item.extra_data.in || "-" }}人</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>出站流量</td>
+                  <td :class="item.color">
+                    <p>{{ item.extra_data.out || "-" }}人</p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import { mapGetters, mapActions } from "vuex";
+export default {
+  name: "stationPopup",
+  data() {
+    return {
+      shallPop: false,
+      popList: [],
+    };
+  },
+  computed: {
+    ...mapGetters("map", ["stationListWithGeometry"]),
+  },
+  async created() {
+    await this.fetchStationList();
+  },
+  async mounted() {
+    this.eventRegsiter();
+  },
+  methods: {
+    ...mapActions("map", ["fetchStationList"]),
+    eventRegsiter() {},
+    fixPopup() {
+      const stationList = this.stationListWithGeometry;
+      if (stationList && stationList.length) {
+        const G_stationList = [];
+        stationList.map((item) => {
+          if (item.geometry) {
+            const { x, y } = item.geometry;
+            const pointToWindow = Cesium.SceneTransforms.wgs84ToWindowCoordinates(
+              window.earth.scene,
+              Cesium.Cartesian3.fromDegrees(x, y, 0)
+            );
+            pointToWindow && G_stationList.push({ ...item, pointToWindow });
+          }
+        });
+        this.doPopup(G_stationList);
+      } else {
+        this.doPopup([]);
+      }
+    },
+    doPopup(G_stationList) {
+      const popList = [];
+      if (G_stationList.length) {
+        G_stationList.map((item, index) => {
+          popList.push({
+            id: item.id,
+            name: item.attributes.NAME,
+            attributes: item.attributes,
+            extra_data: item.extra_data,
+            geometry: item.geometry,
+            x:
+              item.pointToWindow.x -
+              ($(`#trackPopUpContent_${index}`).width() || 0) / 2,
+            y:
+              item.pointToWindow.y -
+              ($(`#trackPopUpContent_${index}`).height() || 0),
+          });
+        });
+        this.popList = popList;
+        !this.shallPop &&
+          this.$nextTick(() => {
+            this.shallPop = true;
+          });
+      } else {
+        this.shallPop && this.closePopup();
+      }
+    },
+
+    closePopup() {
+      this.$bus.$emit("cesium-3d-population-circle", { doDraw: false });
+      this.shallPop = false;
+    },
+  },
+};
+</script>
+
+<style lang="less">
+@import url("./aroundPeople.less");
+.leaflet-popup-station {
+  position: fixed;
+  text-align: center;
+  top: -20px;
+  left: 0;
+  cursor: pointer;
+  .main-body {
+    width: 100%;
+    height: 0;
+    > .station-ico {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      bottom: 0px;
+      left: 50%;
+      transform: translateX(-32%);
+    }
+    > .station-warn {
+      position: absolute;
+      width: 70px;
+      bottom: 0px;
+      left: 50%;
+      transform: translateX(-44%);
+    }
+  }
+  .popup-tip-container {
+    width: 230px;
+    height: 200px;
+    background-image: url("/static/images/common/station-frame@2x.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+  }
+
+  .popup-tip-inner {
+    height: 112px;
+    display: flex;
+    color: #fff;
+  }
+
+  .tip-name {
+    width: 40px;
+    box-sizing: border-box;
+    writing-mode: vertical-lr;
+    letter-spacing: -0.34em;
+    height: 100%;
+    line-height: 17px;
+    padding: 20px 0 10px 12px;
+    position: relative;
+    font-family: YouSheBiaoTiHei;
+    font-size: 18px;
+    text-shadow: 0 2px 2px #000;
+    display: flex;
+    align-items: center;
+  }
+
+  .tip-num {
+    flex: 1;
+    box-sizing: border-box;
+    padding: 20px 6px 6px 8px;
+  }
+
+  .tip-num > p {
+    font-family: YouSheBiaoTiHei;
+    font-size: 20px;
+    text-shadow: 0 2px 2px #000;
+    text-align: left;
+    &::before {
+      content: url("/static/images/icons/bus.png");
+    }
+  }
+
+  .tip-num table {
+    height: 62px;
+    border-collapse: separate;
+    border-spacing: 0px 5px;
+    font-size: 10px;
+    width: 100%;
+  }
+
+  .tip-num table tbody tr td {
+    font-family: PingFang;
+  }
+
+  .tip-num table tbody tr td:first-child {
+    width: 70px;
+    font-weight: bolder;
+    vertical-align: middle;
+    line-height: 25px;
+  }
+
+  .tip-num table tbody tr td:last-child {
+    vertical-align: middle;
+    font-family: DIN;
+    font-weight: 700;
+    color: #2acbfe;
+    font-size: 1.4em;
+    line-height: 25px;
+  }
+
+  .tip-num table tbody tr:first-child td {
+    &:first-child::before {
+      content: url("/static/images/icons/station-in.png");
+    }
+    &:last-child {
+      color: rgb(82, 255, 47);
+    }
+  }
+
+  .tip-num table tbody tr:last-child td {
+    &:first-child::before {
+      content: url("/static/images/icons/station-out.png");
+    }
+    &:last-child {
+      color: #fcce26;
+    }
+  }
+}
+</style>

@@ -4,7 +4,7 @@
  * @LastEditTime: 2020-09-15 10:45:53
  * @LastEditors: eds
  * @Description:
- * @FilePath: \wz-city-culture-tour\src\config\server\medicalTreeOption.js
+ * @FilePath: \wz-city-culture-tour\src\config\server\sourceTreeOption.js
  */
 const SERVER_HOST = "https://ditu.wzcitybrain.com/iserver/services";
 const SW_DATA = "/data-SW_DATA/rest/data";
@@ -144,7 +144,7 @@ const TRAFFIC_TOPIC = [
     withExtraData: "stationList",
     withExtraDataGeometry: "stationListWithGeometry",
     saveExtraDataByGeometry: "setStationListWithGeometry",
-    withExtraKey: "MC",
+    withExtraKey: "NAME",
   }
 ];
 //  控规专题
