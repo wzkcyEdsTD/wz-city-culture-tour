@@ -247,8 +247,15 @@ export default {
       //   viewer,
       // });
       //  水面
-      window.earth.scene.addS3MTilesLayerByScp(ServiceUrl.RIVER, {
-        name: "RIVER",
+      const riverPromise = window.earth.scene.addS3MTilesLayerByScp(
+        ServiceUrl.RIVER,
+        {
+          name: "RIVER",
+        }
+      );
+      Cesium.when(riverPromise, async ([forceLayer, ...oLayer]) => {
+        window.earth.scene.layers.find("RIVER").style3D.bottomAltitude = 1;
+        window.earth.scene.layers.find("RIVER").refresh();
       });
       //  白模叠加
       ServiceUrl.WZBaimo_OBJ.map(({ KEY, URL, FLOW }) => {
