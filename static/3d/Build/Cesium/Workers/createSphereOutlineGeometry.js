@@ -20,7 +20,7 @@
  * Portions licensed separately.
  * See https://github.com/AnalyticalGraphicsInc/cesium/blob/master/LICENSE.md for full licensing details.
  */
-define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-52d9479f', './BoundingSphere-ab31357a', './RuntimeError-7c184ac0', './WebGLConstants-4c11ee5f', './ComponentDatatype-919a7463', './GeometryAttribute-758ae3c6', './PrimitiveType-97893bc7', './FeatureDetection-bac17d71', './Transforms-7f7cdb70', './GeometryAttributes-1c7ce91d', './IndexDatatype-18a8cae6', './GeometryOffsetAttribute-c9accdb9', './EllipsoidOutlineGeometry-9ef720bb'], function (when, Check, _Math, Cartesian2, BoundingSphere, RuntimeError, WebGLConstants, ComponentDatatype, GeometryAttribute, PrimitiveType, FeatureDetection, Transforms, GeometryAttributes, IndexDatatype, GeometryOffsetAttribute, EllipsoidOutlineGeometry) { 'use strict';
+define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographic-fe4be337', './Cartesian4-5af5bb24', './Cartesian2-85064f09', './BoundingSphere-8f8a682c', './RuntimeError-ba10bc3e', './WebGLConstants-4c11ee5f', './ComponentDatatype-5862616f', './GeometryAttribute-06d31d45', './PrimitiveType-97893bc7', './FeatureDetection-7bd32c34', './Transforms-0f9bf2ea', './buildModuleUrl-9d43158d', './GeometryAttributes-aacecde6', './IndexDatatype-9435b55f', './GeometryOffsetAttribute-ca302482', './EllipsoidOutlineGeometry-3b665f27'], function (when, Check, _Math, Cartographic, Cartesian4, Cartesian2, BoundingSphere, RuntimeError, WebGLConstants, ComponentDatatype, GeometryAttribute, PrimitiveType, FeatureDetection, Transforms, buildModuleUrl, GeometryAttributes, IndexDatatype, GeometryOffsetAttribute, EllipsoidOutlineGeometry) { 'use strict';
 
     /**
          * A description of the outline of a sphere.
@@ -48,7 +48,7 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
          */
         function SphereOutlineGeometry(options) {
             var radius = when.defaultValue(options.radius, 1.0);
-            var radii = new Cartesian2.Cartesian3(radius, radius, radius);
+            var radii = new Cartographic.Cartesian3(radius, radius, radius);
             var ellipsoidOptions = {
                     radii: radii,
                     stackPartitions: options.stackPartitions,
@@ -86,7 +86,7 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
         var scratchEllipsoidGeometry = new EllipsoidOutlineGeometry.EllipsoidOutlineGeometry();
         var scratchOptions = {
             radius : undefined,
-            radii : new Cartesian2.Cartesian3(),
+            radii : new Cartographic.Cartesian3(),
             stackPartitions : undefined,
             slicePartitions : undefined,
             subdivisions : undefined
@@ -111,7 +111,7 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
                 return new SphereOutlineGeometry(scratchOptions);
             }
 
-            Cartesian2.Cartesian3.clone(ellipsoidGeometry._radii, scratchOptions.radii);
+            Cartographic.Cartesian3.clone(ellipsoidGeometry._radii, scratchOptions.radii);
             result._ellipsoidGeometry = new EllipsoidOutlineGeometry.EllipsoidOutlineGeometry(scratchOptions);
             return result;
         };

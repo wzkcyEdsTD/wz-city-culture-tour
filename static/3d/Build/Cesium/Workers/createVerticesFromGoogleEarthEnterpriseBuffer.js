@@ -20,7 +20,7 @@
  * Portions licensed separately.
  * See https://github.com/AnalyticalGraphicsInc/cesium/blob/master/LICENSE.md for full licensing details.
  */
-define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-52d9479f', './BoundingSphere-ab31357a', './RuntimeError-7c184ac0', './WebGLConstants-4c11ee5f', './ComponentDatatype-919a7463', './FeatureDetection-bac17d71', './Transforms-7f7cdb70', './AttributeCompression-4a5b893f', './IntersectionTests-afd4a13d', './Plane-68b37818', './WebMercatorProjection-65629b9f', './createTaskProcessorWorker', './EllipsoidTangentPlane-f5357d2c', './OrientedBoundingBox-8a446a45', './TerrainEncoding-f6db33b5'], function (when, Check, _Math, Cartesian2, BoundingSphere, RuntimeError, WebGLConstants, ComponentDatatype, FeatureDetection, Transforms, AttributeCompression, IntersectionTests, Plane, WebMercatorProjection, createTaskProcessorWorker, EllipsoidTangentPlane, OrientedBoundingBox, TerrainEncoding) { 'use strict';
+define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographic-fe4be337', './Cartesian4-5af5bb24', './createTaskProcessorWorker', './Cartesian2-85064f09', './BoundingSphere-8f8a682c', './RuntimeError-ba10bc3e', './WebGLConstants-4c11ee5f', './ComponentDatatype-5862616f', './FeatureDetection-7bd32c34', './Transforms-0f9bf2ea', './buildModuleUrl-9d43158d', './AttributeCompression-84a90a13', './IntersectionTests-ca40c01c', './Plane-b1361c67', './WebMercatorProjection-80c70558', './EllipsoidTangentPlane-3eaf39f7', './OrientedBoundingBox-64cb80e5', './TerrainEncoding-a807a704'], function (when, Check, _Math, Cartographic, Cartesian4, createTaskProcessorWorker, Cartesian2, BoundingSphere, RuntimeError, WebGLConstants, ComponentDatatype, FeatureDetection, Transforms, buildModuleUrl, AttributeCompression, IntersectionTests, Plane, WebMercatorProjection, EllipsoidTangentPlane, OrientedBoundingBox, TerrainEncoding) { 'use strict';
 
     var sizeOfUint16 = Uint16Array.BYTES_PER_ELEMENT;
         var sizeOfInt32 = Int32Array.BYTES_PER_ELEMENT;
@@ -71,10 +71,10 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
             };
         }
 
-        var scratchCartographic = new Cartesian2.Cartographic();
-        var scratchCartesian = new Cartesian2.Cartesian3();
-        var minimumScratch = new Cartesian2.Cartesian3();
-        var maximumScratch = new Cartesian2.Cartesian3();
+        var scratchCartographic = new Cartographic.Cartographic();
+        var scratchCartesian = new Cartographic.Cartesian3();
+        var minimumScratch = new Cartographic.Cartesian3();
+        var maximumScratch = new Cartographic.Cartesian3();
         var matrix4Scratch = new BoundingSphere.Matrix4();
 
         function processBuffer(buffer, relativeToCenter, ellipsoid, rectangle, nativeRectangle, exaggeration, skirtHeight, includeWebMercatorT, negativeAltitudeExponentBias, negativeElevationThreshold) {
@@ -240,9 +240,9 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
                     // Is it along a quad border - if so check if already exists and use that index
                     if (indexOfEpsilon(quadBorderLongitudes, longitude) !== -1 ||
                         indexOfEpsilon(quadBorderLatitudes, latitude) !== -1) {
-                        var index = indexOfEpsilon(quadBorderPoints, scratchCartographic, Cartesian2.Cartographic);
+                        var index = indexOfEpsilon(quadBorderPoints, scratchCartographic, Cartographic.Cartographic);
                         if (index === -1) {
-                            quadBorderPoints.push(Cartesian2.Cartographic.clone(scratchCartographic));
+                            quadBorderPoints.push(Cartographic.Cartographic.clone(scratchCartographic));
                             quadBorderIndices.push(pointOffset);
                         } else {
                             indicesMapping[i] = quadBorderIndices[index];
@@ -254,22 +254,22 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
                     if (Math.abs(longitude - geographicWest) < halfStepX) {
                         westBorder.push({
                             index : pointOffset,
-                            cartographic : Cartesian2.Cartographic.clone(scratchCartographic)
+                            cartographic : Cartographic.Cartographic.clone(scratchCartographic)
                         });
                     } else if (Math.abs(longitude - geographicEast) < halfStepX) {
                         eastBorder.push({
                             index : pointOffset,
-                            cartographic : Cartesian2.Cartographic.clone(scratchCartographic)
+                            cartographic : Cartographic.Cartographic.clone(scratchCartographic)
                         });
                     } else if (Math.abs(latitude - geographicSouth) < halfStepY) {
                         southBorder.push({
                             index : pointOffset,
-                            cartographic : Cartesian2.Cartographic.clone(scratchCartographic)
+                            cartographic : Cartographic.Cartographic.clone(scratchCartographic)
                         });
                     } else if (Math.abs(latitude - geographicNorth) < halfStepY) {
                         northBorder.push({
                             index : pointOffset,
-                            cartographic : Cartesian2.Cartographic.clone(scratchCartographic)
+                            cartographic : Cartographic.Cartographic.clone(scratchCartographic)
                         });
                     }
 
@@ -286,8 +286,8 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
 
                     BoundingSphere.Matrix4.multiplyByPoint(toENU, pos, scratchCartesian);
 
-                    Cartesian2.Cartesian3.minimumByComponent(scratchCartesian, minimum, minimum);
-                    Cartesian2.Cartesian3.maximumByComponent(scratchCartesian, maximum, maximum);
+                    Cartographic.Cartesian3.minimumByComponent(scratchCartesian, minimum, minimum);
+                    Cartographic.Cartesian3.maximumByComponent(scratchCartesian, maximum, maximum);
 
                     var u = (longitude - geographicWest) / (geographicEast - geographicWest);
                     u = _Math.CesiumMath.clamp(u, 0.0, 1.0);
@@ -430,7 +430,7 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
                 var height = borderCartographic.height - skirtOptions.skirtHeight;
                 skirtOptions.hMin = Math.min(skirtOptions.hMin, height);
 
-                Cartesian2.Cartographic.fromRadians(longitude, latitude, height, scratchCartographic);
+                Cartographic.Cartographic.fromRadians(longitude, latitude, height, scratchCartographic);
 
                 // Adjust sides to angle out
                 if (eastOrWest) {
@@ -459,8 +459,8 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
 
                 var minimum = skirtOptions.minimum;
                 var maximum = skirtOptions.maximum;
-                Cartesian2.Cartesian3.minimumByComponent(scratchCartesian, minimum, minimum);
-                Cartesian2.Cartesian3.maximumByComponent(scratchCartesian, maximum, maximum);
+                Cartographic.Cartesian3.minimumByComponent(scratchCartesian, minimum, minimum);
+                Cartographic.Cartesian3.maximumByComponent(scratchCartesian, maximum, maximum);
 
                 var lastBorderPoint = skirtOptions.lastBorderPoint;
                 if (when.defined(lastBorderPoint)) {

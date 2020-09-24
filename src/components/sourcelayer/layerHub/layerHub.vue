@@ -71,7 +71,7 @@ export default {
     return {
       //  底部树
       CESIUM_TREE_OPTION,
-      forceTreeLabel: "旅游专题",
+      forceTreeLabel: "城市总览",
       forceTreeTopic: [],
       //  资源选中层
       forceTrueTopicLabels: [],

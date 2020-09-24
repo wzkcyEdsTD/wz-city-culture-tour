@@ -20,13 +20,13 @@
  * Portions licensed separately.
  * See https://github.com/AnalyticalGraphicsInc/cesium/blob/master/LICENSE.md for full licensing details.
  */
-define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-52d9479f', './BoundingSphere-ab31357a', './RuntimeError-7c184ac0', './WebGLConstants-4c11ee5f', './ComponentDatatype-919a7463', './GeometryAttribute-758ae3c6', './PrimitiveType-97893bc7', './FeatureDetection-bac17d71', './Transforms-7f7cdb70', './GeometryAttributes-1c7ce91d', './IndexDatatype-18a8cae6', './GeometryOffsetAttribute-c9accdb9', './EllipseGeometryLibrary-9bba75a1', './EllipseOutlineGeometry-4a51336b'], function (when, Check, _Math, Cartesian2, BoundingSphere, RuntimeError, WebGLConstants, ComponentDatatype, GeometryAttribute, PrimitiveType, FeatureDetection, Transforms, GeometryAttributes, IndexDatatype, GeometryOffsetAttribute, EllipseGeometryLibrary, EllipseOutlineGeometry) { 'use strict';
+define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographic-fe4be337', './Cartesian4-5af5bb24', './Cartesian2-85064f09', './BoundingSphere-8f8a682c', './RuntimeError-ba10bc3e', './WebGLConstants-4c11ee5f', './ComponentDatatype-5862616f', './GeometryAttribute-06d31d45', './PrimitiveType-97893bc7', './FeatureDetection-7bd32c34', './Transforms-0f9bf2ea', './buildModuleUrl-9d43158d', './GeometryAttributes-aacecde6', './IndexDatatype-9435b55f', './GeometryOffsetAttribute-ca302482', './EllipseGeometryLibrary-64aa83bc', './EllipseOutlineGeometry-97b517b6'], function (when, Check, _Math, Cartographic, Cartesian4, Cartesian2, BoundingSphere, RuntimeError, WebGLConstants, ComponentDatatype, GeometryAttribute, PrimitiveType, FeatureDetection, Transforms, buildModuleUrl, GeometryAttributes, IndexDatatype, GeometryOffsetAttribute, EllipseGeometryLibrary, EllipseOutlineGeometry) { 'use strict';
 
     function createEllipseOutlineGeometry(ellipseGeometry, offset) {
         if (when.defined(offset)) {
             ellipseGeometry = EllipseOutlineGeometry.EllipseOutlineGeometry.unpack(ellipseGeometry, offset);
         }
-        ellipseGeometry._center = Cartesian2.Cartesian3.clone(ellipseGeometry._center);
+        ellipseGeometry._center = Cartographic.Cartesian3.clone(ellipseGeometry._center);
         ellipseGeometry._ellipsoid = Cartesian2.Ellipsoid.clone(ellipseGeometry._ellipsoid);
         return EllipseOutlineGeometry.EllipseOutlineGeometry.createGeometry(ellipseGeometry);
     }

@@ -56,7 +56,7 @@ export default {
       id,
       { lng, lat } = {},
       radius = 500,
-      period = 2.0
+      period = 3.0
     ) {
       if (!doScan) return (window.earth.scene.scanEffect.show = false);
       window.earth.scene.scanEffect.show = true;
@@ -64,15 +64,10 @@ export default {
       window.earth.scene.scanEffect.centerPostion = new Cesium.Cartesian3.fromDegrees(
         lng,
         lat,
-        30
+        20
       );
       window.earth.scene.scanEffect.speed = radius / period;
-      window.earth.scene.scanEffect.period = 2.0;
-      window.earth.scene.scanEffect.color = Cesium.Color.WHITE;
-      window.earth.scene.colorCorrection.saturation = 3.9;
-      window.earth.scene.colorCorrection.brightness = 0.8;
-      window.earth.scene.colorCorrection.contrast = 1.0;
-      window.earth.scene.colorCorrection.hue = 0.0;
+      window.earth.scene.scanEffect.period = period;
     },
     /**
      * 画缓冲区

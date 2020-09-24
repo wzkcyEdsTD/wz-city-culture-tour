@@ -20,7 +20,7 @@
  * Portions licensed separately.
  * See https://github.com/AnalyticalGraphicsInc/cesium/blob/master/LICENSE.md for full licensing details.
  */
-define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-52d9479f', './BoundingSphere-ab31357a', './RuntimeError-7c184ac0', './WebGLConstants-4c11ee5f', './ComponentDatatype-919a7463', './GeometryAttribute-758ae3c6', './PrimitiveType-97893bc7', './FeatureDetection-bac17d71', './Transforms-7f7cdb70', './GeometryAttributes-1c7ce91d', './Plane-68b37818', './VertexFormat-7f136973', './FrustumGeometry-5ffc8c28'], function (when, Check, _Math, Cartesian2, BoundingSphere, RuntimeError, WebGLConstants, ComponentDatatype, GeometryAttribute, PrimitiveType, FeatureDetection, Transforms, GeometryAttributes, Plane, VertexFormat, FrustumGeometry) { 'use strict';
+define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographic-fe4be337', './Cartesian4-5af5bb24', './Cartesian2-85064f09', './BoundingSphere-8f8a682c', './RuntimeError-ba10bc3e', './WebGLConstants-4c11ee5f', './ComponentDatatype-5862616f', './GeometryAttribute-06d31d45', './PrimitiveType-97893bc7', './FeatureDetection-7bd32c34', './Transforms-0f9bf2ea', './buildModuleUrl-9d43158d', './GeometryAttributes-aacecde6', './Plane-b1361c67', './VertexFormat-fe4db402', './FrustumGeometry-d00272d7'], function (when, Check, _Math, Cartographic, Cartesian4, Cartesian2, BoundingSphere, RuntimeError, WebGLConstants, ComponentDatatype, GeometryAttribute, PrimitiveType, FeatureDetection, Transforms, buildModuleUrl, GeometryAttributes, Plane, VertexFormat, FrustumGeometry) { 'use strict';
 
     var PERSPECTIVE = 0;
         var ORTHOGRAPHIC = 1;
@@ -65,7 +65,7 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
 
             this._frustumType = frustumType;
             this._frustum = frustum.clone();
-            this._origin = Cartesian2.Cartesian3.clone(origin);
+            this._origin = Cartographic.Cartesian3.clone(origin);
             this._orientation = Transforms.Quaternion.clone(orientation);
             this._drawNearPlane = drawNearPlane;
             this._workerName = 'createFrustumOutlineGeometry';
@@ -74,7 +74,7 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
              * The number of elements used to pack the object into an array.
              * @type {Number}
              */
-            this.packedLength = 2 + frustumPackedLength + Cartesian2.Cartesian3.packedLength + Transforms.Quaternion.packedLength;
+            this.packedLength = 2 + frustumPackedLength + Cartographic.Cartesian3.packedLength + Transforms.Quaternion.packedLength;
         }
 
         /**
@@ -107,8 +107,8 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
                 startingIndex += FrustumGeometry.OrthographicFrustum.packedLength;
             }
 
-            Cartesian2.Cartesian3.pack(value._origin, array, startingIndex);
-            startingIndex += Cartesian2.Cartesian3.packedLength;
+            Cartographic.Cartesian3.pack(value._origin, array, startingIndex);
+            startingIndex += Cartographic.Cartesian3.packedLength;
             Transforms.Quaternion.pack(value._orientation, array, startingIndex);
             startingIndex += Transforms.Quaternion.packedLength;
             array[startingIndex] = value._drawNearPlane ? 1.0 : 0.0;
@@ -119,7 +119,7 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
         var scratchPackPerspective = new FrustumGeometry.PerspectiveFrustum();
         var scratchPackOrthographic = new FrustumGeometry.OrthographicFrustum();
         var scratchPackQuaternion = new Transforms.Quaternion();
-        var scratchPackorigin = new Cartesian2.Cartesian3();
+        var scratchPackorigin = new Cartographic.Cartesian3();
 
         /**
          * Retrieves an instance from a packed array.
@@ -146,8 +146,8 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
                 startingIndex += FrustumGeometry.OrthographicFrustum.packedLength;
             }
 
-            var origin = Cartesian2.Cartesian3.unpack(array, startingIndex, scratchPackorigin);
-            startingIndex += Cartesian2.Cartesian3.packedLength;
+            var origin = Cartographic.Cartesian3.unpack(array, startingIndex, scratchPackorigin);
+            startingIndex += Cartographic.Cartesian3.packedLength;
             var orientation = Transforms.Quaternion.unpack(array, startingIndex, scratchPackQuaternion);
             startingIndex += Transforms.Quaternion.packedLength;
             var drawNearPlane = array[startingIndex] === 1.0;
@@ -165,7 +165,7 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
             result._frustum = frustum.clone(frustumResult);
 
             result._frustumType = frustumType;
-            result._origin = Cartesian2.Cartesian3.clone(origin, result._origin);
+            result._origin = Cartographic.Cartesian3.clone(origin, result._origin);
             result._orientation = Transforms.Quaternion.clone(orientation, result._orientation);
             result._drawNearPlane = drawNearPlane;
 

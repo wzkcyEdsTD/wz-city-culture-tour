@@ -20,7 +20,7 @@
  * Portions licensed separately.
  * See https://github.com/AnalyticalGraphicsInc/cesium/blob/master/LICENSE.md for full licensing details.
  */
-define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-52d9479f', './BoundingSphere-ab31357a', './RuntimeError-7c184ac0', './WebGLConstants-4c11ee5f', './ComponentDatatype-919a7463', './PrimitiveType-97893bc7', './FeatureDetection-bac17d71', './createTaskProcessorWorker', './BoundingRectangle-dae1b1ac', './Color-b1821df1', './pako_inflate-8ea163f9', './S3MCompressType-9a50b1c3'], function (when, Check, _Math, Cartesian2, BoundingSphere, RuntimeError, WebGLConstants, ComponentDatatype, PrimitiveType, FeatureDetection, createTaskProcessorWorker, BoundingRectangle, Color, pako_inflate, S3MCompressType) { 'use strict';
+define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographic-fe4be337', './Cartesian4-5af5bb24', './createTaskProcessorWorker', './Cartesian2-85064f09', './BoundingSphere-8f8a682c', './RuntimeError-ba10bc3e', './WebGLConstants-4c11ee5f', './ComponentDatatype-5862616f', './PrimitiveType-97893bc7', './FeatureDetection-7bd32c34', './BoundingRectangle-dc808c42', './Color-69f1845f', './pako_inflate-8ea163f9', './S3MCompressType-b35f259d'], function (when, Check, _Math, Cartographic, Cartesian4, createTaskProcessorWorker, Cartesian2, BoundingSphere, RuntimeError, WebGLConstants, ComponentDatatype, PrimitiveType, FeatureDetection, BoundingRectangle, Color, pako_inflate, S3MCompressType) { 'use strict';
 
     function Bound3D(left, bottom, right, top, minHeight, maxHeight) {
         this.left = left;
@@ -525,7 +525,6 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
             bytesOffset += Uint32Array.BYTES_PER_ELEMENT;
             var pickInfo = {};
             var bInstanced = geoPackage[geoName].vertexPackage.instanceIndex;
-            var batchOffset = 0;
             if (bInstanced == -1) {
                 var batchIds = new Float32Array(geoPackage[geoName].vertexPackage.verticesCount);
                 for (var j = 0; j < pickIdsCount; j++) {
@@ -533,29 +532,26 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
                     bytesOffset += Uint32Array.BYTES_PER_ELEMENT;
                     var size = view.getUint32(bytesOffset, true);
                     bytesOffset += Uint32Array.BYTES_PER_ELEMENT;
-                    var vertexCount = 0;
+                    var vertexCount = 0, vertexColorOffset = 0;
                     pickInfo[pickId] = {
                         batchId : j
                     };
                     for (var k = 0; k < size; k++) {
-                        var vertexColorOffset = view.getUint32(bytesOffset, true);
+                        vertexColorOffset = view.getUint32(bytesOffset, true);
                         bytesOffset += Uint32Array.BYTES_PER_ELEMENT;
-                        if(k === 0){
-                            pickInfo[pickId].vertexColorOffset = vertexColorOffset;
+                        vertexCount = view.getUint32(bytesOffset, true);
+                        bytesOffset += Uint32Array.BYTES_PER_ELEMENT;
+                        if (batchIds.fill) {
+                            batchIds.fill(j, vertexColorOffset, vertexColorOffset + vertexCount);
+                        } else {
+                            var total = vertexColorOffset + vertexColorOffset;
+                            for(var m = vertexColorOffset; m < total; m++) {
+                                batchIds[m] = j;
+                            }
                         }
-                        vertexCount += view.getUint32(bytesOffset, true);
-                        bytesOffset += Uint32Array.BYTES_PER_ELEMENT;
                     }
+                    pickInfo[pickId].vertexColorOffset = vertexColorOffset;
                     pickInfo[pickId].vertexColorCount = vertexCount;
-                    if (batchIds.fill) {
-                        batchIds.fill(j, batchOffset, batchOffset + vertexCount);
-                    } else {
-                        for(var m = batchOffset; m < batchOffset + vertexCount; m++) {
-                            batchIds[m] = j;
-                        }
-                    }
-
-                    batchOffset += vertexCount;
                 }
 
                 createBatchIdAttribute(geoPackage[geoName].vertexPackage, batchIds, undefined);

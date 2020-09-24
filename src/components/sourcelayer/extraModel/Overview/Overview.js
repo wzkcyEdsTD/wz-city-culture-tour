@@ -101,6 +101,18 @@ const indexPoints = [{
     label: "消费者物价指标"
 }]
 
+const centerPosition = new Cesium.Cartesian3.fromDegrees(
+    120.7312,
+    28.0264,
+    10
+);
+
+const dirPosition = new Cesium.Cartesian3.fromDegrees(
+    120.6511,
+    27.9660,
+    10
+);
+
 export {
-    generateCurve, indexPoints, CenterPoint, LeftPoint, RightPoint, xs, ys, zs, headings, pitchs
+    generateCurve, indexPoints, CenterPoint, LeftPoint, RightPoint, centerPosition, dirPosition
 }

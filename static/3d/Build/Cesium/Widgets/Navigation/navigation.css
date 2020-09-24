@@ -28,7 +28,7 @@
     visibility: hidden;
 }
 .cesium-viewer-navigationContainer {
-    display: none;
+    display: block;
     position: absolute;
     top: 0;
     right: 0;

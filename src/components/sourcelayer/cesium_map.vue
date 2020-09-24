@@ -203,6 +203,10 @@ export default {
         this.showSubHubFrame = value;
       });
     },
+    /**
+     * 地图初始化
+     * @param {function} fn 回调函数
+     */
     init3DMap(fn) {
       const that = this;
       const viewer = new Cesium.Viewer("cesiumContainer", {
@@ -210,7 +214,7 @@ export default {
         selectionIndicator: false,
       });
       window.earth = viewer;
-      viewer.scene.globe.depthTestAgainstTerrain = false;
+      // viewer.scene.globe.depthTestAgainstTerrain = false;
       viewer.scene.debugShowFramesPerSecond = true;
       viewer.imageryLayers.get(0).show = false;
       viewer.scene.skyAtmosphere.show = false;

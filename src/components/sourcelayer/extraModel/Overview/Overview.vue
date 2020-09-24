@@ -5,13 +5,15 @@
       :key="index"
       :id="`cityIndex_${index}`"
       class="cityIndex-popup"
-      :style="{transform:`translate3d(${item.x || 0}px,${item.y ||0+4}px, 0)`}"
+      :style="{
+        transform: `translate3d(${item.x || 0}px,${item.y || 0 + 4}px, 0)`,
+      }"
     >
       <div class="texts">
-        <header>{{item.label}}</header>
+        <header>{{ item.label }}</header>
         <p>
-          {{item.value}}
-          <i>{{item.unit}}</i>
+          {{ item.value }}
+          <i>{{ item.unit }}</i>
         </p>
       </div>
       <div class="imgs">
@@ -30,12 +32,9 @@ import {
   CenterPoint,
   LeftPoint,
   RightPoint,
-  xs,
-  ys,
-  zs,
-  headings,
-  pitchs,
   indexPoints,
+  centerPosition,
+  dirPosition,
 } from "./Overview";
 export default {
   name: "overview",
@@ -57,6 +56,9 @@ export default {
     this.cameraMove(this.CenterPoint);
     setTimeout(() => {
       this.initOverview();
+    }, 1000);
+    setTimeout(() => {
+      this.initLineScan();
     }, 2000);
   },
   beforeDestroy() {
@@ -64,12 +66,40 @@ export default {
     // this.removeEntityCollection();
     //  开启鼠标事件
     this.screenSpaceCameraController(true);
+    //  关闭线扫描
+    this.removeLineScan();
     this.cameraMove(this.CenterPoint);
   },
   methods: {
     eventRegsiter() {},
     cameraMove(Point) {
-      window.earth.camera.flyTo({ ...Point, duration: 2 });
+      window.earth.camera.flyTo({ ...Point, duration: 1 });
+    },
+    initLineScan() {
+      window.earth.scene.scanEffect.show = true;
+      window.earth.scene.scanEffect.mode = Cesium.ScanEffectMode.LINE;
+      window.earth.scene.scanEffect.color = new Cesium.Color.fromCssColorString(
+        "rgba(216, 218, 224, 0.8)"
+      );
+      window.earth.scene.scanEffect.centerPostion = centerPosition;
+      let dir = new Cesium.Cartesian3();
+      console.log(dirPosition, centerPosition);
+      Cesium.Cartesian3.subtract(
+        dirPosition,
+        window.earth.scene.scanEffect.centerPostion,
+        dir
+      );
+      window.earth.scene.scanEffect.lineWidth = 200;
+      window.earth.scene.scanEffect.lineMoveDirection = dir;
+      window.earth.scene.scanEffect.speed = 800;
+      window.earth.scene.scanEffect.period = 15.0;
+      window.earth.scene.colorCorrection.saturation = 3.9;
+      window.earth.scene.colorCorrection.brightness = 0.8;
+      window.earth.scene.colorCorrection.contrast = 1.0;
+      window.earth.scene.colorCorrection.hue = 0.0;
+    },
+    removeLineScan() {
+      window.earth.scene.scanEffect.show = false;
     },
     createEntityCollection() {
       const cityLineEntityCollection = new Cesium.CustomDataSource("cityLine");
@@ -164,7 +194,7 @@ export default {
       > header {
         color: #2acbfe;
         font-weight: bold;
-        font-size:1.2em;
+        font-size: 1.2em;
         text-shadow: 3px 4px 4px #000000;
       }
       > p {

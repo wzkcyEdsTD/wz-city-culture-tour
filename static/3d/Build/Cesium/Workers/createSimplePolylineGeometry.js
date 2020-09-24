@@ -20,7 +20,7 @@
  * Portions licensed separately.
  * See https://github.com/AnalyticalGraphicsInc/cesium/blob/master/LICENSE.md for full licensing details.
  */
-define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-52d9479f', './BoundingSphere-ab31357a', './RuntimeError-7c184ac0', './WebGLConstants-4c11ee5f', './ComponentDatatype-919a7463', './GeometryAttribute-758ae3c6', './PrimitiveType-97893bc7', './FeatureDetection-bac17d71', './Transforms-7f7cdb70', './GeometryAttributes-1c7ce91d', './IndexDatatype-18a8cae6', './IntersectionTests-afd4a13d', './Plane-68b37818', './ArcType-66bc286a', './EllipsoidRhumbLine-c9b776a6', './EllipsoidGeodesic-0654a7af', './PolylinePipeline-8bfd9bca', './Color-b1821df1'], function (when, Check, _Math, Cartesian2, BoundingSphere, RuntimeError, WebGLConstants, ComponentDatatype, GeometryAttribute, PrimitiveType, FeatureDetection, Transforms, GeometryAttributes, IndexDatatype, IntersectionTests, Plane, ArcType, EllipsoidRhumbLine, EllipsoidGeodesic, PolylinePipeline, Color) { 'use strict';
+define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographic-fe4be337', './Cartesian4-5af5bb24', './Cartesian2-85064f09', './BoundingSphere-8f8a682c', './RuntimeError-ba10bc3e', './WebGLConstants-4c11ee5f', './ComponentDatatype-5862616f', './GeometryAttribute-06d31d45', './PrimitiveType-97893bc7', './FeatureDetection-7bd32c34', './Transforms-0f9bf2ea', './buildModuleUrl-9d43158d', './GeometryAttributes-aacecde6', './IndexDatatype-9435b55f', './IntersectionTests-ca40c01c', './Plane-b1361c67', './ArcType-66bc286a', './EllipsoidRhumbLine-f161e674', './EllipsoidGeodesic-84507801', './PolylinePipeline-a9f32196', './Color-69f1845f'], function (when, Check, _Math, Cartographic, Cartesian4, Cartesian2, BoundingSphere, RuntimeError, WebGLConstants, ComponentDatatype, GeometryAttribute, PrimitiveType, FeatureDetection, Transforms, buildModuleUrl, GeometryAttributes, IndexDatatype, IntersectionTests, Plane, ArcType, EllipsoidRhumbLine, EllipsoidGeodesic, PolylinePipeline, Color) { 'use strict';
 
     function interpolateColors(p0, p1, color0, color1, minDistance, array, offset) {
             var numPoints = PolylinePipeline.PolylinePipeline.numberOfPoints(p0, p1, minDistance);
@@ -117,7 +117,7 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
             this._ellipsoid = when.defaultValue(options.ellipsoid, Cartesian2.Ellipsoid.WGS84);
             this._workerName = 'createSimplePolylineGeometry';
 
-            var numComponents = 1 + positions.length * Cartesian2.Cartesian3.packedLength;
+            var numComponents = 1 + positions.length * Cartographic.Cartesian3.packedLength;
             numComponents += when.defined(colors) ? 1 + colors.length * Color.Color.packedLength : 1;
 
             /**
@@ -154,8 +154,8 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
             var length = positions.length;
             array[startingIndex++] = length;
 
-            for (i = 0; i < length; ++i, startingIndex += Cartesian2.Cartesian3.packedLength) {
-                Cartesian2.Cartesian3.pack(positions[i], array, startingIndex);
+            for (i = 0; i < length; ++i, startingIndex += Cartographic.Cartesian3.packedLength) {
+                Cartographic.Cartesian3.pack(positions[i], array, startingIndex);
             }
 
             var colors = value._colors;
@@ -198,8 +198,8 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
             var length = array[startingIndex++];
             var positions = new Array(length);
 
-            for (i = 0; i < length; ++i, startingIndex += Cartesian2.Cartesian3.packedLength) {
-                positions[i] = Cartesian2.Cartesian3.unpack(array, startingIndex);
+            for (i = 0; i < length; ++i, startingIndex += Cartographic.Cartesian3.packedLength) {
+                positions[i] = Cartographic.Cartesian3.unpack(array, startingIndex);
             }
 
             length = array[startingIndex++];
@@ -368,7 +368,7 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
                     var p = positions[i];
 
                     if (perSegmentColors && i > 0) {
-                        Cartesian2.Cartesian3.pack(p, positionValues, positionIndex);
+                        Cartographic.Cartesian3.pack(p, positionValues, positionIndex);
                         positionIndex += 3;
 
                         color = colors[i - 1];
@@ -382,7 +382,7 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
                         break;
                     }
 
-                    Cartesian2.Cartesian3.pack(p, positionValues, positionIndex);
+                    Cartographic.Cartesian3.pack(p, positionValues, positionIndex);
                     positionIndex += 3;
 
                     if (when.defined(colors)) {

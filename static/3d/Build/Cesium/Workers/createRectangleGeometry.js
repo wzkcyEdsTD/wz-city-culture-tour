@@ -20,12 +20,12 @@
  * Portions licensed separately.
  * See https://github.com/AnalyticalGraphicsInc/cesium/blob/master/LICENSE.md for full licensing details.
  */
-define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-52d9479f', './BoundingSphere-ab31357a', './RuntimeError-7c184ac0', './WebGLConstants-4c11ee5f', './ComponentDatatype-919a7463', './GeometryAttribute-758ae3c6', './PrimitiveType-97893bc7', './FeatureDetection-bac17d71', './Transforms-7f7cdb70', './GeometryAttributes-1c7ce91d', './AttributeCompression-4a5b893f', './GeometryPipeline-2fafe530', './EncodedCartesian3-daa1cb04', './IndexDatatype-18a8cae6', './IntersectionTests-afd4a13d', './Plane-68b37818', './GeometryOffsetAttribute-c9accdb9', './VertexFormat-7f136973', './GeometryInstance-2015f767', './EllipsoidRhumbLine-c9b776a6', './earcut-2.2.1-b404d9e6', './PolygonPipeline-bc940e32', './RectangleGeometryLibrary-bb745115'], function (when, Check, _Math, Cartesian2, BoundingSphere, RuntimeError, WebGLConstants, ComponentDatatype, GeometryAttribute, PrimitiveType, FeatureDetection, Transforms, GeometryAttributes, AttributeCompression, GeometryPipeline, EncodedCartesian3, IndexDatatype, IntersectionTests, Plane, GeometryOffsetAttribute, VertexFormat, GeometryInstance, EllipsoidRhumbLine, earcut2_2_1, PolygonPipeline, RectangleGeometryLibrary) { 'use strict';
+define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographic-fe4be337', './Cartesian4-5af5bb24', './Cartesian2-85064f09', './BoundingSphere-8f8a682c', './RuntimeError-ba10bc3e', './WebGLConstants-4c11ee5f', './ComponentDatatype-5862616f', './GeometryAttribute-06d31d45', './PrimitiveType-97893bc7', './FeatureDetection-7bd32c34', './Transforms-0f9bf2ea', './buildModuleUrl-9d43158d', './GeometryAttributes-aacecde6', './AttributeCompression-84a90a13', './GeometryPipeline-eaa97de6', './EncodedCartesian3-a569cba8', './IndexDatatype-9435b55f', './IntersectionTests-ca40c01c', './Plane-b1361c67', './GeometryOffsetAttribute-ca302482', './VertexFormat-fe4db402', './GeometryInstance-45dba5ea', './EllipsoidRhumbLine-f161e674', './earcut-2.2.1-b404d9e6', './PolygonPipeline-62047934', './RectangleGeometryLibrary-430d6a29'], function (when, Check, _Math, Cartographic, Cartesian4, Cartesian2, BoundingSphere, RuntimeError, WebGLConstants, ComponentDatatype, GeometryAttribute, PrimitiveType, FeatureDetection, Transforms, buildModuleUrl, GeometryAttributes, AttributeCompression, GeometryPipeline, EncodedCartesian3, IndexDatatype, IntersectionTests, Plane, GeometryOffsetAttribute, VertexFormat, GeometryInstance, EllipsoidRhumbLine, earcut2_2_1, PolygonPipeline, RectangleGeometryLibrary) { 'use strict';
 
-    var positionScratch = new Cartesian2.Cartesian3();
-        var normalScratch = new Cartesian2.Cartesian3();
-        var tangentScratch = new Cartesian2.Cartesian3();
-        var bitangentScratch = new Cartesian2.Cartesian3();
+    var positionScratch = new Cartographic.Cartesian3();
+        var normalScratch = new Cartographic.Cartesian3();
+        var tangentScratch = new Cartographic.Cartesian3();
+        var bitangentScratch = new Cartographic.Cartesian3();
         var rectangleScratch = new Cartesian2.Rectangle();
         var stScratch = new Cartesian2.Cartesian2();
         var bottomBoundingSphere = new BoundingSphere.BoundingSphere();
@@ -79,18 +79,18 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
             var normal = normalScratch;
             if (vertexFormat.normal || vertexFormat.tangent || vertexFormat.bitangent) {
                 for (var i = 0; i < length; i += 3) {
-                    var p = Cartesian2.Cartesian3.fromArray(positions, i, positionScratch);
+                    var p = Cartographic.Cartesian3.fromArray(positions, i, positionScratch);
                     var attrIndex1 = attrIndex + 1;
                     var attrIndex2 = attrIndex + 2;
 
                     normal = ellipsoid.geodeticSurfaceNormal(p, normal);
                     if (vertexFormat.tangent || vertexFormat.bitangent) {
-                        Cartesian2.Cartesian3.cross(Cartesian2.Cartesian3.UNIT_Z, normal, tangent);
+                        Cartographic.Cartesian3.cross(Cartographic.Cartesian3.UNIT_Z, normal, tangent);
                         BoundingSphere.Matrix3.multiplyByVector(tangentRotationMatrix, tangent, tangent);
-                        Cartesian2.Cartesian3.normalize(tangent, tangent);
+                        Cartographic.Cartesian3.normalize(tangent, tangent);
 
                         if (vertexFormat.bitangent) {
-                            Cartesian2.Cartesian3.normalize(Cartesian2.Cartesian3.cross(normal, tangent, bitangent), bitangent);
+                            Cartographic.Cartesian3.normalize(Cartographic.Cartesian3.cross(normal, tangent, bitangent), bitangent);
                         }
                     }
 
@@ -120,8 +120,8 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
             });
         }
 
-        var v1Scratch = new Cartesian2.Cartesian3();
-        var v2Scratch = new Cartesian2.Cartesian3();
+        var v1Scratch = new Cartographic.Cartesian3();
+        var v2Scratch = new Cartographic.Cartesian3();
 
         function calculateAttributesWall(positions, vertexFormat, ellipsoid) {
             var length = positions.length;
@@ -140,24 +140,24 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
             var normal = normalScratch;
             if (vertexFormat.normal || vertexFormat.tangent || vertexFormat.bitangent) {
                 for (var i = 0; i < length; i += 6) {
-                    var p = Cartesian2.Cartesian3.fromArray(positions, i, positionScratch);
-                    var p1 = Cartesian2.Cartesian3.fromArray(positions, (i + 6) % length, v1Scratch);
+                    var p = Cartographic.Cartesian3.fromArray(positions, i, positionScratch);
+                    var p1 = Cartographic.Cartesian3.fromArray(positions, (i + 6) % length, v1Scratch);
                     if (recomputeNormal) {
-                        var p2 = Cartesian2.Cartesian3.fromArray(positions, (i + 3) % length, v2Scratch);
-                        Cartesian2.Cartesian3.subtract(p1, p, p1);
-                        Cartesian2.Cartesian3.subtract(p2, p, p2);
-                        normal = Cartesian2.Cartesian3.normalize(Cartesian2.Cartesian3.cross(p2, p1, normal), normal);
+                        var p2 = Cartographic.Cartesian3.fromArray(positions, (i + 3) % length, v2Scratch);
+                        Cartographic.Cartesian3.subtract(p1, p, p1);
+                        Cartographic.Cartesian3.subtract(p2, p, p2);
+                        normal = Cartographic.Cartesian3.normalize(Cartographic.Cartesian3.cross(p2, p1, normal), normal);
                         recomputeNormal = false;
                     }
 
-                    if (Cartesian2.Cartesian3.equalsEpsilon(p1, p, _Math.CesiumMath.EPSILON10)) { // if we've reached a corner
+                    if (Cartographic.Cartesian3.equalsEpsilon(p1, p, _Math.CesiumMath.EPSILON10)) { // if we've reached a corner
                         recomputeNormal = true;
                     }
 
                     if (vertexFormat.tangent || vertexFormat.bitangent) {
                         bitangent = ellipsoid.geodeticSurfaceNormal(p, bitangent);
                         if (vertexFormat.tangent) {
-                            tangent = Cartesian2.Cartesian3.normalize(Cartesian2.Cartesian3.cross(bitangent, normal, tangent), tangent);
+                            tangent = Cartographic.Cartesian3.normalize(Cartographic.Cartesian3.cross(bitangent, normal, tangent), tangent);
                         }
                     }
 
@@ -719,9 +719,9 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
             for (i = 0; i < length - 1; i += 2) {
                 upperLeft = i;
                 upperRight = (upperLeft + 2) % length;
-                var p1 = Cartesian2.Cartesian3.fromArray(wallPositions, upperLeft * 3, v1Scratch);
-                var p2 = Cartesian2.Cartesian3.fromArray(wallPositions, upperRight * 3, v2Scratch);
-                if (Cartesian2.Cartesian3.equalsEpsilon(p1, p2, _Math.CesiumMath.EPSILON10)) {
+                var p1 = Cartographic.Cartesian3.fromArray(wallPositions, upperLeft * 3, v1Scratch);
+                var p2 = Cartographic.Cartesian3.fromArray(wallPositions, upperRight * 3, v2Scratch);
+                if (Cartographic.Cartesian3.equalsEpsilon(p1, p2, _Math.CesiumMath.EPSILON10)) {
                     continue;
                 }
                 lowerLeft = (upperLeft + 1) % length;
@@ -748,9 +748,9 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
             return geo[0];
         }
 
-        var scratchRectanglePoints = [new Cartesian2.Cartesian3(), new Cartesian2.Cartesian3(), new Cartesian2.Cartesian3(), new Cartesian2.Cartesian3()];
-        var nwScratch = new Cartesian2.Cartographic();
-        var stNwScratch = new Cartesian2.Cartographic();
+        var scratchRectanglePoints = [new Cartographic.Cartesian3(), new Cartographic.Cartesian3(), new Cartographic.Cartesian3(), new Cartographic.Cartesian3()];
+        var nwScratch = new Cartographic.Cartographic();
+        var stNwScratch = new Cartographic.Cartographic();
         function computeRectangle(rectangle, granularity, rotation, ellipsoid, result) {
             if (rotation === 0.0) {
                 return Cartesian2.Rectangle.clone(rectangle, result);
@@ -996,7 +996,7 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
 
         var tangentRotationMatrixScratch = new BoundingSphere.Matrix3();
         var quaternionScratch = new Transforms.Quaternion();
-        var centerScratch = new Cartesian2.Cartographic();
+        var centerScratch = new Cartographic.Cartographic();
         /**
          * Computes the geometric representation of a rectangle, including its vertices, indices, and a bounding sphere.
          *
@@ -1103,7 +1103,7 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
         var unrotatedTextureRectangleScratch = new Cartesian2.Rectangle();
         var points2DScratch = [new Cartesian2.Cartesian2(), new Cartesian2.Cartesian2(), new Cartesian2.Cartesian2()];
         var rotation2DScratch = new GeometryAttribute.Matrix2();
-        var rectangleCenterScratch = new Cartesian2.Cartographic();
+        var rectangleCenterScratch = new Cartographic.Cartographic();
 
         function textureCoordinateRotationPoints(rectangleGeometry) {
             if (rectangleGeometry._stRotation === 0.0) {

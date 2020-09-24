@@ -7,7 +7,7 @@
  * @FilePath: \wz-city-culture-tour\src\config\server\mapConfig.js
  */
 export const ServiceUrl = {
-  // 温州白模
+  // 温州白模 暂不用
   WZBaimo:
     // "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-BaiMoLuCheng/rest/realspace/datas/BaiMo_LuCheng/config",
     // "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb/rest/realspace/datas/RES_LC_Model@baimo/config",
@@ -25,6 +25,7 @@ export const ServiceUrl = {
       FLOW: true
     },
   ],
+  //  水面模型切片
   RIVER: "https://ditu.wzcitybrain.com/iserver/services/3D-River_CityBrain/rest/realspace/datas/River_CityBrain/config",
   //  影像底图
   SWImage:

@@ -20,11 +20,11 @@
  * Portions licensed separately.
  * See https://github.com/AnalyticalGraphicsInc/cesium/blob/master/LICENSE.md for full licensing details.
  */
-define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-52d9479f', './BoundingSphere-ab31357a', './RuntimeError-7c184ac0', './WebGLConstants-4c11ee5f', './ComponentDatatype-919a7463', './GeometryAttribute-758ae3c6', './PrimitiveType-97893bc7', './FeatureDetection-bac17d71', './Transforms-7f7cdb70', './GeometryAttributes-1c7ce91d', './IndexDatatype-18a8cae6', './GeometryOffsetAttribute-c9accdb9', './EllipsoidRhumbLine-c9b776a6', './earcut-2.2.1-b404d9e6', './PolygonPipeline-bc940e32', './RectangleGeometryLibrary-bb745115'], function (when, Check, _Math, Cartesian2, BoundingSphere, RuntimeError, WebGLConstants, ComponentDatatype, GeometryAttribute, PrimitiveType, FeatureDetection, Transforms, GeometryAttributes, IndexDatatype, GeometryOffsetAttribute, EllipsoidRhumbLine, earcut2_2_1, PolygonPipeline, RectangleGeometryLibrary) { 'use strict';
+define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographic-fe4be337', './Cartesian4-5af5bb24', './Cartesian2-85064f09', './BoundingSphere-8f8a682c', './RuntimeError-ba10bc3e', './WebGLConstants-4c11ee5f', './ComponentDatatype-5862616f', './GeometryAttribute-06d31d45', './PrimitiveType-97893bc7', './FeatureDetection-7bd32c34', './Transforms-0f9bf2ea', './buildModuleUrl-9d43158d', './GeometryAttributes-aacecde6', './IndexDatatype-9435b55f', './GeometryOffsetAttribute-ca302482', './EllipsoidRhumbLine-f161e674', './earcut-2.2.1-b404d9e6', './PolygonPipeline-62047934', './RectangleGeometryLibrary-430d6a29'], function (when, Check, _Math, Cartographic, Cartesian4, Cartesian2, BoundingSphere, RuntimeError, WebGLConstants, ComponentDatatype, GeometryAttribute, PrimitiveType, FeatureDetection, Transforms, buildModuleUrl, GeometryAttributes, IndexDatatype, GeometryOffsetAttribute, EllipsoidRhumbLine, earcut2_2_1, PolygonPipeline, RectangleGeometryLibrary) { 'use strict';
 
     var bottomBoundingSphere = new BoundingSphere.BoundingSphere();
         var topBoundingSphere = new BoundingSphere.BoundingSphere();
-        var positionScratch = new Cartesian2.Cartesian3();
+        var positionScratch = new Cartographic.Cartesian3();
         var rectangleScratch = new Cartesian2.Rectangle();
 
         function constructRectangle(geometry, computedOptions) {
@@ -360,7 +360,7 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
             return result;
         };
 
-        var nwScratch = new Cartesian2.Cartographic();
+        var nwScratch = new Cartographic.Cartographic();
         /**
          * Computes the geometric representation of an outline of a rectangle, including its vertices, indices, and a bounding sphere.
          *

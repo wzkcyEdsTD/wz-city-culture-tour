@@ -20,7 +20,7 @@
  * Portions licensed separately.
  * See https://github.com/AnalyticalGraphicsInc/cesium/blob/master/LICENSE.md for full licensing details.
  */
-define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-52d9479f', './BoundingSphere-ab31357a', './RuntimeError-7c184ac0', './WebGLConstants-4c11ee5f', './ComponentDatatype-919a7463', './FeatureDetection-bac17d71', './Transforms-7f7cdb70', './AttributeCompression-4a5b893f', './IndexDatatype-18a8cae6', './IntersectionTests-afd4a13d', './Plane-68b37818', './createTaskProcessorWorker', './EllipsoidTangentPlane-f5357d2c', './OrientedBoundingBox-8a446a45', './TerrainEncoding-f6db33b5'], function (when, Check, _Math, Cartesian2, BoundingSphere, RuntimeError, WebGLConstants, ComponentDatatype, FeatureDetection, Transforms, AttributeCompression, IndexDatatype, IntersectionTests, Plane, createTaskProcessorWorker, EllipsoidTangentPlane, OrientedBoundingBox, TerrainEncoding) { 'use strict';
+define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographic-fe4be337', './Cartesian4-5af5bb24', './createTaskProcessorWorker', './Cartesian2-85064f09', './BoundingSphere-8f8a682c', './RuntimeError-ba10bc3e', './WebGLConstants-4c11ee5f', './ComponentDatatype-5862616f', './FeatureDetection-7bd32c34', './Transforms-0f9bf2ea', './buildModuleUrl-9d43158d', './AttributeCompression-84a90a13', './IndexDatatype-9435b55f', './IntersectionTests-ca40c01c', './Plane-b1361c67', './EllipsoidTangentPlane-3eaf39f7', './OrientedBoundingBox-64cb80e5', './TerrainEncoding-a807a704'], function (when, Check, _Math, Cartographic, Cartesian4, createTaskProcessorWorker, Cartesian2, BoundingSphere, RuntimeError, WebGLConstants, ComponentDatatype, FeatureDetection, Transforms, buildModuleUrl, AttributeCompression, IndexDatatype, IntersectionTests, Plane, EllipsoidTangentPlane, OrientedBoundingBox, TerrainEncoding) { 'use strict';
 
     /**
          * Contains functions for operating on 2D triangles.
@@ -289,7 +289,7 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
                 result.z = l3;
                 return result;
             }
-            return new Cartesian2.Cartesian3(l1, l2, l3);
+            return new Cartographic.Cartesian3(l1, l2, l3);
         };
 
         /**
@@ -353,18 +353,18 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
         var clipScratch = [];
         var clipScratch2 = [];
         var verticesScratch = [];
-        var cartographicScratch = new Cartesian2.Cartographic();
-        var cartesian3Scratch = new Cartesian2.Cartesian3();
+        var cartographicScratch = new Cartographic.Cartographic();
+        var cartesian3Scratch = new Cartographic.Cartesian3();
         var uScratch = [];
         var vScratch = [];
         var heightScratch = [];
         var indicesScratch = [];
         var normalsScratch = [];
-        var horizonOcclusionPointScratch = new Cartesian2.Cartesian3();
+        var horizonOcclusionPointScratch = new Cartographic.Cartesian3();
         var boundingSphereScratch = new BoundingSphere.BoundingSphere();
         var orientedBoundingBoxScratch = new OrientedBoundingBox.OrientedBoundingBox();
         var decodeTexCoordsScratch = new Cartesian2.Cartesian2();
-        var octEncodedNormalScratch = new Cartesian2.Cartesian3();
+        var octEncodedNormalScratch = new Cartographic.Cartesian3();
 
         function upsampleQuantizedTerrainMesh(parameters, transferableObjects) {
             var isEastChild = parameters.isEastChild;
@@ -512,7 +512,7 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
 
                 // Clip the triangle against the North-south boundary.
                 clipped2 = Intersections2D.clipTriangleAtAxisAlignedThreshold(halfMaxShort, isNorthChild, clippedTriangleVertices[0].getV(), clippedTriangleVertices[1].getV(), clippedTriangleVertices[2].getV(), clipScratch2);
-                addClippedPolygon(uBuffer, vBuffer, heightBuffer, normalBuffer, indices, vertexMap, clipped2, clippedTriangleVertices, hasVertexNormals);
+                addClippedPolygon(uBuffer, vBuffer, heightBuffer, normalBuffer, indices, vertexMap, clipped2, clippedTriangleVertices, hasVertexNormals, parentMaximumHeight, parentMinimumHeight);
 
                 // If there's another vertex in the original clipped result,
                 // it forms a second triangle.  Clip it as well.
@@ -521,7 +521,7 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
                     clippedTriangleVertices[2].initializeFromClipResult(clipped, clippedIndex, triangleVertices);
 
                     clipped2 = Intersections2D.clipTriangleAtAxisAlignedThreshold(halfMaxShort, isNorthChild, clippedTriangleVertices[0].getV(), clippedTriangleVertices[1].getV(), clippedTriangleVertices[2].getV(), clipScratch2);
-                    addClippedPolygon(uBuffer, vBuffer, heightBuffer, normalBuffer, indices, vertexMap, clipped2, clippedTriangleVertices, hasVertexNormals);
+                    addClippedPolygon(uBuffer, vBuffer, heightBuffer, normalBuffer, indices, vertexMap, clipped2, clippedTriangleVertices, hasVertexNormals, parentMaximumHeight, parentMinimumHeight);
                 }
             }
 
@@ -599,7 +599,7 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
                 cartesianVertices.push(cartesian3Scratch.z);
             }
 
-            var boundingSphere = BoundingSphere.BoundingSphere.fromVertices(cartesianVertices, Cartesian2.Cartesian3.ZERO, 3, boundingSphereScratch);
+            var boundingSphere = BoundingSphere.BoundingSphere.fromVertices(cartesianVertices, Cartographic.Cartesian3.ZERO, 3, boundingSphereScratch);
             var orientedBoundingBox = OrientedBoundingBox.OrientedBoundingBox.fromRectangle(rectangle, minimumHeight, maximumHeight, ellipsoid, orientedBoundingBoxScratch);
 
             var occluder = new TerrainEncoding.EllipsoidalOccluder(ellipsoid);
@@ -722,9 +722,16 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
             return when.defined(this.index);
         };
 
-        Vertex.prototype.getH = function() {
+        Vertex.prototype.getH = function(parentMaximumHeight, parentMinimumHeight) {
             if (when.defined(this.index)) {
                 return this.heightBuffer[this.index];
+            }
+            var firstH = this.first.getH(parentMaximumHeight, parentMinimumHeight);
+            var secondH = this.second.getH(parentMaximumHeight, parentMinimumHeight);
+            var realFH = parentMinimumHeight + firstH / maxShort * parentMaximumHeight;
+            var realSH = parentMinimumHeight + secondH / maxShort * parentMaximumHeight;
+            if(realFH === 0 || realSH === 0) {
+                return 0;
             }
             return _Math.CesiumMath.lerp(this.first.getH(), this.second.getH(), this.ratio);
         };
@@ -747,8 +754,8 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
         // An upsampled triangle may be clipped twice before it is assigned an index
         // In this case, we need a buffer to handle the recursion of getNormalX() and getNormalY().
         var depth = -1;
-        var cartesianScratch1 = [new Cartesian2.Cartesian3(), new Cartesian2.Cartesian3()];
-        var cartesianScratch2 = [new Cartesian2.Cartesian3(), new Cartesian2.Cartesian3()];
+        var cartesianScratch1 = [new Cartographic.Cartesian3(), new Cartographic.Cartesian3()];
+        var cartesianScratch2 = [new Cartographic.Cartesian3(), new Cartographic.Cartesian3()];
         function lerpOctEncodedNormal(vertex, result) {
             ++depth;
 
@@ -757,8 +764,8 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
 
             first = AttributeCompression.AttributeCompression.octDecode(vertex.first.getNormalX(), vertex.first.getNormalY(), first);
             second = AttributeCompression.AttributeCompression.octDecode(vertex.second.getNormalX(), vertex.second.getNormalY(), second);
-            cartesian3Scratch = Cartesian2.Cartesian3.lerp(first, second, vertex.ratio, cartesian3Scratch);
-            Cartesian2.Cartesian3.normalize(cartesian3Scratch, cartesian3Scratch);
+            cartesian3Scratch = Cartographic.Cartesian3.lerp(first, second, vertex.ratio, cartesian3Scratch);
+            Cartographic.Cartesian3.normalize(cartesian3Scratch, cartesian3Scratch);
 
             AttributeCompression.AttributeCompression.octEncode(cartesian3Scratch, result);
 
@@ -791,7 +798,7 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
         polygonVertices.push(new Vertex());
         polygonVertices.push(new Vertex());
 
-        function addClippedPolygon(uBuffer, vBuffer, heightBuffer, normalBuffer, indices, vertexMap, clipped, triangleVertices, hasVertexNormals) {
+        function addClippedPolygon(uBuffer, vBuffer, heightBuffer, normalBuffer, indices, vertexMap, clipped, triangleVertices, hasVertexNormals, parentMaximumHeight, parentMinimumHeight) {
             if (clipped.length === 0) {
                 return;
             }
@@ -812,7 +819,7 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
                         var newIndex = uBuffer.length;
                         uBuffer.push(polygonVertex.getU());
                         vBuffer.push(polygonVertex.getV());
-                        heightBuffer.push(polygonVertex.getH());
+                        heightBuffer.push(polygonVertex.getH(parentMaximumHeight, parentMinimumHeight));
                         if (hasVertexNormals) {
                             normalBuffer.push(polygonVertex.getNormalX());
                             normalBuffer.push(polygonVertex.getNormalY());

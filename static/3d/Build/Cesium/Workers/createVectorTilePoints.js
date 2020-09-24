@@ -20,12 +20,12 @@
  * Portions licensed separately.
  * See https://github.com/AnalyticalGraphicsInc/cesium/blob/master/LICENSE.md for full licensing details.
  */
-define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-52d9479f', './AttributeCompression-4a5b893f', './createTaskProcessorWorker'], function (when, Check, _Math, Cartesian2, AttributeCompression, createTaskProcessorWorker) { 'use strict';
+define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographic-fe4be337', './createTaskProcessorWorker', './Cartesian2-85064f09', './AttributeCompression-84a90a13'], function (when, Check, _Math, Cartographic, createTaskProcessorWorker, Cartesian2, AttributeCompression) { 'use strict';
 
     var maxShort = 32767;
 
-    var scratchBVCartographic = new Cartesian2.Cartographic();
-    var scratchEncodedPosition = new Cartesian2.Cartesian3();
+    var scratchBVCartographic = new Cartographic.Cartographic();
+    var scratchEncodedPosition = new Cartographic.Cartesian3();
 
     var scratchRectangle = new Cartesian2.Rectangle();
     var scratchEllipsoid = new Cartesian2.Ellipsoid();
@@ -72,9 +72,9 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
             var lat = _Math.CesiumMath.lerp(rectangle.south, rectangle.north, v / maxShort);
             var alt = _Math.CesiumMath.lerp(minimumHeight, maximumHeight, h / maxShort);
 
-            var cartographic = Cartesian2.Cartographic.fromRadians(lon, lat, alt, scratchBVCartographic);
+            var cartographic = Cartographic.Cartographic.fromRadians(lon, lat, alt, scratchBVCartographic);
             var decodedPosition = ellipsoid.cartographicToCartesian(cartographic, scratchEncodedPosition);
-            Cartesian2.Cartesian3.pack(decodedPosition, decoded, i * 3);
+            Cartographic.Cartesian3.pack(decodedPosition, decoded, i * 3);
         }
 
         transferableObjects.push(decoded.buffer);

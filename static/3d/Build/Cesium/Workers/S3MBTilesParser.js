@@ -20,7 +20,7 @@
  * Portions licensed separately.
  * See https://github.com/AnalyticalGraphicsInc/cesium/blob/master/LICENSE.md for full licensing details.
  */
-define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-52d9479f', './BoundingSphere-ab31357a', './RuntimeError-7c184ac0', './WebGLConstants-4c11ee5f', './ComponentDatatype-919a7463', './PrimitiveType-97893bc7', './FeatureDetection-bac17d71', './IndexDatatype-18a8cae6', './createTaskProcessorWorker', './BoundingRectangle-dae1b1ac', './Color-b1821df1', './pako_inflate-8ea163f9', './S3MCompressType-9a50b1c3', './unzip-4339af34'], function (when, Check, _Math, Cartesian2, BoundingSphere, RuntimeError, WebGLConstants, ComponentDatatype, PrimitiveType, FeatureDetection, IndexDatatype, createTaskProcessorWorker, BoundingRectangle, Color, pako_inflate, S3MCompressType, unzip) { 'use strict';
+define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographic-fe4be337', './Cartesian4-5af5bb24', './createTaskProcessorWorker', './Cartesian2-85064f09', './BoundingSphere-8f8a682c', './RuntimeError-ba10bc3e', './WebGLConstants-4c11ee5f', './ComponentDatatype-5862616f', './PrimitiveType-97893bc7', './FeatureDetection-7bd32c34', './buildModuleUrl-9d43158d', './IndexDatatype-9435b55f', './BoundingRectangle-dc808c42', './Color-69f1845f', './pako_inflate-8ea163f9', './S3MCompressType-b35f259d', './unzip-b0fc9445'], function (when, Check, _Math, Cartographic, Cartesian4, createTaskProcessorWorker, Cartesian2, BoundingSphere, RuntimeError, WebGLConstants, ComponentDatatype, PrimitiveType, FeatureDetection, buildModuleUrl, IndexDatatype, BoundingRectangle, Color, pako_inflate, S3MCompressType, unzip) { 'use strict';
 
     /**
          * Create a shallow copy of an array from begin to end.
@@ -231,7 +231,7 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
             vertexPackage.verticesCount = posAttributeData.array.length / componentsPerAttribute;
             vertexPackage.vertCompressConstant = posAttributeData.data.quantization.range / (1 << posAttributeData.data.quantization.quantizationBits);
             var minValuesArray = posAttributeData.data.quantization.minValues;
-            vertexPackage.minVerticesValue = new BoundingSphere.Cartesian4(minValuesArray[0], minValuesArray[1], minValuesArray[2], 1.0);
+            vertexPackage.minVerticesValue = new Cartesian4.Cartesian4(minValuesArray[0], minValuesArray[1], minValuesArray[2], 1.0);
             if(componentsPerAttribute > 3){
                 vertexPackage.minVerticesValue.w = minValuesArray[3];
             }
@@ -399,9 +399,13 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
     var colorScratch = new Color.Color();
     var CLAMP_GROUND_LINE_PASS_NAME = "ClampGroundAndObjectLinePass";
     var unzipwasmReady = false;
-    unzip.unzip.onRuntimeInitialized = function() {
-        unzipwasmReady = true;
-    };
+    if (when.defined(unzip.unzip)) {
+        unzip.unzip.onRuntimeInitialized = function () {
+            unzipwasmReady = true;
+        };
+        var unzipwasm = unzip.unzip.cwrap('unzip', 'number', ['number', 'number', 'number', 'number']);
+        var freec = unzip.unzip.cwrap('freePointer', null, ['number']);
+    }
     function loadStream(dataView, dataBuffer, byteOffset) {
         var newByteOffset = byteOffset;
         var streamSize = dataView.getUint32(newByteOffset, true);
@@ -492,7 +496,7 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
             newBytesOffset += Float32Array.BYTES_PER_ELEMENT;
             vertexPackage.texCoordCompressConstant.push(texCoordCompressConstant);
 
-            var minTexCoordValue = new BoundingSphere.Cartesian4();
+            var minTexCoordValue = new Cartesian4.Cartesian4();
             minTexCoordValue.x = view.getFloat32(newBytesOffset + viewByteOffset, true);
             newBytesOffset += Float32Array.BYTES_PER_ELEMENT;
             minTexCoordValue.y = view.getFloat32(newBytesOffset + viewByteOffset, true);
@@ -795,7 +799,7 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
 
         var fVertCompressConstant = view.getFloat32(newBytesOffset + viewByteOffset, true);
         newBytesOffset += Float32Array.BYTES_PER_ELEMENT;
-        var minVerticesValue = new BoundingSphere.Cartesian4();
+        var minVerticesValue = new Cartesian4.Cartesian4();
         minVerticesValue.x = view.getFloat32(newBytesOffset + viewByteOffset, true);
         newBytesOffset += Float32Array.BYTES_PER_ELEMENT;
         minVerticesValue.y = view.getFloat32(newBytesOffset + viewByteOffset, true);
@@ -1247,7 +1251,7 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
         pageLOD.rangeMode = uRangeMode;
         pageLOD.rangeList = dbDis;
 
-        var boundingSphereCenter = new Cartesian2.Cartesian3();
+        var boundingSphereCenter = new Cartographic.Cartesian3();
         boundingSphereCenter.x = view.getFloat64(bufferByteOffset + dataViewByteOffset, true);
         bufferByteOffset += Float64Array.BYTES_PER_ELEMENT;
         boundingSphereCenter.y = view.getFloat64(bufferByteOffset + dataViewByteOffset, true);
@@ -1387,7 +1391,6 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
             geoPackage[strGeometryName].pickInfo = pickInfo;
             // 非实例化的选择信息
             var bInstanced = geoPackage[strGeometryName].vertexPackage.instanceIndex;
-            var batchOffset = 0;
             if (bInstanced == -1) {
                 var batchIds = new Float32Array(geoPackage[strGeometryName].vertexPackage.verticesCount);
                 for (var j = 0; j < nSelectInfoCount; j++) {
@@ -1395,23 +1398,20 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
                     bufferByteOffset += Uint32Array.BYTES_PER_ELEMENT;
                     var nSize = view.getUint32(bufferByteOffset + dataViewByteOffset, true);
                     bufferByteOffset += Uint32Array.BYTES_PER_ELEMENT;
-                    var vertexCount = 0;
+                    var vertexCount = 0, vertexColorOffset = 0;
                     pickInfo[nDictID] = {
                         batchId: j
                     };
                     for (var k = 0; k < nSize; k++) {
-                        var vertexColorOffset = view.getUint32(bufferByteOffset + dataViewByteOffset, true);
+                        vertexColorOffset = view.getUint32(bufferByteOffset + dataViewByteOffset, true);
                         bufferByteOffset += Uint32Array.BYTES_PER_ELEMENT;
-                        if (k === 0) {
-                            pickInfo[nDictID].vertexColorOffset = vertexColorOffset;
-                        }
-                        vertexCount += view.getUint32(bufferByteOffset + dataViewByteOffset, true);
+                        vertexCount = view.getUint32(bufferByteOffset + dataViewByteOffset, true);
                         bufferByteOffset += Uint32Array.BYTES_PER_ELEMENT;
+                        batchIds.fill(j, vertexColorOffset, vertexColorOffset + vertexCount);
                     }
 
+                    pickInfo[nDictID].vertexColorOffset = vertexColorOffset;
                     pickInfo[nDictID].vertexCount = vertexCount;
-                    batchIds.fill(j, batchOffset, batchOffset + vertexCount);
-                    batchOffset += vertexCount;
                 }
                 createBatchIdAttribute(geoPackage[strGeometryName].vertexPackage, batchIds, undefined);
             }
@@ -1458,31 +1458,30 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
         return (((x) < 1e-10) && ((x) > -1e-10));
     }
 
-    var unzipwasm = unzip.unzip.cwrap('unzip', 'bool', ['number', 'number', 'number', 'number']);
-    function unzipWithwasm(datazip) {
-        var unzipsize = datazip.length * 4;
+    function unzipWithwasm(datazip, unzipSize) {
+        var unzipsize = unzipSize || datazip.length * 4;//unzipSize;//
         var offset = unzip.unzip._malloc(Uint8Array.BYTES_PER_ELEMENT * unzipsize); //开辟内存
         var tar = new Uint8Array(unzipsize);
         unzip.unzip.HEAPU8.set(tar, offset / Uint8Array.BYTES_PER_ELEMENT);
         var offset1 = unzip.unzip._malloc(Uint8Array.BYTES_PER_ELEMENT * datazip.length);
         unzip.unzip.HEAPU8.set(datazip, offset1 / Uint8Array.BYTES_PER_ELEMENT);
-
-        while (unzipwasm(offset, unzipsize, offset1, datazip.length) != 1) {
-            unzip.unzip._free(offset); //释放内存
+        
+        var resultLen;
+        while ((resultLen = unzipwasm(offset, unzipsize, offset1, datazip.length)) == 0) {
+            freec(offset); //释放内存
             unzipsize *= 4;
             offset = unzip.unzip._malloc(Uint8Array.BYTES_PER_ELEMENT * unzipsize);
             tar = new Uint8Array(unzipsize);
             unzip.unzip.HEAPU8.set(tar, offset / Uint8Array.BYTES_PER_ELEMENT);
         }
-        var res = new Uint8Array(unzip.unzip.HEAPU8.buffer, offset, unzipsize);
+        var res = new Uint8Array(unzip.unzip.HEAPU8.buffer, offset, resultLen);
         datazip = null;
         tar = null;
         var buffer = new Uint8Array(res).buffer;
-        unzip.unzip._free(offset);
-        unzip.unzip._free(offset1);
+        freec(offset);
+        freec(offset1);
         return buffer;
     }
-
 
     function parseS3MB(parameters, transferableObjects) {
         var buffer = parameters.buffer;
@@ -1499,18 +1498,23 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
         var version = view.getFloat32(bytesOffset, true);
         bytesOffset += Float32Array.BYTES_PER_ELEMENT;
         var isOldVersion = false;
-        if (OGDCIS0(version - 1)) {
+        var unzipSize;
+        if (version === 2) {
+            unzipSize = view.getUint32(bytesOffset, true);
+            bytesOffset += Uint32Array.BYTES_PER_ELEMENT;
+        }
+        if (OGDCIS0(version - 1) || OGDCIS0(version - 2)) {
             //总字节大小
             var byteSize = view.getUint32(bytesOffset, true);
             bytesOffset += Uint32Array.BYTES_PER_ELEMENT;
-            var datazip = new Uint8Array(buffer, bytesOffset);
+            var datazip = new Uint8Array(buffer, bytesOffset, byteSize);
 
             if (unzipwasmReady === true) {
-                buffer = unzipWithwasm(datazip);
+                buffer = unzipWithwasm(datazip, unzipSize);
             } else {
                 buffer = pako_inflate.pako.inflate(datazip).buffer;
             }
-            
+
             transferableObjects.push(buffer);
             view = new DataView(buffer);
             bytesOffset = 0;
@@ -1630,6 +1634,24 @@ define(['./when-a55a8a4c', './Check-bc1d37d9', './Math-edfe2d1c', './Cartesian2-
         // Expect the first message to be to load a web assembly module
         var wasmConfig = data.webAssemblyConfig;
         if (when.defined(wasmConfig)) {
+            if (FeatureDetection.FeatureDetection.isInternetExplorer()) {
+                return require([buildModuleUrl.buildModuleUrl('ThirdParty/Workers/ie-webworker-promise-polyfill.js')], function (e) {
+                    self.Promise = e;
+                    return require([wasmConfig.modulePath], function (dracoModule) {
+                        if (when.defined(wasmConfig.wasmBinaryFile)) {
+                            if (!when.defined(dracoModule)) {
+                                dracoModule = self.DracoDecoderModule;
+                            }
+
+                            dracoModule(wasmConfig).then(function (compiledModule) {
+                                initWorker(compiledModule);
+                            });
+                        } else {
+                            initWorker(dracoModule());
+                        }
+                    });
+                });
+            }
             // Require and compile WebAssembly module, or use fallback if not supported
             return require([wasmConfig.modulePath], function (dracoModule) {
                 if (when.defined(wasmConfig.wasmBinaryFile)) {

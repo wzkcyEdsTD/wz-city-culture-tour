@@ -1,6 +1,9 @@
 <template>
   <div class="videoCircle" v-if="shallPop">
-    <div class="vc-popup" :style="{transform:`translate3d(${item.x}px,${item.y+4}px, 0)`}">
+    <div
+      class="vc-popup"
+      :style="{ transform: `translate3d(${item.x}px,${item.y + 4}px, 0)` }"
+    >
       <div class="popup-container">
         <div class="remove" @click="removeVideoCircle(null)"></div>
         <div class="position"></div>
@@ -38,6 +41,7 @@ export default {
         this.removeVideoCircle();
         this.geometry = geometry;
         this.queryRadius = queryRadius;
+        this.shallPop = true;
         this.doPopup();
         this.drawVideoCircle(geometry, queryRadius);
       });
@@ -52,11 +56,12 @@ export default {
         window.earth.scene,
         position
       );
-      this.item = {
-        x: pointToWindow.x - $(".vc-popup").width() / 2,
-        y: pointToWindow.y - $(".vc-popup").height(),
-      };
-      !this.shallPop && (this.shallPop = true);
+      if (pointToWindow) {
+        this.item = {
+          x: pointToWindow.x - $(".vc-popup").width() / 2,
+          y: pointToWindow.y - $(".vc-popup").height(),
+        };
+      }
     },
     /**
      * 画缓冲区
