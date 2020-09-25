@@ -1,6 +1,6 @@
 <template>
   <div class="target-wrapper">
-    <span class="header">旅游信息</span>
+    <span class="header">旅游体征</span>
     <ul class="content">
       <li class="item">
         <img src="/static/images/index/unknowns.png" />

@@ -97,7 +97,7 @@ export default {
     ]),
   },
   watch: {
-    forceTreeLabel() {
+    forceTreeLabel(n) {
       this.initForceTreeTopic();
       this.SetForceIndex(n);
     },

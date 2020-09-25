@@ -1,6 +1,6 @@
 <template>
   <div class="target-wrapper">
-    <span class="header">应急信息</span>
+    <span class="header">应急体征</span>
     <ul class="content">
       <li class="item" v-for="(item,i) in [0,1,2,3]" :key="i">
         <img class="icon hospital" src="/static/images/index/unknowns.png" />

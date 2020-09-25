@@ -1,6 +1,6 @@
 <template>
   <div class="target-wrapper">
-    <span class="header">基础数据</span>
+    <span class="header">基础体征</span>
     <ul class="content" v-if="Object.keys(WzBasicData).length">
       <li class="item">
         <img src="/static/images/index/unknowns.png" />
