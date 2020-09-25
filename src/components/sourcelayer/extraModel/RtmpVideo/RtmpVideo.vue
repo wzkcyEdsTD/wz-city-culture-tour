@@ -11,21 +11,29 @@
     <div class="rtmpListFrame" v-if="doRtmpListFrame">
       <header>
         <span>现场视频</span> /
-        <span>{{RtmpForcePoint.shortname}}</span>
+        <span>{{ RtmpForcePoint.shortname }}</span>
         <i class="close" @click="closeRtmpVideoFrame"></i>
       </header>
       <div class="rtmpVideoContent">
         <div class="rtmpVideoList">
           <header>
-            周边{{radiusRange}}米监控
-            <i>({{fixRtmpList.length}}个)</i>
-            <span @click="videoOfPrivate=!videoOfPrivate" :class="{active:videoOfPrivate}">私有监控</span>
-            <span @click="videoOfPublic=!videoOfPublic" :class="{active:videoOfPublic}">公有监控</span>
+            周边{{ radiusRange }}米监控
+            <i>({{ fixRtmpList.length }}个)</i>
+            <span
+              @click="videoOfPrivate = !videoOfPrivate"
+              :class="{ active: videoOfPrivate }"
+              >私有监控</span
+            >
+            <span
+              @click="videoOfPublic = !videoOfPublic"
+              :class="{ active: videoOfPublic }"
+              >公有监控</span
+            >
           </header>
           <div>
             <ul>
               <li
-                v-for="(item,index) in fixRtmpList"
+                v-for="(item, index) in fixRtmpList"
                 :class="[forceRtmpVideo == item.mp_name ? 'rtmp_active' : '']"
                 :key="index"
                 @click="openRtmpVideoFrame(item)"
@@ -34,21 +42,31 @@
                   <input
                     id="custom-checkbox"
                     type="checkbox"
-                    :checked="forceRtmpVideo===item.mp_name"
+                    :checked="forceRtmpVideo === item.mp_name"
                     @click="checkUniqueVideo(item)"
                   />
                 </span>
-                <span :title="item.mp_name">{{index+1}}.{{item.mp_name}}</span>
-                <span>{{item.dist}} 米</span>
+                <span :title="item.mp_name"
+                  >{{ index + 1 }}.{{ item.mp_name }}</span
+                >
+                <span>{{ item.dist }} 米</span>
               </li>
             </ul>
           </div>
         </div>
         <div class="rtmpVideoFrame">
           <header>
-            <p>{{forceRtmpVideo}}</p>
-            <span @click="videoSourceTop=false" :class="{active:!videoSourceTop}">信号源二</span>
-            <span @click="videoSourceTop=true" :class="{active:videoSourceTop}">信号源一</span>
+            <p>{{ forceRtmpVideo }}</p>
+            <span
+              @click="videoSourceTop = false"
+              :class="{ active: !videoSourceTop }"
+              >Flash模式</span
+            >
+            <span
+              @click="videoSourceTop = true"
+              :class="{ active: videoSourceTop }"
+              >H5模式</span
+            >
           </header>
           <div>
             <flv

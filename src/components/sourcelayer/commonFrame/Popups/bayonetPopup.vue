@@ -101,7 +101,6 @@ export default {
     ...mapActions("map", ["fetchBayonetList"]),
     eventRegsiter() {
       this.$bus.$on("cesium-3d-around-people", ({ id, result }) => {
-        console.log(id, result);
         this.bufferHash[id] = result;
       });
     },

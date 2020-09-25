@@ -147,7 +147,6 @@ export const fetchStationList = async ({ commit }) => {
     !flowData[_k_] && (flowData[_k_] = { in: 0, out: 0 });
     flowData[_k_].in += parseInt(obj.passengerNum);
   }
-  console.log(flowData)
   commit(types.SET_STATION_LIST, flowData);
   commit(types.SET_INIT_DATA_LOADED, true)
 };

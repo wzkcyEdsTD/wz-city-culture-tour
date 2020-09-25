@@ -56,12 +56,8 @@ export default {
       this.initOverview();
     }, 1000);
     this.cameraMove(this.CenterPoint);
-    //  开启扫描,若4秒后还在该页面
-    setTimeout(() => {
-      if (this.$parent.$refs.layerHub.forceTreeLabel == "城市总览") {
-        this.initLineScan();
-      }
-    }, 4000);
+    //  开启扫描
+    // this.initLineScan();
   },
   mounted() {
     this.eventRegsiter();
@@ -72,8 +68,10 @@ export default {
     //  开启鼠标事件
     this.screenSpaceCameraController(true);
     //  关闭线扫描
-    this.removeLineScan();
-    this.cameraMove(this.CenterPoint);
+    // this.removeLineScan();
+    setTimeout(() => {
+      this.cameraMove(this.CenterPoint);
+    }, 500);
   },
   methods: {
     eventRegsiter() {},
