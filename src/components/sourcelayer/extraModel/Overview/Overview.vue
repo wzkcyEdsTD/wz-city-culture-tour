@@ -56,8 +56,12 @@ export default {
       this.initOverview();
     }, 1000);
     this.cameraMove(this.CenterPoint);
-    //  开启扫描
-    // this.initLineScan();
+    //  开启扫描,若4秒后还在该页面
+    setTimeout(() => {
+      if (this.$parent.$refs.layerHub.forceTreeLabel == "城市总览") {
+        this.initLineScan();
+      }
+    }, 4000);
   },
   mounted() {
     this.eventRegsiter();
@@ -68,7 +72,7 @@ export default {
     //  开启鼠标事件
     this.screenSpaceCameraController(true);
     //  关闭线扫描
-    // this.removeLineScan();
+    this.removeLineScan();
     this.cameraMove(this.CenterPoint);
   },
   methods: {
@@ -90,9 +94,9 @@ export default {
         window.earth.scene.scanEffect.centerPostion,
         dir
       );
-      window.earth.scene.scanEffect.lineWidth = 200;
+      window.earth.scene.scanEffect.lineWidth = 150;
       window.earth.scene.scanEffect.lineMoveDirection = dir;
-      window.earth.scene.scanEffect.speed = 800;
+      window.earth.scene.scanEffect.speed = 1000;
       window.earth.scene.scanEffect.period = 15.0;
       window.earth.scene.colorCorrection.saturation = 3.9;
       window.earth.scene.colorCorrection.brightness = 0.8;

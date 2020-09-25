@@ -49,12 +49,13 @@ export default {
             name: v.key,
           });
         });
-        Cesium.when(PROMISES[PROMISES.length - 1], () => {
+        //  精模服务暂有问题，先用setTimeout代替promise处理可见
+        setTimeout(() => {
           LAYERS.map((v) => {
             const V_LAYER = window.earth.scene.layers.find(v.key);
             V_LAYER.visibleDistanceMax = v.d || 1400;
           });
-        });
+        }, 4000);
       }
     },
     //  关闭BIM分析模块

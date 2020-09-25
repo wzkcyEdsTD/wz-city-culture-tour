@@ -28,7 +28,7 @@
       <VideoCircle ref="videoCircle" />
       <RoadLine ref="roadline" />
       <InfoFrame ref="infoframe" v-show="isInfoFrame" />
-      <LayerHub v-if="initDataLoaded" />
+      <LayerHub ref="layerHub" v-if="initDataLoaded" />
       <transition name="fade">
         <div v-show="!isOverview">
           <RtmpVideo />
@@ -222,7 +222,7 @@ export default {
       });
       window.earth = viewer;
       // viewer.scene.globe.depthTestAgainstTerrain = false;
-      viewer.scene.debugShowFramesPerSecond = true;
+      // viewer.scene.debugShowFramesPerSecond = true;
       viewer.imageryLayers.get(0).show = false;
       viewer.scene.skyAtmosphere.show = false;
       viewer.scene.globe.baseColor = new Cesium.Color.fromCssColorString(
@@ -335,5 +335,8 @@ export default {
   bottom: 0;
   right: 0;
   z-index: 8;
+}
+.cesium-viewer-navigationContainer {
+  display: none;
 }
 </style>

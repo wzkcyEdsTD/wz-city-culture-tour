@@ -8,13 +8,19 @@
 -->
 <template>
   <div class="bottom-wrapper">
-    <div class="bottom-layers-container" v-show="forceTreeLabel!='城市总览' && forceTreeTopic.length">
+    <div
+      class="bottom-layers-container"
+      v-show="forceTreeLabel != '城市总览' && forceTreeTopic.length"
+    >
       <div class="swiper-buttons swiper-button-left"></div>
       <swiper ref="mySwiper" class="layers" :options="swiperOptions">
         <swiper-slide
-          v-for="(item,i) in forceTreeTopic"
+          v-for="(item, i) in forceTreeTopic"
           :key="i"
-          :class="{item:true,active:~forceTrueTopicLabels.indexOf(item.id)}"
+          :class="{
+            item: true,
+            active: ~forceTrueTopicLabels.indexOf(item.id),
+          }"
         >
           <div>
             <img
@@ -27,7 +33,7 @@
               v-if="~forceTrueTopicLabels.indexOf(item.id)"
               @click="doForceTrueTopicLabels(item.id)"
             />
-            <p>{{item.id}}</p>
+            <p>{{ item.id }}</p>
           </div>
         </swiper-slide>
       </swiper>
@@ -36,12 +42,16 @@
     <div class="bottom-topics-container">
       <ul class="labels">
         <li
-          v-for="(item,i) in CESIUM_TREE_OPTION"
+          v-for="(item, i) in CESIUM_TREE_OPTION"
           :key="i"
-          :class="{item:true,active:item.id==forceTreeLabel,disabled:item.disabled}"
-          @click="!item.disabled?forceTreeLabel=item.id:undefined"
+          :class="{
+            item: true,
+            active: item.id == forceTreeLabel,
+            disabled: item.disabled,
+          }"
+          @click="!item.disabled ? (forceTreeLabel = item.id) : undefined"
         >
-          <i>{{item.label}}</i>
+          <i>{{ item.label }}</i>
         </li>
       </ul>
     </div>
