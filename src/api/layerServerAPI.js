@@ -31,6 +31,8 @@ const getAxios = (url = "", data = {}) => {
  * 4.经济
  * 5.
  * 8.卡口
+ * 11.重点景点流量数据
+ * 12.应急体征
  */
 const getWzKindsData = (type) => {
   return getAxios(`/statistics/GetCityBraainData?time=202008&type=${type}&businessType=1&workTime=20200101`)
@@ -55,6 +57,13 @@ export const getBayonetList = () => {
  */
 export const getStationList = () => {
   return getWzKindsData(9);
+};
+
+/**
+ * 获取景点人流量数据
+ */
+export const getTourPointList = () => {
+  return getWzKindsData(11)
 };
 
 /**
@@ -83,6 +92,13 @@ export const fetchMedicalData = () => {
  */
 export const fetchTourData = () => {
   return getWzKindsData(6)
+};
+
+/**
+ * 获取全市应急数据
+ */
+export const fetchEmergencyData = () => {
+  return getWzKindsData(12)
 };
 
 /**

@@ -23,6 +23,9 @@ const state = {
   //  卡口数据
   bayonetList: {},
   bayonetListWithGeometry: [],
+  //  重点景区流量
+  tourPointList: {},
+  tourPointListWithGeometry: [],
   //  医院
   hospitalList: [],
   //  各模块概览信息
@@ -33,7 +36,10 @@ const state = {
   WzBasicData: {},      //  城市基础指标
   WzSourceData: {},     //  城市资源指标
   WzTrafficData: {},    //  城市交通指标
+  WzEmergencyData: {},  //  城市应急指标
   //  指标下表
   forceIndex: '城市总览',
+  //  时间轮盘
+  forceTime: 'now'
 };
 export default state;

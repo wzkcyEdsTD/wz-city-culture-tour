@@ -6,8 +6,11 @@
     >
       <div class="popup-container">
         <div class="remove" @click="removeVideoCircle(null)"></div>
-        <div class="position"></div>
-        <div class="resource" @click="resourceClick()"></div>
+        <div
+          :class="['position', rtmpOn ? 'on' : 'off']"
+          @click="showVideoCircle"
+        ></div>
+        <div class="resource" @click="resourceClick"></div>
       </div>
     </div>
   </div>
@@ -27,6 +30,7 @@ export default {
       item: {},
       rtmpVideoList: [],
       entitiesID: [],
+      rtmpOn: true,
     };
   },
   mounted() {
@@ -59,7 +63,7 @@ export default {
       if (pointToWindow) {
         this.item = {
           x: pointToWindow.x - $(".vc-popup").width() / 2,
-          y: pointToWindow.y - $(".vc-popup").height(),
+          y: pointToWindow.y - $(".vc-popup").height() / 2,
         };
       }
     },
@@ -87,14 +91,18 @@ export default {
       });
       window.earth.entities.add(circleEntity);
       this.entitiesID.push(circleEntity.id);
-
       const circleLabelEntity = new Cesium.Entity({
         position: Cesium.Cartesian3.fromDegrees(lng, lat, 200),
         label: {
           text: `周边${queryRadius}米内监控`,
-          color: Cesium.Color.fromCssColorString("#fff"),
-          font: "bold 12px MicroSoft YaHei",
+          fillColor: Cesium.Color.WHITE,
+          outlineColor: Cesium.Color.BLACK,
           style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+          font: "10px",
+          scale: 1,
+          outlineWidth: 4,
+          showBackground: true,
+          backgroundColor: Cesium.Color(0.165, 0.165, 0.165, 0.1),
           distanceDisplayCondition: new Cesium.DistanceDisplayCondition(
             0,
             10000
@@ -130,7 +138,14 @@ export default {
         window.earth.entities.add(videoPointEntity);
         this.entitiesID.push(videoPointEntity.id);
       });
-      window.earth.camera.flyTo({
+      this.cameraMove({ lng, lat });
+    },
+    /**
+     * 相机跳转
+     * @param {object} geometry
+     */
+    cameraMove({ lng, lat }) {
+      window.earth.scene.camera.setView({
         destination: Cesium.Cartesian3.fromDegrees(lng, lat - 0.005, 450),
         orientation: {
           heading: 0.003336768850279448,
@@ -139,11 +154,9 @@ export default {
         },
       });
     },
-
     doSetRtmpList() {
       this.SetRtmpList(this.rtmpVideoList);
     },
-
     /**
      * 删缓冲区
      * @param {string|number|undefined} 有id删id 没id删全部
@@ -154,7 +167,16 @@ export default {
       });
       this.shallPop = false;
     },
-
+    /**
+     * 显隐视频点
+     */
+    showVideoCircle() {
+      const now_rtmpOn = !this.rtmpOn;
+      this.entitiesID.forEach((item, index) => {
+        index != 0 && (window.earth.entities.getById(item).show = now_rtmpOn);
+      });
+      this.rtmpOn = now_rtmpOn;
+    },
     resourceClick() {
       this.doSetRtmpList();
       this.$bus.$emit("cesium-3d-videoPointClick", {
@@ -192,7 +214,12 @@ export default {
     .position {
       width: 30px;
       height: 30px;
-      .bg-image("/static/images/common/my-position");
+      &.on {
+        .bg-image("/static/images/common/my-position-on");
+      }
+      &.off {
+        .bg-image("/static/images/common/my-position-off");
+      }
     }
     .resource {
       .bg-image("/static/images/common/VC-show-bg");

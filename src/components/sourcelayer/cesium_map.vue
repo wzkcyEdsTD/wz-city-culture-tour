@@ -12,23 +12,25 @@
     <!-- 气泡框 -->
     <div class="popup-groups">
       <BayonetPopup ref="bayonetPopup" />
+      <TourPointPopup ref="tourPointPopup" />
       <MedicalPopup ref="medicalPopup" />
       <DetailPopup ref="detailPopup" />
       <StationPopup ref="stationPopup" />
     </div>
-    <!-- 蒙板 -->
-    <!-- <div class="mapCover" v-show="isOverview" /> -->
+    <!-- 城市各类指标 -->
+    <CityIndex ref="totalTarget" />
+    <!-- 模块切换 -->
+    <LayerHub ref="layerHub" v-if="initDataLoaded" />
+    <!-- 时间转盘 -->
+    <Roulette />
     <!-- 功能组件 -->
     <div v-if="mapLoaded && validated">
-      <CityIndex ref="totalTarget" />
-      <Roulette />
       <NanTangModel v-if="showSubFrame == '3d1'" />
       <Overview ref="overview" v-if="showSubHubFrame == '3d1'" />
-      <TrafficSubwayModel v-if="showSubHubFrame == '3d2'" />
+      <TrafficSubwayModel v-if="showSubHubFrame == '3d4'" />
       <VideoCircle ref="videoCircle" />
       <RoadLine ref="roadline" />
       <InfoFrame ref="infoframe" v-show="isInfoFrame" />
-      <LayerHub ref="layerHub" v-if="initDataLoaded" />
       <transition name="fade">
         <div v-show="!isOverview">
           <RtmpVideo />
@@ -55,6 +57,7 @@ import MedicalPopup from "./commonFrame/Popups/medicalPopup";
 import BayonetPopup from "./commonFrame/Popups/bayonetPopup";
 import StationPopup from "./commonFrame/Popups/stationPopup";
 import DetailPopup from "./commonFrame/Popups/DetailPopup";
+import TourPointPopup from "./commonFrame/Popups/tourPointPopup";
 import RtmpVideo from "./extraModel/RtmpVideo/RtmpVideo";
 import Population from "./extraModel/Population/Population";
 import RoadLine from "./extraModel/PolylineTrailLink/RoadLine";
@@ -62,6 +65,14 @@ import VideoCircle from "./commonFrame/postMessage/videoCircle";
 import AuthFailPopup from "./commonFrame/AuthFailPopup/AuthFailPopup";
 import Overview from "./extraModel/Overview/Overview.vue";
 import { getCurrentExtent, isContainByExtent } from "./commonFrame/mapTool";
+import {
+  mapConfigInit,
+  mapImageLayerInit,
+  mapMvtLayerInit,
+  mapRiverLayerInit,
+  mapBaimoLayerInit,
+  mapRoadLampLayerInit,
+} from "./cesium_map_init";
 import { doValidation } from "api/validation/validation";
 import { mapGetters } from "vuex";
 const Cesium = window.Cesium;
@@ -70,11 +81,9 @@ export default {
   data() {
     return {
       showSubFrame: null,
-      showSubHubFrame: null,
+      showSubHubFrame: "3d1",
       mapLoaded: false,
       validated: false,
-      imagelayer: undefined,
-      datalayer: undefined,
       isInfoFrame: false,
       authFailshallPop: false,
     };
@@ -96,6 +105,7 @@ export default {
     MedicalPopup,
     BayonetPopup,
     StationPopup,
+    TourPointPopup,
     DetailPopup,
     RtmpVideo,
     Population,
@@ -105,7 +115,7 @@ export default {
     Overview,
   },
   async mounted() {
-    this.init3DMap(() => {
+    await this.init3DMap(() => {
       this.mapLoaded = true;
       this.initPostRender();
       this.initHandler();
@@ -142,9 +152,13 @@ export default {
         if (this.$refs.stationPopup) {
           this.$refs.stationPopup.fixPopup();
         }
+        //  *****[stationList] 景区点位*****
+        if (this.$refs.tourPointPopup) {
+          this.$refs.tourPointPopup.fixPopup();
+        }
         //  *****[indexPoints]  城市总览指标*****
-        if (this.isOverview && this.$refs.overview.indexPoints) {
-          this.$refs.overview.doIndexPoints();
+        if (this.isOverview && this.$refs.overview.$refs.overviewNow) {
+          this.$refs.overview.$refs.overviewNow.doIndexPoints();
         }
         //  *****[videoCircle]  事件传递点位*****
         if (this.$refs.videoCircle && this.$refs.videoCircle.shallPop) {
@@ -182,12 +196,14 @@ export default {
         }
       }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
     },
+    /**
+     * 事件注册
+     */
     eventRegsiter() {
       this.$bus.$off("cesium-3d-event");
       this.$bus.$on("cesium-3d-event", ({ value }) => {
         this.showSubFrame = value;
       });
-      this.$bus.$off("cesium-3d-switch");
       this.$bus.$on("cesium-3d-switch", ({ value }) => {
         this.$bus.$emit("cesium-3d-event", { value: !value ? "3d1" : null });
         ServiceUrl.WZBaimo_OBJ.map(({ KEY }) => {
@@ -195,15 +211,11 @@ export default {
           _LAYER_.visible = !value ? false : true;
         });
         //  底图切换
-        this.datalayer.show = !value ? false : true;
-        this.imagelayer
-          ? (this.imagelayer.show = !value ? true : false)
+        window.datalayer.show = !value ? false : true;
+        window.imagelayer
+          ? (window.imagelayer.show = !value ? true : false)
           : !value
-          ? (this.imagelayer = window.earth.imageryLayers.addImageryProvider(
-              new Cesium.SuperMapImageryProvider({
-                url: ServiceUrl.SWImage,
-              })
-            ))
+          ? (window.imagelayer = mapImageLayerInit(ServiceUrl.SWImage))
           : undefined;
       });
       this.$bus.$on("cesium-3d-hub-event", ({ value }) => {
@@ -214,92 +226,34 @@ export default {
      * 地图初始化
      * @param {function} fn 回调函数
      */
-    init3DMap(fn) {
+    async init3DMap(fn) {
       const that = this;
-      const viewer = new Cesium.Viewer("cesiumContainer", {
+      window.earth = new Cesium.Viewer("cesiumContainer", {
         infoBox: false,
         selectionIndicator: false,
       });
-      window.earth = viewer;
-      // viewer.scene.globe.depthTestAgainstTerrain = false;
-      // viewer.scene.debugShowFramesPerSecond = true;
-      viewer.imageryLayers.get(0).show = false;
-      viewer.scene.skyAtmosphere.show = false;
-      viewer.scene.globe.baseColor = new Cesium.Color.fromCssColorString(
-        "rgba(13,24,45, 1)"
-      );
-      //  大数据地图
-      this.datalayer = viewer.imageryLayers.addImageryProvider(
-        new Cesium.SuperMapImageryProvider({
-          url: ServiceUrl.DataImage,
-        })
-      );
-      //  地图注记
-      const mapMvt = viewer.scene.addVectorTilesMap({
-        url: ServiceUrl.YJMVT,
-        name: "mapMvt",
-        viewer,
-      });
-      //  重要地物注记
-      // const keyMvt = viewer.scene.addVectorTilesMap({
-      //   url: ServiceUrl.KEYMVT,
-      //   name: "keyMvt",
-      //   viewer,
-      // });
-      //  水面
-      const riverPromise = window.earth.scene.addS3MTilesLayerByScp(
-        ServiceUrl.RIVER,
-        {
-          name: "RIVER",
-        }
-      );
-      Cesium.when(riverPromise, async ([forceLayer, ...oLayer]) => {
-        window.earth.scene.layers.find("RIVER").style3D.bottomAltitude = 1;
-        window.earth.scene.layers.find("RIVER").refresh();
-      });
-      //  白模叠加
-      ServiceUrl.WZBaimo_OBJ.map(({ KEY, URL, FLOW }) => {
-        const baimoPromise = viewer.scene.addS3MTilesLayerByScp(URL, {
-          name: KEY,
-        });
-        Cesium.when(baimoPromise, async ([forceLayer, ...oLayer]) => {
-          const LAYER = viewer.scene.layers.find(KEY);
-          LAYER.style3D.fillForeColor = new Cesium.Color.fromCssColorString(
-            "rgba(137,137,137, 1)"
-          );
-          const hyp = new Cesium.HypsometricSetting();
-          const colorTable = new Cesium.ColorTable();
-          hyp.MaxVisibleValue = 300;
-          hyp.MinVisibleValue = 0;
-          colorTable.insert(300, new Cesium.Color(1, 1, 1));
-          colorTable.insert(160, new Cesium.Color(0.95, 0.95, 0.95));
-          colorTable.insert(76, new Cesium.Color(0.7, 0.7, 0.7));
-          colorTable.insert(0, new Cesium.Color(13 / 255, 24 / 255, 45 / 255));
-          hyp.ColorTable = colorTable;
-          hyp.DisplayMode = Cesium.HypsometricSettingEnum.DisplayMode.FACE;
-          hyp.Opacity = 1;
-          //  贴图纹理
-          if (FLOW) {
-            hyp.emissionTextureUrl = "/static/images/area/speedline.png";
-            hyp.emissionTexCoordUSpeed = 0.2;
-            LAYER.hypsometricSetting = {
-              hypsometricSetting: hyp,
-              analysisMode:
-                Cesium.HypsometricSettingEnum.AnalysisRegionMode.ARM_ALL,
-            };
-          }
-          // LAYER.visibleDistanceMax = 5000;
-        });
-      });
-      // 移除缓冲圈
-      $(".cesium-widget-credits").hide();
-
+      //  地图配置
+      mapConfigInit();
+      //  相机位置
       this.cameraMove();
+      //  大数据地图
+      window.datalayer = mapImageLayerInit(ServiceUrl.DataImage);
+      //  地图注记
+      const mapMvt = mapMvtLayerInit("mapMvt", ServiceUrl.YJMVT);
+      //  重要地物注记
+      const keyMvt = mapMvtLayerInit("keyMvt", ServiceUrl.KEYMVT);
+      //  水面
+      await mapRiverLayerInit("RIVER", ServiceUrl.RIVER);
+      //  白模叠加
+      await mapBaimoLayerInit(ServiceUrl.WZBaimo_OBJ);
+      //  路灯、光源叠加
+      // await mapRoadLampLayerInit("ROADLAMP", ServiceUrl.ROAD_LAMP);
+      //  回调钩子
       fn && fn();
     },
-    addPointLight() {
-      window.earth.scene.fxaa = true;
-    },
+    /**
+     * move your fat ass bro
+     */
     cameraMove() {
       window.earth.scene.camera.setView({
         destination: {

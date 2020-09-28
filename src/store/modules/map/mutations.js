@@ -10,6 +10,9 @@
 import * as types from "./mutation-types";
 
 const mutations = {
+  [types.SET_WZ_EMERGENCY_DATA](state, data) {
+    state.WzEmergencyData = data;
+  },
   [types.SET_WZ_BASIC_DATA](state, data) {
     state.WzBasicData = data;
   },
@@ -52,6 +55,12 @@ const mutations = {
   [types.SET_BAYONET_LIST](state, data) {
     state.bayonetList = data;
   },
+  [types.SET_TOUR_POINT_LIST_WITH_GEOMETRY](state, data) {
+    state.tourPointListWithGeometry = data;
+  },
+  [types.SET_TOUR_POINT_LIST](state, data) {
+    state.tourPointList = data;
+  },
   [types.SET_RTMP_LIST](state, data) {
     state.rtmpList = data;
   },
@@ -72,6 +81,9 @@ const mutations = {
   },
   [types.SET_FORCE_INDEX](state, data) {
     state.forceIndex = data
+  },
+  [types.SET_FORCE_TIME](state, data) {
+    state.forceTime = data
   }
 };
 

@@ -6,6 +6,9 @@
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\store\modules\map\getters.js
  */
+
+import state from "./state";
+
 // 获取state
 export const forceMapTypeBase = state => state.forceMapTypeBase;
 export const currentMapType = state => state.currentMapType;
@@ -19,6 +22,8 @@ export const stationList = state => state.stationList;
 export const stationListWithGeometry = state => state.stationListWithGeometry;
 export const bayonetList = state => state.bayonetList;
 export const bayonetListWithGeometry = state => state.bayonetListWithGeometry;
+export const tourPointList = state => state.tourPointList;
+export const tourPointListWithGeometry = state => state.tourPointListWithGeometry
 export const hospitalList = state => state.hospitalList;
 export const WzMedicalData = state => state.WzMedicalData;
 export const WzOverviewData = state => state.WzOverviewData;
@@ -27,4 +32,6 @@ export const WzTourData = state => state.WzTourData;
 export const WzCultureData = state => state.WzCultureData;
 export const WzBasicData = state => state.WzBasicData;
 export const WzSourceData = state => state.WzSourceData;
+export const WzEmergencyData = state => state.WzEmergencyData;
 export const forceIndex = state => state.forceIndex;
+export const forceTime = state => state.forceTime;

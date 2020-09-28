@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div class="dynamicNum">
     <countTo
       v-if="value"
       :startVal="0"
-      :endVal="value?parseFloat(value):0"
-      :duration="parseInt(Math.random(1)*600+900)"
+      :endVal="value ? parseFloat(value) : 0"
+      :duration="parseInt(Math.random(1) * 600 + 900)"
       :autoplay="true"
-      :decimals="decimals||decimals==0?parseInt(decimals):2"
+      :decimals="decimals || decimals == 0 ? parseInt(decimals) : 2"
     />
     <span v-if="!value">-</span>
   </div>
@@ -21,3 +21,9 @@ export default {
   props: ["value", "decimals"],
 };
 </script>
+
+<style lang="less" scoped>
+.dynamicNum {
+  display: inline-block;
+}
+</style>

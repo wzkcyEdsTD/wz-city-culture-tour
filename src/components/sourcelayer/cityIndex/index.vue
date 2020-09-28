@@ -8,7 +8,12 @@
 -->
 <template>
   <div class="cityIndex">
-    <component :is="fixForceIndex" />
+    <div v-if="forceTime == 'now'">
+      <component :is="fixForceIndex" />
+    </div>
+    <div v-if="forceTime == 'pass'">
+      <cityIndexPass />
+    </div>
     <scene-switch />
   </div>
 </template>
@@ -26,21 +31,24 @@ const indexHash = {
 };
 import { mapGetters } from "vuex";
 import SceneSwitch from "../commonFrame/SceneSwitch/SceneSwitch";
-//  components
-import cityIndex from "./cityIndex";
-import medicalIndex from "./medicalIndex";
-import tourIndex from "./tourIndex";
-import cultureIndex from "./cultureIndex";
-import emergencyIndex from "./emergencyIndex";
-import basicIndex from "./basicIndex";
-import sourceIndex from "./sourceIndex";
-import trafficIndex from "./trafficIndex";
+//  now
+import cityIndex from "./now/cityIndex";
+import medicalIndex from "./now/medicalIndex";
+import tourIndex from "./now/tourIndex";
+import cultureIndex from "./now/cultureIndex";
+import emergencyIndex from "./now/emergencyIndex";
+import basicIndex from "./now/basicIndex";
+import sourceIndex from "./now/sourceIndex";
+import trafficIndex from "./now/trafficIndex";
+//  pass
+import cityIndexPass from "./pass/cityIndex";
+
 export default {
   data() {
     return { indexHash };
   },
   computed: {
-    ...mapGetters("map", ["forceIndex"]),
+    ...mapGetters("map", ["forceTime", "forceIndex"]),
     fixForceIndex() {
       return indexHash[this.forceIndex] || "cityIndex";
     },
@@ -60,6 +68,7 @@ export default {
     basicIndex,
     sourceIndex,
     trafficIndex,
+    cityIndexPass,
   },
 };
 </script>

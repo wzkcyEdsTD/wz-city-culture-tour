@@ -13,7 +13,19 @@ import {
   getWzAllMedicalInsuranceInstitution,
   getWzAllMedicalInsurancePayment
 } from "api/cityBrainAPI";
-import { getMedicalList, getBayonetList, getStationList, fetchWzOverviewData, fetchWzTrafficData, fetchTourData, fetchCultureData, fetchSourceData, fetchBasicData, fetchWzPeopleData } from "api/layerServerAPI";
+import { getMedicalList, getBayonetList, getStationList, getTourPointList, fetchWzOverviewData, fetchWzTrafficData, fetchTourData, fetchCultureData, fetchSourceData, fetchBasicData, fetchWzPeopleData, fetchEmergencyData } from "api/layerServerAPI";
+
+/**
+ * 对象下所有值相加
+ * @param {*} object 
+ */
+function addByObjectKey(object) {
+  let count = 0;
+  Object.keys(object).map(k => {
+    count += parseFloat(object[k])
+  })
+  return count;
+}
 
 //  获取全市总览数据
 export const SetWzOverviewData = async ({ commit, state }) => {
@@ -49,6 +61,18 @@ export const SetWzBasicData = async ({ commit, state }) => {
   if (!Object.keys(state.WzBasicData).length) {
     const { result } = await fetchBasicData();
     commit(types.SET_WZ_BASIC_DATA, result);
+  }
+}
+
+//  获取全市应急数据
+export const SetWzEmergencyData = async ({ commit, state }) => {
+  if (!Object.keys(state.WzEmergencyData).length) {
+    const { result } = await fetchEmergencyData();
+    const _result_ = {};
+    for (let key in result) {
+      _result_[key] = addByObjectKey(result[key]);
+    }
+    commit(types.SET_WZ_EMERGENCY_DATA, _result_);
   }
 }
 
@@ -167,6 +191,22 @@ export const fetchBayonetList = async ({ commit }) => {
   commit(types.SET_INIT_DATA_LOADED, true)
 };
 
+/**
+ * 设置带空间参数的景点信息
+ * @param {*} param0
+ * @param {*} data
+ */
+export const setTourPointListWithGeometry = ({ commit }, data) => {
+  commit(types.SET_TOUR_POINT_LIST_WITH_GEOMETRY, data);
+};
+
+//  设置卡口数据
+export const fetchTourPointList = async ({ commit }) => {
+  const { result } = await getTourPointList();
+  commit(types.SET_TOUR_POINT_LIST, result['重点景区客流数据']);
+  commit(types.SET_INIT_DATA_LOADED, true)
+};
+
 //  设置监控视频
 export const SetRtmpList = ({ commit }, data) => {
   commit(types.SET_RTMP_LIST, data);
@@ -178,4 +218,8 @@ export const SetIsInfoFrame = ({ commit }, data) => {
 //  设置展示指标
 export const SetForceIndex = ({ commit }, data) => {
   commit(types.SET_FORCE_INDEX, data);
+};
+//  设置时间线
+export const SetForceTime = ({ commit }, data) => {
+  commit(types.SET_FORCE_TIME, data);
 };

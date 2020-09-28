@@ -23,6 +23,13 @@ const MEDICAL_TOPIC = [
 ];
 //  旅游专题
 const TOUR_TOPIC = [
+  {
+    label: "重点景区", dataset: "JingQu",
+    withExtraData: "tourPointList",
+    withExtraDataGeometry: "tourPointListWithGeometry",
+    saveExtraDataByGeometry: "setTourPointListWithGeometry",
+    withExtraKey: "NAME",
+  },
   { label: "星级酒店", dataset: "XingJiJiuDian" },
   { label: "精品农家乐", dataset: "温州农家乐" },
   { label: "旅游景点", dataset: "永嘉旅游景点地图" },
@@ -36,15 +43,16 @@ const TOUR_TOPIC = [
   { label: "A级风景区", dataset: "AJiFengJingQu" },
   { label: "其他景点", dataset: "QiTaJingDIan" },
   { label: "星级旅行社", dataset: "XingJiLvXingShe" },
-  { label: "民宿客栈", dataset: "MinSuKeZhan" }
+  { label: "民宿客栈", dataset: "MinSuKeZhan" },
+  { label: "公厕", dataset: "PublicToilet" }
 ];
 
 // 基础设施
 const BASIC_TOPIC = [
   {
-    label: "公厕",
-
-    dataset: "PublicToilet"
+    label: "控规信息",
+    url: `${SERVER_HOST}/map-KongGui_LuCheng/rest/maps/%E6%8E%A7%E8%A7%84%E4%B8%89%E5%8C%BA20200304%40172.20.83.196_swdata`,
+    type: "image"
   }
 ];
 // 文化专题
@@ -88,6 +96,10 @@ const SOURCE_TOPIC = [
     label: "农贸市场面",
     polygon: true,
     dataset: "FarmersMarket_SiQu_M"
+  },
+  {
+    label: "派出所",
+    dataset: "PoliceStation"
   },
   {
     label: "市场商场",
@@ -135,7 +147,7 @@ const TRAFFIC_TOPIC = [
   {
     label: "S1线路",
     componentEvent: "cesium-3d-hub-event",
-    componentKey: "3d2",
+    componentKey: "3d4",
     type: 'model'
   },
   {
@@ -145,14 +157,6 @@ const TRAFFIC_TOPIC = [
     withExtraDataGeometry: "stationListWithGeometry",
     saveExtraDataByGeometry: "setStationListWithGeometry",
     withExtraKey: "NAME",
-  }
-];
-//  控规专题
-const KG_INFO = [
-  {
-    label: "控规信息",
-    url: `${SERVER_HOST}/map-KongGui_LuCheng/rest/maps/%E6%8E%A7%E8%A7%84%E4%B8%89%E5%8C%BA20200304%40172.20.83.196_swdata`,
-    type: "image"
   }
 ];
 
@@ -170,10 +174,10 @@ const CITY_TOPIC = [
  */
 export const SET_CESIUM_TREE_EXTRA_DATA_WITH_GEOMETRY = [
   "setMedicalListWithGeometry", "setBayonetListWithGeometry",
-  "setStationListWithGeometry"
+  "setStationListWithGeometry", "setTourPointListWithGeometry"
 ];
-export const CESIUM_TREE_EXTRA_DATA_WITH_GEOMETRY = ["medicalListWithGeometry", "bayonetListWithGeometry", "stationListWithGeometry"];
-export const CESIUM_TREE_EXTRA_DATA = ["medicalList", "bayonetList", "stationList"];
+export const CESIUM_TREE_EXTRA_DATA_WITH_GEOMETRY = ["medicalListWithGeometry", "bayonetListWithGeometry", "stationListWithGeometry", "tourPointListWithGeometry"];
+export const CESIUM_TREE_EXTRA_DATA = ["medicalList", "bayonetList", "stationList", "tourPointList"];
 export const CESIUM_TREE_OPTION = [
   {
     id: "城市总览",
@@ -231,7 +235,6 @@ export const CESIUM_TREE_OPTION = [
   {
     id: "应急专题",
     label: "应急专题",
-    disabled: true,
     children: EMERGENCY_TOPIC.map(v => {
       return {
         ...v,
@@ -246,7 +249,7 @@ export const CESIUM_TREE_OPTION = [
   {
     id: "基础设施",
     label: "基础设施",
-    children: [...BASIC_TOPIC, ...KG_INFO].map(v => {
+    children: [...BASIC_TOPIC].map(v => {
       return {
         ...v,
         id: v.label,

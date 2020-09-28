@@ -26,7 +26,7 @@ export default {
     this.eventRegsiter();
   },
   beforeDestroy() {
-    this.$bus.$emit("cesium-3d-switch", { value: true });
+    window.earth.scene.bloomEffect.show = true;
     this.closeNanTangModel();
   },
   methods: {
@@ -37,6 +37,7 @@ export default {
     },
     //  初始化BIM场景
     initBimScene(fn) {
+      window.earth.scene.bloomEffect.show = false;
       const _LAYER_ = window.earth.scene.layers.find(LAYERS[0].key);
       if (_LAYER_) {
         LAYERS.map((v) => {
@@ -49,13 +50,13 @@ export default {
             name: v.key,
           });
         });
-        //  精模服务暂有问题，先用setTimeout代替promise处理可见
         Cesium.when(
           PROMISES[PROMISES.length - 1],
           async ([forceLayer, ...oLayer]) => {
             LAYERS.map((v) => {
               const V_LAYER = window.earth.scene.layers.find(v.key);
               V_LAYER.visibleDistanceMax = v.d || 1400;
+              V_LAYER.lodRangeScale = 0.01;
             });
           }
         );

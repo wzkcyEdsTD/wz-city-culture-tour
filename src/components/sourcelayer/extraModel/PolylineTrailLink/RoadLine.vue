@@ -50,7 +50,7 @@ export default {
     changeSkyBox(boxType) {
       window.earth.scene.skyBox =
         boxType == "day"
-          ? new Cesium.GroundSkyBox({
+          ? new Cesium.SkyBox({
               sources: {
                 positiveX: "/static/images/skyBox/day/posx.png",
                 negativeX: "/static/images/skyBox/day/negx.png",

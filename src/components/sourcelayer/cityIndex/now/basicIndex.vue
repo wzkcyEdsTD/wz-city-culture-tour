@@ -110,7 +110,7 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import DynamicNum from "./dynamicNum";
+import DynamicNum from "../dynamicNum";
 
 export default {
   name: "trafficIndex",

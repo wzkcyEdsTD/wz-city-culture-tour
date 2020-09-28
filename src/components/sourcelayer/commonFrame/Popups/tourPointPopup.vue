@@ -4,7 +4,7 @@
  * @LastEditTime: 2020-09-03 21:24:20
  * @LastEditors: eds
  * @Description:
- * @FilePath: \wz-city-culture-tour\src\components\sourcelayer\commonFrame\medicalPopup.vue
+ * @FilePath: \wz-city-culture-tour\src\components\sourcelayer\commonFrame\tourPointPopup.vue
 -->
 <template>
   <div id="trackPopUp" v-if="shallPop">
@@ -12,32 +12,26 @@
       v-for="(item, index) in popList"
       :key="index"
       :id="`trackPopUpContent_${index}`"
-      class="leaflet-popup-medical"
-      :style="{ transform: `translate3d(${item.x}px,${item.y + 10}px, 0)` }"
+      class="leaflet-popup-tourPoint"
+      :style="{ transform: `translate3d(${item.x}px,${item.y + 20}px, 0)` }"
     >
       <div class="popup-tip-container">
         <div class="popup-tip-inner">
-          <div class="tip-name" @click="showDetail(item)">
-            {{ item.shortname }}
-          </div>
+          <div class="tip-name">{{ item.name }}</div>
           <div class="tip-num">
             <table border="0">
               <tbody>
                 <tr>
-                  <td>等级</td>
-                  <td>{{ item.grade }}</td>
+                  <td>
+                    <p>景区等级</p>
+                    <p>{{ item.attributes.LEVEL_USER || "-" }}</p>
+                  </td>
                 </tr>
                 <tr>
-                  <td>发热人数</td>
-                  <td>{{ item.extra_data["发热病人"] || "-" }}</td>
-                </tr>
-                <tr>
-                  <td>门诊人次</td>
-                  <td>{{ item.extra_data["实时门诊人次"] || "-" }}</td>
-                </tr>
-                <tr>
-                  <td>住院人数</td>
-                  <td>{{ item.extra_data["住院人次"] || "-" }}</td>
+                  <td>
+                    <p>实时人口流量</p>
+                    <p>{{ item.extra_data.dataVal || "-" }}</p>
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -68,7 +62,7 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 export default {
-  name: "medicalPopup",
+  name: "tourPointPopup",
   data() {
     return {
       shallPop: false,
@@ -78,54 +72,55 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("map", ["medicalListWithGeometry"]),
+    ...mapGetters("map", ["tourPointListWithGeometry"]),
   },
   async created() {
-    await this.fetchMedicalList();
+    await this.fetchTourPointList();
   },
   async mounted() {
     this.eventRegsiter();
   },
   methods: {
-    ...mapActions("map", ["fetchMedicalList"]),
+    ...mapActions("map", ["fetchTourPointList"]),
     eventRegsiter() {
       this.$bus.$on("cesium-3d-around-people", ({ id, result }) => {
         this.bufferHash[id] = result;
       });
     },
     fixPopup() {
-      const medicalList = this.medicalListWithGeometry;
-      if (medicalList && medicalList.length) {
-        // const extent = getCurrentExtent();
-        const G_medicalList = [];
-        medicalList.map((item) => {
+      const tourPointList = this.tourPointListWithGeometry;
+      if (tourPointList && tourPointList.length) {
+        const G_tourPointList = [];
+        tourPointList.map((item) => {
           if (item.geometry) {
-            //&& isContainByExtent(extent, item.geometry)
             const { x, y } = item.geometry;
             const pointToWindow = Cesium.SceneTransforms.wgs84ToWindowCoordinates(
               window.earth.scene,
               Cesium.Cartesian3.fromDegrees(x, y, 0)
             );
-            pointToWindow && G_medicalList.push({ ...item, pointToWindow });
+            pointToWindow && G_tourPointList.push({ ...item, pointToWindow });
           }
         });
-        this.doPopup(G_medicalList);
+        this.doPopup(G_tourPointList);
       } else {
         this.doPopup([]);
       }
     },
-    doPopup(G_medicalList) {
+    doPopup(G_tourPointList) {
       const popList = [];
-      if (G_medicalList.length) {
-        G_medicalList.map((item, index) => {
+      if (G_tourPointList.length) {
+        G_tourPointList.map((item, index) => {
           popList.push({
             id: item.id,
             name: item.attributes.NAME,
-            grade: this.fixGrade(item.attributes.DEFINING_T),
-            shortname: item.attributes.SHORTNAME,
-            feverNum: item.extra_data["发热病人"] || 0,
             attributes: item.attributes,
             extra_data: item.extra_data,
+            color:
+              item.extra_data.status == "绿"
+                ? "green"
+                : item.extra_data.status == "红"
+                ? "red"
+                : "gold",
             geometry: item.geometry,
             x:
               item.pointToWindow.x -
@@ -145,23 +140,10 @@ export default {
       }
     },
 
-    fixGrade(defining) {
-      return ~defining.indexOf("三级甲等") ? "三级甲等" : "";
-    },
-
     closePopup() {
       this.$bus.$emit("cesium-3d-population-circle", { doDraw: false });
       this.shallPop = false;
       this.bufferHash = {};
-    },
-
-    // 展示详情
-    showDetail(obj) {
-      this.$parent.isInfoFrame = true;
-      this.$parent.$refs.infoframe.attributes = {
-        ...obj.attributes,
-        ...obj.extra_data,
-      };
     },
 
     /**
@@ -201,28 +183,47 @@ export default {
 
 <style lang="less">
 @import url("./aroundPeople.less");
-.leaflet-popup-medical {
-  position: absolute;
+.leaflet-popup-tourPoint {
+  position: fixed;
   text-align: center;
   top: -20px;
   left: 0;
   cursor: pointer;
+  .main-body {
+    width: 100%;
+    height: 0;
+    > .tourPoint-ico {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      bottom: 0px;
+      left: 50%;
+      transform: translateX(-32%);
+    }
+    > .tourPoint-warn {
+      position: absolute;
+      width: 70px;
+      bottom: 0px;
+      left: 50%;
+      transform: translateX(-44%);
+    }
+  }
   .popup-tip-container {
     width: 200px;
-    height: 200px;
-    background-image: url("/static/images/common/pop_bg@2x.png");
+    height: 170px;
+    background-image: url("/static/images/common/station-frame@2x.png");
     background-size: 100% 100%;
     background-repeat: no-repeat;
   }
 
   .popup-tip-inner {
-    height: 102px;
+    height: 90px;
     display: flex;
     color: #fff;
   }
 
   .tip-name {
-    width: 60px;
+    width: 74px;
     box-sizing: border-box;
     writing-mode: vertical-lr;
     letter-spacing: -0.34em;
@@ -237,46 +238,49 @@ export default {
     align-items: center;
   }
 
-  .tip-name::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    right: -1px;
-    transform: translate(0, -50%);
-    height: 100%;
-    width: 1px;
-    background-color: #fff;
-    opacity: 0.43;
-  }
-
   .tip-num {
     flex: 1;
     box-sizing: border-box;
     padding: 18px 6px 6px 6px;
+    table {
+      height: 100%;
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0px 5px;
+      font-size: 14px;
+    }
+
+    table tbody tr td {
+      font-family: PingFang;
+      &:first-child {
+        width: 100%;
+        font-weight: bolder;
+        vertical-align: middle;
+      }
+      &:last-child {
+        p {
+          &::before {
+            content: url("/static/images/icons/people.png");
+          }
+        }
+      }
+    }
+
+    p {
+      font-family: PingFang;
+      &:first-child {
+        font-weight: bolder;
+      }
+      &:last-child {
+        font-weight: 700;
+        color: #2fc25a;
+        font-family: DIN;
+      }
+    }
   }
 
-  .tip-num table {
-    height: 100%;
-    border-collapse: separate;
-    border-spacing: 0px 5px;
-    font-size: 10px;
-  }
-
-  .tip-num table tbody tr td {
-    font-family: PingFang;
-  }
-
-  .tip-num table tbody tr td:first-child {
-    width: 60px;
-    font-weight: bolder;
-    vertical-align: middle;
-  }
-
-  .tip-num table tbody tr td:last-child {
-    vertical-align: middle;
-    font-family: DIN;
-    font-weight: 700;
-    color: #2acbfe;
+  .green {
+    color: #2fc25a !important;
   }
 
   .right-btns {
@@ -300,7 +304,7 @@ export default {
   }
 
   .right-btns span:first-child {
-    background-image: url("/static/images/common/rtmpVideo.png");
+    background-image: url("/static/images/common/tourPoint-rtmpVideo.png");
     background-size: 100% 100%;
     background-repeat: no-repeat;
   }

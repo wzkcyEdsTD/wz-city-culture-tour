@@ -9,7 +9,7 @@
 <template>
   <div class="roulette-wrapper">
     <div class="forceImg">
-      <img :src="`/static/images/roulette/${selectedValue}.png`" />
+      <img :src="`/static/images/roulette/${forceTime}.png`" />
     </div>
     <div class="roulette-btns">
       <div @click.prevent="changeOverview(1)" />
@@ -17,8 +17,7 @@
       <div @click.prevent="changeOverview(3)" />
     </div>
     <div class="roulette-bg">
-      <div class="future-bg" v-show="selectedValue=='future'"></div>
-      <div class="pass-bg" v-show="selectedValue=='pass'"></div>
+      <div class="future-bg" v-show="forceTime == 'future'"></div>
     </div>
   </div>
 </template>
@@ -27,25 +26,23 @@
 import { mapGetters, mapActions } from "vuex";
 export default {
   name: "roulette",
-  data() {
-    return {
-      shallOverview: true,
-      selectedValue: "now",
-    };
+  computed: {
+    ...mapGetters("map", ["forceTime"]),
   },
   methods: {
+    ...mapActions("map", ["SetForceTime"]),
     changeOverview(index) {
       const value =
-        this.selectedValue == "now"
+        this.forceTime == "now"
           ? index == 1
             ? "future"
             : "pass"
-          : this.selectedValue == (index == 1 ? "future" : "pass")
+          : this.forceTime == (index == 1 ? "future" : "pass")
           ? index == 1
             ? "pass"
             : "future"
           : "now";
-      this.selectedValue = value;
+      this.SetForceTime(value);
     },
   },
 };

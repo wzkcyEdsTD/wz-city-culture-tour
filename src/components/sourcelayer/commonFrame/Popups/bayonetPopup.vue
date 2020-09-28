@@ -53,8 +53,10 @@
             <header>周边实时人口</header>
             <div>
               <p>范围：500米</p>
-              <strong>{{ bufferHash[item.id].task_time }}</strong>
-              <p>{{ `人数：${bufferHash[item.id].data || "-"}人` }}</p>
+              <strong>{{
+                `人数：${bufferHash[item.id].data || "-"}人`
+              }}</strong>
+              <p>{{ bufferHash[item.id].task_time }}</p>
             </div>
           </div>
         </div>
