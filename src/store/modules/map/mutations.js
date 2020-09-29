@@ -1,3 +1,4 @@
+import { type } from "jquery";
 /*
  * @Author: eds
  * @Date: 2020-07-01 15:22:07
@@ -90,6 +91,9 @@ const mutations = {
   },
   [types.SET_FORCE_TREE_LABEL](state, data) {
     state.forceTreeLabel = data
+  },
+  [types.SET_FORCE_TRUE_TOPIC_LABEL](state, data) {
+    state.forceTrueTopicLabels = [...data];
   }
 };
 

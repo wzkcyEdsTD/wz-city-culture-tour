@@ -16,14 +16,14 @@ export const ServiceUrl = {
   WZBaimo_OBJ: [
     {
       KEY: 'WZBaimo_POINT_AROUND',
-      URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-ResBaiMo/rest/realspace/datas/ResBaiMo/config",
+      URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-BaiMoLuCheng2/rest/realspace/datas/BaiMo_LuCheng_2/config",
       FLOW: true
     },
-    // {
-    //   KEY: 'WZBaimo_POINT_CENTER',
-    //   URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-ShiZhengFuModel/rest/realspace/datas/ShiZhengFu_Model/config",
-    //   FLOW: true
-    // },
+    {
+      KEY: 'WZBaimo_POINT_CENTER',
+      URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-SZF/rest/realspace/datas/SZF/config",
+      FLOW: false
+    },
   ],
   //  水面模型切片
   RIVER: "https://ditu.wzcitybrain.com/iserver/services/3D-River_CityBrain/rest/realspace/datas/River_CityBrain/config",

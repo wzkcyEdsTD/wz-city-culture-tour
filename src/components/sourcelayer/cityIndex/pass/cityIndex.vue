@@ -164,7 +164,7 @@ import { ImagesURL, ServiceUrl } from "config/server/mapConfig";
 import { mapGetters, mapActions } from "vuex";
 import ChartsFrame from "./chartsFrame";
 import INDEX from "./index.json";
-import INDEX_LAST from "./indexLastYear.json";
+const INDEX_LAST = INDEX[INDEX.length - 1];
 import DynamicNum from "../dynamicNum";
 import Compare from "./compare";
 import VueSlider from "vue-slider-component";
@@ -338,6 +338,7 @@ export default {
 }
 .vue-slider-ltr {
   height: 6px !important;
+  cursor: pointer;
 }
 .vue-slider-process {
   background: linear-gradient(to right, transparent, #3498db) !important;

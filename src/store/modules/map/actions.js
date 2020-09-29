@@ -231,3 +231,7 @@ export const SetNightMode = ({ commit }, data) => {
 export const SetForceTreeLabel = ({ commit }, data) => {
   commit(types.SET_FORCE_TREE_LABEL, data);
 };
+//  设置tab子菜单下标数组
+export const SetForceTrueTopicLabels = ({ commit }, data) => {
+  commit(types.SET_FORCE_TRUE_TOPIC_LABEL, data);
+};

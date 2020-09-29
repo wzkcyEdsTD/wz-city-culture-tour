@@ -81,23 +81,27 @@ export const treeDrawTool = (context, { result }, node, fields = []) => {
   const fieldHash = fixFieldsByArr(fields);
   const poiEntityCollection = new Cesium.CustomDataSource(node.id);
   window.earth.dataSources.add(poiEntityCollection).then(datasource => {
-    context.entityMap[node.id] = datasource;
+    window.entityMap[node.id] = datasource;
   });
-  context.featureMap[node.id] = result.features;
-  let forceDrawFeatures = [];
-  if (node.withExtraData) {
-    const { drawFeatures } = fixTreeWithExtra(
-      result.features,
-      context[node.withExtraData],
-      node,
-      context
-    );
-    forceDrawFeatures = [...drawFeatures];
-  } else {
-    forceDrawFeatures = result.features;
-  }
-
-  forceDrawFeatures.map(item => {
+  result.features.map(v => {
+    !window.entityMapGeometry[node.id] && (window.entityMapGeometry[node.id] = {});
+    window.entityMapGeometry[node.id][v.attributes[node.withExtraKey]] = { geometry: v.geometry, attributes: v.attributes, id: v.id };
+  })
+  window.featureMap[node.id] = result.features;
+  // let forceDrawFeatures = [];
+  // if (node.withExtraData) {
+  //   const { drawFeatures } = fixTreeWithExtra(
+  //     result.features,
+  //     context[node.withExtraData],
+  //     node,
+  //     context
+  //   );
+  //   forceDrawFeatures = [...drawFeatures];
+  // } else {
+  // forceDrawFeatures = result.features;
+  // }
+  // forceDrawFeatures.map(item => {
+  result.features.map(item => {
     const entityOption = {
       id: `${item.attributes.SMID}@${node.icon}@${node.dataset}`,
       label: {
@@ -161,7 +165,6 @@ export const treeDrawTool = (context, { result }, node, fields = []) => {
           disableDepthTestDistance: Number.POSITIVE_INFINITY
         }
       };
-
     poiEntityCollection.entities.add(entityInstance);
   });
 };

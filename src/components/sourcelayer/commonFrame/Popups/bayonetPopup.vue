@@ -91,10 +91,14 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("map", ["bayonetListWithGeometry"]),
+    ...mapGetters("map", ["bayonetList", "forceTrueTopicLabels"]),
   },
   async created() {
     await this.fetchBayonetList();
+    //  5分钟取一次卡口信息
+    setInterval(() => {
+      this.fetchBayonetList();
+    }, 1000 * 60 * 5);
   },
   async mounted() {
     this.eventRegsiter();
@@ -107,22 +111,33 @@ export default {
       });
     },
     fixPopup() {
-      const bayonetList = this.bayonetListWithGeometry;
-      if (bayonetList && bayonetList.length) {
-        const G_bayonetList = [];
-        bayonetList.map((item) => {
-          if (item.geometry) {
-            const { x, y } = item.geometry;
-            const pointToWindow = Cesium.SceneTransforms.wgs84ToWindowCoordinates(
-              window.earth.scene,
-              Cesium.Cartesian3.fromDegrees(x, y, 0)
-            );
-            pointToWindow && G_bayonetList.push({ ...item, pointToWindow });
-          }
-        });
-        this.doPopup(G_bayonetList);
-      } else {
+      if (
+        !window.entityMapGeometry["交通卡口"] ||
+        !~this.forceTrueTopicLabels.indexOf("交通卡口")
+      ) {
         this.doPopup([]);
+      } else {
+        const bayonetList = this.bayonetList;
+        if (bayonetList && Object.keys(bayonetList).length) {
+          const G_bayonetList = [];
+          for (let key in bayonetList) {
+            if (window.entityMapGeometry["交通卡口"][key]) {
+              const item = window.entityMapGeometry["交通卡口"][key];
+              const { x, y } = item.geometry;
+              const pointToWindow = Cesium.SceneTransforms.wgs84ToWindowCoordinates(
+                window.earth.scene,
+                Cesium.Cartesian3.fromDegrees(x, y, 0)
+              );
+              pointToWindow &&
+                G_bayonetList.push({
+                  ...item,
+                  extra_data: bayonetList[key],
+                  pointToWindow,
+                });
+            }
+          }
+          this.doPopup(G_bayonetList);
+        }
       }
     },
     doPopup(G_bayonetList) {

@@ -16,7 +16,12 @@
       class="layerPopover"
       v-model="visible"
     >
-      <el-input v-model="filterText" class="treeFilterInput" placeholder="搜索" size="small" />
+      <el-input
+        v-model="filterText"
+        class="treeFilterInput"
+        placeholder="搜索"
+        size="small"
+      />
       <div class="layerTreeContainer">
         <el-tree
           ref="tree"
@@ -31,8 +36,8 @@
     </el-popover>
     <img
       slot="reference"
-      :class="{animated: true, pulse: rotateIn}"
-      style="animation-duration: 0.5s;"
+      :class="{ animated: true, pulse: rotateIn }"
+      style="animation-duration: 0.5s"
       :src="avatar"
       width="59px"
       height="60px"
@@ -118,7 +123,10 @@ export default {
       this.viewer.selectedEntityChanged.addEventListener((entity) => {
         if (!this.viewer) return;
         const selectedEntity = this.viewer.selectedEntity;
-        if (selectedEntity && ~["people", "vr", "travel"].indexOf(selectedEntity.name)) {
+        if (
+          selectedEntity &&
+          ~["people", "vr", "travel"].indexOf(selectedEntity.name)
+        ) {
           this.picked = selectedEntity;
         } else if (
           selectedEntity &&
@@ -215,7 +223,7 @@ export default {
           }
 
           // 专题集合添加
-          if(node.label == "精品旅游路线") {
+          if (node.label == "精品旅游路线") {
             this.$bus.$emit(node.componentEvent, { value: node.componentKey });
           } else {
             this.getPOIPickedFeature(node.dataset, null, node);

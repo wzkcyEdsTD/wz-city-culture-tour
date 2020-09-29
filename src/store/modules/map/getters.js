@@ -36,4 +36,5 @@ export const WzEmergencyData = state => state.WzEmergencyData;
 export const forceIndex = state => state.forceIndex;
 export const forceTime = state => state.forceTime;
 export const nightMode = state => state.nightMode;
-export const forceTreeLabel = state => state.forceTreeLabel;
+export const forceTreeLabel = state => state.forceTreeLabel
+export const forceTrueTopicLabels = state => state.forceTrueTopicLabels;

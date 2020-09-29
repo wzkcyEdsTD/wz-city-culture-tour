@@ -13,7 +13,7 @@
       :key="index"
       :id="`trackPopUpContent_${index}`"
       class="leaflet-popup-station"
-      :style="{ transform: `translate3d(${item.x}px,${item.y+10}px, 0)` }"
+      :style="{ transform: `translate3d(${item.x}px,${item.y + 10}px, 0)` }"
     >
       <div class="popup-tip-container">
         <div class="popup-tip-inner">
@@ -54,10 +54,14 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("map", ["stationListWithGeometry"]),
+    ...mapGetters("map", ["stationList", "forceTrueTopicLabels"]),
   },
   async created() {
     await this.fetchStationList();
+    //  5分钟取一次卡口信息
+    setInterval(() => {
+      this.fetchStationList();
+    }, 1000 * 60 * 5);
   },
   async mounted() {
     this.eventRegsiter();
@@ -66,22 +70,33 @@ export default {
     ...mapActions("map", ["fetchStationList"]),
     eventRegsiter() {},
     fixPopup() {
-      const stationList = this.stationListWithGeometry;
-      if (stationList && stationList.length) {
-        const G_stationList = [];
-        stationList.map((item) => {
-          if (item.geometry) {
-            const { x, y } = item.geometry;
-            const pointToWindow = Cesium.SceneTransforms.wgs84ToWindowCoordinates(
-              window.earth.scene,
-              Cesium.Cartesian3.fromDegrees(x, y, 0)
-            );
-            pointToWindow && G_stationList.push({ ...item, pointToWindow });
-          }
-        });
-        this.doPopup(G_stationList);
-      } else {
+      if (
+        !window.entityMapGeometry["S1站点"] ||
+        !~this.forceTrueTopicLabels.indexOf("S1站点")
+      ) {
         this.doPopup([]);
+      } else {
+        const stationList = this.stationList;
+        if (stationList && Object.keys(stationList).length) {
+          const G_stationList = [];
+          for (let key in stationList) {
+            if (window.entityMapGeometry["S1站点"][key]) {
+              const item = window.entityMapGeometry["S1站点"][key];
+              const { x, y } = item.geometry;
+              const pointToWindow = Cesium.SceneTransforms.wgs84ToWindowCoordinates(
+                window.earth.scene,
+                Cesium.Cartesian3.fromDegrees(x, y, 0)
+              );
+              pointToWindow &&
+                G_stationList.push({
+                  ...item,
+                  extra_data: stationList[key],
+                  pointToWindow,
+                });
+            }
+          }
+          this.doPopup(G_stationList);
+        }
       }
     },
     doPopup(G_stationList) {

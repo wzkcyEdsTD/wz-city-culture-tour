@@ -44,6 +44,7 @@ const state = {
   //  白天黑夜
   nightMode: true,
   //  tab下标
-  forceTreeLabel: "城市总览"
+  forceTreeLabel: "城市总览",
+  forceTrueTopicLabels: []
 };
 export default state;

@@ -11,17 +11,26 @@
     <div
       id="forcePopUpContent"
       class="leaflet-popup"
-      :style="{transform:`translate3d(${forcePosition.x}px,${forcePosition.y}px, 0)`}"
+      :style="{
+        transform: `translate3d(${forcePosition.x}px,${forcePosition.y}px, 0)`,
+      }"
     >
       <a class="leaflet-popup-close-button" href="#" @click="closePopup">×</a>
       <div class="leaflet-popup-content-wrapper">
         <div id="forcePopUpLink" class="leaflet-popup-content">
           <div class="leaflet-popup-content">
-            <header>{{forceEntity.extra_data.SHORTNAME || forceEntity.extra_data.NAME}}</header>
+            <header>
+              {{
+                forceEntity.extra_data.SHORTNAME || forceEntity.extra_data.NAME
+              }}
+            </header>
             <ul class="content-body">
-              <li v-for="(item,key,index) in forceEntity.fix_data" :key="index">
-                <span>{{key}}</span>
-                <span>{{item}}</span>
+              <li
+                v-for="(item, key, index) in forceEntity.fix_data"
+                :key="index"
+              >
+                <span>{{ key }}</span>
+                <span>{{ item }}</span>
               </li>
             </ul>
           </div>
@@ -43,7 +52,11 @@ export default {
     this.eventRegsiter();
   },
   methods: {
-    eventRegsiter() {},
+    eventRegsiter() {
+      this.$bus.$on("cesium-3d-detail-pop-clear", () => {
+        this.closePopup();
+      });
+    },
     /**
      *  详情点赋值
      *  @param {object} forceEntity 详情点信息

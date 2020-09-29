@@ -138,7 +138,9 @@ export default {
         window.earth.entities.add(videoPointEntity);
         this.entitiesID.push(videoPointEntity.id);
       });
-      this.cameraMove({ lng, lat });
+      setTimeout(() => {
+        this.cameraMove({ lng, lat });
+      }, 800);
     },
     /**
      * 相机跳转

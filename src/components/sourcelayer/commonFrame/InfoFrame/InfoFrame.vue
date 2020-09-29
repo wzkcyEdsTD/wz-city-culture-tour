@@ -12,12 +12,16 @@
       <i class="close" @click="closeBimFrame"></i>
       <div>
         <header>
-          <span class="title">{{ attributes.SHORTNAME || '' }}</span>
+          <span class="title">{{ attributes.SHORTNAME || "" }}</span>
         </header>
         <section v-for="(item, index) in indexEnums" :key="index">
           <span class="section-title">{{ item.label }}</span>
           <div class="block-outside">
-            <div class="block" v-for="(_item, _index) in item.data" :key="_index">
+            <div
+              class="block"
+              v-for="(_item, _index) in item.data"
+              :key="_index"
+            >
               <table>
                 <tbody>
                   <tr>
@@ -26,12 +30,24 @@
                   </tr>
                   <tr>
                     <td>
-                      <span class="item-num">{{ _item.num || '-' }}</span>
+                      <span class="item-num">{{ _item.num || "-" }}</span>
                       <span class="item-unit">{{ _item.unit }}</span>
                     </td>
-                    <td :style="{ color: _item.ratio >= 0 ? '#04b72d' : '#fc5453' }">
-                      <span>{{ _item.ratio >= 0 ? `+${_item.ratio}` : _item.ratio || '-' }}{{ _item.unit }}</span>
-                      <i :class="[ _item.ratio >= 0 ? 'ratio-up' : 'ratio-down' ]"></i>
+                    <td
+                      :style="{
+                        color: _item.ratio >= 0 ? '#04b72d' : '#fc5453',
+                      }"
+                    >
+                      <span
+                        >{{
+                          _item.ratio >= 0
+                            ? `+${_item.ratio}`
+                            : _item.ratio || "-"
+                        }}{{ _item.unit }}</span
+                      >
+                      <i
+                        :class="[_item.ratio >= 0 ? 'ratio-up' : 'ratio-down']"
+                      ></i>
                     </td>
                   </tr>
                 </tbody>
@@ -47,7 +63,10 @@
           </div>
           <div class="imgs">
             <ul>
-              <li v-for="(item, index) in imgHash[attributes.SHORTNAME]" :key="index">
+              <li
+                v-for="(item, index) in imgHash[attributes.SHORTNAME]"
+                :key="index"
+              >
                 <img :src="`/static/images/医院/${item}`" />
               </li>
             </ul>
@@ -100,8 +119,18 @@ export default {
           {
             label: "今日就诊指标",
             data: [
-              { label: "门诊费用", num: n.门诊费用 ? (n.门诊费用/10000).toFixed(2) : 0, ratio: 0, unit: "万元" },
-              { label: "住院费用", num: n.住院费用 ? (n.住院费用/10000).toFixed(2) : 0, ratio: 0, unit: "万元" },
+              {
+                label: "门诊费用",
+                num: n.门诊费用 ? (n.门诊费用 / 10000).toFixed(2) : 0,
+                ratio: 0,
+                unit: "万元",
+              },
+              {
+                label: "住院费用",
+                num: n.住院费用 ? (n.住院费用 / 10000).toFixed(2) : 0,
+                ratio: 0,
+                unit: "万元",
+              },
               { label: "住院床位数", num: 0, ratio: 0, unit: "床" },
               { label: "住院人数", num: n.住院人次, ratio: 0, unit: "人" },
             ],
@@ -123,6 +152,11 @@ export default {
   },
   beforeDestroy() {
     this.closeBimFrame();
+  },
+  mounted() {
+    this.$bus.$on("cesium-3d-detail-info-clear", () => {
+      this.closeBimFrame();
+    });
   },
   methods: {
     ...mapActions("map", ["SetIsInfoFrame"]),

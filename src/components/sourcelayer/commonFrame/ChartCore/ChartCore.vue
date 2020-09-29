@@ -13,7 +13,7 @@ export default {
     },
   },
   mounted() {
-    // this.initChart();
+    this.option && this.initChart();
   },
   methods: {
     //    initMap Promise<Boolean>

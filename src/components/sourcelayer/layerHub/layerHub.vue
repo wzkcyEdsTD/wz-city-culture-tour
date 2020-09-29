@@ -70,8 +70,6 @@ import { getIserverFields } from "api/iServerAPI";
 import {
   CESIUM_TREE_OPTION,
   CESIUM_TREE_EXTRA_DATA,
-  CESIUM_TREE_EXTRA_DATA_WITH_GEOMETRY,
-  SET_CESIUM_TREE_EXTRA_DATA_WITH_GEOMETRY,
 } from "config/server/sourceTreeOption";
 const Cesium = window.Cesium;
 
@@ -83,7 +81,6 @@ export default {
       CESIUM_TREE_OPTION,
       forceTreeTopic: [],
       //  资源选中层
-      forceTrueTopicLabels: [],
       swiperOptions: {
         slidesPerView: 8,
         navigation: {
@@ -93,17 +90,14 @@ export default {
       },
       //  tile layers
       tileLayers: {},
-      //  cesium Object
-      entityMap: {},
-      featureMap: {}, //  源数据,量小
     };
   },
   components: { KgLegend },
   computed: {
     ...mapGetters("map", [
       "forceTreeLabel",
+      "forceTrueTopicLabels",
       ...CESIUM_TREE_EXTRA_DATA,
-      ...CESIUM_TREE_EXTRA_DATA_WITH_GEOMETRY,
     ]),
   },
   watch: {
@@ -111,16 +105,25 @@ export default {
       this.SetForceTime("now");
       this.initForceTreeTopic();
       this.SetForceIndex(n);
+      this.$bus.$emit("cesium-3d-detail-pop-clear",{});
+      this.$bus.$emit("cesium-3d-detail-info-clear",{});
     },
   },
   created() {
+    window.featureMap = {};
+    window.entityMap = {};
+    window.entityMapGeometry = {};
     this.initForceTreeTopic();
     this.eventRegsiter();
   },
   methods: {
     ...mapActions("map", [
-      ...SET_CESIUM_TREE_EXTRA_DATA_WITH_GEOMETRY,
-      ...["SetForceIndex", "SetForceTime", "SetForceTreeLabel"],
+      ...[
+        "SetForceIndex",
+        "SetForceTime",
+        "SetForceTreeLabel",
+        "SetForceTrueTopicLabels",
+      ],
     ]),
     eventRegsiter() {
       /**
@@ -147,10 +150,10 @@ export default {
       this.forceTreeTopic = Topics.length ? Topics[0].children : [];
       if (this.forceTreeTopic.length) {
         const forceNode = this.forceTreeTopic[0];
-        this.forceTrueTopicLabels = [forceNode.id];
+        this.SetForceTrueTopicLabels([forceNode.id]);
         this.nodeCheckChange(forceNode, true, true);
       } else {
-        this.forceTrueTopicLabels = [];
+        this.SetForceTrueTopicLabels([]);
       }
     },
     /**
@@ -160,17 +163,14 @@ export default {
     doForceTrueTopicLabels(id) {
       const label = this.forceTreeTopic.filter((v) => v.id == id)[0];
       if (~this.forceTrueTopicLabels.indexOf(label.id)) {
-        // if (this.forceTrueTopicLabels.length > 1) {
-        this.forceTrueTopicLabels.splice(
-          this.forceTrueTopicLabels.indexOf(label.id),
-          1
-        );
+        let _fttl_ = [...this.forceTrueTopicLabels];
+        _fttl_.splice(_fttl_.indexOf(label.id), 1);
+        this.SetForceTrueTopicLabels(_fttl_);
         this.nodeCheckChange(label, false);
-        // }
       } else {
-        this.forceTrueTopicLabels = [
+        this.SetForceTrueTopicLabels([
           ...new Set(this.forceTrueTopicLabels.concat([label.id])),
-        ];
+        ]);
         this.nodeCheckChange(label, true);
       }
     },
@@ -204,12 +204,12 @@ export default {
     nodeCheckChange(node, checked, topicLoad) {
       if (checked) {
         if (node.type == "mvt" && node.id) {
-          if (node.id && this.entityMap[node.id]) {
-            this.entityMap[node.id].show = true;
+          if (node.id && window.entityMap[node.id]) {
+            window.entityMap[node.id].show = true;
             //  若该节点有额外数据/模块,则触发
             node.withExtraData
               ? fixTreeWithExtra(
-                  this.featureMap[node.id],
+                  window.featureMap[node.id],
                   this[node.withExtraData],
                   node,
                   this
@@ -246,13 +246,13 @@ export default {
         LAYER && (LAYER.show = false);
         if (
           node.icon &&
-          this.entityMap[node.id] &&
+          window.entityMap[node.id] &&
           window.earth.dataSources.length
         ) {
-          this.entityMap[node.id].show = false;
-          if (node.withExtraData) {
-            this[node.saveExtraDataByGeometry]([]);
-          }
+          window.entityMap[node.id].show = false;
+          // if (node.withExtraData) {
+          //   this[node.saveExtraDataByGeometry]([]);
+          // }
         }
         node.componentEvent &&
           this.$bus.$emit(node.componentEvent, { value: null });

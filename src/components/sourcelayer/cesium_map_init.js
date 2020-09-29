@@ -1,10 +1,12 @@
-import roadLamp from "mock/XZQH_LuCheng_FeaturesTo.json";
+import szf_road_light from "mock/szf_road_light.json";
+import szf_road_lamp from "mock/szf_road_lamp.json"
 /**
  * 地图参数调节
  */
 export const mapConfigInit = () => {
     // window.earth.scene.globe.depthTestAgainstTerrain = false;
     // window.earth.scene.debugShowFramesPerSecond = true;
+    window.earth.scene.bloomEffect.show = true;
     window.earth.imageryLayers.get(0).show = false;
     window.earth.scene.skyAtmosphere.show = false;
     window.earth.scene.globe.baseColor = new Cesium.Color.fromCssColorString(
@@ -40,8 +42,10 @@ export const mapRiverLayerInit = (name, url) => {
     return new Promise((resolve, reject) => {
         const riverPromise = window.earth.scene.addS3MTilesLayerByScp(url, { name });
         Cesium.when(riverPromise, () => {
-            window.earth.scene.layers.find(name).style3D.bottomAltitude = 1;
-            window.earth.scene.layers.find(name).refresh();
+            const LAYER = window.earth.scene.layers.find(name)
+            LAYER.style3D.bottomAltitude = 1;
+            LAYER.refresh();
+            LAYER.visible = false;
             resolve(true)
         });
     })
@@ -53,13 +57,28 @@ export const mapRiverLayerInit = (name, url) => {
  * @param {*} url 
  */
 export const mapRoadLampLayerInit = (name, url) => {
-    return new Promise((resolve, reject) => {
-        const roadLampPromise = window.earth.scene.addS3MTilesLayerByScp(url, { name });
-        Cesium.when(roadLampPromise, () => resolve(true));
-    });
-}
+    window.earth.scene.lightSource.ambientLightColor = new Cesium.Color(0.35, 0.35, 0.35, 1);
+    //路灯
+    szf_road_lamp.Street_Lamp_light.map(item => {
+        const [x, y, z] = item;
+        const lamp_position = new Cesium.Cartesian3.fromDegrees(x, y, z);
+        const lamp_targetPosition = new Cesium.Cartesian3.fromDegrees(x, y, z - 10);
+        const lamp_posDeg = Cesium.Cartographic.fromCartesian(lamp_position);
+        const lamp_pointPosition = Cesium.Cartesian3.fromRadians(lamp_posDeg.longitude, lamp_posDeg.latitude, lamp_posDeg.height);
+        const lamp_spotLight = new Cesium.SpotLight(lamp_pointPosition, lamp_targetPosition, szf_road_lamp.options);
+        window.earth.scene.addLightSource(lamp_spotLight);
+    })
 
-const mapPointLightAdd = () => { }
+    //市政府聚光灯
+    szf_road_light.position_array.map((item, i) => {
+        const [x, y, z] = item;
+        const [tx, ty, tz] = szf_road_light.tarposition_array[i];
+        const position = new Cesium.Cartesian3(x, y, z);
+        const targetPosition = new Cesium.Cartesian3(tx, ty, tz);
+        var spotLight = new Cesium.SpotLight(position, targetPosition, szf_road_light.options);
+        window.earth.scene.addLightSource(spotLight);
+    })
+}
 
 /**
  * 白模叠加初始化
@@ -72,23 +91,23 @@ export const mapBaimoLayerInit = (arrURL) => {
                 name: KEY,
             });
             Cesium.when(baimoPromise, async ([forceLayer, ...oLayer]) => {
-                const LAYER = window.earth.scene.layers.find(KEY);
-                LAYER.style3D.fillForeColor = new Cesium.Color.fromCssColorString(
-                    "rgba(137,137,137, 1)"
-                );
-                const hyp = new Cesium.HypsometricSetting();
-                const colorTable = new Cesium.ColorTable();
-                hyp.MaxVisibleValue = 300;
-                hyp.MinVisibleValue = 0;
-                colorTable.insert(300, new Cesium.Color(1, 1, 1));
-                colorTable.insert(160, new Cesium.Color(0.95, 0.95, 0.95));
-                colorTable.insert(76, new Cesium.Color(0.7, 0.7, 0.7));
-                colorTable.insert(0, new Cesium.Color(13 / 255, 24 / 255, 45 / 255));
-                hyp.ColorTable = colorTable;
-                hyp.DisplayMode = Cesium.HypsometricSettingEnum.DisplayMode.FACE;
-                hyp.Opacity = 1;
-                //  贴图纹理
                 if (FLOW) {
+                    const LAYER = window.earth.scene.layers.find(KEY);
+                    LAYER.style3D.fillForeColor = new Cesium.Color.fromCssColorString(
+                        "rgba(137,137,137, 1)"
+                    );
+                    const hyp = new Cesium.HypsometricSetting();
+                    const colorTable = new Cesium.ColorTable();
+                    hyp.MaxVisibleValue = 300;
+                    hyp.MinVisibleValue = 0;
+                    colorTable.insert(300, new Cesium.Color(1, 1, 1));
+                    colorTable.insert(160, new Cesium.Color(0.95, 0.95, 0.95));
+                    colorTable.insert(76, new Cesium.Color(0.7, 0.7, 0.7));
+                    colorTable.insert(0, new Cesium.Color(13 / 255, 24 / 255, 45 / 255));
+                    hyp.ColorTable = colorTable;
+                    hyp.DisplayMode = Cesium.HypsometricSettingEnum.DisplayMode.FACE;
+                    hyp.Opacity = 1;
+                    //  贴图纹理
                     hyp.emissionTextureUrl = "/static/images/area/speedline.png";
                     hyp.emissionTexCoordUSpeed = 0.2;
                     LAYER.hypsometricSetting = {

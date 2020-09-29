@@ -28,18 +28,13 @@ export default {
     // this.addHaloLine();
     this.changeSkyBox("night");
   },
-  beforeDestroy() {
-    window.earth.scene.bloomEffect.show = false;
-  },
   methods: {
     //  事件绑定
     eventRegsiter() {
       const that = this;
-      window.earth.scene.bloomEffect.show = true;
       window.defaultSkyBox = window.earth.scene.skyBox;
       this.$bus.$on("cesium-3d-switch", ({ value }) => {
         const _LAYER_ = window.earth.scene.layers.find("baimo");
-        window.earth.scene.bloomEffect.show = !value ? false : true;
         this.changeSkyBox(!value ? "day" : "night");
       });
     },

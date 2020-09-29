@@ -12,7 +12,7 @@
       <p class="title">资源选择</p>
       <img
         class="menu"
-        :src="searchBoxResult?menuSelImg:menuImg"
+        :src="searchBoxResult ? menuSelImg : menuImg"
         width="59px"
         @click="toogleVisible"
       />
@@ -38,21 +38,29 @@
       <ul class="result-list">
         <li
           class="result-item"
-          :class="{checked: ~hospitalChecked.indexOf(item.attributes.SHORTNAME)}"
+          :class="{
+            checked: ~hospitalChecked.indexOf(
+              item.attributes[forceNode.withExtraKey]
+            ),
+          }"
           v-for="item in extraSearchList"
           :key="item.attributes.SMID"
         >
           <div class="left">
-            <p class="name">{{item.attributes.SHORTNAME}}</p>
+            <p class="name">{{ item.attributes[forceNode.withExtraKey] }}</p>
             <div class="address">
               <i class="icon-position"></i>
-              <span>{{item.attributes.ADDRESS}}</span>
+              <span>{{ item.attributes.ADDRESS }}</span>
             </div>
           </div>
           <div class="right">
             <input
               type="checkbox"
-              :checked="hospitalChecked.indexOf(item.attributes.SHORTNAME)>=0"
+              :checked="
+                hospitalChecked.indexOf(
+                  item.attributes[[forceNode.withExtraKey]]
+                ) >= 0
+              "
               @click="checkedOne(item)"
             />
           </div>
@@ -69,13 +77,11 @@ import { getIserverFields } from "api/iServerAPI";
 import {
   CESIUM_TREE_OPTION,
   CESIUM_TREE_EXTRA_DATA,
-  CESIUM_TREE_EXTRA_DATA_WITH_GEOMETRY,
-  SET_CESIUM_TREE_EXTRA_DATA_WITH_GEOMETRY,
 } from "config/server/sourceTreeOption";
 const Cesium = window.Cesium;
 
 export default {
-  name: "TreeTool",
+  name: "searchBox",
   data() {
     return {
       searchBoxVisible: false,
@@ -89,16 +95,12 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("map", [
-      ...CESIUM_TREE_EXTRA_DATA,
-      ...CESIUM_TREE_EXTRA_DATA_WITH_GEOMETRY,
-    ]),
+    ...mapGetters("map", [...CESIUM_TREE_EXTRA_DATA]),
   },
   async mounted() {
     this.eventRegsiter();
   },
   methods: {
-    ...mapActions("map", SET_CESIUM_TREE_EXTRA_DATA_WITH_GEOMETRY),
     eventRegsiter() {
       /**
        * 事件传递打开对应专题图层
@@ -121,25 +123,39 @@ export default {
     },
     searchFilter() {
       if (!this.searchBoxVisible) return;
-      const withExtraDataGeometry = this[this.forceNode.withExtraDataGeometry];
-      const allSearchList = Object.keys(withExtraDataGeometry).map((key) => {
-        return withExtraDataGeometry[key];
-      });
+      const entityMapGeometry = window.entityMapGeometry[this.forceNode.id];
+      const withExtraData = this[this.forceNode.withExtraData];
+      const allSearchList = [];
+      for (let key in withExtraData) {
+        if (window.entityMapGeometry[this.forceNode.id][key]) {
+          const item = window.entityMapGeometry[this.forceNode.id][key];
+          allSearchList.push({
+            ...item,
+            extra_data: withExtraData[key],
+          });
+        }
+      }
       this.extraSearchList = this.searchText
         ? allSearchList.filter((item) => {
-            return item.attributes.SHORTNAME.indexOf(this.searchText) >= 0;
+            return (
+              item.attributes[this.forceNode.withExtraKey].indexOf(
+                this.searchText
+              ) >= 0
+            );
           })
         : allSearchList;
     },
     checkedOne(item) {
-      let idIndex = this.hospitalChecked.indexOf(item.attributes.SHORTNAME);
+      let idIndex = this.hospitalChecked.indexOf(
+        item.attributes[this.forceNode.withExtraKey]
+      );
       if (idIndex >= 0) {
         // 如果已经包含了该id, 则去除(单选按钮由选中变为非选中状态)
         this.hospitalChecked.splice(idIndex, 1);
       } else {
         // 选中该checkbox
         this.hospitalChecked = [];
-        this.hospitalChecked.push(item.attributes.SHORTNAME);
+        this.hospitalChecked.push(item.attributes[this.forceNode.withExtraKey]);
         // 移动到对应实例位置
         const { x, y } = item.geometry;
         window.earth.camera.flyTo({

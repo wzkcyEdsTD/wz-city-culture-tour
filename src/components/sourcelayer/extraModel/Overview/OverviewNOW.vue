@@ -69,7 +69,7 @@ export default {
     //  关闭线扫描
     // this.removeLineScan();
     setTimeout(() => {
-      clearInterval(this.cameraTimer);
+      // clearInterval(this.cameraTimer);
       this.cameraMove(this.CenterPoint);
     }, 500);
   },
@@ -165,10 +165,10 @@ export default {
       //  禁用鼠标事件
       // this.screenSpaceCameraController(false);
       //  开启
-      this.cameraFlyTo();
-      this.cameraTimer = setInterval(() => {
-        this.cameraFlyTo();
-      }, (LOOT - 1) * 1000);
+      // this.cameraFlyTo();
+      // this.cameraTimer = setInterval(() => {
+      //   this.cameraFlyTo();
+      // }, (LOOT - 1) * 1000);
     },
     screenSpaceCameraController(boolean) {
       window.earth.scene.screenSpaceCameraController.enableInputs = boolean;

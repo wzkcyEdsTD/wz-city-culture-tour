@@ -3,7 +3,10 @@
     <ul>
       <li v-for="(item, index) in charts" :key="index">
         <header>{{ item }}<i> / 2010-2019年</i></header>
-        <ChartCore :chartId="`chart-${index}`" />
+        <ChartCore
+          :chartId="`chart-${index}`"
+          :option="$data._CHART_CONFIG_[item]"
+        />
       </li>
     </ul>
   </div>
@@ -11,10 +14,23 @@
 
 <script>
 import ChartCore from "components/sourcelayer/commonFrame/ChartCore/ChartCore.vue";
+import {
+  gdpOption,
+  populationOption,
+  threeIndustriesOption,
+  revenuesOption,
+} from "./chartsConfig";
+const _CHART_CONFIG_ = {
+  温州GDP: gdpOption,
+  常驻人口: populationOption,
+  三产增加值: threeIndustriesOption,
+  一般公共预算收入: revenuesOption,
+};
 export default {
   name: "chartframe",
   data() {
     return {
+      _CHART_CONFIG_,
       charts: ["温州GDP", "常驻人口", "三产增加值", "一般公共预算收入"],
     };
   },
@@ -25,18 +41,17 @@ export default {
 <style lang="less" scoped>
 .chartframe {
   position: fixed;
-  top: 15vh;
-  bottom: 40px;
+  top: 12vh;
+  bottom: 20px;
   overflow: hidden;
   right: 20px;
   width: 320px;
-  height: 700px;
   color: white;
   box-sizing: border-box;
   padding: 10px;
   z-index: 2;
   > ul {
-      height: 100%;
+    height: 100%;
     > li {
       height: 24.9%;
       display: flex;
@@ -51,7 +66,7 @@ export default {
         color: #ffffff;
         text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.64);
         position: relative;
-        margin-bottom: 3vh;
+        margin-bottom: 10px;
         padding-left: 15px;
         > i {
           font-style: normal;

@@ -13,7 +13,7 @@
       :key="index"
       :id="`trackPopUpContent_${index}`"
       class="leaflet-popup-tourPoint"
-      :style="{ transform: `translate3d(${item.x}px,${item.y + 20}px, 0)` }"
+      :style="{ transform: `translate3d(${item.x}px,${item.y + 40}px, 0)` }"
     >
       <div class="popup-tip-container">
         <div class="popup-tip-inner">
@@ -72,7 +72,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("map", ["tourPointListWithGeometry"]),
+    ...mapGetters("map", ["tourPointList", "forceTrueTopicLabels"]),
   },
   async created() {
     await this.fetchTourPointList();
@@ -88,22 +88,33 @@ export default {
       });
     },
     fixPopup() {
-      const tourPointList = this.tourPointListWithGeometry;
-      if (tourPointList && tourPointList.length) {
-        const G_tourPointList = [];
-        tourPointList.map((item) => {
-          if (item.geometry) {
-            const { x, y } = item.geometry;
-            const pointToWindow = Cesium.SceneTransforms.wgs84ToWindowCoordinates(
-              window.earth.scene,
-              Cesium.Cartesian3.fromDegrees(x, y, 0)
-            );
-            pointToWindow && G_tourPointList.push({ ...item, pointToWindow });
-          }
-        });
-        this.doPopup(G_tourPointList);
-      } else {
+      if (
+        !window.entityMapGeometry["重点景区"] ||
+        !~this.forceTrueTopicLabels.indexOf("重点景区")
+      ) {
         this.doPopup([]);
+      } else {
+        const tourPointList = this.tourPointList;
+        if (tourPointList && Object.keys(tourPointList).length) {
+          const G_tourPointList = [];
+          for (let key in tourPointList) {
+            if (window.entityMapGeometry["重点景区"][key]) {
+              const item = window.entityMapGeometry["重点景区"][key];
+              const { x, y } = item.geometry;
+              const pointToWindow = Cesium.SceneTransforms.wgs84ToWindowCoordinates(
+                window.earth.scene,
+                Cesium.Cartesian3.fromDegrees(x, y, 0)
+              );
+              pointToWindow &&
+                G_tourPointList.push({
+                  ...item,
+                  extra_data: tourPointList[key],
+                  pointToWindow,
+                });
+            }
+          }
+          this.doPopup(G_tourPointList);
+        }
       }
     },
     doPopup(G_tourPointList) {

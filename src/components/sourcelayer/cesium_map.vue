@@ -133,13 +133,7 @@ export default {
     },
     initPostRender() {
       window.earth.scene.postRender.addEventListener(() => {
-        if (
-          !window.earth ||
-          !this.mapLoaded ||
-          !this.validated ||
-          !Object.keys(this.$refs).length
-        )
-          return;
+        if (!window.earth || !this.mapLoaded || !this.validated) return;
         //  *****[medicalList] 医疗点位*****
         if (this.$refs.medicalPopup) {
           this.$refs.medicalPopup.fixPopup();
@@ -217,6 +211,8 @@ export default {
           : !value
           ? (window.imagelayer = mapImageLayerInit(ServiceUrl.SWImage))
           : undefined;
+        //  河流显示
+        window.earth.scene.layers.find("RIVER").visible = !value ? true : false;
         //  历史页面做回调
         this.$bus.$emit("cesium-3d-switch-pass");
       });
@@ -249,7 +245,7 @@ export default {
       //  白模叠加
       await mapBaimoLayerInit(ServiceUrl.WZBaimo_OBJ);
       //  路灯、光源叠加
-      // await mapRoadLampLayerInit("ROADLAMP", ServiceUrl.ROAD_LAMP);
+      mapRoadLampLayerInit();
       //  回调钩子
       fn && fn();
     },

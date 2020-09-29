@@ -78,7 +78,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("map", ["medicalListWithGeometry"]),
+    ...mapGetters("map", ["medicalList", "forceTrueTopicLabels"]),
   },
   async created() {
     await this.fetchMedicalList();
@@ -94,24 +94,33 @@ export default {
       });
     },
     fixPopup() {
-      const medicalList = this.medicalListWithGeometry;
-      if (medicalList && medicalList.length) {
-        // const extent = getCurrentExtent();
-        const G_medicalList = [];
-        medicalList.map((item) => {
-          if (item.geometry) {
-            //&& isContainByExtent(extent, item.geometry)
-            const { x, y } = item.geometry;
-            const pointToWindow = Cesium.SceneTransforms.wgs84ToWindowCoordinates(
-              window.earth.scene,
-              Cesium.Cartesian3.fromDegrees(x, y, 0)
-            );
-            pointToWindow && G_medicalList.push({ ...item, pointToWindow });
-          }
-        });
-        this.doPopup(G_medicalList);
-      } else {
+      if (
+        !window.entityMapGeometry["医疗场所"] ||
+        !~this.forceTrueTopicLabels.indexOf("医疗场所")
+      ) {
         this.doPopup([]);
+      } else {
+        const medicalList = this.medicalList;
+        if (medicalList && Object.keys(medicalList).length) {
+          const G_medicalList = [];
+          for (let key in medicalList) {
+            if (window.entityMapGeometry["医疗场所"][key]) {
+              const item = window.entityMapGeometry["医疗场所"][key];
+              const { x, y } = item.geometry;
+              const pointToWindow = Cesium.SceneTransforms.wgs84ToWindowCoordinates(
+                window.earth.scene,
+                Cesium.Cartesian3.fromDegrees(x, y, 0)
+              );
+              pointToWindow &&
+                G_medicalList.push({
+                  ...item,
+                  extra_data: medicalList[key],
+                  pointToWindow,
+                });
+            }
+          }
+          this.doPopup(G_medicalList);
+        }
       }
     },
     doPopup(G_medicalList) {
