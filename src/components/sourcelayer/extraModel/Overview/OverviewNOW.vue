@@ -62,14 +62,14 @@ export default {
   mounted() {
     this.eventRegsiter();
   },
-  beforeDestroy() {
-    clearInterval(this.cameraTimer);
+  destroyed() {
     // this.removeEntityCollection();
     //  开启鼠标事件
-    this.screenSpaceCameraController(true);
+    // this.screenSpaceCameraController(true);
     //  关闭线扫描
     // this.removeLineScan();
     setTimeout(() => {
+      clearInterval(this.cameraTimer);
       this.cameraMove(this.CenterPoint);
     }, 500);
   },
@@ -163,7 +163,7 @@ export default {
     initOverview() {
       const that = this;
       //  禁用鼠标事件
-      this.screenSpaceCameraController(false);
+      // this.screenSpaceCameraController(false);
       //  开启
       this.cameraFlyTo();
       this.cameraTimer = setInterval(() => {
