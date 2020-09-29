@@ -151,6 +151,10 @@
         :tooltip="'always'"
         :marks="true"
       />
+      <div class="slider-next" @click="sliderToNextYear">
+        <img src="/static/images/common/slider-next@2x.png" />
+        <p>年份切换</p>
+      </div>
     </div>
   </div>
 </template>
@@ -238,6 +242,12 @@ export default {
       });
     },
     /**
+     * 年份切换
+     */
+    sliderToNextYear() {
+      this.year = this.year == 2019 ? 2010 : this.year + 1;
+    },
+    /**
      * 获得影像图年份下标
      * @param {number} year 年份
      */
@@ -302,13 +312,35 @@ export default {
   bottom: 100px;
   left: 50%;
   box-sizing: border-box;
-  padding: 14px 92px 14px 40px;
+  padding: 13px 92px 14px 40px;
   transform: translateX(-50%);
   background-image: url("/static/images/common/slider-bg.png");
   background-size: 100% 100%;
+  .slider-next {
+    width: 52px;
+    position: absolute;
+    right: 12px;
+    top: 8px;
+    text-align: center;
+    cursor: pointer;
+    > img {
+      width: 30px;
+      height: 30px;
+    }
+    > p {
+      font-size: 12px;
+      color: white;
+    }
+  }
 }
 .vue-slider-rail {
   background-color: unset !important;
+}
+.vue-slider-ltr {
+  height: 6px !important;
+}
+.vue-slider-process {
+  background: linear-gradient(to right, transparent, #3498db) !important;
 }
 .vue-slider-dot-handle {
   background-image: url("/static/images/common/slider-point.png");
@@ -326,7 +358,11 @@ export default {
   color: white;
 }
 .vue-slider-dot-tooltip-inner {
-  background-image: url("/static/images/common/slider-pop.png");
-  background-size: 100% 100%;
+  padding: 6px 10px;
+  font-family: DIN !important;
+  font-weight: bold;
+  font-size: 16px;
+  // background-image: url("/static/images/common/slider-pop.png");
+  // background-size: 100% 100%;
 }
 </style>

@@ -35,7 +35,7 @@ const router = new Router({
       path: "/sourcelayer", // 医疗
       name: "sourcelayer",
       meta: {
-        title: "城市大脑·医疗生活"
+        title: "城市大脑·资源图层"
       },
       component: resolve => require(["page/sourcelayer/sourcelayer"], resolve)
     }
