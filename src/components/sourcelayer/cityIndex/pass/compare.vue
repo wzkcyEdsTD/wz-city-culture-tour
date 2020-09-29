@@ -1,7 +1,7 @@
 <template>
   <div class="compare">
-    <p>同比2020年</p>
-    <p :class="data > 0 ? 'pos' : 'neg'">{{ fixData }}</p>
+    <p>同比2019年</p>
+    <p :class="data >= 0 ? 'pos' : 'neg'">{{ fixData }}</p>
   </div>
 </template>
 

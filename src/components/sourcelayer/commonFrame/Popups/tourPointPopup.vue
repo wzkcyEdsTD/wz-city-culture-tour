@@ -229,7 +229,8 @@ export default {
     letter-spacing: -0.34em;
     height: 100%;
     line-height: 17px;
-    padding: 4px 0 2px 7px;
+    text-align: center;
+    padding: 8px 0 2px 7px;
     position: relative;
     font-family: YouSheBiaoTiHei;
     font-size: 17px;
@@ -259,7 +260,7 @@ export default {
       }
       &:last-child {
         p {
-          &::before {
+          &.people-icon {
             content: url("/static/images/icons/people.png");
           }
         }

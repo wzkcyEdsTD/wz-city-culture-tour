@@ -141,11 +141,12 @@
         </div>
       </li>
     </ul>
+    <ChartsFrame />
     <div class="year-slider">
       <vue-slider
         v-model="year"
         :min="2010"
-        :max="2018"
+        :max="2019"
         :interval="1"
         :tooltip="'always'"
         :marks="true"
@@ -157,6 +158,7 @@
 <script>
 import { ImagesURL, ServiceUrl } from "config/server/mapConfig";
 import { mapGetters, mapActions } from "vuex";
+import ChartsFrame from "./chartsFrame";
 import INDEX from "./index.json";
 import INDEX_LAST from "./indexLastYear.json";
 import DynamicNum from "../dynamicNum";
@@ -222,7 +224,7 @@ export default {
     //  开白模
     this.baimoSwitcher(true);
   },
-  components: { DynamicNum, Compare, VueSlider },
+  components: { DynamicNum, Compare, VueSlider, ChartsFrame },
   methods: {
     ...mapActions("map", ["SetNightMode"]),
     eventRegsiter() {
