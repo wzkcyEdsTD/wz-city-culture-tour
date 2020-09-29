@@ -40,6 +40,10 @@ const state = {
   //  指标下表
   forceIndex: '城市总览',
   //  时间轮盘
-  forceTime: 'now'
+  forceTime: 'now',
+  //  白天黑夜
+  nightMode: true,
+  //  tab下标
+  forceTreeLabel: "城市总览"
 };
 export default state;

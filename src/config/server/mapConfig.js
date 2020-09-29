@@ -57,6 +57,14 @@ export const ServiceUrl = {
   ROAD_LAMP: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-LightModel/rest/realspace/datas/LightModel/config"
 };
 
+export const ImagesURL = [
+  { year: 2019, url: "https://sourceserver.wzcitybrain.com/iserver/services/map-agscachev2-YJYX2019CGCS2000/rest/maps/YJ_YX_2019_CGCS2000" },
+  { year: 2018, url: "https://sourceserver.wzcitybrain.com/iserver/services/map-agscachev2-YX2018CGC2000/rest/maps/YX_2018_CGC2000" },
+  { year: 2017, url: "https://sourceserver.wzcitybrain.com/iserver/services/map-agscachev2-Layers/rest/maps/Layers" },
+  { year: 2014, url: "https://sourceserver.wzcitybrain.com/iserver/services/map-agscachev2-YX2014CGC2000/rest/maps/YX_2014_CGC2000" },
+  { year: 2012, url: "https://sourceserver.wzcitybrain.com/iserver/services/map-agscachev2-Layers2/rest/maps/Layers" },
+]
+
 export const ExtraSourceURL = {
   S1:
     "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-S1/rest/realspace/datas/S1/config",

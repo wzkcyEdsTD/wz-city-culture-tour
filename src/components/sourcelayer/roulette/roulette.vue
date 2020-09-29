@@ -30,7 +30,7 @@ export default {
     ...mapGetters("map", ["forceTime"]),
   },
   methods: {
-    ...mapActions("map", ["SetForceTime"]),
+    ...mapActions("map", ["SetForceTime", "SetForceTreeLabel"]),
     changeOverview(index) {
       const value =
         this.forceTime == "now"
@@ -42,7 +42,11 @@ export default {
             ? "pass"
             : "future"
           : "now";
-      this.SetForceTime(value);
+
+      this.SetForceTreeLabel("城市总览");
+      setTimeout(() => {
+        this.SetForceTime(value);
+      }, 500);
     },
   },
 };

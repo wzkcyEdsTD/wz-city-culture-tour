@@ -217,6 +217,8 @@ export default {
           : !value
           ? (window.imagelayer = mapImageLayerInit(ServiceUrl.SWImage))
           : undefined;
+        //  历史页面做回调
+        this.$bus.$emit("cesium-3d-switch-pass");
       });
       this.$bus.$on("cesium-3d-hub-event", ({ value }) => {
         this.showSubHubFrame = value;

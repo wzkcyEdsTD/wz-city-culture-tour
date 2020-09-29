@@ -84,6 +84,12 @@ const mutations = {
   },
   [types.SET_FORCE_TIME](state, data) {
     state.forceTime = data
+  },
+  [types.SET_NIGHT_MODE](state, data) {
+    state.nightMode = data
+  },
+  [types.SET_FORCE_TREE_LABEL](state, data) {
+    state.forceTreeLabel = data
   }
 };
 

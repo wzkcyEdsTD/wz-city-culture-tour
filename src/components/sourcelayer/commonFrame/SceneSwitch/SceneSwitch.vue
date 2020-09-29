@@ -7,21 +7,18 @@
  * @FilePath: \wz-city-culture-tour\src\components\sourcelayer\commonFrame\SceneSwitch\SceneSwitch.vue
 -->
 <template>
-  <div class="scene-switch" @click="nightMode=!nightMode">
+  <div class="scene-switch" @click="changeDayMode">
     <img :src="`/static/images/mode-ico/${label}@2x.png`" />
-    <span>{{`${label}模式`}}</span>
+    <span>{{ `${label}模式` }}</span>
     <img src="/static/images/mode-ico/转换ico@2x.png" />
   </div>
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
 export default {
-  data() {
-    return {
-      nightMode: true,
-    };
-  },
   computed: {
+    ...mapGetters("map", ["nightMode", "forceTime"]),
     label() {
       return this.nightMode ? "夜晚" : "白天";
     },
@@ -29,6 +26,13 @@ export default {
   watch: {
     nightMode(n) {
       this.$bus.$emit("cesium-3d-switch", { value: n });
+    },
+  },
+  methods: {
+    ...mapActions("map", ["SetNightMode"]),
+    changeDayMode() {
+      if (this.forceTime != "now") return;
+      this.SetNightMode(!this.nightMode);
     },
   },
 };

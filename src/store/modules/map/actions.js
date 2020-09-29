@@ -223,3 +223,11 @@ export const SetForceIndex = ({ commit }, data) => {
 export const SetForceTime = ({ commit }, data) => {
   commit(types.SET_FORCE_TIME, data);
 };
+//  设置白天黑夜
+export const SetNightMode = ({ commit }, data) => {
+  commit(types.SET_NIGHT_MODE, data);
+};
+//  设置tab下标
+export const SetForceTreeLabel = ({ commit }, data) => {
+  commit(types.SET_FORCE_TREE_LABEL, data);
+};

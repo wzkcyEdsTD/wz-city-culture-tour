@@ -49,7 +49,7 @@
             active: item.id == forceTreeLabel,
             disabled: item.disabled,
           }"
-          @click="!item.disabled ? (forceTreeLabel = item.id) : undefined"
+          @click="!item.disabled ? SetForceTreeLabel(item.id) : undefined"
         >
           <i>{{ item.label }}</i>
         </li>
@@ -81,7 +81,6 @@ export default {
     return {
       //  底部树
       CESIUM_TREE_OPTION,
-      forceTreeLabel: "城市总览",
       forceTreeTopic: [],
       //  资源选中层
       forceTrueTopicLabels: [],
@@ -102,15 +101,16 @@ export default {
   components: { KgLegend },
   computed: {
     ...mapGetters("map", [
+      "forceTreeLabel",
       ...CESIUM_TREE_EXTRA_DATA,
       ...CESIUM_TREE_EXTRA_DATA_WITH_GEOMETRY,
     ]),
   },
   watch: {
     forceTreeLabel(n) {
+      this.SetForceTime("now");
       this.initForceTreeTopic();
       this.SetForceIndex(n);
-      this.SetForceTime("now");
     },
   },
   created() {
@@ -120,7 +120,7 @@ export default {
   methods: {
     ...mapActions("map", [
       ...SET_CESIUM_TREE_EXTRA_DATA_WITH_GEOMETRY,
-      ...["SetForceIndex", "SetForceTime"],
+      ...["SetForceIndex", "SetForceTime", "SetForceTreeLabel"],
     ]),
     eventRegsiter() {
       /**
@@ -128,7 +128,7 @@ export default {
        */
       this.$bus.$off("check-hub");
       this.$bus.$on("check-hub", ({ key }) => {
-        this.forceTreeLabel = key;
+        this.SetForceTreeLabel(key);
       });
     },
     /**
