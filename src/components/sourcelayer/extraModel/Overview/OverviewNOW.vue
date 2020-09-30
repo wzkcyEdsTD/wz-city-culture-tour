@@ -141,19 +141,22 @@ export default {
       });
     },
     doIndexPoints() {
-      this.fixIndexPoints = this.indexPoints.map((item, index) => {
+      const fixIndexPoints = [];
+      this.indexPoints.map((item, index) => {
         if (!item.geometry.x) return;
         const { x, y } = item.geometry;
         const pointToWindow = Cesium.SceneTransforms.wgs84ToWindowCoordinates(
           window.earth.scene,
           Cesium.Cartesian3.fromDegrees(x, y, 0)
         );
-        return {
-          ...item,
-          x: pointToWindow.x - ($(`#cityIndex_${index}`).width() || 0) / 2,
-          y: pointToWindow.y - ($(`#cityIndex_${index}`).height() || 0),
-        };
+        pointToWindow &&
+          fixIndexPoints.push({
+            ...item,
+            x: pointToWindow.x - ($(`#cityIndex_${index}`).width() || 0) / 2,
+            y: pointToWindow.y - ($(`#cityIndex_${index}`).height() || 0),
+          });
       });
+      this.fixIndexPoints = fixIndexPoints;
     },
     cameraFlyTo() {
       const toPoint = this.toRight ? this.RightPoint : this.LeftPoint;

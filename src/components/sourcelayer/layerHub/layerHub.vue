@@ -110,9 +110,6 @@ export default {
     },
   },
   created() {
-    window.featureMap = {};
-    window.entityMap = {};
-    window.entityMapGeometry = {};
     this.initForceTreeTopic();
     this.eventRegsiter();
   },
@@ -182,7 +179,8 @@ export default {
       const { newdataset, url } = node;
       var getFeatureParam, getFeatureBySQLService, getFeatureBySQLParams;
       getFeatureParam = new SuperMap.REST.FilterParameter({
-        attributeFilter: `SMID <= 1000`,
+        // attributeFilter: `SMID <= 1000`,
+        attributeFilter: `SMID >= 0`,
       });
       getFeatureBySQLParams = new SuperMap.REST.GetFeaturesBySQLParameters({
         queryParameter: getFeatureParam,

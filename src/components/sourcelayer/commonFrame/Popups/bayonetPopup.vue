@@ -112,6 +112,7 @@ export default {
     },
     fixPopup() {
       if (
+        !window.entityMapGeometry ||
         !window.entityMapGeometry["交通卡口"] ||
         !~this.forceTrueTopicLabels.indexOf("交通卡口")
       ) {

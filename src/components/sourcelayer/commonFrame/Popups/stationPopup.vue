@@ -71,7 +71,7 @@ export default {
     eventRegsiter() {},
     fixPopup() {
       if (
-        !window.entityMapGeometry["S1站点"] ||
+        !window.entityMapGeometry || !window.entityMapGeometry["S1站点"] ||
         !~this.forceTrueTopicLabels.indexOf("S1站点")
       ) {
         this.doPopup([]);

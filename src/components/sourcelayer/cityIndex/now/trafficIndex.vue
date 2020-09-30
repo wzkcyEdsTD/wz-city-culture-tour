@@ -1,5 +1,8 @@
 <template>
   <div class="target-wrapper">
+    <div class="traffic-top" v-if="isTraffic">
+      <img src="/static/images/common/traffic-top@2x.png" />
+    </div>
     <span class="header">交通体征</span>
     <ul class="content">
       <li class="item">
@@ -72,6 +75,7 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import { parseQueryString } from "common/js/util";
 import DynamicNum from "../dynamicNum";
 
 export default {
@@ -79,6 +83,10 @@ export default {
   components: { DynamicNum },
   computed: {
     ...mapGetters("map", ["WzTrafficData"]),
+    isTraffic() {
+      const query = parseQueryString(window.location.href);
+      return query.traffic;
+    },
   },
   async created() {
     await this.fetchTrafficData();
@@ -94,3 +102,15 @@ export default {
   },
 };
 </script>
+
+<style lang="less" scoped>
+.traffic-top {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  > img {
+    width: 100%;
+  }
+}
+</style>

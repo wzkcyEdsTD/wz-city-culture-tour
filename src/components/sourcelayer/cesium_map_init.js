@@ -56,20 +56,23 @@ export const mapRiverLayerInit = (name, url) => {
  * @param {*} name 
  * @param {*} url 
  */
-export const mapRoadLampLayerInit = (name, url) => {
-    window.earth.scene.lightSource.ambientLightColor = new Cesium.Color(0.35, 0.35, 0.35, 1);
-    //路灯
-    szf_road_lamp.Street_Lamp_light.map(item => {
+export const mapRoadLampLayerInit = (...params) => {
+    szf_road_lamp.Street_Lamp_light.map((item, i) => {
         const [x, y, z] = item;
-        const lamp_position = new Cesium.Cartesian3.fromDegrees(x, y, z);
-        const lamp_targetPosition = new Cesium.Cartesian3.fromDegrees(x, y, z - 10);
-        const lamp_posDeg = Cesium.Cartographic.fromCartesian(lamp_position);
-        const lamp_pointPosition = Cesium.Cartesian3.fromRadians(lamp_posDeg.longitude, lamp_posDeg.latitude, lamp_posDeg.height);
-        const lamp_spotLight = new Cesium.SpotLight(lamp_pointPosition, lamp_targetPosition, szf_road_lamp.options);
-        window.earth.scene.addLightSource(lamp_spotLight);
+        var position = new Cesium.Cartesian3.fromDegrees(x, y, z);
+        const pointLight = new Cesium.PointLight(position, szf_road_lamp.options);
+        window.earth.scene.addLightSource(pointLight);
+        // const posDeg = Cesium.Cartographic.fromCartesian(position);
+        // const pointPosition = Cesium.Cartesian3.fromRadians(posDeg.longitude, posDeg.latitude, posDeg.height);
+        // window.earth.entities.add(new Cesium.Entity({
+        //     point: new Cesium.PointGraphics({
+        //         color: new Cesium.Color(1, 1, 1),
+        //         pixelSize: 4,
+        //         outlineColor: new Cesium.Color(1, 1, 1)
+        //     }),
+        //     position: pointPosition
+        // }));
     })
-
-    //市政府聚光灯
     szf_road_light.position_array.map((item, i) => {
         const [x, y, z] = item;
         const [tx, ty, tz] = szf_road_light.tarposition_array[i];
@@ -78,6 +81,15 @@ export const mapRoadLampLayerInit = (name, url) => {
         var spotLight = new Cesium.SpotLight(position, targetPosition, szf_road_light.options);
         window.earth.scene.addLightSource(spotLight);
     })
+}
+
+/**
+ * 开关路灯
+ * @param {*} boolean 
+ */
+export const mapRoadLampLayerTurn = (boolean) => {
+    window.earth.scene.lightSource.pointLight._array.map(v => v.intensity = boolean ? 10 : 0)
+    window.earth.scene.lightSource.spotLight._array.map(v => v.intensity = boolean ? 3 : 0)
 }
 
 /**
@@ -115,6 +127,16 @@ export const mapBaimoLayerInit = (arrURL) => {
                         analysisMode:
                             Cesium.HypsometricSettingEnum.AnalysisRegionMode.ARM_ALL,
                     };
+                } else {
+                    const LAYER = window.earth.scene.layers.find(KEY);
+                    LAYER.brightness = 0.5;
+                    LAYER.style3D.fillForeColor = {
+                        alpha: 1,
+                        blue: 0.3,
+                        green: 0.3,
+                        red: 0.3
+                    }
+                    LAYER.refresh();
                 }
                 index == arrURL.length - 1 && resolve(true)
             });

@@ -89,7 +89,7 @@ export default {
     },
     fixPopup() {
       if (
-        !window.entityMapGeometry["重点景区"] ||
+        !window.entityMapGeometry || !window.entityMapGeometry["重点景区"] ||
         !~this.forceTrueTopicLabels.indexOf("重点景区")
       ) {
         this.doPopup([]);

@@ -6,13 +6,13 @@
 export default {
   name: "overviewPASS",
   created() {
-    window.earth.scene.layers.find("RIVER").visible = false;
+    // window.earth.scene.layers.find("RIVER").visible = false;
     setTimeout(() => {
       this.cameraMove(true);
     }, 800);
   },
   beforeDestroy() {
-    window.earth.scene.layers.find("RIVER").visible = true;
+    // window.earth.scene.layers.find("RIVER").visible = true;
     setTimeout(() => {
       this.cameraMove(false);
     }, 800);

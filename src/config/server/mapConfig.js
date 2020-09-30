@@ -25,8 +25,10 @@ export const ServiceUrl = {
       FLOW: false
     },
   ],
-  //  水面模型切片
+  //  动态水面模型
   RIVER: "https://ditu.wzcitybrain.com/iserver/services/3D-River_CityBrain/rest/realspace/datas/River_CityBrain/config",
+  //  静态水面模型
+  STATIC_RIVER: "https://ditu.wzcitybrain.com/iserver/services/3D-River/rest/realspace/datas/River_JT/config",
   //  影像底图
   SWImage:
     "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-YX2019SW/rest/realspace/datas/YX_2019_SW",

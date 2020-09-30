@@ -72,6 +72,7 @@ import {
   mapRiverLayerInit,
   mapBaimoLayerInit,
   mapRoadLampLayerInit,
+  mapRoadLampLayerTurn
 } from "./cesium_map_init";
 import { doValidation } from "api/validation/validation";
 import { mapGetters } from "vuex";
@@ -113,6 +114,11 @@ export default {
     VideoCircle,
     AuthFailPopup,
     Overview,
+  },
+  created() {
+    window.featureMap = {};
+    window.entityMap = {};
+    window.entityMapGeometry = {};
   },
   async mounted() {
     await this.init3DMap(() => {
@@ -211,6 +217,8 @@ export default {
           : !value
           ? (window.imagelayer = mapImageLayerInit(ServiceUrl.SWImage))
           : undefined;
+        //  光源显示
+        mapRoadLampLayerTurn(!value ? false : true);
         //  河流显示
         window.earth.scene.layers.find("RIVER").visible = !value ? true : false;
         //  历史页面做回调
@@ -241,7 +249,7 @@ export default {
       //  重要地物注记
       const keyMvt = mapMvtLayerInit("keyMvt", ServiceUrl.KEYMVT);
       //  水面
-      await mapRiverLayerInit("RIVER", ServiceUrl.RIVER);
+      await mapRiverLayerInit("RIVER", ServiceUrl.STATIC_RIVER);
       //  白模叠加
       await mapBaimoLayerInit(ServiceUrl.WZBaimo_OBJ);
       //  路灯、光源叠加

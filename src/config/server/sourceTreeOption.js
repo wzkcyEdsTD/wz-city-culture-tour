@@ -66,6 +66,10 @@ const CULTURE_TOPIC = [
 //  应急专题
 const EMERGENCY_TOPIC = [
   {
+    label: "加油站",
+    dataset: "D_HAZARDS_GasStation"
+  },
+  {
     label: "非煤矿山",
     dataset: "D_HARAZDS_NONCOALMINE"
   },
@@ -80,10 +84,6 @@ const EMERGENCY_TOPIC = [
   {
     label: "应急队伍",
     dataset: "JZJZNL_YJDW"
-  },
-  {
-    label: "加油站",
-    dataset: "D_HAZARDS_GasStation"
   }
 ];
 //  农贸专题

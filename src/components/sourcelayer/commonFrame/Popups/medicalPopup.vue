@@ -95,7 +95,7 @@ export default {
     },
     fixPopup() {
       if (
-        !window.entityMapGeometry["医疗场所"] ||
+        !window.entityMapGeometry || !window.entityMapGeometry["医疗场所"] ||
         !~this.forceTrueTopicLabels.indexOf("医疗场所")
       ) {
         this.doPopup([]);
