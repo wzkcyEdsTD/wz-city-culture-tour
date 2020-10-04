@@ -47,6 +47,15 @@ const TOUR_TOPIC = [
   { label: "公厕", dataset: "PublicToilet" }
 ];
 
+//  教育专题
+const EDUCATION_TOPIC = [
+  { label: "幼儿园", dataset: "NurserySchool" },
+  { label: "小学", dataset: "PrimarySchool" },
+  { label: "初中", dataset: "JuniorHighSchool" },
+  { label: "高中", dataset: "HighSchool" },
+  { label: "中职", dataset: "VocationalSchool" },
+]
+
 // 基础设施
 const BASIC_TOPIC = [
   {
@@ -92,11 +101,11 @@ const SOURCE_TOPIC = [
     label: "农贸市场点",
     dataset: "FarmersMarket_SiQu_P"
   },
-  {
-    label: "农贸市场面",
-    polygon: true,
-    dataset: "FarmersMarket_SiQu_M"
-  },
+  // {
+  //   label: "农贸市场面",
+  //   polygon: true,
+  //   dataset: "FarmersMarket_SiQu_M"
+  // },
   {
     label: "派出所",
     dataset: "PoliceStation"
@@ -194,6 +203,20 @@ export const CESIUM_TREE_OPTION = [
     id: "医疗专题",
     label: "医疗专题",
     children: MEDICAL_TOPIC.map(v => {
+      return {
+        ...v,
+        id: v.label,
+        icon: v.label,
+        url: SERVER_DEFAULT_DATA,
+        type: "mvt",
+        newdataset: `${SW_DATA_NAME}${v.dataset}`
+      };
+    })
+  },
+  {
+    id: "教育专题",
+    label: "教育专题",
+    children: EDUCATION_TOPIC.map(v => {
       return {
         ...v,
         id: v.label,

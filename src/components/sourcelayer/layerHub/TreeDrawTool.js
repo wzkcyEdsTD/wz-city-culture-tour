@@ -76,8 +76,9 @@ export const fixTreeWithExtra = (gArr, eObj, node, context) => {
  * @param {*} param1
  * @param {*} node
  * @param {*} fields 别名数组
+ * @param {function} fn 回调
  */
-export const treeDrawTool = (context, { result }, node, fields = []) => {
+export const treeDrawTool = (context, { result }, node, fields = [], fn) => {
   const fieldHash = fixFieldsByArr(fields);
   const poiEntityCollection = new Cesium.CustomDataSource(node.id);
   window.earth.dataSources.add(poiEntityCollection).then(datasource => {
@@ -88,19 +89,6 @@ export const treeDrawTool = (context, { result }, node, fields = []) => {
     window.entityMapGeometry[node.id][v.attributes[node.withExtraKey]] = { geometry: v.geometry, attributes: v.attributes, id: v.id };
   })
   window.featureMap[node.id] = result.features;
-  // let forceDrawFeatures = [];
-  // if (node.withExtraData) {
-  //   const { drawFeatures } = fixTreeWithExtra(
-  //     result.features,
-  //     context[node.withExtraData],
-  //     node,
-  //     context
-  //   );
-  //   forceDrawFeatures = [...drawFeatures];
-  // } else {
-  // forceDrawFeatures = result.features;
-  // }
-  // forceDrawFeatures.map(item => {
   result.features.map(item => {
     const entityOption = {
       id: `${item.attributes.SMID}@${node.icon}@${node.dataset}`,
@@ -167,4 +155,5 @@ export const treeDrawTool = (context, { result }, node, fields = []) => {
       };
     poiEntityCollection.entities.add(entityInstance);
   });
+  fn && fn();
 };

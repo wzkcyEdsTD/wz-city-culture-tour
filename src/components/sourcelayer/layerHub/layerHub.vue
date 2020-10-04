@@ -8,10 +8,7 @@
 -->
 <template>
   <div class="bottom-wrapper">
-    <div
-      class="bottom-layers-container"
-      v-show="forceTreeLabel != '城市总览' && forceTreeTopic.length"
-    >
+    <div class="bottom-layers-container" v-show="forceTreeLabel != '城市总览' && forceTreeTopic.length">
       <div class="swiper-buttons swiper-button-left"></div>
       <swiper ref="mySwiper" class="layers" :options="swiperOptions">
         <swiper-slide
@@ -69,7 +66,7 @@ import { treeDrawTool, fixTreeWithExtra } from "./TreeDrawTool";
 import { getIserverFields } from "api/iServerAPI";
 import {
   CESIUM_TREE_OPTION,
-  CESIUM_TREE_EXTRA_DATA,
+  CESIUM_TREE_EXTRA_DATA
 } from "config/server/sourceTreeOption";
 const Cesium = window.Cesium;
 
@@ -85,11 +82,11 @@ export default {
         slidesPerView: 8,
         navigation: {
           nextEl: ".swiper-button-right",
-          prevEl: ".swiper-button-left",
-        },
+          prevEl: ".swiper-button-left"
+        }
       },
       //  tile layers
-      tileLayers: {},
+      tileLayers: {}
     };
   },
   components: { KgLegend },
@@ -97,17 +94,17 @@ export default {
     ...mapGetters("map", [
       "forceTreeLabel",
       "forceTrueTopicLabels",
-      ...CESIUM_TREE_EXTRA_DATA,
-    ]),
+      ...CESIUM_TREE_EXTRA_DATA
+    ])
   },
   watch: {
     forceTreeLabel(n) {
       this.SetForceTime("now");
       this.initForceTreeTopic();
       this.SetForceIndex(n);
-      this.$bus.$emit("cesium-3d-detail-pop-clear",{});
-      this.$bus.$emit("cesium-3d-detail-info-clear",{});
-    },
+      this.$bus.$emit("cesium-3d-detail-pop-clear", {});
+      this.$bus.$emit("cesium-3d-detail-info-clear", {});
+    }
   },
   created() {
     this.initForceTreeTopic();
@@ -119,8 +116,8 @@ export default {
         "SetForceIndex",
         "SetForceTime",
         "SetForceTreeLabel",
-        "SetForceTrueTopicLabels",
-      ],
+        "SetForceTrueTopicLabels"
+      ]
     ]),
     eventRegsiter() {
       /**
@@ -138,11 +135,11 @@ export default {
     initForceTreeTopic() {
       //  清除旧图层
       this.forceTreeTopic
-        .filter((v) => ~this.forceTrueTopicLabels.indexOf(v.id))
-        .map((v) => this.nodeCheckChange(v, false));
+        .filter(v => ~this.forceTrueTopicLabels.indexOf(v.id))
+        .map(v => this.nodeCheckChange(v, false));
       //  处理新图层
       const Topics = this.CESIUM_TREE_OPTION.filter(
-        (v) => v.label == this.forceTreeLabel
+        v => v.label == this.forceTreeLabel
       );
       this.forceTreeTopic = Topics.length ? Topics[0].children : [];
       if (this.forceTreeTopic.length) {
@@ -158,7 +155,7 @@ export default {
      * @param {string} id
      */
     doForceTrueTopicLabels(id) {
-      const label = this.forceTreeTopic.filter((v) => v.id == id)[0];
+      const label = this.forceTreeTopic.filter(v => v.id == id)[0];
       if (~this.forceTrueTopicLabels.indexOf(label.id)) {
         let _fttl_ = [...this.forceTrueTopicLabels];
         _fttl_.splice(_fttl_.indexOf(label.id), 1);
@@ -166,7 +163,7 @@ export default {
         this.nodeCheckChange(label, false);
       } else {
         this.SetForceTrueTopicLabels([
-          ...new Set(this.forceTrueTopicLabels.concat([label.id])),
+          ...new Set(this.forceTrueTopicLabels.concat([label.id]))
         ]);
         this.nodeCheckChange(label, true);
       }
@@ -179,23 +176,22 @@ export default {
       const { newdataset, url } = node;
       var getFeatureParam, getFeatureBySQLService, getFeatureBySQLParams;
       getFeatureParam = new SuperMap.REST.FilterParameter({
-        // attributeFilter: `SMID <= 1000`,
-        attributeFilter: `SMID >= 0`,
+        attributeFilter: `SMID <= 1000`
+        // attributeFilter: `SMID >= 0`
       });
       getFeatureBySQLParams = new SuperMap.REST.GetFeaturesBySQLParameters({
         queryParameter: getFeatureParam,
         toIndex: -1,
-        datasetNames: [newdataset],
+        datasetNames: [newdataset]
       });
       getFeatureBySQLService = new SuperMap.REST.GetFeaturesBySQLService(url, {
         eventListeners: {
-          processCompleted: async (res) => {
+          processCompleted: async res => {
             const fields = await getIserverFields(url, newdataset);
-            treeDrawTool(this, res, node, fields);
-            fn && fn();
+            treeDrawTool(this, res, node, fields, fn);
           },
-          processFailed: (msg) => console.log(msg),
-        },
+          processFailed: msg => console.log(msg)
+        }
       });
       getFeatureBySQLService.processAsync(getFeatureBySQLParams);
     },
@@ -229,11 +225,10 @@ export default {
           ] = window.earth.imageryLayers.addImageryProvider(
             new Cesium.SuperMapImageryProvider({
               url: node.url,
-              name: node.id,
+              name: node.id
             })
           );
         }
-        this.switchSearchBox(node, topicLoad);
         //  有相机视角配置 -> 跳视角
         node.camera && window.earth.scene.camera.setView(node.camera);
       } else {
@@ -261,14 +256,14 @@ export default {
       topicLoad && this.forceTreeLabel == "医疗专题"
         ? this.$bus.$emit("cesium-3d-switch-searchBox", {
             shall: node.withExtraData ? true : false,
-            node,
+            node
           })
         : this.$bus.$emit("cesium-3d-switch-searchBox", {
             shall: false,
-            node,
+            node
           });
-    },
-  },
+    }
+  }
 };
 </script>
 

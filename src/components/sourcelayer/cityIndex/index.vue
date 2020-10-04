@@ -22,18 +22,20 @@
 const indexHash = {
   城市总览: "cityIndex",
   医疗专题: "medicalIndex",
+  教育专题: "educationIndex",
   旅游专题: "tourIndex",
   文化专题: "cultureIndex",
   应急专题: "emergencyIndex",
   基础设施: "basicIndex",
   资源专题: "sourceIndex",
-  交通专题: "trafficIndex",
+  交通专题: "trafficIndex"
 };
 import { mapGetters } from "vuex";
 import SceneSwitch from "../commonFrame/SceneSwitch/SceneSwitch";
 //  now
 import cityIndex from "./now/cityIndex";
 import medicalIndex from "./now/medicalIndex";
+import educationIndex from "./now/educationIndex";
 import tourIndex from "./now/tourIndex";
 import cultureIndex from "./now/cultureIndex";
 import emergencyIndex from "./now/emergencyIndex";
@@ -51,25 +53,26 @@ export default {
     ...mapGetters("map", ["forceTime", "forceIndex"]),
     fixForceIndex() {
       return indexHash[this.forceIndex] || "cityIndex";
-    },
+    }
   },
   watch: {
     forceIndex(n) {
       console.log(n);
-    },
+    }
   },
   components: {
     SceneSwitch,
     cityIndex,
     medicalIndex,
+    educationIndex,
     tourIndex,
     cultureIndex,
     emergencyIndex,
     basicIndex,
     sourceIndex,
     trafficIndex,
-    cityIndexPass,
-  },
+    cityIndexPass
+  }
 };
 </script>
 

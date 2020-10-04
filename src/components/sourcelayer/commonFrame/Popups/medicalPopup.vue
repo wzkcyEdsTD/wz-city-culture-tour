@@ -25,7 +25,7 @@
               <tbody>
                 <tr>
                   <td>等级</td>
-                  <td>{{ item.grade }}</td>
+                  <td>{{ item.grade || '-' }}</td>
                 </tr>
                 <tr>
                   <td>发热人数</td>
@@ -130,7 +130,7 @@ export default {
           popList.push({
             id: item.id,
             name: item.attributes.NAME,
-            grade: this.fixGrade(item.attributes.DEFINING_T),
+            // grade: this.fixGrade(item.attributes.DEFINING_T),
             shortname: item.attributes.SHORTNAME,
             feverNum: item.extra_data["发热病人"] || 0,
             attributes: item.attributes,
