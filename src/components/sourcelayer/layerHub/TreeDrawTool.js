@@ -148,8 +148,8 @@ export const treeDrawTool = (context, { result }, node, fields = [], fn) => {
         ),
         billboard: {
           image: `/static/images/map-ico/${node.icon}.png`,
-          width: 48,
-          height: 48,
+          width: 40,
+          height: 40,
           disableDepthTestDistance: Number.POSITIVE_INFINITY
         }
       };

@@ -21,7 +21,7 @@
           <div class="leaflet-popup-content">
             <header>
               {{
-                forceEntity.extra_data.SHORTNAME || forceEntity.extra_data.NAME
+                forceEntity.extra_data.SHORTNAME || forceEntity.extra_data.NAME || forceEntity.extra_data.MC
               }}
             </header>
             <ul class="content-body">

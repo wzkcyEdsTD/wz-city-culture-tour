@@ -49,10 +49,10 @@ const TOUR_TOPIC = [
 
 //  教育专题
 const EDUCATION_TOPIC = [
-  { label: "幼儿园", dataset: "NurserySchool" },
-  { label: "小学", dataset: "PrimarySchool" },
   { label: "初中", dataset: "JuniorHighSchool" },
+  { label: "幼儿园", dataset: "NurserySchool" },
   { label: "高中", dataset: "HighSchool" },
+  { label: "小学", dataset: "PrimarySchool" },
   { label: "中职", dataset: "VocationalSchool" },
 ]
 
