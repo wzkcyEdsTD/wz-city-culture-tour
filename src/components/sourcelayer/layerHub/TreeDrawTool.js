@@ -29,7 +29,7 @@ const fixFieldsByArr = fields => {
   const fieldHash = {};
   fields.map(({ name, caption }) => {
     const reg = new RegExp("[\\u4E00-\\u9FFF]+", "g");
-    reg.test(caption) ? (fieldHash[name] = caption) : undefined;
+    reg.test(caption) ? (fieldHash[name.toLowerCase()] = caption) : undefined;
   });
   return fieldHash;
 };

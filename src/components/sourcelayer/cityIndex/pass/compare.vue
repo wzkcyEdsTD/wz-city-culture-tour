@@ -1,7 +1,7 @@
 <template>
   <div class="compare">
-    <p>同比2019年</p>
-    <p :class="data >= 0 ? 'pos' : 'neg'">{{ fixData }}</p>
+    <p>2019年同比</p>
+    <p :class="data >= 0 ? 'pos' : 'neg'">{{data>=0 ? '+' : '-'}}{{ fixData }}</p>
   </div>
 </template>
 
@@ -12,8 +12,8 @@ export default {
   computed: {
     fixData() {
       return `${this.data}%`;
-    },
-  },
+    }
+  }
 };
 </script>
 

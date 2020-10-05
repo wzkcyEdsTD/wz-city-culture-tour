@@ -54,9 +54,7 @@
         </div>
       </li>
       <li class="item">
-        <img
-          src="/static/images/index/city/数字经济核心产业制造业增加值增速.png"
-        />
+        <img src="/static/images/index/city/数字经济核心产业制造业增加值增速.png" />
         <div>
           <div class="title">
             工业增加值
@@ -174,7 +172,7 @@ export default {
   data() {
     return {
       year: 2018,
-      lastImage: "datalayer",
+      lastImage: "datalayer"
     };
   },
   watch: {
@@ -182,27 +180,27 @@ export default {
       handler(n, o) {
         this.getYearIndex(n);
       },
-      immediate: true,
+      immediate: true
     },
     nightMode(n) {
       this.$bus.$emit("cesium-3d-switch", { value: n });
-    },
+    }
   },
   computed: {
     ...mapGetters("map", ["nightMode"]),
     indexData() {
       const index = {
-        ...INDEX.filter((v) => v.年份 == this.year)[0],
-        rate: {},
+        ...INDEX.filter(v => v.年份 == this.year)[0],
+        rate: {}
       };
-      Object.keys(INDEX_LAST).map((k) => {
+      Object.keys(INDEX_LAST).map(k => {
         index.rate[k] = (
-          (parseFloat(index[k]) / parseFloat(INDEX_LAST[k])) * 100 -
+          (parseFloat(INDEX_LAST[k]) / parseFloat(index[k])) * 100 -
           100
         ).toFixed(2);
       });
       return index;
-    },
+    }
   },
   created() {
     //  事件绑定
@@ -220,7 +218,7 @@ export default {
   beforeDestroy() {
     //  关历史影像
     Object.keys(window.passImages).map(
-      (key) => (window.passImages[key].show = false)
+      key => (window.passImages[key].show = false)
     );
     //  开底图
     window.datalayer && (window.datalayer.show = true);
@@ -299,8 +297,8 @@ export default {
     /**
      * 图表初始化
      */
-    echartInit() {},
-  },
+    echartInit() {}
+  }
 };
 </script>
 

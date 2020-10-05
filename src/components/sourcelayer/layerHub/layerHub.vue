@@ -201,14 +201,14 @@ export default {
           if (node.id && window.entityMap[node.id]) {
             window.entityMap[node.id].show = true;
             //  若该节点有额外数据/模块,则触发
-            node.withExtraData
-              ? fixTreeWithExtra(
-                  window.featureMap[node.id],
-                  this[node.withExtraData],
-                  node,
-                  this
-                )
-              : null;
+            // node.withExtraData
+            //   ? fixTreeWithExtra(
+            //       window.featureMap[node.id],
+            //       this[node.withExtraData],
+            //       node,
+            //       this
+            //     )
+            //   : null;
           } else {
             this.getPOIPickedFeature(node, () => {
               this.switchSearchBox(node, topicLoad);
