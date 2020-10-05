@@ -3,7 +3,7 @@
     <span class="header">教育体征</span>
     <ul class="content">
       <li class="item">
-        <img src="/static/images/index/unknowns.png" />
+        <img src="/static/images/index/education/总在校学生数.png" />
         <div>
           <div class="title">
             总在校学生数
@@ -19,7 +19,7 @@
         </div>
       </li>
       <li class="item">
-        <img src="/static/images/index/unknowns.png" />
+        <img src="/static/images/index/education/教职工数.png" />
         <div>
           <div class="title">
             教职工数
@@ -35,7 +35,7 @@
         </div>
       </li>
       <li class="item">
-        <img src="/static/images/index/unknowns.png" />
+        <img src="/static/images/index/education/总占地面积.png" />
         <div>
           <div class="title">
             总占地面积
@@ -51,7 +51,7 @@
         </div>
       </li>
       <li class="item">
-        <img src="/static/images/index/unknowns.png" />
+        <img src="/static/images/index/education/幼儿园数量.png" />
         <div>
           <div class="title">
             幼儿园数量
@@ -67,7 +67,7 @@
         </div>
       </li>
       <li class="item">
-        <img src="/static/images/index/unknowns.png" />
+        <img src="/static/images/index/education/小学数量.png" />
         <div>
           <div class="title">
             小学数量
@@ -83,7 +83,7 @@
         </div>
       </li>
       <li class="item">
-        <img src="/static/images/index/unknowns.png" />
+        <img src="/static/images/index/education/初中数量.png" />
         <div>
           <div class="title">
             初中数量
@@ -99,7 +99,7 @@
         </div>
       </li>
       <li class="item">
-        <img src="/static/images/index/unknowns.png" />
+        <img src="/static/images/index/education/高中数量.png" />
         <div>
           <div class="title">
             高中数量
@@ -115,7 +115,7 @@
         </div>
       </li>
       <li class="item">
-        <img src="/static/images/index/unknowns.png" />
+        <img src="/static/images/index/education/中职学校数量.png" />
         <div>
           <div class="title">
             中职学校数量
