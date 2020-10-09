@@ -25,7 +25,7 @@
               <tbody>
                 <tr>
                   <td>等级</td>
-                  <td>{{ item.grade || '-' }}</td>
+                  <td>{{ item.grade || "-" }}</td>
                 </tr>
                 <tr>
                   <td>发热人数</td>
@@ -95,7 +95,8 @@ export default {
     },
     fixPopup() {
       if (
-        !window.entityMapGeometry || !window.entityMapGeometry["医疗场所"] ||
+        !window.entityMapGeometry ||
+        !window.entityMapGeometry["医疗场所"] ||
         !~this.forceTrueTopicLabels.indexOf("医疗场所")
       ) {
         this.doPopup([]);
@@ -132,7 +133,6 @@ export default {
             name: item.attributes.NAME,
             // grade: this.fixGrade(item.attributes.DEFINING_T),
             shortname: item.attributes.SHORTNAME,
-            feverNum: item.extra_data["发热病人"] || 0,
             attributes: item.attributes,
             extra_data: item.extra_data,
             geometry: item.geometry,

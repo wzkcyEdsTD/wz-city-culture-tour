@@ -1,5 +1,6 @@
 import szf_road_light from "mock/szf_road_light.json";
-import szf_road_lamp from "mock/szf_road_lamp.json"
+import szf_road_lamp from "mock/szf_road_lamp.json";
+import szf_build_light from "mock/szf_build_light.json";
 import window_array from "config/local/windowPositions";
 /**
  * 地图参数调节
@@ -73,6 +74,14 @@ export const mapRoadLampLayerInit = (...params) => {
         var spotLight = new Cesium.SpotLight(position, targetPosition, szf_road_light.options);
         window.earth.scene.addLightSource(spotLight);
     })
+    // szf_build_light.position_array.map((item, i) => {
+    //     const [x, y, z] = item;
+    //     const [tx, ty, tz] = szf_build_light.tarposition_array[i];
+    //     const position = new Cesium.Cartesian3.fromDegrees(x, y, z);
+    //     const targetPosition = new Cesium.Cartesian3.fromDegrees(tx, ty, tz);
+    //     var spotLight = new Cesium.SpotLight(position, targetPosition, szf_build_light.options);
+    //     window.earth.scene.addLightSource(spotLight);
+    // })
     //  窗户
     const WindowsEntityCollection = new Cesium.CustomDataSource('cesium-windows');
     window.earth.dataSources.add(WindowsEntityCollection).then(datasource => {
@@ -94,8 +103,8 @@ export const mapRoadLampLayerInit = (...params) => {
  * @param {*} boolean 
  */
 export const mapRoadLampLayerTurn = (boolean) => {
-    window.earth.scene.lightSource.pointLight._array.map(v => v.intensity = boolean ? 10 : 0)
-    window.earth.scene.lightSource.spotLight._array.map(v => v.intensity = boolean ? 3 : 0)
+    window.earth.scene.lightSource.pointLight._array.map(v => v.intensity = boolean ? 12 : 0)
+    window.earth.scene.lightSource.spotLight._array.map(v => v.intensity = boolean ? 4 : 0)
     window.windowEntityMap.show = boolean ? true : false;
 }
 

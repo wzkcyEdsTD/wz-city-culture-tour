@@ -89,11 +89,17 @@ export const treeDrawTool = (context, { result }, node, fields = [], fn) => {
   window.labelMap[node.id] = window.earth.scene.primitives.add(new Cesium.LabelCollection());
   //  属性赋值
   result.features.map(v => {
-    !window.entityMapGeometry[node.id] && (window.entityMapGeometry[node.id] = {});
-    window.entityMapGeometry[node.id][v.attributes[node.withExtraKey]] = {
-      geometry: v.geometry, attributes: v.attributes, id: v.id, extra_data: v.attributes,
+    if (node.withExtraKey) {
+      !window.entityMapGeometry[node.id] && (window.entityMapGeometry[node.id] = {});
+      window.entityMapGeometry[node.id][v.attributes[node.withExtraKey]] = {
+        geometry: v.geometry, attributes: v.attributes, id: v.id, extra_data: v.attributes,
+      };
+    }
+    !window.featureMap[node.id] && (window.featureMap[node.id] = {});
+    window.featureMap[node.id][v.attributes.SMID] = {
+      name: v.attributes.SHORTNAME || v.attributes.NAME || v.attributes.MC,
       fix_data: fixAttributesByOrigin(v.attributes, fieldHash),
-    };
+    }
   })
   result.features.map(item => {
     const position = Cesium.Cartesian3.fromDegrees(
@@ -102,7 +108,7 @@ export const treeDrawTool = (context, { result }, node, fields = [], fn) => {
       4
     );
     window.labelMap[node.id].add({
-      id: `label@${item.attributes.SMID}@${node.icon}@${node.dataset}`,
+      id: `label@${item.attributes.SMID}@${node.id}`,
       text: item.attributes[node.withExtraKey] || item.attributes.NAME,
       fillColor: Cesium.Color.WHITE,
       outlineColor: Cesium.Color.BLACK,
@@ -118,7 +124,7 @@ export const treeDrawTool = (context, { result }, node, fields = [], fn) => {
       position
     });
     window.billboardMap[node.id].add({
-      id: `billboard@${item.attributes.SMID}@${node.icon}@${node.dataset}`,
+      id: `billboard@${item.attributes.SMID}@${node.icon}`,
       image: `/static/images/map-ico/${node.icon}.png`,
       width: 40,
       height: 40,

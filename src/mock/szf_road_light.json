@@ -62,7 +62,7 @@
         },
         "distance": 200,
         "decay": 0.5,
-        "intensity": 3,
+        "intensity": 4,
         "angle": 1
     }
 }

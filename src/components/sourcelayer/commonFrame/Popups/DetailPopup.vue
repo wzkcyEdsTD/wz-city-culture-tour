@@ -20,9 +20,7 @@
         <div id="forcePopUpLink" class="leaflet-popup-content">
           <div class="leaflet-popup-content">
             <header>
-              {{
-                forceEntity.extra_data.SHORTNAME || forceEntity.extra_data.NAME || forceEntity.extra_data.MC
-              }}
+              {{ forceEntity.name }}
             </header>
             <ul class="content-body">
               <li
@@ -70,7 +68,7 @@ export default {
      */
     renderForceEntity() {
       const forceEntity = this.forceEntity;
-      if (forceEntity.extra_data) {
+      if (forceEntity.fix_data) {
         const pointToWindow = Cesium.SceneTransforms.wgs84ToWindowCoordinates(
           window.earth.scene,
           forceEntity.position

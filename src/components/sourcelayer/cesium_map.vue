@@ -116,13 +116,13 @@ export default {
     Overview,
   },
   created() {
-    //  点位hash
-    // window.entityMap = {};
+    //  点位信息 hash
+    window.featureMap = {};
     //  点位icon hash
     window.billboardMap = {};
     //  点位label hash
     window.labelMap = {};
-    //  点位信息hash
+    //  特殊信息 hash
     window.entityMapGeometry = {};
   },
   async mounted() {
@@ -182,22 +182,25 @@ export default {
       // 监听左键点击事件
       handler.setInputAction((e) => {
         const pick = window.earth.scene.pick(e.position);
-        if (!pick.id || typeof pick.id != "object") return;
-        //  *****[videoCircle]  监控视频点*****
-        if (pick && pick.id.id && ~pick.id.id.indexOf("videopoint_")) {
-          this.$refs.videoCircle.doSetRtmpList();
-          this.$bus.$emit("cesium-3d-videoPointClick", {
-            mp_id: pick.id.id,
-            mp_name: pick.id.name,
-          });
-        }
-        //  *****[detailPopup]  资源详情点*****
-        if (pick.id.extra_data) {
-          this.$refs.detailPopup.getForceEntity({
-            extra_data: pick.id.extra_data,
-            fix_data: pick.id.fix_data,
-            position: pick.id._position._value,
-          });
+        if (!pick.id) return;
+        if (typeof pick.id == "object") {
+          //  *****[videoCircle]  监控视频点*****
+          if (pick.id.id && ~pick.id.id.indexOf("videopoint_")) {
+            this.$refs.videoCircle.doSetRtmpList();
+            this.$bus.$emit("cesium-3d-videoPointClick", {
+              mp_id: pick.id.id,
+              mp_name: pick.id.name,
+            });
+          }
+        } else if (typeof pick.id == "string") {
+          const [_TYPE_, _SMID_, _NODEID_] = pick.id.split("@");
+          //  *****[detailPopup]  资源详情点*****
+          if (~["label", "billboard"].indexOf(_TYPE_)) {
+            this.$refs.detailPopup.getForceEntity({
+              ...window.featureMap[_NODEID_][_SMID_],
+              position: pick.primitive.position,
+            });
+          }
         }
       }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
     },
