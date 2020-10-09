@@ -220,11 +220,11 @@ export default {
         });
         //  底图切换
         window.datalayer.show = !value ? false : true;
-        // window.imagelayer
-        //   ? (window.imagelayer.show = !value ? true : false)
-        //   : !value
-        //   ? (window.imagelayer = mapImageLayerInit(ServiceUrl.SWImage))
-        //   : undefined;
+        window.imagelayer
+          ? (window.imagelayer.show = !value ? true : false)
+          : !value
+          ? (window.imagelayer = mapImageLayerInit(ServiceUrl.SWImage))
+          : undefined;
         //  光源显示
         mapRoadLampLayerTurn(!value ? false : true);
         //  河流显示
@@ -245,6 +245,10 @@ export default {
       window.earth = new Cesium.Viewer("cesiumContainer", {
         infoBox: false,
         selectionIndicator: false,
+        shadows: false,
+        // terrainShadows: Cesium.ShadowMode.ENABLED,
+        // shouldAnimate: true,
+        // terrainProvider: Cesium.createWorldTerrain(),
       });
       //  地图配置
       mapConfigInit();

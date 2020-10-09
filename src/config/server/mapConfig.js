@@ -7,16 +7,11 @@
  * @FilePath: \wz-city-culture-tour\src\config\server\mapConfig.js
  */
 export const ServiceUrl = {
-  // 温州白模 暂不用
-  WZBaimo:
-    // "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-BaiMoLuCheng/rest/realspace/datas/BaiMo_LuCheng/config",
-    // "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb/rest/realspace/datas/RES_LC_Model@baimo/config",
-    "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-RESPYQSY/rest/realspace/datas/RES_PY_QSY/config",
   //  夜间模型
   WZBaimo_OBJ: [
     {
       KEY: 'WZBaimo_POINT_AROUND',
-      URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-BaiMoLuCheng2/rest/realspace/datas/BaiMo_LuCheng_2/config",
+      URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-BaiMoLuCheng22/rest/realspace/datas/BaiMoLuCheng2/config",
       FLOW: true
     },
     {
