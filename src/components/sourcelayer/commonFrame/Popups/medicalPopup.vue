@@ -131,7 +131,7 @@ export default {
           popList.push({
             id: item.id,
             name: item.attributes.NAME,
-            // grade: this.fixGrade(item.attributes.DEFINING_T),
+            grade: this.fixGrade(item.attributes.DEFINING_T),
             shortname: item.attributes.SHORTNAME,
             attributes: item.attributes,
             extra_data: item.extra_data,

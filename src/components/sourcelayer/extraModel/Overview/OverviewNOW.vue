@@ -35,13 +35,11 @@ import {
   indexPoints,
   centerPosition,
   dirPosition,
-} from "./Overview.js";
+} from "mock/overview.js";
 export default {
   name: "overviewNOW",
   data() {
     return {
-      cameraTimer: undefined,
-      toRight: true,
       CenterPoint,
       LeftPoint,
       RightPoint,
@@ -69,7 +67,6 @@ export default {
     //  关闭线扫描
     // this.removeLineScan();
     setTimeout(() => {
-      // clearInterval(this.cameraTimer);
       this.cameraMove(this.CenterPoint);
     }, 500);
   },
@@ -158,20 +155,10 @@ export default {
       });
       this.fixIndexPoints = fixIndexPoints;
     },
-    cameraFlyTo() {
-      const toPoint = this.toRight ? this.RightPoint : this.LeftPoint;
-      window.earth.camera.flyTo({ ...toPoint, duration: LOOT });
-      this.toRight = !this.toRight;
-    },
     initOverview() {
       const that = this;
       //  禁用鼠标事件
       // this.screenSpaceCameraController(false);
-      //  开启
-      // this.cameraFlyTo();
-      // this.cameraTimer = setInterval(() => {
-      //   this.cameraFlyTo();
-      // }, (LOOT - 1) * 1000);
     },
     screenSpaceCameraController(boolean) {
       window.earth.scene.screenSpaceCameraController.enableInputs = boolean;

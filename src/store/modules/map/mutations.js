@@ -89,6 +89,9 @@ const mutations = {
   [types.SET_NIGHT_MODE](state, data) {
     state.nightMode = data
   },
+  [types.SET_CAMERA_MODE](state, data) {
+    state.cameraMode = data
+  },
   [types.SET_FORCE_TREE_LABEL](state, data) {
     state.forceTreeLabel = data
   },

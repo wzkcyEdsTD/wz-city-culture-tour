@@ -206,6 +206,7 @@ export default {
               (v) => (v.show = true)
             );
             window.labelMap[node.id].setAllLabelsVisible(true);
+            this.switchSearchBox(node, topicLoad);
           } else {
             this.getPOIPickedFeature(node, () => {
               this.switchSearchBox(node, topicLoad);

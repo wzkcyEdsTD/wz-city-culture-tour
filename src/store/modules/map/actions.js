@@ -227,6 +227,10 @@ export const SetForceTime = ({ commit }, data) => {
 export const SetNightMode = ({ commit }, data) => {
   commit(types.SET_NIGHT_MODE, data);
 };
+//  设置相机转动
+export const SetCameraMode = ({ commit }, data) => {
+  commit(types.SET_CAMERA_MODE, data);
+};
 //  设置tab下标
 export const SetForceTreeLabel = ({ commit }, data) => {
   commit(types.SET_FORCE_TREE_LABEL, data);

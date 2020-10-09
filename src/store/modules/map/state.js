@@ -43,6 +43,8 @@ const state = {
   forceTime: 'now',
   //  白天黑夜
   nightMode: true,
+  //  相机转动
+  cameraMode: false,
   //  tab下标
   forceTreeLabel: "城市总览",
   forceTrueTopicLabels: []

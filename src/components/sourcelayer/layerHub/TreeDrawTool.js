@@ -119,7 +119,7 @@ export const treeDrawTool = (context, { result }, node, fields = [], fn) => {
       showBackground: true,
       backgroundColor: Cesium.Color(0.165, 0.165, 0.165, 0.1),
       distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 2000),
-      pixelOffset: new Cesium.Cartesian2(0, -40),
+      pixelOffset: new Cesium.Cartesian2(0, -30),
       disableDepthTestDistance: Number.POSITIVE_INFINITY,
       position
     });
