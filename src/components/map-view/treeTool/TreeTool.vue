@@ -221,13 +221,8 @@ export default {
             this.entityMap[node.id].show = true;
             return;
           }
-
           // 专题集合添加
-          if (node.label == "精品旅游路线") {
-            this.$bus.$emit(node.componentEvent, { value: node.componentKey });
-          } else {
-            this.getPOIPickedFeature(node.dataset, null, node);
-          }
+          this.getPOIPickedFeature(node.dataset, null, node);
         } else if (node.type == "model") {
           node.componentEvent &&
             node.componentKey &&

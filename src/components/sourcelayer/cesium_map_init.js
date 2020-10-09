@@ -1,5 +1,6 @@
 import szf_road_light from "mock/szf_road_light.json";
 import szf_road_lamp from "mock/szf_road_lamp.json"
+import window_array from "config/local/windowPositions";
 /**
  * 地图参数调节
  */
@@ -52,26 +53,17 @@ export const mapRiverLayerInit = (name, url) => {
 }
 
 /**
- * 路灯图层叠加
+ * 路灯图层,玻璃3d模型叠加
  * @param {*} name 
  * @param {*} url 
  */
 export const mapRoadLampLayerInit = (...params) => {
+    //  路灯
     szf_road_lamp.Street_Lamp_light.map((item, i) => {
         const [x, y, z] = item;
         var position = new Cesium.Cartesian3.fromDegrees(x, y, z);
         const pointLight = new Cesium.PointLight(position, szf_road_lamp.options);
         window.earth.scene.addLightSource(pointLight);
-        // const posDeg = Cesium.Cartographic.fromCartesian(position);
-        // const pointPosition = Cesium.Cartesian3.fromRadians(posDeg.longitude, posDeg.latitude, posDeg.height);
-        // window.earth.entities.add(new Cesium.Entity({
-        //     point: new Cesium.PointGraphics({
-        //         color: new Cesium.Color(1, 1, 1),
-        //         pixelSize: 4,
-        //         outlineColor: new Cesium.Color(1, 1, 1)
-        //     }),
-        //     position: pointPosition
-        // }));
     })
     szf_road_light.position_array.map((item, i) => {
         const [x, y, z] = item;
@@ -81,15 +73,30 @@ export const mapRoadLampLayerInit = (...params) => {
         var spotLight = new Cesium.SpotLight(position, targetPosition, szf_road_light.options);
         window.earth.scene.addLightSource(spotLight);
     })
+    //  窗户
+    const WindowsEntityCollection = new Cesium.CustomDataSource('cesium-windows');
+    window.earth.dataSources.add(WindowsEntityCollection).then(datasource => {
+        window.windowEntityMap = datasource;
+    });
+    window_array.map(v => {
+        WindowsEntityCollection.entities.add({
+            name: v.name,
+            position: new Cesium.Cartesian3.fromDegrees(...v.geometry),
+            model: {
+                uri: v.url
+            }
+        });
+    })
 }
 
 /**
- * 开关路灯
+ * 开关路灯/窗户
  * @param {*} boolean 
  */
 export const mapRoadLampLayerTurn = (boolean) => {
     window.earth.scene.lightSource.pointLight._array.map(v => v.intensity = boolean ? 10 : 0)
     window.earth.scene.lightSource.spotLight._array.map(v => v.intensity = boolean ? 3 : 0)
+    window.windowEntityMap.show = boolean ? true : false;
 }
 
 /**

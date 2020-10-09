@@ -80,80 +80,51 @@ export const fixTreeWithExtra = (gArr, eObj, node, context) => {
  */
 export const treeDrawTool = (context, { result }, node, fields = [], fn) => {
   const fieldHash = fixFieldsByArr(fields);
-  const poiEntityCollection = new Cesium.CustomDataSource(node.id);
-  window.earth.dataSources.add(poiEntityCollection).then(datasource => {
-    window.entityMap[node.id] = datasource;
-  });
+  // const poiEntityCollection = new Cesium.CustomDataSource(node.id);
+  // window.earth.dataSources.add(poiEntityCollection).then(datasource => {
+  //   window.entityMap[node.id] = datasource;
+  // });
+  //  hash赋值
+  window.billboardMap[node.id] = window.earth.scene.primitives.add(new Cesium.BillboardCollection());
+  window.labelMap[node.id] = window.earth.scene.primitives.add(new Cesium.LabelCollection());
+  //  属性赋值
   result.features.map(v => {
     !window.entityMapGeometry[node.id] && (window.entityMapGeometry[node.id] = {});
-    window.entityMapGeometry[node.id][v.attributes[node.withExtraKey]] = { geometry: v.geometry, attributes: v.attributes, id: v.id };
-  })
-  window.featureMap[node.id] = result.features;
-  result.features.map(item => {
-    const entityOption = {
-      id: `${item.attributes.SMID}@${node.icon}@${node.dataset}`,
-      label: {
-        text: item.attributes[node.withExtraKey] || item.attributes.NAME,
-        fillColor: Cesium.Color.WHITE,
-        outlineColor: Cesium.Color.BLACK,
-        style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-        font: "10px",
-        scale: 1,
-        outlineWidth: 4,
-        showBackground: true,
-        backgroundColor: Cesium.Color(0.165, 0.165, 0.165, 0.1),
-        distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 2000),
-        pixelOffset: new Cesium.Cartesian2(0, -40),
-        disableDepthTestDistance: Number.POSITIVE_INFINITY
-      },
-      name: node.id,
-      fieldHash,
-      extra_data: item.attributes,
-      fix_data: fixAttributesByOrigin(item.attributes, fieldHash),
-      geometry: item.geometry
+    window.entityMapGeometry[node.id][v.attributes[node.withExtraKey]] = {
+      geometry: v.geometry, attributes: v.attributes, id: v.id, extra_data: v.attributes,
+      fix_data: fixAttributesByOrigin(v.attributes, fieldHash),
     };
-    const polygonGeometry = node.polygon
-      ? [].concat.apply(
-        [],
-        item.geometry.components[0].components.map(v => [
-          parseFloat(v.x),
-          parseFloat(v.y)
-        ])
-      )
-      : [];
-    const entityInstance = node.polygon
-      ? {
-        ...entityOption,
-        position: Cesium.Cartesian3.fromDegrees(
-          ...getCenterOfPolygon(polygonGeometry, 30)
-        ),
-        polygon: {
-          hierarchy: Cesium.Cartesian3.fromDegreesArray(polygonGeometry),
-          outline: true,
-          outlineWidth: 4,
-          outlineColor: new Cesium.Color.fromCssColorString("#FFD700"),
-          material: new Cesium.Color.fromCssColorString("#7FFF00").withAlpha(
-            0.6
-          ),
-          perPositionHeight: true,
-          height: 2
-        }
-      }
-      : {
-        ...entityOption,
-        position: Cesium.Cartesian3.fromDegrees(
-          item.geometry.x,
-          item.geometry.y,
-          4
-        ),
-        billboard: {
-          image: `/static/images/map-ico/${node.icon}.png`,
-          width: 40,
-          height: 40,
-          disableDepthTestDistance: Number.POSITIVE_INFINITY
-        }
-      };
-    poiEntityCollection.entities.add(entityInstance);
+  })
+  result.features.map(item => {
+    const position = Cesium.Cartesian3.fromDegrees(
+      item.geometry.x,
+      item.geometry.y,
+      4
+    );
+    window.labelMap[node.id].add({
+      id: `label@${item.attributes.SMID}@${node.icon}@${node.dataset}`,
+      text: item.attributes[node.withExtraKey] || item.attributes.NAME,
+      fillColor: Cesium.Color.WHITE,
+      outlineColor: Cesium.Color.BLACK,
+      style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+      font: "10px",
+      scale: 1,
+      outlineWidth: 4,
+      showBackground: true,
+      backgroundColor: Cesium.Color(0.165, 0.165, 0.165, 0.1),
+      distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 2000),
+      pixelOffset: new Cesium.Cartesian2(0, -40),
+      disableDepthTestDistance: Number.POSITIVE_INFINITY,
+      position
+    });
+    window.billboardMap[node.id].add({
+      id: `billboard@${item.attributes.SMID}@${node.icon}@${node.dataset}`,
+      image: `/static/images/map-ico/${node.icon}.png`,
+      width: 40,
+      height: 40,
+      disableDepthTestDistance: Number.POSITIVE_INFINITY,
+      position
+    })
   });
   fn && fn();
 };

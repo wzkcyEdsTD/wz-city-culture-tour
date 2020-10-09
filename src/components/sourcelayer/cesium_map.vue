@@ -72,7 +72,7 @@ import {
   mapRiverLayerInit,
   mapBaimoLayerInit,
   mapRoadLampLayerInit,
-  mapRoadLampLayerTurn
+  mapRoadLampLayerTurn,
 } from "./cesium_map_init";
 import { doValidation } from "api/validation/validation";
 import { mapGetters } from "vuex";
@@ -86,14 +86,14 @@ export default {
       mapLoaded: false,
       validated: false,
       isInfoFrame: false,
-      authFailshallPop: false
+      authFailshallPop: false,
     };
   },
   computed: {
     ...mapGetters("map", ["initDataLoaded"]),
     isOverview() {
       return this.showSubHubFrame == "3d1";
-    }
+    },
   },
   components: {
     LayerHub,
@@ -113,11 +113,16 @@ export default {
     RoadLine,
     VideoCircle,
     AuthFailPopup,
-    Overview
+    Overview,
   },
   created() {
-    window.featureMap = {};
-    window.entityMap = {};
+    //  点位hash
+    // window.entityMap = {};
+    //  点位icon hash
+    window.billboardMap = {};
+    //  点位label hash
+    window.labelMap = {};
+    //  点位信息hash
     window.entityMapGeometry = {};
   },
   async mounted() {
@@ -175,7 +180,7 @@ export default {
         window.earth.scene.canvas
       );
       // 监听左键点击事件
-      handler.setInputAction(e => {
+      handler.setInputAction((e) => {
         const pick = window.earth.scene.pick(e.position);
         if (!pick.id || typeof pick.id != "object") return;
         //  *****[videoCircle]  监控视频点*****
@@ -183,7 +188,7 @@ export default {
           this.$refs.videoCircle.doSetRtmpList();
           this.$bus.$emit("cesium-3d-videoPointClick", {
             mp_id: pick.id.id,
-            mp_name: pick.id.name
+            mp_name: pick.id.name,
           });
         }
         //  *****[detailPopup]  资源详情点*****
@@ -191,7 +196,7 @@ export default {
           this.$refs.detailPopup.getForceEntity({
             extra_data: pick.id.extra_data,
             fix_data: pick.id.fix_data,
-            position: pick.id._position._value
+            position: pick.id._position._value,
           });
         }
       }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
@@ -236,7 +241,7 @@ export default {
       const that = this;
       window.earth = new Cesium.Viewer("cesiumContainer", {
         infoBox: false,
-        selectionIndicator: false
+        selectionIndicator: false,
       });
       //  地图配置
       mapConfigInit();
@@ -265,16 +270,16 @@ export default {
         destination: {
           x: -2875301.1196146533,
           y: 4843728.17360857,
-          z: 2993569.51865382
+          z: 2993569.51865382,
         },
         orientation: {
           heading: 0.0033168860454315663,
           pitch: -0.5808830390057396,
-          roll: 0
-        }
+          roll: 0,
+        },
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

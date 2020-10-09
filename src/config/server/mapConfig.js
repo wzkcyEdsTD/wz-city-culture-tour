@@ -12,7 +12,7 @@ export const ServiceUrl = {
     // "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-BaiMoLuCheng/rest/realspace/datas/BaiMo_LuCheng/config",
     // "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb/rest/realspace/datas/RES_LC_Model@baimo/config",
     "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-RESPYQSY/rest/realspace/datas/RES_PY_QSY/config",
-  //  白模分区
+  //  夜间模型
   WZBaimo_OBJ: [
     {
       KEY: 'WZBaimo_POINT_AROUND',
@@ -20,10 +20,30 @@ export const ServiceUrl = {
       FLOW: true
     },
     {
-      KEY: 'WZBaimo_POINT_CENTER',
-      URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-SZF/rest/realspace/datas/SZF/config",
+      KEY: 'WZBaimo_POINT_JZ',
+      URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb4/rest/realspace/datas/JZ/config",
       FLOW: false
     },
+    {
+      KEY: 'WZBaimo_POINT_QT',
+      URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb4/rest/realspace/datas/QT/config",
+      FLOW: false
+    },
+    {
+      KEY: 'WZBaimo_POINT_DX',
+      URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb4/rest/realspace/datas/DX/config",
+      FLOW: false
+    },
+    {
+      KEY: 'WZBaimo_POINT_DL',
+      URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb4/rest/realspace/datas/DL/config",
+      FLOW: false
+    },
+    {
+      KEY: 'WZBaimo_POINT_ZB',
+      URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb4/rest/realspace/datas/ZB/config",
+      FLOW: false
+    }
   ],
   //  动态水面模型
   RIVER: "https://ditu.wzcitybrain.com/iserver/services/3D-River_CityBrain/rest/realspace/datas/River_CityBrain/config",
