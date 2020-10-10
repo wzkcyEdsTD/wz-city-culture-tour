@@ -54,6 +54,7 @@ const EDUCATION_TOPIC = [
   { label: "初中", dataset: "JuniorHighSchool" },
   { label: "高中", dataset: "HighSchool" },
   { label: "中职", dataset: "VocationalSchool" },
+  { label: "高校", dataset: "UniversitySchool" },
 ]
 
 // 控规专题
