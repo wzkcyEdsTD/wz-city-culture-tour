@@ -109,7 +109,7 @@ export const treeDrawTool = (context, { result }, node, fields = [], fn) => {
     );
     window.labelMap[node.id].add({
       id: `label@${item.attributes.SMID}@${node.id}`,
-      text: item.attributes[node.withExtraKey] || item.attributes.NAME,
+      text: item.attributes.SHORTNAME || item.attributes[node.withExtraKey] || item.attributes.NAME,
       fillColor: Cesium.Color.WHITE,
       outlineColor: Cesium.Color.BLACK,
       style: Cesium.LabelStyle.FILL_AND_OUTLINE,
