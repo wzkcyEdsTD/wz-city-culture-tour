@@ -39,3 +39,4 @@ export const nightMode = state => state.nightMode;
 export const cameraMode = state => state.cameraMode;
 export const forceTreeLabel = state => state.forceTreeLabel
 export const forceTrueTopicLabels = state => state.forceTrueTopicLabels;
+export const forceTrueTopicLabelId = state => state.forceTrueTopicLabelId;

@@ -84,7 +84,7 @@ export default {
   user-select: none;
 }
 body {
-  font-size: 0.16rem;
+  font-size: 14px;
 }
 html,
 body {
@@ -113,7 +113,7 @@ body {
   }
 }
 .water-detail {
-  border: 1px solid #40c7ff;
+  border: 1px solid #4099ff;
   /deep/.el-picker-panel__body-wrapper {
     background-color: #0d182c;
   }

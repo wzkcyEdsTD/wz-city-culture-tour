@@ -1,6 +1,6 @@
-import szf_road_light from "mock/szf_road_light.json";
-import szf_road_lamp from "mock/szf_road_lamp.json";
-import szf_build_light from "mock/szf_build_light.json";
+import szf_road_light from "mock/lamp/szf_road_light.json";
+import szf_road_lamp from "mock/lamp/szf_road_lamp.js";
+import szf_direction_light from "mock/lamp/szf_direction_light.json";
 import window_array from "config/local/windowPositions";
 /**
  * 地图参数调节
@@ -48,6 +48,7 @@ export const mapRiverLayerInit = (name, url) => {
             const LAYER = window.earth.scene.layers.find(name)
             LAYER.style3D.bottomAltitude = 1;
             LAYER.refresh();
+            LAYER.visibleDistanceMax = 2000;
             LAYER.visible = false;
             resolve(true)
         });
@@ -76,25 +77,14 @@ export const mapRoadLampLayerInit = (...params) => {
         var spotLight = new Cesium.SpotLight(position, targetPosition, szf_road_light.options);
         window.earth.scene.addLightSource(spotLight);
     })
-    //  向上聚光灯
-    // szf_build_light.position_array.map((item, i) => {
-    //     const [x, y, z] = item;
-    //     const [tx, ty, tz] = szf_build_light.tarposition_array[i];
-    //     const position = new Cesium.Cartesian3.fromDegrees(x, y, z);
-    //     const targetPosition = new Cesium.Cartesian3.fromDegrees(tx, ty, tz);
-    //     var spotLight = new Cesium.SpotLight(position, targetPosition, szf_build_light.options);
-    //     window.earth.scene.addLightSource(spotLight);
-    // })
     //  平行灯
-    const dir_position = new Cesium.Cartesian3.fromDegrees(120.69313536231014, 27.994595917140288, 267.31285740879105);
-    const targetPosition = new Cesium.Cartesian3.fromDegrees(120.69364375255293, 27.995973200938042, 125.7711425019562);
+    const dir_position = new Cesium.Cartesian3.fromDegrees(...szf_direction_light.position);
+    const targetPosition = new Cesium.Cartesian3.fromDegrees(...szf_direction_light.tarposition);
     const dirLightOptions = {
         targetPosition,
-        color: new Cesium.Color(43 / 255, 146 / 255, 236 / 255, 1.0),
-        intensity: 1
+        ...szf_direction_light.options
     };
-    const directionalLight = new Cesium.DirectionalLight(dir_position, dirLightOptions);
-    window.earth.scene.addLightSource(directionalLight);
+    window.earth.scene.addLightSource(new Cesium.DirectionalLight(dir_position, dirLightOptions));
     //  窗户
     const WindowsEntityCollection = new Cesium.CustomDataSource('cesium-windows');
     window.earth.dataSources.add(WindowsEntityCollection).then(datasource => {
@@ -116,8 +106,8 @@ export const mapRoadLampLayerInit = (...params) => {
  * @param {*} boolean 
  */
 export const mapRoadLampLayerTurn = (boolean) => {
-    window.earth.scene.lightSource.pointLight._array.map(v => v.intensity = boolean ? 12 : 0)
-    window.earth.scene.lightSource.spotLight._array.map(v => v.intensity = boolean ? 4 : 0)
+    window.earth.scene.lightSource.pointLight._array.map(v => v.intensity = boolean ? 4 : 0)
+    window.earth.scene.lightSource.spotLight._array.map(v => v.intensity = boolean ? 2 : 0)
     window.earth.scene.lightSource.directionalLight._array.map(v => v.intensity = boolean ? 1 : 0)
     window.windowEntityMap.show = boolean ? true : false;
 }
@@ -128,13 +118,13 @@ export const mapRoadLampLayerTurn = (boolean) => {
  */
 export const mapBaimoLayerInit = (arrURL) => {
     return new Promise((resolve, reject) => {
-        arrURL.map(({ KEY, URL, FLOW }, index) => {
+        arrURL.map(({ KEY, URL, FLOW, d }, index) => {
             const baimoPromise = window.earth.scene.addS3MTilesLayerByScp(URL, {
                 name: KEY,
             });
-            Cesium.when(baimoPromise, async ([forceLayer, ...oLayer]) => {
+            Cesium.when(baimoPromise, async (_LAYER_) => {
+                const LAYER = window.earth.scene.layers.find(KEY);
                 if (FLOW) {
-                    const LAYER = window.earth.scene.layers.find(KEY);
                     LAYER.style3D.fillForeColor = new Cesium.Color.fromCssColorString(
                         "rgba(137,137,137, 1)"
                     );
@@ -158,17 +148,18 @@ export const mapBaimoLayerInit = (arrURL) => {
                             Cesium.HypsometricSettingEnum.AnalysisRegionMode.ARM_ALL,
                     };
                 } else {
-                    const LAYER = window.earth.scene.layers.find(KEY);
-                    LAYER.brightness = 0.6;
-                    LAYER.style3D.fillForeColor = {
-                        alpha: 1,
-                        blue: 0.6,
-                        green: 0.6,
-                        red: 0.6
-                    }
+                    LAYER.brightness = 0.5;
+                    // LAYER.style3D.fillForeColor = {
+                    //     alpha: 1,
+                    //     blue: 0.6,
+                    //     green: 0.6,
+                    //     red: 0.6
+                    // }
                     LAYER.gamma = 0.6;
                     LAYER.refresh();
                 }
+                //  最大可见
+                d && (LAYER.visibleDistanceMax = d)
                 index == arrURL.length - 1 && resolve(true)
             });
         });

@@ -56,7 +56,7 @@ const EDUCATION_TOPIC = [
   { label: "中职", dataset: "VocationalSchool" },
 ]
 
-// 基础设施
+// 控规专题
 const BASIC_TOPIC = [
   {
     label: "控规信息",
@@ -270,20 +270,6 @@ export const CESIUM_TREE_OPTION = [
     })
   },
   {
-    id: "基础设施",
-    label: "基础设施",
-    children: [...BASIC_TOPIC].map(v => {
-      return {
-        ...v,
-        id: v.label,
-        icon: v.label,
-        url: v.url || SERVER_DEFAULT_DATA,
-        type: v.type || "mvt",
-        newdataset: `${SW_DATA_NAME}${v.dataset}`
-      };
-    })
-  },
-  {
     id: "资源专题",
     label: "资源专题",
     children: SOURCE_TOPIC.map(v => {
@@ -306,6 +292,20 @@ export const CESIUM_TREE_OPTION = [
         id: v.label,
         icon: v.label,
         url: SERVER_DEFAULT_DATA,
+        type: v.type || "mvt",
+        newdataset: `${SW_DATA_NAME}${v.dataset}`
+      };
+    })
+  },
+  {
+    id: "控规专题",
+    label: "控规专题",
+    children: [...BASIC_TOPIC].map(v => {
+      return {
+        ...v,
+        id: v.label,
+        icon: v.label,
+        url: v.url || SERVER_DEFAULT_DATA,
         type: v.type || "mvt",
         newdataset: `${SW_DATA_NAME}${v.dataset}`
       };

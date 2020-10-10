@@ -21,7 +21,7 @@
       <el-input
         v-model="searchText"
         class="searchFilterInput"
-        placeholder="温州附近的医院有哪些？"
+        :placeholder="`附近的${forceTrueTopicLabelId}有哪些？`"
         size="small"
         @keyup.enter.native="searchFilter"
       />
@@ -39,28 +39,23 @@
         <li
           class="result-item"
           :class="{
-            checked: ~hospitalChecked.indexOf(
-              item.attributes[forceNode.withExtraKey]
-            ),
+            checked: ~hospitalChecked.indexOf(item.name),
           }"
-          v-for="item in extraSearchList"
-          :key="item.attributes.SMID"
+          v-for="(item, i) in extraSearchList"
+          :key="`sitem-${i}`"
         >
           <div class="left">
-            <p class="name">{{ item.attributes[forceNode.withExtraKey] }}</p>
             <div class="address">
               <i class="icon-position"></i>
-              <span>{{ item.attributes.ADDRESS }}</span>
+              <p class="name">
+                {{ item.name }}
+              </p>
             </div>
           </div>
           <div class="right">
             <input
               type="checkbox"
-              :checked="
-                hospitalChecked.indexOf(
-                  item.attributes[[forceNode.withExtraKey]]
-                ) >= 0
-              "
+              :checked="hospitalChecked.indexOf(item.name) >= 0"
               @click="checkedOne(item)"
             />
           </div>
@@ -95,7 +90,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("map", [...CESIUM_TREE_EXTRA_DATA]),
+    ...mapGetters("map", [...CESIUM_TREE_EXTRA_DATA, "forceTrueTopicLabelId"]),
   },
   async mounted() {
     this.eventRegsiter();
@@ -107,6 +102,7 @@ export default {
        */
       this.$bus.$off("cesium-3d-switch-searchBox");
       this.$bus.$on("cesium-3d-switch-searchBox", ({ shall, node }) => {
+        this.searchClear();
         this.searchBoxVisible = shall;
         this.forceNode = node || {};
         shall ? this.searchFilter() : undefined;
@@ -123,39 +119,26 @@ export default {
     },
     searchFilter() {
       if (!this.searchBoxVisible) return;
-      const entityMapGeometry = window.entityMapGeometry[this.forceNode.id];
-      const withExtraData = this[this.forceNode.withExtraData];
+      const featureMap = window.featureMap[this.forceNode.id];
+      // const withExtraData = this[this.forceNode.withExtraData];
       const allSearchList = [];
-      for (let key in withExtraData) {
-        if (window.entityMapGeometry[this.forceNode.id][key]) {
-          const item = window.entityMapGeometry[this.forceNode.id][key];
-          allSearchList.push({
-            ...item,
-            extra_data: withExtraData[key],
-          });
-        }
+      for (let key in featureMap) {
+        const item = window.featureMap[this.forceNode.id][key];
+        allSearchList.push(item);
       }
       this.extraSearchList = this.searchText
-        ? allSearchList.filter((item) => {
-            return (
-              item.attributes[this.forceNode.withExtraKey].indexOf(
-                this.searchText
-              ) >= 0
-            );
-          })
+        ? allSearchList.filter((item) => ~item.name.indexOf(this.searchText))
         : allSearchList;
     },
     checkedOne(item) {
-      let idIndex = this.hospitalChecked.indexOf(
-        item.attributes[this.forceNode.withExtraKey]
-      );
+      let idIndex = this.hospitalChecked.indexOf(item.name);
       if (idIndex >= 0) {
         // 如果已经包含了该id, 则去除(单选按钮由选中变为非选中状态)
         this.hospitalChecked.splice(idIndex, 1);
       } else {
         // 选中该checkbox
         this.hospitalChecked = [];
-        this.hospitalChecked.push(item.attributes[this.forceNode.withExtraKey]);
+        this.hospitalChecked.push(item.name);
         // 移动到对应实例位置
         const { x, y } = item.geometry;
         window.earth.camera.flyTo({
@@ -165,6 +148,7 @@ export default {
             pitch: -0.5808830390057418,
             roll: 0.0,
           },
+          maximumHeight: 450,
         });
       }
     },

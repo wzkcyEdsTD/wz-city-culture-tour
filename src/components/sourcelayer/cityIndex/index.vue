@@ -26,7 +26,7 @@ const indexHash = {
   旅游专题: "tourIndex",
   文化专题: "cultureIndex",
   应急专题: "emergencyIndex",
-  基础设施: "basicIndex",
+  控规专题: "basicIndex",
   资源专题: "sourceIndex",
   交通专题: "trafficIndex"
 };

@@ -17,7 +17,7 @@ const LeftPoint = {
     },
     orientation: {
         heading: 0.45427453971735154,
-        pitch: -0.4460898232723798, roll: 0
+        pitch: -0.4460898232723798, roll: 0,
     },
 }
 const RightPoint = {
@@ -28,7 +28,7 @@ const RightPoint = {
     },
     orientation: {
         heading: 5.692002420971301,
-        pitch: -0.4813481016944854, roll: 0
+        pitch: -0.4813481016944854, roll: 0,
     },
 }
 const interval = 40;

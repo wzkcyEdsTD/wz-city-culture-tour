@@ -97,7 +97,9 @@ export const treeDrawTool = (context, { result }, node, fields = [], fn) => {
     }
     !window.featureMap[node.id] && (window.featureMap[node.id] = {});
     window.featureMap[node.id][v.attributes.SMID] = {
-      name: v.attributes.SHORTNAME || v.attributes.NAME || v.attributes.MC,
+      name: v.attributes.SHORTNAME || v.attributes.NAME || v.attributes.MC || v.attributes.JC || item.attributes[node.withExtraKey],
+      attributes: v.attributes,
+      geometry: v.geometry,
       fix_data: fixAttributesByOrigin(v.attributes, fieldHash),
     }
   })

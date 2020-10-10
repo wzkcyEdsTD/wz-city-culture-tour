@@ -21,7 +21,7 @@
 </template>
 
 <script>
-const LOOT = 28;
+const LOOT = 30;
 import { mapGetters, mapActions } from "vuex";
 import { CenterPoint, LeftPoint, RightPoint } from "mock/overview.js";
 export default {
@@ -70,7 +70,7 @@ export default {
         if (this.cameraMode) {
           this.cameraTimer = setInterval(() => {
             this.cameraFlyTo();
-          }, (LOOT - 1) * 1000);
+          }, LOOT * 1000);
           this.cameraFlyTo();
         } else {
           clearInterval(this.cameraTimer);
@@ -79,11 +79,18 @@ export default {
     },
     cameraFlyTo() {
       const toPoint = this.toRight ? this.RightPoint : this.LeftPoint;
-      window.earth.camera.flyTo({ ...toPoint, duration: LOOT });
+      window.earth.camera.flyTo({
+        ...toPoint,
+        duration: LOOT * 1.2,
+        maximumHeight: 450,
+      });
       this.toRight = !this.toRight;
     },
     cameraMove(Point) {
-      window.earth.camera.flyTo({ ...Point, duration: 1 });
+      window.earth.camera.flyTo({
+        ...Point,
+        duration: 1,
+      });
     },
   },
 };

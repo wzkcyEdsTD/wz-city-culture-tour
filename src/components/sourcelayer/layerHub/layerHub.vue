@@ -120,6 +120,7 @@ export default {
         "SetForceTime",
         "SetForceTreeLabel",
         "SetForceTrueTopicLabels",
+        "SetForceTrueTopicLabelId",
       ],
     ]),
     eventRegsiter() {
@@ -147,6 +148,7 @@ export default {
       this.forceTreeTopic = Topics.length ? Topics[0].children : [];
       if (this.forceTreeTopic.length) {
         const forceNode = this.forceTreeTopic[0];
+        this.SetForceTrueTopicLabelId(forceNode.id);
         this.SetForceTrueTopicLabels([forceNode.id]);
         this.nodeCheckChange(forceNode, true, true);
       } else {
@@ -168,7 +170,8 @@ export default {
         this.SetForceTrueTopicLabels([
           ...new Set(this.forceTrueTopicLabels.concat([label.id])),
         ]);
-        this.nodeCheckChange(label, true);
+        this.SetForceTrueTopicLabelId(label.id);
+        this.nodeCheckChange(label, true, true);
       }
     },
     /**
@@ -180,7 +183,7 @@ export default {
       var getFeatureParam, getFeatureBySQLService, getFeatureBySQLParams;
       getFeatureParam = new SuperMap.REST.FilterParameter({
         // attributeFilter: `SMID <= 1000`,
-        attributeFilter: `SMID >= 0`
+        attributeFilter: `SMID >= 0`,
       });
       getFeatureBySQLParams = new SuperMap.REST.GetFeaturesBySQLParameters({
         queryParameter: getFeatureParam,
@@ -206,7 +209,6 @@ export default {
               (v) => (v.show = true)
             );
             window.labelMap[node.id].setAllLabelsVisible(true);
-            this.switchSearchBox(node, topicLoad);
           } else {
             this.getPOIPickedFeature(node, () => {
               this.switchSearchBox(node, topicLoad);
@@ -227,6 +229,7 @@ export default {
             })
           );
         }
+        this.switchSearchBox(node, topicLoad);
         //  有相机视角配置 -> 跳视角
         node.camera && window.earth.scene.camera.setView(node.camera);
       } else {
@@ -245,15 +248,10 @@ export default {
     },
     //  先只显示医疗
     switchSearchBox(node, topicLoad) {
-      topicLoad && this.forceTreeLabel == "医疗专题"
-        ? this.$bus.$emit("cesium-3d-switch-searchBox", {
-            shall: node.withExtraData ? true : false,
-            node,
-          })
-        : this.$bus.$emit("cesium-3d-switch-searchBox", {
-            shall: false,
-            node,
-          });
+      this.$bus.$emit("cesium-3d-switch-searchBox", {
+        shall: node.type == "mvt" && node.id ? true : false,
+        node,
+      });
     },
   },
 };

@@ -47,6 +47,7 @@ const state = {
   cameraMode: false,
   //  tab下标
   forceTreeLabel: "城市总览",
-  forceTrueTopicLabels: []
+  forceTrueTopicLabels: [],
+  forceTrueTopicLabelId : "",
 };
 export default state;

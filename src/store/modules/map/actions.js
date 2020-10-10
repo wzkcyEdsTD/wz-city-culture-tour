@@ -239,3 +239,7 @@ export const SetForceTreeLabel = ({ commit }, data) => {
 export const SetForceTrueTopicLabels = ({ commit }, data) => {
   commit(types.SET_FORCE_TRUE_TOPIC_LABEL, data);
 };
+//  设置tab子菜单下标
+export const SetForceTrueTopicLabelId = ({ commit }, data) => {
+  commit(types.SET_FORCE_TRUE_TOPIC_LABEL_ID, data);
+};

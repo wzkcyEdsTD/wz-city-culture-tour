@@ -97,6 +97,9 @@ const mutations = {
   },
   [types.SET_FORCE_TRUE_TOPIC_LABEL](state, data) {
     state.forceTrueTopicLabels = [...data];
+  },
+  [types.SET_FORCE_TRUE_TOPIC_LABEL_ID](state, data) {
+    state.forceTrueTopicLabelId = data;
   }
 };
 
