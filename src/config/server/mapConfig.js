@@ -11,7 +11,7 @@ export const ServiceUrl = {
   WZBaimo_OBJ: [
     {
       KEY: 'WZBaimo_POINT_AROUND',
-      URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-BaiMoLuCheng22/rest/realspace/datas/BaiMoLuCheng2/config",
+      URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-BaiMo/rest/realspace/datas/BaiMo/config",
       FLOW: true
     },
     {

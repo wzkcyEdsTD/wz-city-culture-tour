@@ -8,6 +8,7 @@ import window_array from "config/local/windowPositions";
 export const mapConfigInit = () => {
     // window.earth.scene.globe.depthTestAgainstTerrain = false;
     // window.earth.scene.debugShowFramesPerSecond = true;
+    window.earth.scene.sun.show = false;
     window.earth.scene.bloomEffect.show = true;
     window.earth.imageryLayers.get(0).show = false;
     window.earth.scene.skyAtmosphere.show = false;
@@ -66,6 +67,7 @@ export const mapRoadLampLayerInit = (...params) => {
         const pointLight = new Cesium.PointLight(position, szf_road_lamp.options);
         window.earth.scene.addLightSource(pointLight);
     })
+    //  聚光灯
     szf_road_light.position_array.map((item, i) => {
         const [x, y, z] = item;
         const [tx, ty, tz] = szf_road_light.tarposition_array[i];
@@ -74,6 +76,7 @@ export const mapRoadLampLayerInit = (...params) => {
         var spotLight = new Cesium.SpotLight(position, targetPosition, szf_road_light.options);
         window.earth.scene.addLightSource(spotLight);
     })
+    //  向上聚光灯
     // szf_build_light.position_array.map((item, i) => {
     //     const [x, y, z] = item;
     //     const [tx, ty, tz] = szf_build_light.tarposition_array[i];
@@ -82,6 +85,16 @@ export const mapRoadLampLayerInit = (...params) => {
     //     var spotLight = new Cesium.SpotLight(position, targetPosition, szf_build_light.options);
     //     window.earth.scene.addLightSource(spotLight);
     // })
+    //  平行灯
+    const dir_position = new Cesium.Cartesian3.fromDegrees(120.69313536231014, 27.994595917140288, 267.31285740879105);
+    const targetPosition = new Cesium.Cartesian3.fromDegrees(120.69364375255293, 27.995973200938042, 125.7711425019562);
+    const dirLightOptions = {
+        targetPosition,
+        color: new Cesium.Color(43 / 255, 146 / 255, 236 / 255, 1.0),
+        intensity: 1
+    };
+    const directionalLight = new Cesium.DirectionalLight(dir_position, dirLightOptions);
+    window.earth.scene.addLightSource(directionalLight);
     //  窗户
     const WindowsEntityCollection = new Cesium.CustomDataSource('cesium-windows');
     window.earth.dataSources.add(WindowsEntityCollection).then(datasource => {
@@ -105,6 +118,7 @@ export const mapRoadLampLayerInit = (...params) => {
 export const mapRoadLampLayerTurn = (boolean) => {
     window.earth.scene.lightSource.pointLight._array.map(v => v.intensity = boolean ? 12 : 0)
     window.earth.scene.lightSource.spotLight._array.map(v => v.intensity = boolean ? 4 : 0)
+    window.earth.scene.lightSource.directionalLight._array.map(v => v.intensity = boolean ? 1 : 0)
     window.windowEntityMap.show = boolean ? true : false;
 }
 
@@ -145,13 +159,14 @@ export const mapBaimoLayerInit = (arrURL) => {
                     };
                 } else {
                     const LAYER = window.earth.scene.layers.find(KEY);
-                    LAYER.brightness = 0.5;
+                    LAYER.brightness = 0.6;
                     LAYER.style3D.fillForeColor = {
                         alpha: 1,
-                        blue: 0.3,
-                        green: 0.3,
-                        red: 0.3
+                        blue: 0.6,
+                        green: 0.6,
+                        red: 0.6
                     }
+                    LAYER.gamma = 0.6;
                     LAYER.refresh();
                 }
                 index == arrURL.length - 1 && resolve(true)
