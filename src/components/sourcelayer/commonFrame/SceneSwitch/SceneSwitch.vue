@@ -21,7 +21,7 @@
 </template>
 
 <script>
-const LOOT = 10;
+const LOOT = 30;
 import { mapGetters, mapActions } from "vuex";
 import { CenterPoint, LeftPoint, RightPoint } from "mock/overview.js";
 export default {
@@ -65,16 +65,19 @@ export default {
       //  视角跳转 需1000ms
       this.cameraMove(this.CenterPoint);
       //  相机转动 1500ms后执行
-      setTimeout(() => {
-        if (this.cameraMode) {
-          window.cameraTimer = setInterval(() => {
+      setTimeout(
+        () => {
+          if (n) {
+            window.cameraTimer = setInterval(() => {
+              this.cameraFlyTo();
+            }, LOOT * 1000);
             this.cameraFlyTo();
-          }, LOOT * 1000);
-          this.cameraFlyTo();
-        } else {
-          clearInterval(window.cameraTimer);
-        }
-      }, 1500);
+          } else {
+            clearInterval(window.cameraTimer);
+          }
+        },
+        n ? 1500 : 0
+      );
     },
     cameraFlyTo() {
       const toPoint = this.toRight ? this.RightPoint : this.LeftPoint;
