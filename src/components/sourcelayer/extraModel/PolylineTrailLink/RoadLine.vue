@@ -112,7 +112,9 @@ export default {
     },
     //  初始化路线
     addDynamicLine() {
-      const linePoints = lines.geometries.map((v) => v.coordinates);
+      const linePoints = lines.geometries.map((v) =>
+        v.coordinates.map((d) => [...d, 10])
+      );
       linePoints.map((v, index) =>
         this.drawPolyline(
           v.reduce((a, b) => a.concat(b)),
@@ -124,13 +126,12 @@ export default {
       window.earth.entities.add({
         name: "PolylineTrail",
         polyline: {
-          positions: Cesium.Cartesian3.fromDegreesArray(linePoints),
+          positions: Cesium.Cartesian3.fromDegreesArrayHeights(linePoints),
           width: 16,
           material: new Cesium.PolylineTrailLinkMaterialProperty(
             Cesium.Color.WHITE,
             10000
           ),
-          clampToGround: true,
         },
       });
     },

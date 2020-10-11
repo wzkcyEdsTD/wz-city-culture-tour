@@ -217,21 +217,21 @@ export default {
   left: 0;
   cursor: pointer;
   .popup-tip-container {
-    width: 200px;
-    height: 200px;
+    width: 242px;
+    height: 220px;
     background-image: url("/static/images/common/pop_bg@2x.png");
     background-size: 100% 100%;
     background-repeat: no-repeat;
   }
 
   .popup-tip-inner {
-    height: 102px;
+    height: 112px;
     display: flex;
     color: #fff;
   }
 
   .tip-name {
-    width: 60px;
+    width: 70px;
     box-sizing: border-box;
     writing-mode: vertical-lr;
     letter-spacing: -0.34em;
@@ -276,7 +276,7 @@ export default {
   }
 
   .tip-num table tbody tr td:first-child {
-    width: 60px;
+    width: 80px;
     font-weight: bolder;
     vertical-align: middle;
   }
@@ -298,7 +298,7 @@ export default {
 
   .right-btns span {
     font-family: YouSheBiaoTiHei;
-    font-size: 16px;
+    font-size: 18px;
     display: block;
     width: 50%;
     height: 26px;

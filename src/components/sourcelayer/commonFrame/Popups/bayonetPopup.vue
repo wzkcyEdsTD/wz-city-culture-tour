@@ -244,15 +244,15 @@ export default {
     }
   }
   .popup-tip-container {
-    width: 200px;
-    height: 200px;
+    width: 242px;
+    height: 220px;
     background-image: url("/static/images/common/bayonet-frame@2x.png");
     background-size: 100% 100%;
     background-repeat: no-repeat;
   }
 
   .popup-tip-inner {
-    height: 102px;
+    height: 112px;
     display: flex;
     color: #fff;
   }
@@ -264,7 +264,7 @@ export default {
     letter-spacing: -0.34em;
     height: 100%;
     line-height: 17px;
-    padding: 4px 0 2px 7px;
+    padding: 8px 0 8px 12px;
     position: relative;
     font-family: YouSheBiaoTiHei;
     font-size: 17px;
@@ -291,7 +291,7 @@ export default {
   }
 
   .tip-num table tbody tr td:first-child {
-    width: 54px;
+    width: 84px;
     font-weight: bolder;
     vertical-align: middle;
   }
@@ -325,7 +325,7 @@ export default {
 
   .right-btns span {
     font-family: YouSheBiaoTiHei;
-    font-size: 16px;
+    font-size: 18px;
     display: block;
     width: 50%;
     height: 26px;

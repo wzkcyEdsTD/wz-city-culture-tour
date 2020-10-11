@@ -220,7 +220,7 @@ export default {
     }
   }
   .popup-tip-container {
-    width: 200px;
+    width: 214px;
     height: 170px;
     background-image: url("/static/images/common/station-frame@2x.png");
     background-size: 100% 100%;

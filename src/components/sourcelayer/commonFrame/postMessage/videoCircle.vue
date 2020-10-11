@@ -81,8 +81,8 @@ export default {
         ellipse: {
           semiMinorAxis: queryRadius * 2,
           semiMajorAxis: queryRadius * 2,
-          height: 4,
-          material: Cesium.Color.WHITE.withAlpha(0.2),
+          height: 12,
+          material: Cesium.Color.WHITE.withAlpha(0.1),
           outline: true,
           outlineWidth: 3,
           outlineColor: Cesium.Color.WHITE,
@@ -148,7 +148,7 @@ export default {
      */
     cameraMove({ lng, lat }) {
       window.earth.scene.camera.setView({
-        destination: Cesium.Cartesian3.fromDegrees(lng, lat - 0.008, 550),
+        destination: Cesium.Cartesian3.fromDegrees(lng, lat - 0.012, 740),
         orientation: {
           heading: 0.003336768850279448,
           pitch: -0.5808830390057418,

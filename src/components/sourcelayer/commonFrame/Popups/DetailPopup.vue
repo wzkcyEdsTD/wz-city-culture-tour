@@ -12,7 +12,9 @@
       id="forcePopUpContent"
       class="leaflet-popup"
       :style="{
-        transform: `translate3d(${forcePosition.x}px,${forcePosition.y}px, 0)`,
+        transform: `translate3d(${forcePosition.x}px,${
+          forcePosition.y - 130
+        }px, 0)`,
       }"
     >
       <a class="leaflet-popup-close-button" href="#" @click="closePopup">×</a>
@@ -92,7 +94,7 @@ export default {
 <style lang="less" scoped>
 #forcePopUp {
   .leaflet-popup {
-    top: -80px;
+    top: 0;
     left: 30px;
     position: absolute;
     text-align: center;
@@ -117,7 +119,7 @@ export default {
     background-image: url("/static/images/common/detail@2x.png");
     background-size: 100% 100%;
     text-align: center;
-    height: 216px;
+    height: 256px;
     width: 270px;
     box-sizing: border-box;
     padding: 28px 26px;

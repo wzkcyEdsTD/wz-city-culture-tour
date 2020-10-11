@@ -71,7 +71,8 @@ export default {
     eventRegsiter() {},
     fixPopup() {
       if (
-        !window.entityMapGeometry || !window.entityMapGeometry["S1站点"] ||
+        !window.entityMapGeometry ||
+        !window.entityMapGeometry["S1站点"] ||
         !~this.forceTrueTopicLabels.indexOf("S1站点")
       ) {
         this.doPopup([]);
@@ -221,10 +222,11 @@ export default {
   }
 
   .tip-num table tbody tr td:first-child {
-    width: 70px;
+    width: 90px;
     font-weight: bolder;
     vertical-align: middle;
     line-height: 25px;
+    text-align: left;
   }
 
   .tip-num table tbody tr td:last-child {

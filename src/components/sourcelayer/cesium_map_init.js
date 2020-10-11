@@ -110,6 +110,7 @@ export const mapRoadLampLayerTurn = (boolean) => {
     window.earth.scene.lightSource.spotLight._array.map(v => v.intensity = boolean ? 2 : 0)
     window.earth.scene.lightSource.directionalLight._array.map(v => v.intensity = boolean ? 1 : 0)
     window.windowEntityMap.show = boolean ? true : false;
+    window.earth.scene.sun.show = boolean ? false : true;
 }
 
 /**

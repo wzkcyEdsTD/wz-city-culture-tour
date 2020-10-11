@@ -21,14 +21,13 @@
 </template>
 
 <script>
-const LOOT = 30;
+const LOOT = 10;
 import { mapGetters, mapActions } from "vuex";
 import { CenterPoint, LeftPoint, RightPoint } from "mock/overview.js";
 export default {
   name: "sceneSwitch",
   data() {
     return {
-      cameraTimer: undefined,
       toRight: true,
       CenterPoint,
       LeftPoint,
@@ -68,12 +67,12 @@ export default {
       //  相机转动 1500ms后执行
       setTimeout(() => {
         if (this.cameraMode) {
-          this.cameraTimer = setInterval(() => {
+          window.cameraTimer = setInterval(() => {
             this.cameraFlyTo();
           }, LOOT * 1000);
           this.cameraFlyTo();
         } else {
-          clearInterval(this.cameraTimer);
+          clearInterval(window.cameraTimer);
         }
       }, 1500);
     },
