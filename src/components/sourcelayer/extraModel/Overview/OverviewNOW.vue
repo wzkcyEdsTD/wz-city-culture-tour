@@ -53,7 +53,6 @@ export default {
     setTimeout(() => {
       this.initOverview();
     }, 1000);
-    this.cameraMove(this.CenterPoint);
     //  开启扫描
     // this.initLineScan();
   },

@@ -38,6 +38,23 @@
             </table>
           </div>
         </div>
+        <div class="right-btns">
+          <span @click="doVideoRtmp(item)">直达现场</span>
+          <span @click="doCircleBuffer(item)">周边人口</span>
+        </div>
+        <div class="around-people" v-if="bufferHash[item.id]">
+          <img src="/static/images/common/frameline@2x.png" />
+          <div>
+            <header>周边实时人口</header>
+            <div>
+              <p>范围：500米</p>
+              <strong>{{
+                `人数：${bufferHash[item.id].data || "-"}人`
+              }}</strong>
+              <p>{{ bufferHash[item.id].task_time }}</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -51,6 +68,8 @@ export default {
     return {
       shallPop: false,
       popList: [],
+       // 保存是否周边查询
+      bufferHash: {},
     };
   },
   computed: {
@@ -68,7 +87,11 @@ export default {
   },
   methods: {
     ...mapActions("map", ["fetchStationList"]),
-    eventRegsiter() {},
+    eventRegsiter() {
+      this.$bus.$on("cesium-3d-around-people", ({ id, result }) => {
+        this.bufferHash[id] = result;
+      });
+    },
     fixPopup() {
       if (
         !window.entityMapGeometry ||
@@ -131,6 +154,38 @@ export default {
     closePopup() {
       this.$bus.$emit("cesium-3d-population-circle", { doDraw: false });
       this.shallPop = false;
+    },
+
+    /**
+     * 人口缓冲区（直接pop组件里画）
+     * 开专门的缓冲区collection
+     */
+    doCircleBuffer(obj) {
+      if (!this.bufferHash[obj.id]) {
+        this.bufferHash[obj.id] = {};
+      } else {
+        this.bufferHash[obj.id] = null;
+      }
+      this.$bus.$emit("cesium-3d-population-circle", {
+        doDraw: this.bufferHash[obj.id],
+        id: obj.id,
+        geometry: {
+          lng: obj.geometry.x,
+          lat: obj.geometry.y,
+        },
+      });
+    },
+
+    /**
+     * 仅传参数给RtmpVideo组件,不参与后续功能
+     * @param {object} param0 该医疗点的对象信息
+     */
+    doVideoRtmp({ shortname, geometry }) {
+      const { x, y } = geometry;
+      this.$bus.$emit("cesium-3d-rtmpFetch", {
+        shortname,
+        geometry: { lng: x, lat: y },
+      });
     },
   },
 };
@@ -254,6 +309,37 @@ export default {
     &:last-child {
       color: #fcce26;
     }
+  }
+  .right-btns {
+    width: 100%;
+    height: 26px;
+    box-sizing: border-box;
+    padding: 0px 20px 0 30px;
+    color: #fff;
+  }
+
+  .right-btns span {
+    font-family: YouSheBiaoTiHei;
+    font-size: 18px;
+    display: block;
+    width: 50%;
+    height: 26px;
+    line-height: 26px;
+    letter-spacing: 1px;
+    float: left;
+    text-shadow: 0px 2px 3px rgba(0, 0, 0, 0);
+  }
+
+  .right-btns span:first-child {
+    background-image: url("/static/images/common/station-rtmpVideo.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+  }
+
+  .right-btns span:last-child {
+    background-image: url("/static/images/common/population.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
   }
 }
 </style>

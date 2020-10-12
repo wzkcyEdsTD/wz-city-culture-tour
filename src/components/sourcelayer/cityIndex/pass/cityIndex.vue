@@ -54,7 +54,9 @@
         </div>
       </li>
       <li class="item">
-        <img src="/static/images/index/city/数字经济核心产业制造业增加值增速.png" />
+        <img
+          src="/static/images/index/city/数字经济核心产业制造业增加值增速.png"
+        />
         <div>
           <div class="title">
             工业增加值
@@ -147,7 +149,7 @@
         :max="2019"
         :interval="1"
         :tooltip="'always'"
-        :marks="true"
+        :marks="marks"
       />
       <div class="slider-next" @click="sliderToNextYear">
         <img src="/static/images/common/slider-next@2x.png" />
@@ -172,7 +174,39 @@ export default {
   data() {
     return {
       year: 2018,
-      lastImage: "datalayer"
+      lastImage: "datalayer",
+      marks: {
+        2010: {},
+        2011: {},
+        2012: {
+          labelStyle: {
+            border: "2px gold solid",
+          },
+        },
+        2013: {},
+        2014: {
+          labelStyle: {
+            border: "2px gold solid",
+          },
+        },
+        2015: {},
+        2016: {},
+        2017: {
+          labelStyle: {
+            border: "2px gold solid",
+          },
+        },
+        2018: {
+          labelStyle: {
+            border: "2px gold solid",
+          },
+        },
+        2019: {
+          labelStyle: {
+            border: "2px gold solid",
+          },
+        },
+      },
     };
   },
   watch: {
@@ -180,27 +214,27 @@ export default {
       handler(n, o) {
         this.getYearIndex(n);
       },
-      immediate: true
+      immediate: true,
     },
     nightMode(n) {
       this.$bus.$emit("cesium-3d-switch", { value: n });
-    }
+    },
   },
   computed: {
     ...mapGetters("map", ["nightMode"]),
     indexData() {
       const index = {
-        ...INDEX.filter(v => v.年份 == this.year)[0],
-        rate: {}
+        ...INDEX.filter((v) => v.年份 == this.year)[0],
+        rate: {},
       };
-      Object.keys(INDEX_LAST).map(k => {
+      Object.keys(INDEX_LAST).map((k) => {
         index.rate[k] = (
           (parseFloat(INDEX_LAST[k]) / parseFloat(index[k])) * 100 -
           100
         ).toFixed(2);
       });
       return index;
-    }
+    },
   },
   created() {
     //  事件绑定
@@ -218,7 +252,7 @@ export default {
   beforeDestroy() {
     //  关历史影像
     Object.keys(window.passImages).map(
-      key => (window.passImages[key].show = false)
+      (key) => (window.passImages[key].show = false)
     );
     //  开底图
     window.datalayer && (window.datalayer.show = true);
@@ -297,17 +331,17 @@ export default {
     /**
      * 图表初始化
      */
-    echartInit() {}
-  }
+    echartInit() {},
+  },
 };
 </script>
 
 <style lang="less">
 .year-slider {
   position: fixed;
-  height: 60px;
-  width: 800px;
-  bottom: 100px;
+  height: 6.2vh;
+  width: 46vw;
+  bottom: 10vh;
   left: 50%;
   box-sizing: border-box;
   padding: 13px 92px 14px 40px;
@@ -315,7 +349,7 @@ export default {
   background-image: url("/static/images/common/slider-bg.png");
   background-size: 100% 100%;
   .slider-next {
-    width: 52px;
+    width: 2.6vw;
     position: absolute;
     right: 12px;
     top: 8px;
@@ -326,7 +360,7 @@ export default {
       height: 30px;
     }
     > p {
-      font-size: 12px;
+      font-size: 0.5vw;
       color: white;
     }
   }
@@ -356,11 +390,18 @@ export default {
   font-family: DIN !important;
   color: white;
 }
+.vue-slider-ltr .vue-slider-mark-label {
+  margin-top: 6px;
+  padding: 2px 4px;
+}
+.vue-slider-ltr .vue-slider-mark-label-image {
+  border: 2px gold solid;
+}
 .vue-slider-dot-tooltip-inner {
   padding: 6px 10px;
   font-family: DIN !important;
   font-weight: bold;
-  font-size: 16px;
+  font-size: 22px;
   // background-image: url("/static/images/common/slider-pop.png");
   // background-size: 100% 100%;
 }

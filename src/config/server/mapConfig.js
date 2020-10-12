@@ -23,25 +23,25 @@ export const ServiceUrl = {
       KEY: 'WZBaimo_POINT_QT',
       URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb4/rest/realspace/datas/QT/config",
       FLOW: false,
-      d: 1600
+      d: 2200
     },
     {
       KEY: 'WZBaimo_POINT_DX',
       URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb4/rest/realspace/datas/DX/config",
       FLOW: false,
-      d: 1800
+      d: 2400
     },
     {
       KEY: 'WZBaimo_POINT_DL',
       URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb4/rest/realspace/datas/DL/config",
       FLOW: false,
-      d: 2400
+      d: 3000
     },
     {
       KEY: 'WZBaimo_POINT_ZB',
       URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb4/rest/realspace/datas/ZB/config",
       FLOW: false,
-      d: 1600
+      d: 2200
     }
   ],
   //  动态水面模型

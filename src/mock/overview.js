@@ -1,12 +1,13 @@
 const CenterPoint = {
     destination: {
-        x: -2875513.233796373,
-        y: 4843811.440808885,
-        z: 2993304.9641675064,
+        x: -2875616.0504055694,
+        y: 4843981.354234471,
+        z: 2992840.383126848
     },
     orientation: {
-        heading: 6.274379450234763,
-        pitch: -0.5186801226963254, roll: 0
+        heading: 0,
+        pitch: -0.40890884392865345,
+        roll: 0
     },
 }
 const LeftPoint = {
@@ -75,28 +76,32 @@ const indexPoints = [{
     geometry: {
         "x": 120.6985,
         "y": 27.9939
-    }, value: '553.3',
+    },
+    value: '553.3',
     unit: '亿元',
     label: "规上工业增加值"
 }, {
     geometry: {
         "x": 120.6953,
         "y": 27.9979
-    }, value: '4',
-    unit: '%',
-    label: "固定资产投资"
-}, {
-    geometry: {
-        "x": 120.6989,
-        "y": 27.9995
-    }, value: '3076',
+    },
+    value: '3076',
     unit: '亿元',
     label: "地区GDP"
 }, {
     geometry: {
+        "x": 120.6989,
+        "y": 27.9995
+    },
+    value: '833.51',
+    unit: '万人',
+    label: "全市人口"
+}, {
+    geometry: {
         "x": 120.6914,
         "y": 27.9984
-    }, value: '2.6',
+    },
+    value: '2.6',
     unit: 'CPI',
     label: "消费者物价指标"
 }]

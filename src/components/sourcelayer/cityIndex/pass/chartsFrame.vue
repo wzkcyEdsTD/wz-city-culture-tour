@@ -42,10 +42,10 @@ export default {
 .chartframe {
   position: fixed;
   top: 12vh;
-  bottom: 20px;
+  bottom: 0vh;
   overflow: hidden;
-  right: 20px;
-  width: 320px;
+  right: 1vw;
+  width: 16vw;
   color: white;
   box-sizing: border-box;
   padding: 10px;

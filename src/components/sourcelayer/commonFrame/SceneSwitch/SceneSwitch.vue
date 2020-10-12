@@ -102,6 +102,7 @@ export default {
 .scene-switch {
   position: absolute;
   width: 220px;
+  height: auto;
   top: 0;
   left: 130px;
   cursor: pointer;

@@ -79,8 +79,8 @@ export default {
     position: absolute;
     top: -56px;
     right: 0;
-    width: 250px;
-    height: 170px;
+    width: 14vw;
+    height: 10vw;
     z-index: 9;
     > div {
       width: 32%;
@@ -93,7 +93,7 @@ export default {
     position: absolute;
     top: 0px;
     right: 0px;
-    width: 250px;
+    width: 14vw;
     height: auto;
     z-index: 9;
     > img {

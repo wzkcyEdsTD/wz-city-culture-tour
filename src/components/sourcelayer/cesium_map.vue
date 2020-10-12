@@ -65,6 +65,7 @@ import VideoCircle from "./commonFrame/postMessage/videoCircle";
 import AuthFailPopup from "./commonFrame/AuthFailPopup/AuthFailPopup";
 import Overview from "./extraModel/Overview/Overview.vue";
 import { getCurrentExtent, isContainByExtent } from "./commonFrame/mapTool";
+import { CenterPoint } from "mock/overview.js";
 import {
   mapConfigInit,
   mapImageLayerInit,
@@ -277,18 +278,7 @@ export default {
      * move your fat ass bro
      */
     cameraMove() {
-      window.earth.scene.camera.setView({
-        destination: {
-          x: -2875301.1196146533,
-          y: 4843728.17360857,
-          z: 2993569.51865382,
-        },
-        orientation: {
-          heading: 0.0033168860454315663,
-          pitch: -0.5808830390057396,
-          roll: 0,
-        },
-      });
+      window.earth.scene.camera.setView(CenterPoint);
     },
   },
 };

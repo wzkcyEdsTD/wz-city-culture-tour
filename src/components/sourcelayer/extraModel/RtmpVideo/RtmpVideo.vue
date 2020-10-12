@@ -322,7 +322,7 @@ export default {
                 &:last-child {
                   width: 60px;
                   text-align: right;
-                  font-size: 0.8em;
+                  font-size: 12px;
                   letter-spacing: 0px;
                   color: #2acbfe;
                 }
