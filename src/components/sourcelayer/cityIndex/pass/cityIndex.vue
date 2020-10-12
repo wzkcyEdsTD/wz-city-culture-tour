@@ -398,10 +398,10 @@ export default {
   border: 2px gold solid;
 }
 .vue-slider-dot-tooltip-inner {
-  padding: 6px 10px;
+  padding: 6px 10px!important;
   font-family: DIN !important;
   font-weight: bold;
-  font-size: 2.4vh;
+  font-size: 2.4vh!important;
   // background-image: url("/static/images/common/slider-pop.png");
   // background-size: 100% 100%;
 }
