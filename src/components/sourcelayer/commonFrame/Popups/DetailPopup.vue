@@ -28,6 +28,7 @@
               <li
                 v-for="(item, key, index) in forceEntity.fix_data"
                 :key="index"
+                v-show="item"
               >
                 <span>{{ key }}</span>
                 <span>{{ item }}</span>

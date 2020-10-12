@@ -356,8 +356,7 @@ export default {
     text-align: center;
     cursor: pointer;
     > img {
-      width: 30px;
-      height: 30px;
+      height: 3.2vh;
     }
     > p {
       font-size: 1vh;
@@ -392,6 +391,7 @@ export default {
 }
 .vue-slider-ltr .vue-slider-mark-label {
   margin-top: 6px;
+  font-size: 1.6vh;
   padding: 2px 4px;
 }
 .vue-slider-ltr .vue-slider-mark-label-image {

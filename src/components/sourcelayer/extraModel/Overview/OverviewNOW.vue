@@ -207,6 +207,9 @@ export default {
       > img:first-child {
         width: 14vh;
       }
+      > img:last-child {
+        height: 24vh;
+      }
       .move {
         animation: heart 1.3s ease-in-out 2.7s infinite alternate;
       }

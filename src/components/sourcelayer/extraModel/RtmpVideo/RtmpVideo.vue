@@ -187,8 +187,8 @@ export default {
 <style lang="less" scoped>
 .rtmpVideo {
   .rtmpListFrame {
-    height: 550px;
-    width: 1150px;
+    height: 55vh;
+    width: 110vh;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -200,22 +200,17 @@ export default {
     z-index: 10;
     color: white;
     > header {
-      height: 40px;
-      line-height: 40px;
+      height: 4vh;
+      line-height: 4vh;
       > span {
-        &:first-child {
-          font-size: 1.6em;
-        }
-        &:last-child {
-          font-size: 20px;
-        }
+        font-size: 1.8vh;
       }
       .close {
         position: absolute;
         right: 46px;
         top: 24px;
-        width: 0.2rem;
-        height: 0.2rem;
+        width: 2.6vh;
+        height: 2.6vh;
         display: block;
         .bg-image("/static/images/icons/zoom-in");
         transform: rotate(-45deg);
@@ -229,21 +224,21 @@ export default {
       }
     }
     .rtmpVideoContent {
-      height: 460px;
+      height: 46vh;
       display: flex;
       > div {
         height: 100%;
         display: inline-block;
       }
       .rtmpVideoList {
-        width: 330px;
+        width: 33vh;
         display: flex;
         flex-direction: column;
         box-sizing: border-box;
         > header {
-          height: 24px;
-          line-height: 22px;
-          font-size: 1em;
+          height: 2.4vh;
+          line-height: 2.2vh;
+          font-size: 1.7vh;
           overflow: hidden;
           > i {
             font-size: 0.8em;
@@ -253,8 +248,8 @@ export default {
           > span {
             float: right;
             cursor: pointer;
-            font-size: 0.9em;
-            line-height: 24px;
+            font-size: 1.6vh;
+            line-height: 2.4vh;
             padding: 0 6px;
             display: inline-block;
             background-image: linear-gradient(
@@ -297,8 +292,9 @@ export default {
             }
             > li {
               cursor: pointer;
-              line-height: 26px;
-              height: 26px;
+              line-height: 2.6vh;
+              height: 2.6vh;
+              font-size: 1.6vh;
               background-color: rgba(1, 31, 43, 0.51);
               margin-bottom: 1px;
               display: flex;
@@ -320,9 +316,9 @@ export default {
                   text-overflow: ellipsis;
                 }
                 &:last-child {
-                  width: 60px;
+                  width: 7vh;
                   text-align: right;
-                  font-size: 12px;
+                  font-size: 1.3vh;
                   letter-spacing: 0px;
                   color: #2acbfe;
                 }
@@ -338,14 +334,14 @@ export default {
         display: flex;
         flex-direction: column;
         > header {
-          height: 24px;
-          line-height: 22px;
-          font-size: 1em;
+          height: 2.4vh;
+          line-height: 2.4vh;
+          font-size: 1.6vh;
           overflow: hidden;
           > p {
             display: inline-block;
-            max-width: 250px;
-            line-height: 24px;
+            max-width: 50vh;
+            line-height: 2.4vh;
             white-space: nowrap; /* 规定文本是否折行 */
             overflow: hidden; /* 规定超出内容宽度的元素隐藏 */
             text-overflow: ellipsis;
@@ -353,8 +349,8 @@ export default {
           > span {
             float: right;
             cursor: pointer;
-            font-size: 0.9em;
-            line-height: 24px;
+            font-size: 1.6vh;
+            line-height: 2.4vh;
             padding: 0 6px;
             display: inline-block;
             background-image: linear-gradient(
