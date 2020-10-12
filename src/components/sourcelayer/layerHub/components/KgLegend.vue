@@ -14,22 +14,22 @@ export default {};
 <style scoped lang="less">
 .kg-legend {
   position: fixed;
-  right: 0;
+  right: -1vh;
   bottom: 0;
-  height: 292px;
-  width: 216px;
+  height: 30vh;
+  width: 22vh;
   box-sizing: border-box;
   padding: 0 10px;
   background-image: url(/static/images/common/kg-legend-frame.png);
   background-size: 100% 100%;
   > header {
-    height: 48px;
-    line-height: 48px;
-    font-size: 1.1em;
+    height: 4.8vh;
+    line-height: 4.8vh;
+    font-size: 1.8vh;
     color: #fff;
   }
   > div {
-    height: 240px;
+    height: 24vh;
     width: 100%;
     box-sizing: border-box;
     padding: 10px 0;
