@@ -34,7 +34,7 @@
           </div>
         </div>
       </li>
-      <li class="item">
+      <!-- <li class="item">
         <img src="/static/images/index/education/总占地面积.png" />
         <div>
           <div class="title">
@@ -49,7 +49,7 @@
             <DynamicNum :value="4016.87" />
           </div>
         </div>
-      </li>
+      </li> -->
       <li class="item">
         <img src="/static/images/index/education/幼儿园数量.png" />
         <div>

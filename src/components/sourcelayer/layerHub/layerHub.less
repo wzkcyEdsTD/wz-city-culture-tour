@@ -7,7 +7,7 @@
   transform: scale(0.9);
 
   .bottom-layers-container {
-    width: 50vw;
+    width: 100vh;
     height: auto;
     margin: 0 auto;
     padding: 6px 0;
@@ -70,12 +70,13 @@
 
           .rings {
             content: "";
-            width: 4vw;
-            height: 4vw;
+            width: 8vh;
+            height: 8vh;
             display: block;
             position: absolute;
-            top: -16px;
-            left: 0.9vw;
+            top: -1.6vh;
+            left: 50%;
+            transform: translateX(-50%);
             opacity: 0.6;
             background-image: url(/static/images/common/shine.gif);
             background-size: 100% 100%;
@@ -107,12 +108,12 @@
 
         >div {
           img {
-            width: 2.4vw;
+            width: 4.8vh;
             filter: grayscale(100%);
           }
 
           p {
-            font-size: 0.8vw;
+            font-size: 1.6vh;
             color: #a8a8a8;
             opacity: 0.8;
             line-height: 24px;
@@ -130,7 +131,7 @@
   }
 
   .bottom-topics-container {
-    width: 50vw;
+    width: 100vh;
     margin: 0 auto;
     background-image: linear-gradient(to right,
         rgba(18, 53, 88, 0) 0%,
@@ -142,7 +143,7 @@
     .labels {
       display: flex;
       justify-content: center;
-      height: 1.8vw;
+      height: 3.6vh;
       background-image: url("/static/images/common/bottombar@2x.png");
       background-size: 100% 100%;
       box-sizing: border-box;
@@ -159,7 +160,7 @@
         }
 
         >i {
-          font-size: .9vw;
+          font-size: 1.8vh;
           color: #fff;
           font-style: normal;
           opacity: 0.5;
@@ -169,7 +170,7 @@
 
         &.active {
           >i {
-            font-size: 1vw;
+            font-size: 2vh;
             color: #fff;
             font-style: normal;
             opacity: 1;

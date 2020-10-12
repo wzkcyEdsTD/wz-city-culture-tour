@@ -45,7 +45,7 @@ export default {
   bottom: 0vh;
   overflow: hidden;
   right: 1vw;
-  width: 16vw;
+  width: 36vh;
   color: white;
   box-sizing: border-box;
   padding: 10px;
@@ -58,10 +58,10 @@ export default {
       flex-direction: column;
       > header {
         display: block;
-        height: 35px;
-        line-height: 35px;
+        height: 3.4vh;
+        line-height: 3.4vh;
         font-family: YouSheBiaoTiHei;
-        font-size: 24px;
+        font-size: 2.8vh;
         letter-spacing: 0px;
         color: #ffffff;
         text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.64);
@@ -70,15 +70,15 @@ export default {
         padding-left: 15px;
         > i {
           font-style: normal;
-          font-size: 12px;
+          font-size: 1.2vh;
         }
         &::before {
           content: "";
           position: absolute;
           bottom: 0;
-          left: 5px;
-          width: 150px;
-          height: 15px;
+          left: 0.6vh;
+          width: 14vh;
+          height: 1.6vh;
           z-index: -1;
           background-image: linear-gradient(
             90deg,

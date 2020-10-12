@@ -77,10 +77,10 @@ export default {
   }
   > .roulette-btns {
     position: absolute;
-    top: -56px;
+    top: 0;
     right: 0;
-    width: 14vw;
-    height: 10vw;
+    width: 28vh;
+    height: 13vh;
     z-index: 9;
     > div {
       width: 32%;
@@ -93,11 +93,11 @@ export default {
     position: absolute;
     top: 0px;
     right: 0px;
-    width: 14vw;
-    height: auto;
+    width: auto;
+    height: 13vh;
     z-index: 9;
     > img {
-      width: 100%;
+      height: 100%;
     }
   }
 }

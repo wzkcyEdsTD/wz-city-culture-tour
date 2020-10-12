@@ -4,7 +4,6 @@
   overflow: hidden;
   right: 20px;
   width: 42vh;
-  height: 700px;
   color: white;
   box-sizing: border-box;
   padding: 10px;
@@ -18,8 +17,8 @@
       position: absolute;
       right: 4px;
       top: 6px;
-      width: 0.2rem;
-      height: 0.2rem;
+      width: 2.6vh;
+      height: 2.6vh;
       display: block;
       .bg-image("/static/images/icons/zoom-in");
       transform: rotate(-45deg);
@@ -34,16 +33,16 @@
 
     .title {
       display: block;
-      height: 35px;
-      line-height: 35px;
+      height: 4vh;
+      line-height: 4vh;
       font-family: YouSheBiaoTiHei;
-      font-size: 28px;
+      font-size: 3.2vh;
       letter-spacing: 0px;
       color: #ffffff;
       text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.64);
       position: relative;
       margin-bottom: 10px;
-      padding-left: 15px;
+      padding-left: 1.6vh;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
@@ -54,9 +53,9 @@
       content: "";
       position: absolute;
       bottom: 0;
-      left: 5px;
-      width: 150px;
-      height: 15px;
+      left: 0.6vh;
+      width: 14vh;
+      height: 1.6vh;
       z-index: -1;
       background-image: linear-gradient(90deg,
           #2acbfe 0%,
@@ -71,7 +70,7 @@
     .section-title {
       display: block;
       font-family: YouSheBiaoTiHei;
-      font-size: 22px;
+      font-size: 2.2vh;
       letter-spacing: 0px;
       color: #ffffff;
       text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.64);
@@ -95,7 +94,7 @@
 
           td {
             font-family: PingFang;
-            font-size: 14px;
+            font-size: 1.6vh;
             vertical-align: middle;
             padding: 0 0 6px 0;
           }
@@ -106,7 +105,7 @@
 
           tr:first-child td:last-child {
             width: 44%;
-            font-size: 12px;
+            font-size: 1.2vh;
             // -webkit-transform-origin-x: 0;
             // -webkit-transform: scale(0.92);
           }
@@ -116,20 +115,20 @@
 
             .item-num {
               font-family: DIN;
-              font-size: 20px;
+              font-size: 2vh;
               font-weight: bold;
             }
 
             .item-unit {
               display: inline-block;
-              font-size: 12px;
+              font-size: 1.2vh;
               -webkit-transform-origin-x: 0;
               -webkit-transform: scale(0.83);
             }
           }
 
           tr:last-child td:last-child {
-            font-size: 12px;
+            font-size: 1.2vh;
             font-weight: bold;
             -webkit-transform-origin-x: 0;
             -webkit-transform: scale(0.83);
@@ -172,16 +171,16 @@
     .desc-wrapper {
       .address {
         font-family: PingFang;
-        font-size: 14px;
-        line-height: 20px;
+        font-size: 1.4vh;
+        line-height: 2vh;
         margin-bottom: 3px;
       }
 
       .summary {
         font-family: PingFang;
-        font-size: 14px;
-        line-height: 18px;
-        max-height: 140px;
+        font-size: 1.4vh;
+        line-height: 1.8vh;
+        max-height: 14vh;
         overflow-y: auto;
       }
 
@@ -217,7 +216,8 @@
       }
 
       .imgs::-webkit-scrollbar {
-        width: 3px;
+        cursor: pointer;
+        width: 4px;
         background: rgba(37, 136, 178, .6);
       }
 

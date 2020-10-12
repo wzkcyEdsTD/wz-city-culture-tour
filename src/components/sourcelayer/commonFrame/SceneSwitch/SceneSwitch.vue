@@ -101,10 +101,10 @@ export default {
 <style scoped lang="less">
 .scene-switch {
   position: absolute;
-  width: 220px;
+  width: 40vh;
   height: auto;
   top: 0;
-  left: 130px;
+  left: 14vh;
   cursor: pointer;
   > * {
     vertical-align: middle;
@@ -112,8 +112,7 @@ export default {
 
   > img {
     display: inline-block;
-    width: 34px;
-    height: 34px;
+    height: 4vh;
   }
   > div {
     display: inline-block;
@@ -121,13 +120,11 @@ export default {
       vertical-align: middle;
     }
     > img {
-      // width: 20px;
-      height: 20px;
+      height: 2.2vh;
     }
     > span {
-      letter-spacing: 0px;
       color: #ffffff;
-      font-size: 0.9em;
+      font-size: 1.6vh;
       font-family: PingFang SC;
     }
   }

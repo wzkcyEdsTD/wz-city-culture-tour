@@ -68,7 +68,7 @@ export default {
     return {
       shallPop: false,
       popList: [],
-       // 保存是否周边查询
+      // 保存是否周边查询
       bufferHash: {},
     };
   },
@@ -219,30 +219,29 @@ export default {
     }
   }
   .popup-tip-container {
-    width: 230px;
-    height: 200px;
+    width: 24vh;
+    height: 21vh;
     background-image: url("/static/images/common/station-frame@2x.png");
     background-size: 100% 100%;
     background-repeat: no-repeat;
   }
 
   .popup-tip-inner {
-    height: 112px;
+    height: 12vh;
     display: flex;
     color: #fff;
   }
 
   .tip-name {
-    width: 40px;
+    width: 20%;
     box-sizing: border-box;
     writing-mode: vertical-lr;
     letter-spacing: -0.34em;
     height: 100%;
-    line-height: 17px;
     padding: 20px 0 10px 12px;
     position: relative;
     font-family: YouSheBiaoTiHei;
-    font-size: 18px;
+    font-size: 1.8vh;
     text-shadow: 0 2px 2px #000;
     display: flex;
     align-items: center;
@@ -252,11 +251,13 @@ export default {
     flex: 1;
     box-sizing: border-box;
     padding: 20px 6px 6px 8px;
+    display: flex;
+    flex-direction: column;
   }
 
   .tip-num > p {
     font-family: YouSheBiaoTiHei;
-    font-size: 20px;
+    font-size: 2vh;
     text-shadow: 0 2px 2px #000;
     text-align: left;
     &::before {
@@ -265,7 +266,7 @@ export default {
   }
 
   .tip-num table {
-    height: 62px;
+    flex: 1;
     border-collapse: separate;
     border-spacing: 0px 5px;
     font-size: 10px;
@@ -277,10 +278,10 @@ export default {
   }
 
   .tip-num table tbody tr td:first-child {
-    width: 90px;
+    width: 50%;
     font-weight: bolder;
     vertical-align: middle;
-    line-height: 25px;
+    line-height: 2vh;
     text-align: left;
   }
 
@@ -289,8 +290,7 @@ export default {
     font-family: DIN;
     font-weight: 700;
     color: #2acbfe;
-    font-size: 1.4em;
-    line-height: 25px;
+    font-size: 1.4vh;
   }
 
   .tip-num table tbody tr:first-child td {
@@ -312,7 +312,6 @@ export default {
   }
   .right-btns {
     width: 100%;
-    height: 26px;
     box-sizing: border-box;
     padding: 0px 20px 0 30px;
     color: #fff;
@@ -320,11 +319,11 @@ export default {
 
   .right-btns span {
     font-family: YouSheBiaoTiHei;
-    font-size: 18px;
+    font-size: 1.8vh;
     display: block;
     width: 50%;
-    height: 26px;
-    line-height: 26px;
+    height: 2.8vh;
+    line-height: 2.8vh;
     letter-spacing: 1px;
     float: left;
     text-shadow: 0px 2px 3px rgba(0, 0, 0, 0);

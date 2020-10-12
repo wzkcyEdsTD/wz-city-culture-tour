@@ -340,7 +340,7 @@ export default {
 .year-slider {
   position: fixed;
   height: 6.2vh;
-  width: 46vw;
+  width: 92vh;
   bottom: 10vh;
   left: 50%;
   box-sizing: border-box;
@@ -349,7 +349,7 @@ export default {
   background-image: url("/static/images/common/slider-bg.png");
   background-size: 100% 100%;
   .slider-next {
-    width: 2.6vw;
+    width: 5.2vh;
     position: absolute;
     right: 12px;
     top: 8px;
@@ -360,7 +360,7 @@ export default {
       height: 30px;
     }
     > p {
-      font-size: 0.5vw;
+      font-size: 1vh;
       color: white;
     }
   }
@@ -401,7 +401,7 @@ export default {
   padding: 6px 10px;
   font-family: DIN !important;
   font-weight: bold;
-  font-size: 22px;
+  font-size: 2.4vh;
   // background-image: url("/static/images/common/slider-pop.png");
   // background-size: 100% 100%;
 }

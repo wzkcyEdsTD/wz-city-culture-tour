@@ -220,31 +220,30 @@ export default {
     }
   }
   .popup-tip-container {
-    width: 214px;
-    height: 170px;
+    width: 26vh;
+    height: 20vh;
     background-image: url("/static/images/common/station-frame@2x.png");
     background-size: 100% 100%;
     background-repeat: no-repeat;
   }
 
   .popup-tip-inner {
-    height: 90px;
+    height: 10.6vh;
     display: flex;
     color: #fff;
   }
 
   .tip-name {
-    width: 74px;
+    width: 38%;
     box-sizing: border-box;
     writing-mode: vertical-lr;
     letter-spacing: -0.34em;
     height: 100%;
-    line-height: 17px;
     text-align: center;
     padding: 8px 0 2px 7px;
     position: relative;
     font-family: YouSheBiaoTiHei;
-    font-size: 17px;
+    font-size: 1.8vh;
     text-shadow: 0 2px 2px #000;
     display: flex;
     align-items: center;
@@ -259,7 +258,7 @@ export default {
       width: 100%;
       border-collapse: separate;
       border-spacing: 0px 5px;
-      font-size: 14px;
+      font-size: 1.6vh;
     }
 
     table tbody tr td {
@@ -305,11 +304,11 @@ export default {
 
   .right-btns span {
     font-family: YouSheBiaoTiHei;
-    font-size: 16px;
+    font-size: 1.8vh;
     display: block;
     width: 50%;
-    height: 26px;
-    line-height: 26px;
+    height: 2.8vh;
+    line-height: 2.8vh;
     letter-spacing: 1px;
     float: left;
     text-shadow: 0px 2px 3px rgba(0, 0, 0, 0);

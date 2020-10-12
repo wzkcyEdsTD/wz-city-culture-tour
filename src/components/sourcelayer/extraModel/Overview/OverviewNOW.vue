@@ -65,9 +65,9 @@ export default {
     // this.screenSpaceCameraController(true);
     //  关闭线扫描
     // this.removeLineScan();
-    setTimeout(() => {
-      this.cameraMove(this.CenterPoint);
-    }, 500);
+    // setTimeout(() => {
+    //   this.cameraMove(this.CenterPoint);
+    // }, 500);
   },
   methods: {
     eventRegsiter() {},
@@ -186,17 +186,17 @@ export default {
       > header {
         color: #2acbfe;
         font-weight: bold;
-        font-size: 1.2em;
+        font-size: 1.8vh;
         text-shadow: 3px 4px 4px #000000;
       }
       > p {
         font-weight: bold;
-        font-size: 1.3em;
+        font-size: 2vh;
         color: #fff;
-        line-height: 30px;
+        line-height: 4vh;
         text-shadow: 3px 4px 4px #000000;
         > i {
-          font-size: 0.8em;
+          font-size: 1.6vh;
           font-style: normal;
           text-shadow: 3px 4px 4px #000000;
         }
@@ -205,7 +205,7 @@ export default {
     .imgs {
       text-align: center;
       > img:first-child {
-        width: 140px;
+        width: 14vh;
       }
       .move {
         animation: heart 1.3s ease-in-out 2.7s infinite alternate;
