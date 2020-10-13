@@ -1,12 +1,12 @@
 const CenterPoint = {
     destination: {
-        x: -2875616.0504055694,
-        y: 4843981.354234471,
-        z: 2992840.383126848
+        x: -2875457.5768103674,
+        y: 4843736.974965774,
+        z: 2992934.451132312
     },
     orientation: {
         heading: 0,
-        pitch: -0.40890884392865345,
+        pitch: -0.33015454069816896,
         roll: 0
     },
 }
@@ -40,11 +40,11 @@ const headings = (LeftPoint.orientation.heading - RightPoint.orientation.heading
 const pitchs = (LeftPoint.orientation.pitch - RightPoint.orientation.pitch) / interval;
 
 /**
-     * 生成曲线来表达国家间的人口流动曲线
-     * @param startPoint 起点
-     * @param endPoint 终点
-     * @returns {Array}
-     */
+* 生成曲线来表达国家间的人口流动曲线
+* @param startPoint 起点
+* @param endPoint 终点
+* @returns {Array}
+*/
 function generateCurve(startPoint, endPoint) {
     let addPointCartesian = new Cesium.Cartesian3();
     Cesium.Cartesian3.add(startPoint, endPoint, addPointCartesian);
@@ -91,7 +91,7 @@ const indexPoints = [{
 }, {
     geometry: {
         "x": 120.6989,
-        "y": 27.9995
+        "y": 27.9985
     },
     value: '833.51',
     unit: '万人',
@@ -99,7 +99,7 @@ const indexPoints = [{
 }, {
     geometry: {
         "x": 120.6914,
-        "y": 27.9984
+        "y": 27.9982
     },
     value: '2.6',
     unit: 'CPI',
