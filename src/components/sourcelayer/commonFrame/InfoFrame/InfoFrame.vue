@@ -26,14 +26,14 @@
                 <tbody>
                   <tr>
                     <td>{{ _item.label }}</td>
-                    <td><i class="block-compare">同比昨日</i></td>
+                    <!-- <td><i class="block-compare">同比昨日</i></td> -->
                   </tr>
                   <tr>
                     <td>
                       <span class="item-num">{{ _item.num || "-" }}</span>
                       <span class="item-unit">{{ _item.unit }}</span>
                     </td>
-                    <td
+                    <!-- <td
                       :style="{
                         color: _item.ratio >= 0 ? '#04b72d' : '#fc5453',
                       }"
@@ -48,7 +48,7 @@
                       <i
                         :class="[_item.ratio >= 0 ? 'ratio-up' : 'ratio-down']"
                       ></i>
-                    </td>
+                    </td> -->
                   </tr>
                 </tbody>
               </table>
@@ -131,7 +131,7 @@ export default {
                 ratio: 0,
                 unit: "万元",
               },
-              { label: "住院床位数", num: 0, ratio: 0, unit: "床" },
+              // { label: "住院床位数", num: 0, ratio: 0, unit: "床" },
               { label: "住院人数", num: n.住院人次, ratio: 0, unit: "人" },
             ],
           },

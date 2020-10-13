@@ -275,6 +275,7 @@ export default {
 
     p {
       font-family: PingFang;
+      font-size: 1.6vh;
       &:first-child {
         font-weight: bolder;
       }

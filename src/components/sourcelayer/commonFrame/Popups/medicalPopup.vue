@@ -269,6 +269,7 @@ export default {
 
   .tip-num table tbody tr td {
     font-family: PingFang;
+    font-size: 1.4vh;
   }
 
   .tip-num table tbody tr td:first-child {

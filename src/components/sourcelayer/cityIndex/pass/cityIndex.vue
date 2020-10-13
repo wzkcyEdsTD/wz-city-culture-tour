@@ -180,30 +180,30 @@ export default {
         2011: {},
         2012: {
           labelStyle: {
-            border: "2px gold solid",
+            border: "2px dashed gold",
           },
         },
         2013: {},
         2014: {
           labelStyle: {
-            border: "2px gold solid",
+            border: "2px dashed gold",
           },
         },
         2015: {},
         2016: {},
         2017: {
           labelStyle: {
-            border: "2px gold solid",
+            border: "2px dashed gold",
           },
         },
         2018: {
           labelStyle: {
-            border: "2px gold solid",
+            border: "2px dashed gold",
           },
         },
         2019: {
           labelStyle: {
-            border: "2px gold solid",
+            border: "2px dashed gold",
           },
         },
       },
@@ -396,7 +396,7 @@ export default {
   padding: 2px 4px;
 }
 .vue-slider-ltr .vue-slider-mark-label-image {
-  border: 2px gold solid;
+  border: 2px dashed gold;
 }
 .vue-slider-dot-tooltip-inner {
   padding: 6px 10px !important;

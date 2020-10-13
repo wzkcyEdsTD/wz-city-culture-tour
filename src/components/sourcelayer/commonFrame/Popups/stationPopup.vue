@@ -13,7 +13,7 @@
       :key="index"
       :id="`trackPopUpContent_${index}`"
       class="leaflet-popup-station"
-      :style="{ transform: `translate3d(${item.x}px,${item.y + 10}px, 0)` }"
+      :style="{ transform: `translate3d(${item.x}px,${item.y + 50}px, 0)` }"
     >
       <div class="popup-tip-container">
         <div class="popup-tip-inner">
@@ -271,6 +271,7 @@ export default {
 
   .tip-num table tbody tr td {
     font-family: PingFang;
+    font-size: 1.4vh;
   }
 
   .tip-num table tbody tr td:first-child {
