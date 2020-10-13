@@ -74,6 +74,9 @@ export default {
      * @param {queryRadius!} 监控点查询半径
      */
     async drawVideoCircle({ lng, lat }, queryRadius = 200) {
+      setTimeout(() => {
+        this.cameraMove({ lng, lat });
+      }, 800);
       // 画圈
       console.log("[drawVideoCircle]", lng, lat, queryRadius);
       const circleEntity = new Cesium.Entity({
@@ -138,9 +141,6 @@ export default {
         window.earth.entities.add(videoPointEntity);
         this.entitiesID.push(videoPointEntity.id);
       });
-      setTimeout(() => {
-        this.cameraMove({ lng, lat });
-      }, 800);
     },
     /**
      * 相机跳转

@@ -32,6 +32,7 @@ export default {
       CenterPoint,
       LeftPoint,
       RightPoint,
+      cameraTimer: undefined,
     };
   },
   computed: {
@@ -62,18 +63,19 @@ export default {
       this.SetCameraMode(!this.cameraMode);
     },
     doCameraAction(n) {
+      const that = this;
       //  视角跳转 需1000ms
       this.cameraMove(this.CenterPoint);
       //  相机转动 1500ms后执行
       setTimeout(
         () => {
           if (n) {
-            window.cameraTimer = setInterval(() => {
+            that.cameraTimer = setInterval(() => {
               this.cameraFlyTo();
             }, LOOT * 1000);
             this.cameraFlyTo();
           } else {
-            clearInterval(window.cameraTimer);
+            clearInterval(that.cameraTimer);
           }
         },
         n ? 1500 : 0

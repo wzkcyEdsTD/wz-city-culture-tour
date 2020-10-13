@@ -178,11 +178,7 @@ export default {
      * 开专门的缓冲区collection
      */
     doCircleBuffer(obj) {
-      if (!this.bufferHash[obj.id]) {
-        this.bufferHash[obj.id] = {};
-      } else {
-        this.bufferHash[obj.id] = null;
-      }
+      this.bufferHash[obj.id] = this.bufferHash[obj.id] ? null : {};
       this.$bus.$emit("cesium-3d-population-circle", {
         doDraw: this.bufferHash[obj.id],
         id: obj.id,

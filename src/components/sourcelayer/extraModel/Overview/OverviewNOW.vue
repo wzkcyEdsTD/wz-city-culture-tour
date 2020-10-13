@@ -58,6 +58,7 @@ export default {
   },
   mounted() {
     this.eventRegsiter();
+    this.cameraMove(this.CenterPoint);
   },
   destroyed() {
     // this.removeEntityCollection();

@@ -60,6 +60,9 @@ export default {
     ) {
       if (!doScan) return (window.earth.scene.scanEffect.show = false);
       window.earth.scene.scanEffect.show = true;
+      window.earth.scene.scanEffect.color = Cesium.Color.fromCssColorString(
+        "rgba(255,255,255,0.3)"
+      );
       window.earth.scene.scanEffect.mode = Cesium.ScanEffectMode.CIRCLE;
       window.earth.scene.scanEffect.centerPostion = new Cesium.Cartesian3.fromDegrees(
         lng,
@@ -83,7 +86,7 @@ export default {
         ellipse: {
           semiMinorAxis: raidus,
           semiMajorAxis: raidus,
-          height: 4,
+          height: 10,
           material: Cesium.Color.WHITE.withAlpha(0.2),
           outline: true,
           outlineWidth: 3,
