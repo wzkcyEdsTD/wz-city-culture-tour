@@ -37,17 +37,17 @@ const state = {
   WzSourceData: {},     //  城市资源指标
   WzTrafficData: {},    //  城市交通指标
   WzEmergencyData: {},  //  城市应急指标
-  //  指标下表
-  forceIndex: '城市总览',
   //  时间轮盘
   forceTime: 'now',
   //  白天黑夜
   nightMode: true,
   //  相机转动
   cameraMode: false,
+  //  指标下表
+  forceIndex: '医疗专题',
   //  tab下标
-  forceTreeLabel: "城市总览",
+  forceTreeLabel: "医疗专题",
   forceTrueTopicLabels: [],
-  forceTrueTopicLabelId : "",
+  forceTrueTopicLabelId: "",
 };
 export default state;

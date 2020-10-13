@@ -75,7 +75,7 @@ export default {
      */
     async drawVideoCircle({ lng, lat }, queryRadius = 200) {
       setTimeout(() => {
-        this.cameraMove({ lng, lat });
+        this.cameraMove({ lng, lat, queryRadius });
       }, 800);
       // 画圈
       console.log("[drawVideoCircle]", lng, lat, queryRadius);
@@ -146,9 +146,14 @@ export default {
      * 相机跳转
      * @param {object} geometry
      */
-    cameraMove({ lng, lat }) {
+    cameraMove({ lng, lat, queryRadius }) {
       window.earth.scene.camera.setView({
-        destination: Cesium.Cartesian3.fromDegrees(lng, lat - 0.014, 1000),
+        destination: Cesium.Cartesian3.fromDegrees(
+          lng,
+          lat -
+            (0.008 + (0.002 * queryRadius * (queryRadius / 200) * 1.1) / 100),
+          700 + queryRadius * (queryRadius / 200) * 1.2
+        ),
         orientation: {
           heading: 0.003336768850279448,
           pitch: -0.5808830390057418,

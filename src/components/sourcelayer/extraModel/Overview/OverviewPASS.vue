@@ -3,6 +3,7 @@
 </template>
 
 <script>
+import { CenterPoint } from "mock/overview.js";
 export default {
   name: "overviewPASS",
   created() {
@@ -21,18 +22,7 @@ export default {
   methods: {
     cameraMove(boolean) {
       !boolean
-        ? window.earth.camera.flyTo({
-            destination: {
-              x: -2875513.233796373,
-              y: 4843811.440808885,
-              z: 2993304.9641675064,
-            },
-            orientation: {
-              heading: 6.274379450234763,
-              pitch: -0.5186801226963254,
-              roll: 0,
-            },
-          })
+        ? window.earth.camera.flyTo(CenterPoint)
         : window.earth.camera.flyTo({
             destination: {
               x: -2876033.009557322,

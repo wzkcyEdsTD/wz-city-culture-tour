@@ -344,7 +344,7 @@ export default {
   bottom: 10vh;
   left: 50%;
   box-sizing: border-box;
-  padding: 13px 92px 14px 40px;
+  padding: 1.4vh 9vh 3vh 4vh;
   transform: translateX(-50%);
   background-image: url("/static/images/common/slider-bg.png");
   background-size: 100% 100%;
@@ -368,7 +368,8 @@ export default {
   background-color: unset !important;
 }
 .vue-slider-ltr {
-  height: 6px !important;
+  height: 0.7vh !important;
+  padding: 0.6vh 0!important;
   cursor: pointer;
 }
 .vue-slider-process {
@@ -377,8 +378,8 @@ export default {
 .vue-slider-dot-handle {
   background-image: url("/static/images/common/slider-point.png");
   background-size: 100% 100%;
-  width: 30px;
-  height: 30px;
+  width: 3.4vh;
+  height: 3.4vh;
   transform: translate(-10px, -8px);
   background-color: unset !important;
   box-shadow: unset !important;
@@ -390,7 +391,7 @@ export default {
   color: white;
 }
 .vue-slider-ltr .vue-slider-mark-label {
-  margin-top: 6px;
+  margin-top: 0.6vh;
   font-size: 1.6vh;
   padding: 2px 4px;
 }
@@ -398,10 +399,10 @@ export default {
   border: 2px gold solid;
 }
 .vue-slider-dot-tooltip-inner {
-  padding: 6px 10px!important;
+  padding: 6px 10px !important;
   font-family: DIN !important;
   font-weight: bold;
-  font-size: 2.4vh!important;
+  font-size: 2.4vh !important;
   // background-image: url("/static/images/common/slider-pop.png");
   // background-size: 100% 100%;
 }

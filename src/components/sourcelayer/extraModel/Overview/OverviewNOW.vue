@@ -58,7 +58,8 @@ export default {
   },
   mounted() {
     this.eventRegsiter();
-    this.cameraMove(this.CenterPoint);
+    window.isNotFirstLoad && this.cameraMove(this.CenterPoint);
+    window.isNotFirstLoad = +new Date();
   },
   destroyed() {
     // this.removeEntityCollection();

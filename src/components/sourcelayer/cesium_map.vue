@@ -83,7 +83,7 @@ export default {
   data() {
     return {
       showSubFrame: null,
-      showSubHubFrame: "3d1",
+      showSubHubFrame: "",
       mapLoaded: false,
       validated: false,
       isInfoFrame: false,
@@ -91,10 +91,13 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("map", ["initDataLoaded"]),
+    ...mapGetters("map", ["initDataLoaded", "forceTreeLabel"]),
     isOverview() {
       return this.showSubHubFrame == "3d1";
     },
+  },
+  created() {
+    this.forceTreeLabel == "城市总览" && (this.showSubHubFrame = "3d1");
   },
   components: {
     LayerHub,
