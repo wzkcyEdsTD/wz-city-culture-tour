@@ -14,7 +14,7 @@
             <span>当年</span>
           </div>
           <div class="number">
-            <DynamicNum :value="3076" />
+            <DynamicNum :value="WzOverviewData.gdp" />
           </div>
         </div>
       </li>

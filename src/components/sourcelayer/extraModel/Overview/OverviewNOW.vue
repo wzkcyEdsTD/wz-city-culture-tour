@@ -32,10 +32,11 @@ import {
   CenterPoint,
   LeftPoint,
   RightPoint,
-  indexPoints,
+  getIndexPoints,
   centerPosition,
   dirPosition,
 } from "mock/overview.js";
+import { mapGetters } from "vuex";
 export default {
   name: "overviewNOW",
   data() {
@@ -43,7 +44,6 @@ export default {
       CenterPoint,
       LeftPoint,
       RightPoint,
-      indexPoints,
       fixIndexPoints: [],
     };
   },
@@ -55,6 +55,9 @@ export default {
     }, 1000);
     //  开启扫描
     // this.initLineScan();
+  },
+  computed: {
+    ...mapGetters("map", ["WzOverviewData"]),
   },
   mounted() {
     this.eventRegsiter();
@@ -112,7 +115,7 @@ export default {
       );
     },
     initLines() {
-      const [p1, p2, p3, p4, p5, p6] = indexPoints.map((v) => {
+      const [p1, p2, p3, p4, p5, p6] = fixIndexPoints.map((v) => {
         return { ...v.geometry, z: 310 };
       });
       this.drawLines(p1, p2, 0);
@@ -140,7 +143,8 @@ export default {
     },
     doIndexPoints() {
       const fixIndexPoints = [];
-      this.indexPoints.map((item, index) => {
+      const indexPoints = getIndexPoints(this.WzOverviewData);
+      indexPoints.map((item, index) => {
         if (!item.geometry.x) return;
         const { x, y } = item.geometry;
         const pointToWindow = Cesium.SceneTransforms.wgs84ToWindowCoordinates(

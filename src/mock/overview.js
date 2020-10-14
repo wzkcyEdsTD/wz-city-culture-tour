@@ -63,48 +63,53 @@ function generateCurve(startPoint, endPoint) {
     return curvePointsArr;
 }
 
-// 指标点
-const indexPoints = [{
-    geometry: {
-        "x": 120.6923,
-        "y": 27.9936
-    },
-    value: '394.4',
-    unit: '亿元',
-    label: "一般公共预算收入"
-}, {
-    geometry: {
-        "x": 120.6985,
-        "y": 27.9939
-    },
-    value: '553.3',
-    unit: '亿元',
-    label: "规上工业增加值"
-}, {
-    geometry: {
-        "x": 120.6953,
-        "y": 27.9979
-    },
-    value: '3076',
-    unit: '亿元',
-    label: "地区GDP"
-}, {
-    geometry: {
-        "x": 120.6989,
-        "y": 27.9985
-    },
-    value: '833.53',
-    unit: '万人',
-    label: "全市人口"
-}, {
-    geometry: {
-        "x": 120.6914,
-        "y": 27.9982
-    },
-    value: '2.6',
-    unit: 'CPI',
-    label: "消费者物价指标"
-}]
+/**
+ * 
+ * @param {*} WzOverviewData 
+ */
+const getIndexPoints = (WzOverviewData) => {
+    return [{
+        geometry: {
+            "x": 120.6923,
+            "y": 27.9936
+        },
+        value: '394.4',
+        unit: '亿元',
+        label: "一般公共预算收入"
+    }, {
+        geometry: {
+            "x": 120.6985,
+            "y": 27.9939
+        },
+        value: WzOverviewData.规上工业 && WzOverviewData.规上工业.industryAddValue ? WzOverviewData.规上工业.industryAddValue : '368.02',
+        unit: '亿元',
+        label: "规上工业增加值"
+    }, {
+        geometry: {
+            "x": 120.6953,
+            "y": 27.9979
+        },
+        value: WzOverviewData.gdp || '3076',
+        unit: '亿元',
+        label: "地区GDP"
+    }, {
+        geometry: {
+            "x": 120.6989,
+            "y": 27.9985
+        },
+        value: WzOverviewData.people || '833.55',
+        unit: '万人',
+        label: "全市人口"
+    }, {
+        geometry: {
+            "x": 120.6914,
+            "y": 27.9982
+        },
+        value: '2.6',
+        unit: 'CPI',
+        label: "消费者物价指标"
+    }]
+}
 
 const centerPosition = new Cesium.Cartesian3.fromDegrees(
     120.7312,
@@ -119,5 +124,5 @@ const dirPosition = new Cesium.Cartesian3.fromDegrees(
 );
 
 export {
-    generateCurve, indexPoints, CenterPoint, LeftPoint, RightPoint, centerPosition, dirPosition
+    generateCurve, getIndexPoints, CenterPoint, LeftPoint, RightPoint, centerPosition, dirPosition
 }

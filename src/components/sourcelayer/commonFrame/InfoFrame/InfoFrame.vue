@@ -135,13 +135,13 @@ export default {
               { label: "住院人数", num: n.住院人次, ratio: 0, unit: "人" },
             ],
           },
-          {
-            label: "今日医保指标",
-            data: [
-              { label: "医保就医人数", num: 0, ratio: 0, unit: "人" },
-              { label: "医保支付额", num: 0, ratio: 0, unit: "万元" },
-            ],
-          },
+          // {
+          //   label: "今日医保指标",
+          //   data: [
+          //     { label: "医保就医人数", num: 0, ratio: 0, unit: "人" },
+          //     { label: "医保支付额", num: 0, ratio: 0, unit: "万元" },
+          //   ],
+          // },
         ];
       },
       deep: true,
