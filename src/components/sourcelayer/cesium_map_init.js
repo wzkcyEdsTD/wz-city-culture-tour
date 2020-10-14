@@ -152,12 +152,6 @@ export const mapBaimoLayerInit = (arrURL) => {
                     };
                 } else {
                     LAYER.brightness = 0.5;
-                    // LAYER.style3D.fillForeColor = {
-                    //     alpha: 1,
-                    //     blue: 0.6,
-                    //     green: 0.6,
-                    //     red: 0.6
-                    // }
                     LAYER.gamma = 0.6;
                     LAYER.refresh();
                 }

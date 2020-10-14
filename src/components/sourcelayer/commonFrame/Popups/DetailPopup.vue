@@ -61,7 +61,7 @@ export default {
       forceEntity: {},
       forcePosition: {},
       buffer: null,
-      filterKey: ["永久固定码", "唯一码"],
+      filterKey: ["永久固定码", "唯一码", "分类代码"],
     };
   },
   async mounted() {
