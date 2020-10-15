@@ -1,0 +1,126 @@
+{
+	"asset": {
+		"generator": "Unity 2018.3.14f1",
+		"extras": {
+			"exporterVersion" : "2.2.1"
+		},
+		"version": "2.0"
+	},
+	"accessors": [
+		{
+			"bufferView": 1,
+			"byteOffset": 0,
+			"componentType": 5126,
+			"count": 9178,
+			"max": [ 0.08025694, 0.02217351, 0 ],
+			"min": [ -0.08025694, -0.02174534, -0.02 ],
+			"type": "VEC3"
+		},
+		{
+			"bufferView": 1,
+			"byteOffset": 110136,
+			"componentType": 5126,
+			"count": 9178,
+			"max": [ 1, 1, 1 ],
+			"min": [ -1, -1, -1 ],
+			"type": "VEC3"
+		},
+		{
+			"bufferView": 2,
+			"byteOffset": 0,
+			"componentType": 5126,
+			"count": 9178,
+			"max": [ 1, 0, 0, 1 ],
+			"min": [ 1, 0, 0, 1 ],
+			"type": "VEC4"
+		},
+		{
+			"bufferView": 0,
+			"byteOffset": 0,
+			"componentType": 5123,
+			"count": 22992,
+			"max": [ 9177 ],
+			"min": [ 0 ],
+			"type": "SCALAR"
+		}
+	],
+	"buffers": [
+		{
+			"byteLength": 413104,
+			"uri": "Shape002_-1548.bin"
+		}
+	],
+	"bufferViews": [
+		{
+			"buffer": 0,
+			"byteLength": 45984,
+			"target": 34963,
+			"byteOffset": 367120
+		},
+		{
+			"buffer": 0,
+			"byteLength": 220272,
+			"target": 34962,
+			"byteStride": 12,
+			"byteOffset": 0
+		},
+		{
+			"buffer": 0,
+			"byteLength": 146848,
+			"target": 34962,
+			"byteStride": 16,
+			"byteOffset": 220272
+		}
+	],
+	"materials": [
+		{
+			"pbrMetallicRoughness": {
+				"baseColorFactor": [0.09410276, 0.07947665, 0.8867924, 1],
+				"metallicFactor": 0,
+				"roughnessFactor": 0
+			},
+			"emissiveFactor": [0.007429983, 0.03566392, 0.1894646],
+			"doubleSided": false,
+			"name": "teleport_blue"
+		}
+	],
+	"meshes": [
+		{
+			"name": "mesh_Shape002_38768Shape002",
+			"primitives": [
+				{
+					"attributes": {
+						"POSITION": 0,
+						"NORMAL": 1,
+						"TANGENT": 2
+					},
+					"indices": 3,
+					"material": 0,
+					"mode": 4
+				}
+			]
+		}
+	],
+	"nodes": [
+		{
+			"name": "UnityGlTF_root",
+			"children": [
+				1
+			]
+		},
+		{
+			"name": "node_Shape002_-1548",
+			"mesh": 0,
+			"matrix": [-2.886632E-05, 0, 242.1483, 0, 0, 242.1483, 0, 0, -44.50566, 0, -5.305488E-06, 0, 0, 0, 0, 1]
+		}
+	],
+	"scenes": [
+		{
+			"name":"defaultScene",
+			"nodes": [
+				0
+			]
+		}
+	],
+	"scene": 0
+}
