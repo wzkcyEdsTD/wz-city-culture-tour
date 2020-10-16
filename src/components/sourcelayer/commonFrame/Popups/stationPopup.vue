@@ -246,7 +246,7 @@ export default {
   .tip-num {
     flex: 1;
     box-sizing: border-box;
-    padding: 20px 6px 6px 8px;
+    padding: 2vh 0.6vh 0.6vh 0.8vh;
     display: flex;
     flex-direction: column;
   }
@@ -258,6 +258,8 @@ export default {
     text-align: left;
     &::before {
       content: url("/static/images/icons/bus.png");
+      width: 2vh;
+      vertical-align: middle;
     }
   }
 
@@ -293,6 +295,8 @@ export default {
   .tip-num table tbody tr:first-child td {
     &:first-child::before {
       content: url("/static/images/icons/station-in.png");
+      width: 2vh;
+      vertical-align: middle;
     }
     &:last-child {
       color: rgb(82, 255, 47);
@@ -302,6 +306,8 @@ export default {
   .tip-num table tbody tr:last-child td {
     &:first-child::before {
       content: url("/static/images/icons/station-out.png");
+      width: 2vh;
+      vertical-align: middle;
     }
     &:last-child {
       color: #fcce26;

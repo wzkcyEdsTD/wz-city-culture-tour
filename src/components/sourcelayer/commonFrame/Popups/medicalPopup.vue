@@ -132,6 +132,7 @@ export default {
             id: item.id,
             name: item.attributes.NAME,
             grade: this.fixGrade(item.attributes.DEFINING_T),
+            // grade: item.attributes.DEFINING_T,
             shortname: item.attributes.SHORTNAME,
             attributes: item.attributes,
             extra_data: item.extra_data,
@@ -256,7 +257,7 @@ export default {
   .tip-num {
     flex: 1;
     box-sizing: border-box;
-    padding: 18px 6px 6px 6px;
+    padding: 2vh 0.6vh 0.6vh 0.6vh;
   }
 
   .tip-num table {

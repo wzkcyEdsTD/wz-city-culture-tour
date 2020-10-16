@@ -271,7 +271,7 @@ export default {
   .tip-num {
     flex: 1;
     box-sizing: border-box;
-    padding: 18px 6px 6px 6px;
+    padding: 2vh 0.6vh 0.6vh 0.6vh;
   }
 
   .tip-num table {
