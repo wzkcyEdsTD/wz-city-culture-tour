@@ -17,8 +17,23 @@
       <div class="rtmpVideoContent">
         <div class="rtmpVideoList">
           <header>
-            周边{{ radiusRange }}米监控
-            <i>({{ fixRtmpList.length }}个)</i>
+            周边
+            <el-select
+              class="rtmp-video-range"
+              v-model="radiusRange"
+              @change="refreshRtmpVideoList"
+              placeholder="范围"
+            >
+              <el-option
+                v-for="item in radiusOption"
+                :key="item"
+                :label="item"
+                :value="item"
+              >
+              </el-option>
+            </el-select>
+            米
+            <i>({{ fixRtmpList.length }})</i>
             <span
               @click="videoOfPrivate = !videoOfPrivate"
               :class="{ active: videoOfPrivate }"
@@ -98,6 +113,7 @@ export default {
       forceRtmpVideo: undefined, //  正在看的视频名
       RtmpForcePoint: {}, //  保存点击的entity属性
       radiusRange: 200, //  默认半径200米
+      radiusOption: [100, 200, 500, 1000],
       videoSourceTop: true,
       videoOfPrivate: true,
       videoOfPublic: true,
@@ -162,6 +178,11 @@ export default {
           this.RtmpVideoMode = data.play_mode;
         });
     },
+    async refreshRtmpVideoList() {
+      const { data } = await getRtmpVideoList(this.RtmpForcePoint.geometry, this.radiusRange);
+      this.SetRtmpList(data);
+      // data.length && this.openRtmpVideoFrame(data[0]);
+    },
     /**
      * 保持单一选中
      * @param {object} item 视频单例
@@ -184,7 +205,35 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
+.rtmp-video-range {
+  width: unset !important;
+  > .el-input {
+    > .el-input__inner {
+      padding: 1vh 0.6vh !important;
+      height: 2vh !important;
+      line-height: 2vh !important;
+      width: 5.8vh;
+      font-size: 1.4vh;
+    }
+    > .el-input__suffix {
+      right: 0vh;
+      > .el-input__suffix-inner {
+        > .el-input__icon {
+          height: unset !important;
+          width: 2vh !important;
+          line-height: unset !important;
+        }
+        > .el-select__caret {
+          &::before {
+            color: black;
+            font-size: 1vh;
+          }
+        }
+      }
+    }
+  }
+}
 .rtmpVideo {
   .rtmpListFrame {
     height: 55vh;
@@ -196,7 +245,7 @@ export default {
     background-size: 100% 100%;
     background-image: url("/static/images/common/rtmp-frame.png");
     box-sizing: border-box;
-    padding: 26px 44px 12px 44px;
+    padding: 2.6vh 4.4vh 2vh 4.4vh;
     z-index: 10;
     color: white;
     > header {
@@ -235,6 +284,7 @@ export default {
         display: flex;
         flex-direction: column;
         box-sizing: border-box;
+        // 选择栏
         > header {
           height: 2.4vh;
           line-height: 2.2vh;
