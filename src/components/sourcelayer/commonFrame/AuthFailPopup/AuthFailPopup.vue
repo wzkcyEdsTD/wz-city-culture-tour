@@ -75,12 +75,10 @@ export default {
     height: 24px;
     line-height: 24px;
     font-size: 15px;
-    font-family: PingFang;
     font-weight: bold;
   }
   .desc {
     margin-top: 5px;
-    font-family: PingFang;
     font-size: 13px;
   }
   .btn {

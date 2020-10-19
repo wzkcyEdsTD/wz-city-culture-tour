@@ -51,7 +51,6 @@ export default {
     width: 84px;
     height: 30px;
     line-height: 30px;
-    font-family: PingFang;
     font-size: 14px;
     text-align: center;
     letter-spacing: 0px;

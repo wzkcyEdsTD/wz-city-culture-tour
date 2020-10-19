@@ -17,7 +17,6 @@ export const gdpOption = {
         itemHeight: 11,
         textStyle: {
             color: "#fff",
-            fontFamily: "PingFang",
             fontSize: 11,
         },
     },
@@ -115,7 +114,6 @@ export const populationOption = {
         itemHeight: 11,
         textStyle: {
             color: "#fff",
-            fontFamily: "PingFang",
             fontSize: 11,
         },
     },
@@ -214,7 +212,6 @@ export const threeIndustriesOption = {
         itemHeight: 11,
         textStyle: {
             color: "#fff",
-            fontFamily: "PingFang",
             fontSize: 11,
         },
         // data:[{}]
@@ -395,7 +392,6 @@ export const revenuesOption = {
         itemHeight: 11,
         textStyle: {
             color: "#fff",
-            fontFamily: "PingFang",
             fontSize: 11,
         },
     },

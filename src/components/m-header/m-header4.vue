@@ -112,7 +112,6 @@ export default {
           width: 0.1rem;
         }
         .text {
-          font-family: PingFang;
           font-size: 25px;
         }
       }

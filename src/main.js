@@ -12,7 +12,6 @@ import App from "./App";
 import router from "./router";
 import store from "./store";
 import "./font/YouSheBiaoTiHei.css";
-import "./font/PingFang.css";
 import "./font/DIN.css";
 import * as filters from "./filters"; // 全局过滤器
 import ElementUI from "element-ui";

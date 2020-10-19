@@ -127,7 +127,6 @@ export default {
     > span {
       color: #ffffff;
       font-size: 1.6vh;
-      font-family: PingFang SC;
     }
   }
 }

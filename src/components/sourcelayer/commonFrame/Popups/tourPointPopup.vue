@@ -260,7 +260,6 @@ export default {
     }
 
     table tbody tr td {
-      font-family: PingFang;
       &:first-child {
         width: 100%;
         font-weight: bolder;
@@ -276,7 +275,6 @@ export default {
     }
 
     p {
-      font-family: PingFang;
       font-size: 1.6vh;
       &:first-child {
         font-weight: bolder;

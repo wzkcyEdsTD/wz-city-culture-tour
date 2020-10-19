@@ -84,6 +84,7 @@ export default {
       this.forceEntity = forceEntity;
       this.buffer = null;
       this.$bus.$emit("cesium-3d-population-circle", { doDraw: false });
+      this.$bus.$emit("cesium-3d-rtmpFetch-cb");
     },
     /**
      *  框体移动
