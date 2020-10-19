@@ -177,6 +177,7 @@ export default {
 
     closePopup() {
       this.$bus.$emit("cesium-3d-population-circle", { doDraw: false });
+      this.$bus.$emit("cesium-3d-rtmpFetch-cb");
       this.shallPop = false;
       this.bufferHash = {};
     },
@@ -276,7 +277,7 @@ export default {
 
   .tip-num table {
     height: 100%;
-    width : 100%;
+    width: 100%;
     border-collapse: separate;
     border-spacing: 0px 5px;
     font-size: 10px;

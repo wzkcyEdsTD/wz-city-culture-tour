@@ -16,6 +16,7 @@ export const mapLoaded = state => state.mapLoaded;
 export const initDataLoaded = state => state.initDataLoaded;
 export const isInfoFrame = state => state.isInfoFrame;
 export const rtmpList = state => state.rtmpList;
+export const rtmpListOther = state => state.rtmpListOther;
 export const medicalList = state => state.medicalList;
 export const medicalListWithGeometry = state => state.medicalListWithGeometry;
 export const stationList = state => state.stationList;

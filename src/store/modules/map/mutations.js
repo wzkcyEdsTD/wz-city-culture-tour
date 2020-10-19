@@ -65,6 +65,9 @@ const mutations = {
   [types.SET_RTMP_LIST](state, data) {
     state.rtmpList = data;
   },
+  [types.SET_RTMP_LIST_OTHER](state, data) {
+    state.rtmpListOther = data;
+  },
   [types.SET_IS_INFO_FRAME](state, bool) {
     state.isInfoFrame = bool;
   },

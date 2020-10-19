@@ -14,6 +14,7 @@ const state = {
   isInfoFrame: false,
   //  视频列表
   rtmpList: [],
+  rtmpListOther: [],
   //  医院数据
   medicalList: {},
   medicalListWithGeometry: [],

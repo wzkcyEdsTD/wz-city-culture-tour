@@ -5,7 +5,7 @@
       :style="{ transform: `translate3d(${item.x}px,${item.y + 4}px, 0)` }"
     >
       <div class="popup-container">
-        <div class="remove" @click="removeVideoCircle(null)"></div>
+        <div class="remove" @click="removeVideoCircle"></div>
         <div
           :class="['position', rtmpOn ? 'on' : 'off']"
           @click="showVideoCircle"
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import { getRtmpVideoList } from "api/cityBrainAPI";
 const Cesium = window.Cesium;
 
@@ -28,16 +28,18 @@ export default {
       geometry: {},
       queryRadius: 200,
       item: {},
-      rtmpVideoList: [],
       entitiesID: [],
       rtmpOn: true,
     };
+  },
+  computed: {
+    ...mapGetters("map", ["rtmpListOther"]),
   },
   mounted() {
     this.eventRegsiter();
   },
   methods: {
-    ...mapActions("map", ["SetRtmpList"]),
+    ...mapActions("map", ["SetRtmpListOther"]),
     eventRegsiter() {
       const that = this;
       this.$bus.$off("cesium-3d-video-circle");
@@ -121,7 +123,7 @@ export default {
 
       // 画监控点
       const { data } = await getRtmpVideoList({ lng, lat }, queryRadius);
-      this.rtmpVideoList = data;
+      this.SetRtmpListOther(data);
       data.forEach((item) => {
         const videoPointEntity = new Cesium.Entity({
           id: `videopoint_${item.mp_id}`,
@@ -132,8 +134,8 @@ export default {
           ),
           billboard: {
             image: "/static/images/map-ico/视频监控.png",
-            width: 37,
-            height: 41,
+            width: 40,
+            height: 40,
             disableDepthTestDistance: Number.POSITIVE_INFINITY,
           },
           name: item.mp_name,
@@ -161,18 +163,16 @@ export default {
         },
       });
     },
-    doSetRtmpList() {
-      this.SetRtmpList(this.rtmpVideoList);
-    },
     /**
      * 删缓冲区
      * @param {string|number|undefined} 有id删id 没id删全部
      */
-    removeVideoCircle(id) {
+    removeVideoCircle() {
       this.entitiesID.forEach((item) => {
         window.earth.entities.removeById(item);
       });
       this.shallPop = false;
+      this.entitiesID = [];
     },
     /**
      * 显隐视频点
@@ -185,10 +185,9 @@ export default {
       this.rtmpOn = now_rtmpOn;
     },
     resourceClick() {
-      this.doSetRtmpList();
       this.$bus.$emit("cesium-3d-videoPointClick", {
-        mp_id: `videopoint_${this.rtmpVideoList[0].mp_id}`,
-        mp_name: this.rtmpVideoList[0].mp_name,
+        mp_id: `videopoint_${this.rtmpListOther[0].mp_id}`,
+        mp_name: this.rtmpListOther[0].mp_name,
       });
     },
   },

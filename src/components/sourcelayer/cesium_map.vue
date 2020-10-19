@@ -190,8 +190,13 @@ export default {
         if (typeof pick.id == "object") {
           //  *****[videoCircle]  监控视频点*****
           if (pick.id.id && ~pick.id.id.indexOf("videopoint_")) {
-            this.$refs.videoCircle.doSetRtmpList();
             this.$bus.$emit("cesium-3d-videoPointClick", {
+              mp_id: pick.id.id,
+              mp_name: pick.id.name,
+            });
+          }
+          if (pick.id.id && ~pick.id.id.indexOf("normalpoint_")) {
+            this.$bus.$emit("cesium-3d-normalPointClick", {
               mp_id: pick.id.id,
               mp_name: pick.id.name,
             });

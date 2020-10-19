@@ -19,6 +19,7 @@
           <header>
             周边
             <el-select
+              v-if="!isCircleVideo"
               class="rtmp-video-range"
               v-model="radiusRange"
               @change="refreshRtmpVideoList"
@@ -32,6 +33,7 @@
               >
               </el-option>
             </el-select>
+            <i v-if="isCircleVideo">{{ radiusRange }}</i>
             米
             <i>({{ fixRtmpList.length }})</i>
             <span
@@ -90,7 +92,7 @@
               :mode="RtmpVideoMode"
               :type="videoSourceTop"
             />
-            <p v-if="!RtmpVideoURL">无视频内容</p>
+            <p v-if="!RtmpVideoURL">正在获取视频内容...</p>
           </div>
         </div>
       </div>
@@ -117,19 +119,24 @@ export default {
       videoSourceTop: true,
       videoOfPrivate: true,
       videoOfPublic: true,
+      isCircleVideo: false,
+      //  激活列表
+      entitiesID: [],
     };
   },
   components: {
     flv,
   },
   computed: {
-    ...mapGetters("map", ["rtmpList"]),
+    ...mapGetters("map", ["rtmpList", "rtmpListOther"]),
     fixRtmpList() {
       const arr = [
         this.videoOfPrivate ? false : undefined,
         this.videoOfPublic ? true : undefined,
       ];
-      return this.rtmpList.filter((v) => ~arr.indexOf(v.private));
+      return (this.isCircleVideo ? this.rtmpListOther : this.rtmpList).filter(
+        (v) => ~arr.indexOf(v.private)
+      );
     },
   },
   async mounted() {
@@ -143,6 +150,7 @@ export default {
       this.$bus.$off("cesium-3d-rtmpFetch");
       this.$bus.$on("cesium-3d-rtmpFetch", async (item) => {
         //  code fetch rtmpURLs
+        this.isCircleVideo = false;
         this.RtmpForcePoint = item;
         const { data } = await getRtmpVideoList(
           item.geometry,
@@ -151,10 +159,28 @@ export default {
         this.SetRtmpList(data);
         data.length && this.openRtmpVideoFrame(data[0]);
         this.doRtmpListFrame = true;
+        this.removeVideoCircle();
+        this.drawVideoCircle(item.geometry, this.radiusRange);
       });
-      // 视频监控点billboard点击事件通信
+      this.$bus.$off("cesium-3d-rtmpFetch-cb");
+      this.$bus.$on("cesium-3d-rtmpFetch-cb", () => {
+        this.removeVideoCircle();
+      });
+      // 穿透事件监控视频点
       this.$bus.$off("cesium-3d-videoPointClick");
       this.$bus.$on("cesium-3d-videoPointClick", (item) => {
+        this.isCircleVideo = true;
+        this.fixRtmpList.length &&
+          this.openRtmpVideoFrame({
+            mp_name: item.mp_name,
+            mp_id: item.mp_id.split("videopoint_")[1],
+          });
+        this.doRtmpListFrame = true;
+      });
+      // 图层监控视频点
+      this.$bus.$off("cesium-3d-normalPointClick");
+      this.$bus.$on("cesium-3d-normalPointClick", (item) => {
+        this.isCircleVideo = false;
         this.fixRtmpList.length &&
           this.openRtmpVideoFrame({
             mp_name: item.mp_name,
@@ -179,9 +205,93 @@ export default {
         });
     },
     async refreshRtmpVideoList() {
-      const { data } = await getRtmpVideoList(this.RtmpForcePoint.geometry, this.radiusRange);
+      const { data } = await getRtmpVideoList(
+        this.RtmpForcePoint.geometry,
+        this.radiusRange
+      );
       this.SetRtmpList(data);
+      this.removeVideoCircle();
+      this.drawVideoCircle(this.RtmpForcePoint.geometry, this.radiusRange);
       // data.length && this.openRtmpVideoFrame(data[0]);
+    },
+    /**
+     * 画缓冲区
+     * @param {string!|number!} 没id不画
+     * @param {geometry!} 没geometry不画
+     * @param {queryRadius!} 监控点查询半径
+     */
+    async drawVideoCircle({ lng, lat }, queryRadius = 200) {
+      // 画圈
+      console.log("[drawVideoCircle]", lng, lat, queryRadius);
+      const circleEntity = new Cesium.Entity({
+        position: Cesium.Cartesian3.fromDegrees(lng, lat, 0),
+        ellipse: {
+          semiMinorAxis: queryRadius * 2,
+          semiMajorAxis: queryRadius * 2,
+          height: 12,
+          material: Cesium.Color.WHITE.withAlpha(0.1),
+          outline: true,
+          outlineWidth: 3,
+          outlineColor: Cesium.Color.WHITE,
+        },
+        name: "videoCircle",
+      });
+      window.earth.entities.add(circleEntity);
+      this.entitiesID.push(circleEntity.id);
+      const circleLabelEntity = new Cesium.Entity({
+        position: Cesium.Cartesian3.fromDegrees(lng, lat, 200),
+        label: {
+          text: `周边${queryRadius}米内监控`,
+          fillColor: Cesium.Color.WHITE,
+          outlineColor: Cesium.Color.BLACK,
+          style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+          font: "10px",
+          scale: 1,
+          outlineWidth: 4,
+          showBackground: true,
+          backgroundColor: Cesium.Color(0.165, 0.165, 0.165, 0.1),
+          distanceDisplayCondition: new Cesium.DistanceDisplayCondition(
+            0,
+            10000
+          ),
+          eyeOffset: new Cesium.Cartesian3(0.0, -260.0, 0),
+          scaleByDistance: new Cesium.NearFarScalar(5000, 1, 10000, 0.5),
+          disableDepthTestDistance: Number.POSITIVE_INFINITY,
+        },
+        name: "normalCircleLabel",
+      });
+      window.earth.entities.add(circleLabelEntity);
+      this.entitiesID.push(circleLabelEntity.id);
+
+      this.rtmpList.forEach((item) => {
+        const videoPointEntity = new Cesium.Entity({
+          id: `normalpoint_${item.mp_id}`,
+          position: Cesium.Cartesian3.fromDegrees(
+            Number(item.lng),
+            Number(item.lat),
+            30
+          ),
+          billboard: {
+            image: "/static/images/map-ico/视频监控.png",
+            width: 40,
+            height: 40,
+            disableDepthTestDistance: Number.POSITIVE_INFINITY,
+          },
+          name: item.mp_name,
+        });
+        window.earth.entities.add(videoPointEntity);
+        this.entitiesID.push(videoPointEntity.id);
+      });
+    },
+    /**
+     * 删缓冲区
+     * @param {string|number|undefined} 有id删id 没id删全部
+     */
+    removeVideoCircle(id) {
+      this.entitiesID.forEach((item) => {
+        window.earth.entities.removeById(item);
+      });
+      this.entitiesID = [];
     },
     /**
      * 保持单一选中
@@ -194,7 +304,6 @@ export default {
      * 关frame 清状态
      */
     closeRtmpVideoFrame() {
-      this.SetRtmpList([]);
       this.doRtmpListFrame = false;
       this.forceRtmpVideo = undefined;
       this.RtmpVideoURL = undefined;

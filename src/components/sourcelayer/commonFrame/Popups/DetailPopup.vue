@@ -70,7 +70,6 @@ export default {
   methods: {
     eventRegsiter() {
       this.$bus.$on("cesium-3d-around-people", ({ id, result }) => {
-        console.log(id, result);
         this.buffer = result;
       });
       this.$bus.$on("cesium-3d-detail-pop-clear", () => {
@@ -147,6 +146,7 @@ export default {
       this.forceEntity = {};
       this.buffer = null;
       this.$bus.$emit("cesium-3d-population-circle", { doDraw: false });
+      this.$bus.$emit("cesium-3d-rtmpFetch-cb");
     },
   },
 };

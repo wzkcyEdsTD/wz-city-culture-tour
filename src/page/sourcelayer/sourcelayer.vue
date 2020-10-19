@@ -34,6 +34,7 @@ export default {
   },
   methods: {
     eventRegsiter() {
+      //  事件传递
       this.$bus.$off("medical-message");
       this.$bus.$on("medical-message", async ({ layer }) => {
         this.$nextTick(() => {

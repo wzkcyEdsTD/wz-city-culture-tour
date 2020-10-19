@@ -211,6 +211,10 @@ export const fetchTourPointList = async ({ commit }) => {
 export const SetRtmpList = ({ commit }, data) => {
   commit(types.SET_RTMP_LIST, data);
 };
+//  设置事件跳转监控视频
+export const SetRtmpListOther = ({ commit }, data) => {
+  commit(types.SET_RTMP_LIST_OTHER, data);
+};
 //  设置弹窗显隐
 export const SetIsInfoFrame = ({ commit }, data) => {
   commit(types.SET_IS_INFO_FRAME, data);

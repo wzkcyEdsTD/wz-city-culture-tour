@@ -89,7 +89,8 @@ export default {
     },
     fixPopup() {
       if (
-        !window.entityMapGeometry || !window.entityMapGeometry["重点景区"] ||
+        !window.entityMapGeometry ||
+        !window.entityMapGeometry["重点景区"] ||
         !~this.forceTrueTopicLabels.indexOf("重点景区")
       ) {
         this.doPopup([]);
@@ -153,6 +154,7 @@ export default {
 
     closePopup() {
       this.$bus.$emit("cesium-3d-population-circle", { doDraw: false });
+      this.$bus.$emit("cesium-3d-rtmpFetch-cb");
       this.shallPop = false;
       this.bufferHash = {};
     },
