@@ -25,7 +25,8 @@
     <Roulette />
     <!-- 功能组件 -->
     <div v-if="mapLoaded && validated">
-      <NanTangModel v-if="showSubFrame == '3d1'" />
+      <DetailedModel v-if="showSubFrame == '3d1'" />
+      <CesiumMapVideo v-if="showSubFrame == '3d1'" />
       <Overview ref="overview" v-if="showSubHubFrame == '3d1'" />
       <TrafficSubwayModel v-if="showSubHubFrame == '3d4'" />
       <VideoCircle ref="videoCircle" />
@@ -46,12 +47,13 @@
 <script>
 import { ServiceUrl } from "config/server/mapConfig";
 import "./basicTools/ThreeTools.less";
+import CesiumMapVideo from "components/sourcelayer/extraModel/CesiumMapVideo/CesiumMapVideo";
 import LayerHub from "components/sourcelayer/layerHub/layerHub";
 import SearchBox from "./layerHub/searchBox";
 import CityIndex from "./CityIndex/index";
 import Roulette from "./roulette/roulette";
-import NanTangModel from "./extraModel/NanTangModel";
-import TrafficSubwayModel from "./extraModel/TrafficSubwayModel";
+import DetailedModel from "./extraModel/Models/DetailedModel";
+import TrafficSubwayModel from "./extraModel/Models/TrafficSubwayModel";
 import InfoFrame from "./commonFrame/InfoFrame/InfoFrame";
 import MedicalPopup from "./commonFrame/Popups/medicalPopup";
 import BayonetPopup from "./commonFrame/Popups/bayonetPopup";
@@ -100,11 +102,12 @@ export default {
     this.forceTreeLabel == "城市总览" && (this.showSubHubFrame = "3d1");
   },
   components: {
+    CesiumMapVideo,
     LayerHub,
     SearchBox,
     CityIndex,
     Roulette,
-    NanTangModel,
+    DetailedModel,
     TrafficSubwayModel,
     InfoFrame,
     MedicalPopup,
@@ -186,7 +189,7 @@ export default {
       // 监听左键点击事件
       handler.setInputAction((e) => {
         const pick = window.earth.scene.pick(e.position);
-        if (!pick.id) return;
+        if (!pick || !pick.id) return;
         if (typeof pick.id == "object") {
           //  *****[videoCircle]  监控视频点*****
           if (pick.id.id && ~pick.id.id.indexOf("videopoint_")) {

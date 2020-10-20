@@ -36,6 +36,7 @@
             <i v-if="isCircleVideo">{{ radiusRange }}</i>
             米
             <i>({{ fixRtmpList.length }})</i>
+            <el-switch v-model="isHightVideo" name="高位" active-text="高位" />
             <span
               @click="videoOfPrivate = !videoOfPrivate"
               :class="{ active: videoOfPrivate }"
@@ -120,6 +121,7 @@ export default {
       videoOfPrivate: true,
       videoOfPublic: true,
       isCircleVideo: false,
+      isHightVideo: false,
       //  激活列表
       entitiesID: [],
     };
@@ -134,8 +136,9 @@ export default {
         this.videoOfPrivate ? false : undefined,
         this.videoOfPublic ? true : undefined,
       ];
+      const isHightVideo = this.isHightVideo ? "高位" : "";
       return (this.isCircleVideo ? this.rtmpListOther : this.rtmpList).filter(
-        (v) => ~arr.indexOf(v.private)
+        (v) => ~arr.indexOf(v.private) && ~v.mp_name.indexOf(isHightVideo)
       );
     },
   },
@@ -151,6 +154,7 @@ export default {
       this.$bus.$on("cesium-3d-rtmpFetch", async (item) => {
         //  code fetch rtmpURLs
         this.isCircleVideo = false;
+        this.isHightVideo = false;
         this.RtmpForcePoint = item;
         const { data } = await getRtmpVideoList(
           item.geometry,
@@ -226,8 +230,8 @@ export default {
       const circleEntity = new Cesium.Entity({
         position: Cesium.Cartesian3.fromDegrees(lng, lat, 0),
         ellipse: {
-          semiMinorAxis: queryRadius * 2,
-          semiMajorAxis: queryRadius * 2,
+          semiMinorAxis: queryRadius,
+          semiMajorAxis: queryRadius,
           height: 12,
           material: Cesium.Color.WHITE.withAlpha(0.1),
           outline: true,
@@ -346,11 +350,11 @@ export default {
 .rtmpVideo {
   .rtmpListFrame {
     height: 55vh;
-    width: 110vh;
+    width: 128vh;
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -60%);
     background-size: 100% 100%;
     background-image: url("/static/images/common/rtmp-frame.png");
     box-sizing: border-box;
@@ -389,7 +393,7 @@ export default {
         display: inline-block;
       }
       .rtmpVideoList {
-        width: 33vh;
+        width: 44vh;
         display: flex;
         flex-direction: column;
         box-sizing: border-box;

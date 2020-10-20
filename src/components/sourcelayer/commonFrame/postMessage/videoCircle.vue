@@ -84,8 +84,8 @@ export default {
       const circleEntity = new Cesium.Entity({
         position: Cesium.Cartesian3.fromDegrees(lng, lat, 0),
         ellipse: {
-          semiMinorAxis: queryRadius * 2,
-          semiMajorAxis: queryRadius * 2,
+          semiMinorAxis: queryRadius,
+          semiMajorAxis: queryRadius,
           height: 12,
           material: Cesium.Color.WHITE.withAlpha(0.1),
           outline: true,
