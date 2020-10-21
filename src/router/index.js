@@ -18,13 +18,8 @@ const router = new Router({
       path: "/",
       redirect: "sourcelayer"
     },
-    // {
-    //   path: "/state",
-    //   name: "state",
-    //   component: resolve => require(["page/state/state"], resolve) // 404页面
-    // },
     {
-      path: "/map", // 风险一张图
+      path: "/map", // 文旅
       name: "Map",
       meta: {
         title: "城市大脑·文化旅游"
@@ -38,7 +33,15 @@ const router = new Router({
         title: "城市大脑·资源图层"
       },
       component: resolve => require(["page/sourcelayer/sourcelayer"], resolve)
-    }
+    },
+    {
+      path: "/trafficlayer", // 交通
+      name: "trafficlayer",
+      meta: {
+        title: "城市大脑·交通图层"
+      },
+      component: resolve => require(["page/trafficlayer/trafficlayer"], resolve)
+    },
   ]
 });
 

@@ -23,7 +23,6 @@ export default {
       currentBaseMapType:""
     };
   },
-  // mixins: [loading],
   computed: {
     ...mapGetters("map", ["currentMapType"]),
   },

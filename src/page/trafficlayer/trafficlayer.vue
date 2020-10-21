@@ -11,11 +11,11 @@
   </div>
 </template>
 <script>
-import CesiumMap from "components/sourcelayer/cesium_map";
+import CesiumMap from "components/trafficlayer/cesium_map";
 import { mapGetters, mapActions } from "vuex";
 
 export default {
-  name: "sourcelayer",
+  name: "Medical",
   data() {
     return {
       mapTollBar: {}, // 地图按钮操作

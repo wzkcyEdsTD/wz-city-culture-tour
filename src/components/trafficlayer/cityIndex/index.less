@@ -1,0 +1,85 @@
+.cityIndex {
+  position: absolute;
+  top: 2vh;
+  left: 2vw;
+  z-index: 7;
+
+  >div {
+    height: 100%;
+  }
+
+  .target-wrapper {
+    height: 100%;
+
+    .header {
+      display: block;
+      height: 4vh;
+      line-height: 4vh;
+      font-family: YouSheBiaoTiHei;
+      font-size: 3.2vh;
+      color: #ffffff;
+      text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.64);
+      position: relative;
+      padding-left: 1.6vh;
+    }
+
+    .header::before {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0.6vh;
+      width: 14vh;
+      height: 1.6vh;
+      z-index: -1;
+      background-image: linear-gradient(90deg, #2acbfe 0%, transparent 100%);
+      transform: skewX(-30deg);
+    }
+
+    .content {
+      .item {
+        display: flex;
+        align-items: flex-start;
+        margin-top: 2vh;
+
+        >img {
+          width: 5vh;
+        }
+
+        >div {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          color: #fff;
+          margin-left: 1.8vh;
+
+          .title {
+            font-size: 1.6vh;
+            font-weight: bold;
+          }
+
+          .desc {
+            margin-top: 0.6vh;
+            font-size: 1.4vh;
+          }
+
+          .number {
+            margin-top: 0.4vh;
+            color: #2acbfe;
+            font-size: 2.8vh;
+            font-family: DIN !important;
+            font-weight: bold;
+
+            span {
+              font-family: DIN !important;
+            }
+          }
+
+          .small {
+            font-size: 1.2vh;
+            font-weight: normal;
+          }
+        }
+      }
+    }
+  }
+}

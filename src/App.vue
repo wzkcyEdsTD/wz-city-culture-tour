@@ -1,18 +1,13 @@
 <template>
   <div id="app">
-    <!-- <m-header></m-header> -->
     <loading v-show="isLoading"></loading>
     <div class="content">
-      <!--      <keep-alive>-->
       <router-view />
-      <!--      </keep-alive>-->
     </div>
   </div>
 </template>
 
 <script>
-// import MHeader from "components/m-header/m-header";
-// import MHeader from "components/m-header/m-header4";
 import Loading from "components/loading/loading";
 import { getUserInfo } from "./api/public/public";
 import { mapGetters, mapActions, mapState } from "vuex";
@@ -44,7 +39,7 @@ export default {
         let data = e.data;
         if (!data.layer) return;
         console.log("message", e);
-        this.$bus.$emit("medical-message", {
+        this.$bus.$emit("source-message", {
           layer: data.layer,
         });
       },

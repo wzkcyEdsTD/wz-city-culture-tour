@@ -7,6 +7,8 @@
  * @FilePath: \wz-city-culture-tour\src\config\server\mapConfig.js
  */
 export const ServiceUrl = {
+  //  温州全市域白模
+  WZBaimo: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-RESPYQSY/rest/realspace/datas/RES_PY_QSY/config",
   //  夜间模型
   WZBaimo_OBJ: [
     {
