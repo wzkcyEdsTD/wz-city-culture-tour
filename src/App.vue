@@ -39,9 +39,8 @@ export default {
         let data = e.data;
         if (!data.layer) return;
         console.log("message", e);
-        this.$bus.$emit("source-message", {
-          layer: data.layer,
-        });
+        window._POST_MESSAGE_ = data.layer;
+        this.$bus.$emit("source-message");
       },
       false
     );

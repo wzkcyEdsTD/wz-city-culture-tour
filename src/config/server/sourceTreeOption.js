@@ -14,8 +14,8 @@ const SERVER_DEFAULT_DATA = SERVER_HOST + SW_DATA;
 const MEDICAL_TOPIC = [
   {
     label: "医疗场所",
-    dataset: "JZJZNL_YLJH_JHCS_LC",
-    // dataset: "JZJZNL_YLJH_JHCS",
+    // dataset: "JZJZNL_YLJH_JHCS_LC",
+    dataset: "JZJZNL_YLJH_JHCS",
     withExtraData: "medicalList",
     withExtraDataGeometry: "medicalListWithGeometry",
     saveExtraDataByGeometry: "setMedicalListWithGeometry",

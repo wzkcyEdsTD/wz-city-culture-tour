@@ -123,15 +123,7 @@ export default {
         "SetForceTrueTopicLabelId",
       ],
     ]),
-    eventRegsiter() {
-      /**
-       * 事件传递打开对应专题图层
-       */
-      this.$bus.$off("check-hub");
-      this.$bus.$on("check-hub", ({ key }) => {
-        this.SetForceTreeLabel(key);
-      });
-    },
+    eventRegsiter() {},
     /**
      * 一级菜单点击切换
      * 默认选中二级菜单第一个点

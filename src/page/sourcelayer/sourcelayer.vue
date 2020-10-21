@@ -35,18 +35,13 @@ export default {
     eventRegsiter() {
       //  事件传递
       this.$bus.$off("source-message");
-      this.$bus.$on("source-message", async ({ layer }) => {
+      this.$bus.$on("source-message", () => {
         this.$nextTick(() => {
+          const layer = window._POST_MESSAGE_;
           this.$bus.$emit("check-hub", {
             key: layer.sourceName,
           });
-          this.$bus.$emit("cesium-3d-video-circle", {
-            geometry: {
-              lng: layer.geometry[0],
-              lat: layer.geometry[1],
-            },
-            queryRadius: layer.radius,
-          });
+          this.$bus.$emit("cesium-3d-video-circle");
         });
       });
     },

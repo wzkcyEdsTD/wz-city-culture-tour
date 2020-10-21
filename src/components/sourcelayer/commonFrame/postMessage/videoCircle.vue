@@ -35,7 +35,10 @@ export default {
   computed: {
     ...mapGetters("map", ["rtmpListOther"]),
   },
-  mounted() {
+  created() {
+    if (window._POST_MESSAGE_) {
+      this.doDraw();
+    }
     this.eventRegsiter();
   },
   methods: {
@@ -43,14 +46,24 @@ export default {
     eventRegsiter() {
       const that = this;
       this.$bus.$off("cesium-3d-video-circle");
-      this.$bus.$on("cesium-3d-video-circle", ({ geometry, queryRadius }) => {
-        this.removeVideoCircle();
-        this.geometry = geometry;
-        this.queryRadius = queryRadius;
-        this.shallPop = true;
-        this.doPopup();
-        this.drawVideoCircle(geometry, queryRadius);
+      this.$bus.$on("cesium-3d-video-circle", (layer) => {
+        window._POST_MESSAGE_ && this.doDraw();
       });
+    },
+    doDraw() {
+      const layer = window._POST_MESSAGE_;
+      const geometry = {
+        lng: layer.geometry[0],
+        lat: layer.geometry[1],
+      };
+      const queryRadius = layer.radius;
+      this.removeVideoCircle();
+      this.geometry = geometry;
+      this.queryRadius = queryRadius;
+      this.shallPop = true;
+      this.doPopup();
+      this.drawVideoCircle(geometry, queryRadius);
+      window._POST_MESSAGE_ = undefined;
     },
     doPopup() {
       let position = Cesium.Cartesian3.fromDegrees(

@@ -32,24 +32,7 @@ export default {
     this.eventRegsiter();
   },
   methods: {
-    eventRegsiter() {
-      //  事件传递
-      this.$bus.$off("source-message");
-      this.$bus.$on("source-message", async ({ layer }) => {
-        this.$nextTick(() => {
-          this.$bus.$emit("check-hub", {
-            key: layer.sourceName,
-          });
-          this.$bus.$emit("cesium-3d-video-circle", {
-            geometry: {
-              lng: layer.geometry[0],
-              lat: layer.geometry[1],
-            },
-            queryRadius: layer.radius,
-          });
-        });
-      });
-    },
+    eventRegsiter() {},
     // 点击地图按钮的操作传值给地图
     setMapTollBar(obj) {
       this.mapTollBar = obj;
