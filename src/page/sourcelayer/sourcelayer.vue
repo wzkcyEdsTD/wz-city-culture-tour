@@ -1,6 +1,6 @@
 <template>
   <div class="page-map">
-    <div class="cesium-map" v-if="currentMapType == 'cesiumMap'">
+    <div class="cesium-map">
       <cesium-map ref="cesiumMap" />
     </div>
     <div class="mask-wrapper">
@@ -16,19 +16,7 @@ import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "sourcelayer",
-  data() {
-    return {
-      mapTollBar: {}, // 地图按钮操作
-      currentBaseMapType: "",
-    };
-  },
-  computed: {
-    ...mapGetters("map", ["currentMapType"]),
-  },
   mounted() {
-    window.onresize = () => {
-      this.timer && (this.timer = false);
-    };
     this.eventRegsiter();
   },
   methods: {
@@ -45,15 +33,10 @@ export default {
         });
       });
     },
-    // 点击地图按钮的操作传值给地图
-    setMapTollBar(obj) {
-      this.mapTollBar = obj;
-    },
   },
   components: {
     CesiumMap,
   },
-  watch: {},
 };
 </script>
 <style scoped lang="less">
@@ -71,10 +54,8 @@ export default {
     }
   }
   .cesium-map {
-    // position: absolute;
     height: 100%;
     width: 100%;
-    // background-color: #204f77;
   }
   .box {
     z-index: 2;

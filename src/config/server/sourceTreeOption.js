@@ -314,3 +314,17 @@ export const CESIUM_TREE_OPTION = [
     })
   },
 ];
+export const CESIUM_TREE_TRAFFIC_OPTION = [{
+  id: "交通专题",
+  label: "交通专题",
+  children: TRAFFIC_TOPIC.map(v => {
+    return {
+      ...v,
+      id: v.label,
+      icon: v.label,
+      url: SERVER_DEFAULT_DATA,
+      type: v.type || "mvt",
+      newdataset: `${SW_DATA_NAME}${v.dataset}`
+    };
+  })
+}]

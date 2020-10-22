@@ -12,8 +12,6 @@
     <!-- 气泡框 -->
     <div class="popup-groups">
       <BayonetPopup ref="bayonetPopup" />
-      <!-- <TourPointPopup ref="tourPointPopup" /> -->
-      <!-- <MedicalPopup ref="medicalPopup" /> -->
       <DetailPopup ref="detailPopup" />
       <StationPopup ref="stationPopup" />
     </div>
@@ -21,17 +19,13 @@
     <CityIndex ref="totalTarget" />
     <!-- 模块切换 -->
     <LayerHub ref="layerHub" v-if="initDataLoaded" />
-    <!-- 时间转盘 -->
-    <!-- <Roulette /> -->
     <!-- 功能组件 -->
     <div v-if="mapLoaded && validated">
       <DetailedModel v-if="showSubFrame == '3d1'" />
       <CesiumMapVideo v-if="showSubFrame == '3d1'" />
       <!-- <Overview ref="overview" v-if="showSubHubFrame == '3d1'" /> -->
       <TrafficSubwayModel v-if="showSubHubFrame == '3d4'" />
-      <!-- <VideoCircle ref="videoCircle" /> -->
       <RoadLine ref="roadline" />
-      <!-- <InfoFrame ref="infoframe" v-show="isInfoFrame" /> -->
       <transition name="fade">
         <div v-show="!isOverview">
           <RtmpVideo />
@@ -40,7 +34,6 @@
         </div>
       </transition>
     </div>
-    <AuthFailPopup ref="authFailPopup" v-if="authFailshallPop" />
   </div>
 </template>
 
@@ -50,20 +43,14 @@ import CesiumMapVideo from "components/sourcelayer/extraModel/CesiumMapVideo/Ces
 import LayerHub from "components/sourcelayer/layerHub/layerHub";
 import SearchBox from "./layerHub/searchBox";
 import CityIndex from "./CityIndex/index";
-// import Roulette from "./roulette/roulette";
 import DetailedModel from "./extraModel/Models/DetailedModel";
 import TrafficSubwayModel from "./extraModel/Models/TrafficSubwayModel";
-// import InfoFrame from "./commonFrame/InfoFrame/InfoFrame";
-// import MedicalPopup from "./commonFrame/Popups/medicalPopup";
 import BayonetPopup from "./commonFrame/Popups/bayonetPopup";
 import StationPopup from "./commonFrame/Popups/stationPopup";
 import DetailPopup from "./commonFrame/Popups/DetailPopup";
-// import TourPointPopup from "./commonFrame/Popups/tourPointPopup";
 import RtmpVideo from "./extraModel/RtmpVideo/RtmpVideo";
 import Population from "./extraModel/Population/Population";
 import RoadLine from "./extraModel/PolylineTrailLink/RoadLine";
-// import VideoCircle from "./commonFrame/postMessage/videoCircle";
-import AuthFailPopup from "./commonFrame/AuthFailPopup/AuthFailPopup";
 // import Overview from "./extraModel/Overview/Overview.vue";
 import { getCurrentExtent, isContainByExtent } from "./commonFrame/mapTool";
 import { CenterPoint } from "mock/overview.js";
@@ -88,7 +75,6 @@ export default {
       mapLoaded: false,
       validated: false,
       isInfoFrame: false,
-      authFailshallPop: false,
     };
   },
   computed: {
@@ -105,20 +91,14 @@ export default {
     LayerHub,
     SearchBox,
     CityIndex,
-    // Roulette,
     DetailedModel,
     TrafficSubwayModel,
-    // InfoFrame,
-    // MedicalPopup,
     BayonetPopup,
     StationPopup,
-    // TourPointPopup,
     DetailPopup,
     RtmpVideo,
     Population,
     RoadLine,
-    // VideoCircle,
-    AuthFailPopup,
     // Overview,
   },
   created() {
@@ -142,19 +122,11 @@ export default {
   },
   methods: {
     async validate() {
-      // let authorCode = this.$route.query.authorCode;
-      // if (!authorCode) return (this.authFailshallPop = true);
-      // const res = await doValidation(authorCode);
-      // res ? (this.validated = true) : (this.authFailshallPop = true);
       this.validated = true;
     },
     initPostRender() {
       window.earth.scene.postRender.addEventListener(() => {
         if (!window.earth || !this.mapLoaded || !this.validated) return;
-        //  *****[medicalList] 医疗点位*****
-        // if (this.$refs.medicalPopup) {
-        //   this.$refs.medicalPopup.fixPopup();
-        // }
         //  *****[bayonetList] 卡口点位*****
         if (this.$refs.bayonetPopup) {
           this.$refs.bayonetPopup.fixPopup();
@@ -163,17 +135,10 @@ export default {
         if (this.$refs.stationPopup) {
           this.$refs.stationPopup.fixPopup();
         }
-        //  *****[stationList] 景区点位*****
-        // if (this.$refs.tourPointPopup) {
-        //   this.$refs.tourPointPopup.fixPopup();
-        // }
+
         //  *****[indexPoints]  城市总览指标*****
         // if (this.isOverview && this.$refs.overview.$refs.overviewNow) {
         //   this.$refs.overview.$refs.overviewNow.doIndexPoints();
-        // }
-        //  *****[videoCircle]  事件传递点位*****
-        // if (this.$refs.videoCircle && this.$refs.videoCircle.shallPop) {
-        //   this.$refs.videoCircle.doPopup();
         // }
         //  *****[detailPopup]  详情查看点位*****
         if (this.$refs.detailPopup) {

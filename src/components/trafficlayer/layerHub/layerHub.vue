@@ -42,7 +42,7 @@
     <div class="bottom-topics-container">
       <ul class="labels">
         <li
-          v-for="(item, i) in CESIUM_TREE_OPTION"
+          v-for="(item, i) in CESIUM_TREE_TRAFFIC_OPTION"
           :key="i"
           :class="{
             item: true,
@@ -68,7 +68,7 @@ import KgLegend from "./components/KgLegend";
 import { treeDrawTool, fixTreeWithExtra } from "./TreeDrawTool";
 import { getIserverFields } from "api/iServerAPI";
 import {
-  CESIUM_TREE_OPTION,
+  CESIUM_TREE_TRAFFIC_OPTION,
   CESIUM_TREE_EXTRA_DATA,
 } from "config/server/sourceTreeOption";
 const Cesium = window.Cesium;
@@ -78,7 +78,7 @@ export default {
   data() {
     return {
       //  底部树
-      CESIUM_TREE_OPTION,
+      CESIUM_TREE_TRAFFIC_OPTION,
       forceTreeTopic: [],
       //  资源选中层
       swiperOptions: {
@@ -134,7 +134,7 @@ export default {
         .filter((v) => ~this.forceTrueTopicLabels.indexOf(v.id))
         .map((v) => this.nodeCheckChange(v, false));
       //  处理新图层
-      const Topics = this.CESIUM_TREE_OPTION.filter(
+      const Topics = this.CESIUM_TREE_TRAFFIC_OPTION.filter(
         (v) => v.label == this.forceTreeLabel
       );
       this.forceTreeTopic = Topics.length ? Topics[0].children : [];
