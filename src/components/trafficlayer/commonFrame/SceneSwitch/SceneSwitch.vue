@@ -4,7 +4,7 @@
  * @LastEditTime: 2020-09-15 11:05:13
  * @LastEditors: eds
  * @Description:
- * @FilePath: \wz-city-culture-tour\src\components\sourcelayer\commonFrame\SceneSwitch\SceneSwitch.vue
+ * @FilePath: \wz-city-culture-tour\src\components\trafficlayer\commonFrame\SceneSwitch\SceneSwitch.vue
 -->
 <template>
   <div class="scene-switch">
@@ -36,7 +36,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("map", ["nightMode", "cameraMode", "forceTime"]),
+    ...mapGetters("traffic", ["nightMode", "cameraMode", "forceTime"]),
     label() {
       return this.nightMode ? "夜晚" : "白天";
     },
@@ -53,7 +53,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions("map", ["SetNightMode", "SetCameraMode"]),
+    ...mapActions("traffic", ["SetNightMode", "SetCameraMode"]),
     changeNightMode() {
       if (this.forceTime != "now") return;
       this.SetNightMode(!this.nightMode);

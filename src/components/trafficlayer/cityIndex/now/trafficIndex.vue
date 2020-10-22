@@ -82,7 +82,7 @@ export default {
   name: "trafficIndex",
   components: { DynamicNum },
   computed: {
-    ...mapGetters("map", ["WzTrafficData"]),
+    ...mapGetters("traffic", ["WzTrafficData"]),
     isTraffic() {
       const query = parseQueryString(window.location.href);
       return query.traffic;
@@ -92,7 +92,7 @@ export default {
     await this.fetchTrafficData();
   },
   methods: {
-    ...mapActions("map", ["SetTrafficData"]),
+    ...mapActions("traffic", ["SetTrafficData"]),
     /**
      * 概览数据
      */

@@ -4,7 +4,7 @@
  * @LastEditTime: 2020-09-03 21:24:20
  * @LastEditors: eds
  * @Description:
- * @FilePath: \wz-city-culture-tour\src\components\sourcelayer\commonFrame\stationPopup.vue
+ * @FilePath: \wz-city-culture-tour\src\components\trafficlayer\commonFrame\stationPopup.vue
 -->
 <template>
   <div id="trackPopUp" v-if="shallPop">
@@ -73,7 +73,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("map", ["stationList", "forceTrueTopicLabels"]),
+    ...mapGetters("traffic", ["stationList", "forceTrueTopicLabels"]),
   },
   async created() {
     await this.fetchStationList();
@@ -86,7 +86,7 @@ export default {
     this.eventRegsiter();
   },
   methods: {
-    ...mapActions("map", ["fetchStationList"]),
+    ...mapActions("traffic", ["fetchStationList"]),
     eventRegsiter() {
       this.$bus.$on("cesium-3d-around-people", ({ id, result }) => {
         this.bufferHash[id] = result;

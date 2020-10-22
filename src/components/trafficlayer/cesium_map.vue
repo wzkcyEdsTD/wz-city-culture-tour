@@ -4,7 +4,7 @@
  * @LastEditTime: 2020-09-15 11:01:20
  * @LastEditors: eds
  * @Description:
- * @FilePath: \wz-city-culture-tour\src\components\sourcelayer\cesium_map.vue
+ * @FilePath: \wz-city-culture-tour\src\components\trafficlayer\cesium_map.vue
 -->
 <template>
   <div class="cesiumContainer">
@@ -17,42 +17,43 @@
     </div>
     <!-- 城市各类指标 -->
     <CityIndex ref="totalTarget" />
+    <!-- 搜索框 -->
+    <SearchBox ref="searchBox" />
     <!-- 模块切换 -->
     <LayerHub ref="layerHub" v-if="initDataLoaded" />
     <!-- 功能组件 -->
     <div v-if="mapLoaded && validated">
       <DetailedModel v-if="showSubFrame == '3d1'" />
       <CesiumMapVideo v-if="showSubFrame == '3d1'" />
-      <!-- <Overview ref="overview" v-if="showSubHubFrame == '3d1'" /> -->
       <TrafficSubwayModel v-if="showSubHubFrame == '3d4'" />
       <RoadLine ref="roadline" />
-      <transition name="fade">
-        <div v-show="!isOverview">
-          <RtmpVideo />
-          <Population />
-          <SearchBox ref="searchBox" />
-        </div>
-      </transition>
+      <RtmpVideo />
+      <Population />
+      <!-- 监控实况 -->
+      <RtmpVideoGrid />
     </div>
   </div>
 </template>
 
 <script>
 import { ServiceUrl } from "config/server/mapConfig";
-import CesiumMapVideo from "components/sourcelayer/extraModel/CesiumMapVideo/CesiumMapVideo";
-import LayerHub from "components/sourcelayer/layerHub/layerHub";
-import SearchBox from "./layerHub/searchBox";
-import CityIndex from "./CityIndex/index";
-import DetailedModel from "./extraModel/Models/DetailedModel";
-import TrafficSubwayModel from "./extraModel/Models/TrafficSubwayModel";
-import BayonetPopup from "./commonFrame/Popups/bayonetPopup";
-import StationPopup from "./commonFrame/Popups/stationPopup";
-import DetailPopup from "./commonFrame/Popups/DetailPopup";
-import RtmpVideo from "./extraModel/RtmpVideo/RtmpVideo";
-import Population from "./extraModel/Population/Population";
-import RoadLine from "./extraModel/PolylineTrailLink/RoadLine";
-// import Overview from "./extraModel/Overview/Overview.vue";
-import { getCurrentExtent, isContainByExtent } from "./commonFrame/mapTool";
+import CesiumMapVideo from "components/trafficlayer/extraModel/CesiumMapVideo/CesiumMapVideo";
+import LayerHub from "components/trafficlayer/layerHub/layerHub";
+import SearchBox from "components/trafficlayer/layerHub/searchBox";
+import CityIndex from "components/trafficlayer/CityIndex/index";
+import DetailedModel from "components/trafficlayer/extraModel/Models/DetailedModel";
+import TrafficSubwayModel from "components/trafficlayer/extraModel/Models/TrafficSubwayModel";
+import BayonetPopup from "components/trafficlayer/commonFrame/Popups/bayonetPopup";
+import StationPopup from "components/trafficlayer/commonFrame/Popups/stationPopup";
+import DetailPopup from "components/trafficlayer/commonFrame/Popups/DetailPopup";
+import RtmpVideo from "components/trafficlayer/extraModel/RtmpVideo/RtmpVideo";
+import Population from "components/trafficlayer/extraModel/Population/Population";
+import RoadLine from "components/trafficlayer/extraModel/PolylineTrailLink/RoadLine";
+import RtmpVideoGrid from "components/trafficlayer/extraModel/RtmpVideoGrid/RtmpVideoGrid";
+import {
+  getCurrentExtent,
+  isContainByExtent,
+} from "components/trafficlayer/commonFrame/mapTool";
 import { CenterPoint } from "mock/overview.js";
 import {
   mapConfigInit,
@@ -62,7 +63,7 @@ import {
   mapBaimoLayerInit,
   mapRoadLampLayerInit,
   mapRoadLampLayerTurn,
-} from "./cesium_map_init";
+} from "components/trafficlayer/cesium_map_init";
 import { doValidation } from "api/validation/validation";
 import { mapGetters } from "vuex";
 const Cesium = window.Cesium;
@@ -78,13 +79,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("map", ["initDataLoaded", "forceTreeLabel"]),
-    isOverview() {
-      return this.showSubHubFrame == "3d1";
-    },
-  },
-  created() {
-    this.forceTreeLabel == "城市总览" && (this.showSubHubFrame = "3d1");
+    ...mapGetters("traffic", ["initDataLoaded", "forceTreeLabel"]),
   },
   components: {
     CesiumMapVideo,
@@ -99,7 +94,7 @@ export default {
     RtmpVideo,
     Population,
     RoadLine,
-    // Overview,
+    RtmpVideoGrid,
   },
   created() {
     //  点位信息 hash
@@ -135,11 +130,6 @@ export default {
         if (this.$refs.stationPopup) {
           this.$refs.stationPopup.fixPopup();
         }
-
-        //  *****[indexPoints]  城市总览指标*****
-        // if (this.isOverview && this.$refs.overview.$refs.overviewNow) {
-        //   this.$refs.overview.$refs.overviewNow.doIndexPoints();
-        // }
         //  *****[detailPopup]  详情查看点位*****
         if (this.$refs.detailPopup) {
           this.$refs.detailPopup.renderForceEntity();

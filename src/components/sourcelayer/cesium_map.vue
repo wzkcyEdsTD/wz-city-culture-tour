@@ -19,6 +19,8 @@
     </div>
     <!-- 城市各类指标 -->
     <CityIndex ref="totalTarget" />
+    <!-- 搜索框 -->
+    <div v-show="!isOverview"><SearchBox ref="searchBox" /></div>
     <!-- 模块切换 -->
     <LayerHub ref="layerHub" v-if="initDataLoaded" />
     <!-- 时间转盘 -->
@@ -32,13 +34,10 @@
       <VideoCircle ref="videoCircle" />
       <RoadLine ref="roadline" />
       <InfoFrame ref="infoframe" v-show="isInfoFrame" />
-      <transition name="fade">
-        <div v-show="!isOverview">
-          <RtmpVideo />
-          <Population />
-          <SearchBox ref="searchBox" />
-        </div>
-      </transition>
+      <div v-show="!isOverview">
+        <RtmpVideo />
+        <Population />
+      </div>
     </div>
     <AuthFailPopup ref="authFailPopup" v-if="authFailshallPop" />
   </div>
@@ -48,24 +47,27 @@
 import { ServiceUrl } from "config/server/mapConfig";
 import CesiumMapVideo from "components/sourcelayer/extraModel/CesiumMapVideo/CesiumMapVideo";
 import LayerHub from "components/sourcelayer/layerHub/layerHub";
-import SearchBox from "./layerHub/searchBox";
-import CityIndex from "./CityIndex/index";
-import Roulette from "./roulette/roulette";
-import DetailedModel from "./extraModel/Models/DetailedModel";
-import TrafficSubwayModel from "./extraModel/Models/TrafficSubwayModel";
-import InfoFrame from "./commonFrame/InfoFrame/InfoFrame";
-import MedicalPopup from "./commonFrame/Popups/medicalPopup";
-import BayonetPopup from "./commonFrame/Popups/bayonetPopup";
-import StationPopup from "./commonFrame/Popups/stationPopup";
-import DetailPopup from "./commonFrame/Popups/DetailPopup";
-import TourPointPopup from "./commonFrame/Popups/tourPointPopup";
-import RtmpVideo from "./extraModel/RtmpVideo/RtmpVideo";
-import Population from "./extraModel/Population/Population";
-import RoadLine from "./extraModel/PolylineTrailLink/RoadLine";
-import VideoCircle from "./commonFrame/postMessage/videoCircle";
-import AuthFailPopup from "./commonFrame/AuthFailPopup/AuthFailPopup";
-import Overview from "./extraModel/Overview/Overview.vue";
-import { getCurrentExtent, isContainByExtent } from "./commonFrame/mapTool";
+import SearchBox from "components/sourcelayer/layerHub/searchBox";
+import CityIndex from "components/sourcelayer/CityIndex/index";
+import Roulette from "components/sourcelayer/roulette/roulette";
+import DetailedModel from "components/sourcelayer/extraModel/Models/DetailedModel";
+import TrafficSubwayModel from "components/sourcelayer/extraModel/Models/TrafficSubwayModel";
+import InfoFrame from "components/sourcelayer/commonFrame/InfoFrame/InfoFrame";
+import MedicalPopup from "components/sourcelayer/commonFrame/Popups/medicalPopup";
+import BayonetPopup from "components/sourcelayer/commonFrame/Popups/bayonetPopup";
+import StationPopup from "components/sourcelayer/commonFrame/Popups/stationPopup";
+import DetailPopup from "components/sourcelayer/commonFrame/Popups/DetailPopup";
+import TourPointPopup from "components/sourcelayer/commonFrame/Popups/tourPointPopup";
+import RtmpVideo from "components/sourcelayer/extraModel/RtmpVideo/RtmpVideo";
+import Population from "components/sourcelayer/extraModel/Population/Population";
+import RoadLine from "components/sourcelayer/extraModel/PolylineTrailLink/RoadLine";
+import VideoCircle from "components/sourcelayer/commonFrame/postMessage/videoCircle";
+import AuthFailPopup from "components/sourcelayer/commonFrame/AuthFailPopup/AuthFailPopup";
+import Overview from "components/sourcelayer/extraModel/Overview/Overview.vue";
+import {
+  getCurrentExtent,
+  isContainByExtent,
+} from "components/sourcelayer/commonFrame/mapTool";
 import { CenterPoint } from "mock/overview.js";
 import {
   mapConfigInit,
@@ -75,7 +77,7 @@ import {
   mapBaimoLayerInit,
   mapRoadLampLayerInit,
   mapRoadLampLayerTurn,
-} from "./cesium_map_init";
+} from "components/sourcelayer/cesium_map_init";
 import { doValidation } from "api/validation/validation";
 import { mapGetters } from "vuex";
 const Cesium = window.Cesium;

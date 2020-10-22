@@ -132,7 +132,7 @@
         <div>
           <div class="title">
             规上工业用电量
-            <span class="small">(%)</span>
+            <span class="small">(万千瓦时)</span>
           </div>
           <div class="desc">
             温州全市 /

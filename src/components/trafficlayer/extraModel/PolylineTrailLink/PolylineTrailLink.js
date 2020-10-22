@@ -4,7 +4,7 @@
  * @LastEditTime: 2020-09-10 20:25:30
  * @LastEditors: eds
  * @Description:
- * @FilePath: \wz-city-culture-tour\src\components\sourcelayer\extraModel\PolylineTrailLink\PolylineTrailLink.js
+ * @FilePath: \wz-city-culture-tour\src\components\trafficlayer\extraModel\PolylineTrailLink\PolylineTrailLink.js
  */
 Object.defineProperties(PolylineTrailLinkMaterialProperty.prototype, {
   isConstant: {

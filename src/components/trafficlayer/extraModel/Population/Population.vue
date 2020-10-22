@@ -4,7 +4,7 @@
  * @LastEditTime: 2020-09-03 14:07:34
  * @LastEditors: eds
  * @Description:
- * @FilePath: \wz-city-culture-tour\src\components\sourcelayer\extraModel\Population\Population.vue
+ * @FilePath: \wz-city-culture-tour\src\components\trafficlayer\extraModel\Population\Population.vue
 -->
 <template>
   <div class="population"></div>

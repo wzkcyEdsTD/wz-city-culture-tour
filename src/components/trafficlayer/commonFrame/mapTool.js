@@ -4,7 +4,7 @@
  * @LastEditTime: 2020-09-01 16:01:55
  * @LastEditors: eds
  * @Description:
- * @FilePath: \wz-city-culture-tour\src\components\sourcelayer\commonFrame\mapTool.js
+ * @FilePath: \wz-city-culture-tour\src\components\trafficlayer\commonFrame\mapTool.js
  */
 
 /**

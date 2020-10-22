@@ -8,10 +8,7 @@
 -->
 <template>
   <div class="bottom-wrapper">
-    <div
-      class="bottom-layers-container"
-      v-show="forceTreeLabel != '城市总览' && forceTreeTopic.length"
-    >
+    <div class="bottom-layers-container">
       <div class="swiper-buttons swiper-button-left"></div>
       <swiper ref="mySwiper" class="layers" :options="swiperOptions">
         <swiper-slide
@@ -82,7 +79,7 @@ export default {
       forceTreeTopic: [],
       //  资源选中层
       swiperOptions: {
-        slidesPerView: 8,
+        slidesPerView: 5,
         navigation: {
           nextEl: ".swiper-button-right",
           prevEl: ".swiper-button-left",
@@ -94,7 +91,7 @@ export default {
   },
   components: { KgLegend },
   computed: {
-    ...mapGetters("map", [
+    ...mapGetters("traffic", [
       "forceTreeLabel",
       "forceTrueTopicLabels",
       ...CESIUM_TREE_EXTRA_DATA,
@@ -114,7 +111,7 @@ export default {
     this.eventRegsiter();
   },
   methods: {
-    ...mapActions("map", [
+    ...mapActions("traffic", [
       ...[
         "SetForceIndex",
         "SetForceTime",

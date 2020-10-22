@@ -4,7 +4,7 @@
  * @LastEditTime: 2020-09-15 11:07:30
  * @LastEditors: eds
  * @Description:
- * @FilePath: \wz-city-culture-tour\src\components\sourcelayer\treeTool\TreeTool.vue
+ * @FilePath: \wz-city-culture-tour\src\components\trafficlayer\treeTool\TreeTool.vue
 -->
 <template>
   <div class="search-box" v-show="searchBoxVisible">
@@ -90,9 +90,12 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("map", [...CESIUM_TREE_EXTRA_DATA, "forceTrueTopicLabelId"]),
+    ...mapGetters("traffic", [
+      ...CESIUM_TREE_EXTRA_DATA,
+      "forceTrueTopicLabelId",
+    ]),
   },
-  async mounted() {
+  created() {
     this.eventRegsiter();
   },
   methods: {

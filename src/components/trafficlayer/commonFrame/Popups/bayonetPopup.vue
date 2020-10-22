@@ -4,7 +4,7 @@
  * @LastEditTime: 2020-09-03 21:24:20
  * @LastEditors: eds
  * @Description:
- * @FilePath: \wz-city-culture-tour\src\components\sourcelayer\commonFrame\bayonetPopup.vue
+ * @FilePath: \wz-city-culture-tour\src\components\trafficlayer\commonFrame\bayonetPopup.vue
 -->
 <template>
   <div id="trackPopUp" v-if="shallPop">
@@ -91,7 +91,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("map", ["bayonetList", "forceTrueTopicLabels"]),
+    ...mapGetters("traffic", ["bayonetList", "forceTrueTopicLabels"]),
   },
   async created() {
     await this.fetchBayonetList();
@@ -104,7 +104,7 @@ export default {
     this.eventRegsiter();
   },
   methods: {
-    ...mapActions("map", ["fetchBayonetList"]),
+    ...mapActions("traffic", ["fetchBayonetList"]),
     eventRegsiter() {
       this.$bus.$on("cesium-3d-around-people", ({ id, result }) => {
         this.bufferHash[id] = result;

@@ -4,7 +4,7 @@
  * @LastEditTime: 2020-09-11 17:27:50
  * @LastEditors: eds
  * @Description:
- * @FilePath: \wz-city-culture-tour\src\components\sourcelayer\extraModel\DetailedModel.vue
+ * @FilePath: \wz-city-culture-tour\src\components\trafficlayer\extraModel\DetailedModel.vue
 -->
 <template>
   <div class="nanTangModel"></div>

@@ -4,7 +4,7 @@
  * @LastEditTime: 2020-09-04 16:33:01
  * @LastEditors: eds
  * @Description:
- * @FilePath: \wz-city-culture-tour\src\components\sourcelayer\commonFrame\DetailPopup\DetailPopup.vue
+ * @FilePath: \wz-city-culture-tour\src\components\trafficlayer\commonFrame\DetailPopup\DetailPopup.vue
 -->
 <template>
   <div id="forcePopUp" v-show="forcePosition.x && forcePosition.y">
