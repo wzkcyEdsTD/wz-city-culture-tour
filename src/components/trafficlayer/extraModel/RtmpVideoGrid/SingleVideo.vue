@@ -98,11 +98,15 @@ export default {
     }
     > .el-input {
       > .el-input__inner {
-        height: 2.4vh !important;
-        line-height: 2vh !important;
+        height: 2.6vh !important;
+        line-height: 2.6vh !important;
         font-size: 1.4vh;
-        font-weight: bolder;
-        color: black;
+        // font-weight: bolder;
+        color: white;
+        background: url(/static/images/common/search-input.png) no-repeat center;
+        background-size: 100% 100%;
+        border: 0 !important;
+        user-select: none;
       }
       > .el-input__suffix {
         right: 0vh;
@@ -113,7 +117,7 @@ export default {
           }
           > .el-select__caret {
             &::before {
-              color: black;
+              color: white;
               font-size: 1vh;
             }
           }
