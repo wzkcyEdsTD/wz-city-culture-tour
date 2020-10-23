@@ -38,7 +38,7 @@ export default {
   right: 2vh;
   width: 60vh;
   bottom: 0vh;
-  z-index: 1;
+  z-index: 11;
   box-sizing: border-box;
   padding: 1vh;
   display: flex;

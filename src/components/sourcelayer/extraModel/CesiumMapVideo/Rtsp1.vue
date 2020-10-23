@@ -46,7 +46,7 @@ export default {
           this.initVideoToMap();
           this.videoTimer = setInterval(() => {
             if (this.video) {
-              player.play();
+              player && player.play();
             } else {
               clearInterval(this.videoTimer);
             }
