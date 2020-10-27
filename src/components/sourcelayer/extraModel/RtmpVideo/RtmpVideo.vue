@@ -359,7 +359,7 @@ export default {
     background-image: url("/static/images/common/rtmp-frame.png");
     box-sizing: border-box;
     padding: 2.6vh 4.4vh 2vh 4.4vh;
-    z-index: 10;
+    z-index: 12;
     color: white;
     > header {
       height: 4vh;

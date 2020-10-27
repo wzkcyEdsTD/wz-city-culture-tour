@@ -21,7 +21,7 @@
 </template>
 
 <script>
-const LOOT = 30;
+const RATE = 30;
 import { mapGetters, mapActions } from "vuex";
 import { CenterPoint, LeftPoint, RightPoint } from "mock/overview.js";
 export default {
@@ -33,6 +33,7 @@ export default {
       LeftPoint,
       RightPoint,
       cameraTimer: undefined,
+      heading: 0,
     };
   },
   computed: {
@@ -67,28 +68,48 @@ export default {
       //  视角跳转 需1000ms
       this.cameraMove(this.CenterPoint);
       //  相机转动 1500ms后执行
-      setTimeout(
-        () => {
-          if (n) {
-            that.cameraTimer = setInterval(() => {
-              this.cameraFlyTo();
-            }, LOOT * 1000);
-            this.cameraFlyTo();
-          } else {
-            clearInterval(that.cameraTimer);
-          }
-        },
-        n ? 1500 : 0
-      );
+      // setTimeout(() => {
+        if (n) {
+          that.cameraTimer = setInterval(() => {
+            this.cameraMode && this.cameraFlyTo();
+          }, 100); // RATE * 1000
+          this.cameraFlyTo();
+        } else {
+          clearInterval(that.cameraTimer);
+          this.heading = 0;
+        }
+      // }, 0);
     },
     cameraFlyTo() {
-      const toPoint = this.toRight ? this.RightPoint : this.LeftPoint;
-      window.earth.camera.flyTo({
-        ...toPoint,
-        duration: LOOT * 1.2,
-        maximumHeight: 450,
-      });
-      this.toRight = !this.toRight;
+      // const toPoint = this.toRight ? this.RightPoint : this.LeftPoint;
+      // window.earth.camera.flyTo({
+      //   ...toPoint,
+      //   duration: RATE * 1.2,
+      //   maximumHeight: 450,
+      // });
+      // this.toRight = !this.toRight;
+      const center = Cesium.Cartesian3.fromDegrees(
+        120.6954269687849,
+        27.99677579868321,
+        36.12973
+      );
+      console.log(this.heading.toFixed(0));
+      this.heading.toFixed(0) == 50
+        ? (this.toRight = true)
+        : this.heading.toFixed(0) == -50
+        ? (this.toRight = false)
+        : undefined;
+      this.heading = this.toRight
+        ? (this.heading -= 0.1)
+        : (this.heading += 0.1);
+      const heading = Cesium.Math.toRadians(this.heading);
+      const pitch = Cesium.Math.toRadians(-29.2);
+      const range = 2217.0;
+      window.earth.camera.lookAt(
+        center,
+        new Cesium.HeadingPitchRange(heading, pitch, range)
+      );
+      window.earth.camera.lookAtTransform(Cesium.Matrix4.IDENTITY);
     },
     cameraMove(Point) {
       window.earth.camera.flyTo({

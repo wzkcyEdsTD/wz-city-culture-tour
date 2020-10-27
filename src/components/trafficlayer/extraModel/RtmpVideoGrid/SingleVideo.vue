@@ -101,7 +101,6 @@ export default {
         height: 2.6vh !important;
         line-height: 2.6vh !important;
         font-size: 1.4vh;
-        // font-weight: bolder;
         color: white;
         background: url(/static/images/common/search-input.png) no-repeat center;
         background-size: 100% 100%;
