@@ -7,7 +7,7 @@
  * @FilePath: \wz-city-culture-tour\src\components\trafficlayer\cityIndex\index.vue
 -->
 <template>
-  <div class="cityIndex">
+  <div class="cityIndex-traffic">
     <div v-if="forceTime == 'now'">
       <component :is="fixForceIndex" />
     </div>

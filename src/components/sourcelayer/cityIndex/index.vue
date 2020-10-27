@@ -7,7 +7,7 @@
  * @FilePath: \wz-city-culture-tour\src\components\sourcelayer\cityIndex\index.vue
 -->
 <template>
-  <div class="cityIndex">
+  <div class="cityIndex-source">
     <div v-if="forceTime == 'now'">
       <component :is="fixForceIndex" />
     </div>
@@ -28,7 +28,7 @@ const indexHash = {
   应急专题: "emergencyIndex",
   控规专题: "basicIndex",
   资源专题: "sourceIndex",
-  交通专题: "trafficIndex"
+  交通专题: "trafficIndex",
 };
 import { mapGetters } from "vuex";
 import SceneSwitch from "../commonFrame/SceneSwitch/SceneSwitch";
@@ -53,12 +53,12 @@ export default {
     ...mapGetters("map", ["forceTime", "forceIndex"]),
     fixForceIndex() {
       return indexHash[this.forceIndex] || "cityIndex";
-    }
+    },
   },
   watch: {
     forceIndex(n) {
       console.log(n);
-    }
+    },
   },
   components: {
     SceneSwitch,
@@ -71,8 +71,8 @@ export default {
     basicIndex,
     sourceIndex,
     trafficIndex,
-    cityIndexPass
-  }
+    cityIndexPass,
+  },
 };
 </script>
 

@@ -263,6 +263,10 @@ export default {
         infoBox: false,
         selectionIndicator: false,
         shadows: false,
+        contextOptions: {
+          maxDrawingBufferWidth: 15360,
+          maxDrawingBufferHeight: 4320,
+        },
         // terrainShadows: Cesium.ShadowMode.ENABLED,
         // shouldAnimate: true,
         // terrainProvider: Cesium.createWorldTerrain(),
