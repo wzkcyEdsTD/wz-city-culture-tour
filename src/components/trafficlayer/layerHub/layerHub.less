@@ -4,7 +4,6 @@
   bottom: 2.4vh;
   left: 0;
   width: 100%;
-  transform: scale(0.9);
 
   .bottom-layers-container {
     width: 60vh;
@@ -177,6 +176,30 @@
             opacity: 1;
           }
         }
+      }
+    }
+  }
+
+  .extra-button {
+    z-index: 7;
+    position: fixed;
+    bottom: 2.6vh;
+    left: 44vh;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    > span {
+      display: block;
+      cursor: pointer;
+      > img {
+        width: 5vh;
+      }
+      > p {
+        font-size: 1.6vh;
+        line-height: 2vh;
+      }
+      &:last-child {
+        margin-top: 1vh;
       }
     }
   }

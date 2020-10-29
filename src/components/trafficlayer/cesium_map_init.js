@@ -127,6 +127,8 @@ export const mapBaimoLayerInit = (arrURL) => {
             });
             Cesium.when(baimoPromise, async (_LAYER_) => {
                 const LAYER = window.earth.scene.layers.find(KEY);
+                LAYER.indexedDBSetting.isGeoTilesRootNodeSave = true;
+                LAYER.residentRootTile = true;
                 if (FLOW) {
                     LAYER.style3D.fillForeColor = new Cesium.Color.fromCssColorString(
                         "rgba(137,137,137, 1)"

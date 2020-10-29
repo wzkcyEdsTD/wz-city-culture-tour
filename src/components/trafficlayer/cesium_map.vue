@@ -217,8 +217,10 @@ export default {
         selectionIndicator: false,
         shadows: false,
         contextOptions: {
-          maxDrawingBufferWidth: 15360,
-          maxDrawingBufferHeight: 4320,
+          // maxDrawingBufferWidth: 15360,
+          // maxDrawingBufferHeight: 4320,
+          maxDrawingBufferWidth: 3840,
+          maxDrawingBufferHeight: 1080,
         },
         // terrainShadows: Cesium.ShadowMode.ENABLED,
         // shouldAnimate: true,

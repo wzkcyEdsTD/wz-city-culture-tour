@@ -56,6 +56,17 @@
     <transition name="fade">
       <KgLegend v-if="~forceTrueTopicLabels.indexOf('控规信息')" />
     </transition>
+    <!-- extra button -->
+    <div class="extra-button">
+      <!-- <span>
+        <img :src="`/static/images/icons/all.png`" />
+        <p>全局总览</p>
+      </span> -->
+      <span @click="goGov">
+        <img :src="`/static/images/icons/gov.png`" />
+        <p>市政府</p>
+      </span>
+    </div>
   </div>
 </template>
 
@@ -68,6 +79,7 @@ import {
   CESIUM_TREE_TRAFFIC_OPTION,
   CESIUM_TREE_EXTRA_DATA,
 } from "config/server/sourceTreeOption";
+import { CenterPoint } from "mock/overview.js";
 const Cesium = window.Cesium;
 
 export default {
@@ -241,6 +253,9 @@ export default {
         shall: node.type == "mvt" && node.id ? true : false,
         node,
       });
+    },
+    goGov() {
+      window.earth.camera.flyTo({ ...CenterPoint, duration: 1 });
     },
   },
 };

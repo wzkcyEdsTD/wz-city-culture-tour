@@ -38,13 +38,13 @@ export default {
     color: white;
     font-family: YouSheBiaoTiHei;
     &:first-child {
-      font-size: 4.4vh;
+      font-size: 6.2vh;
       top: 1.4vh;
-      transform: translateX(-66%);
+      transform: translateX(-60%);
     }
     &:last-child {
-      font-size: 1vh;
-      top: 6.2vh;
+      font-size: 1.4vh;
+      top: 7.2vh;
       transform: translateX(-72%);
       opacity: 0.8;
     }
