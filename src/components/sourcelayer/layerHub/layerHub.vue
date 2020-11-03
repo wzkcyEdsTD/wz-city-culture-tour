@@ -177,6 +177,7 @@ export default {
     /**
      * POI fetch
      * @param {object} node
+     * @param {function} fn callback hook
      */
     getPOIPickedFeature(node, fn) {
       const { newdataset, url } = node;

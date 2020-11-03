@@ -168,7 +168,17 @@ const TRAFFIC_TOPIC = [
     withExtraDataGeometry: "stationListWithGeometry",
     saveExtraDataByGeometry: "setStationListWithGeometry",
     withExtraKey: "NAME",
-  }
+  },
+  { label: "港口码头", dataset: "GangKouMaTou" },
+  // { label: "市域轨道站点", dataset: "ShiYuGuiDaoZhanDian" },
+  { label: "汽车站", dataset: "QiCheZhan" },
+  { label: "火车站", dataset: "HuoCheZhan" },
+  { label: "车管所", dataset: "CheGuanSuo" },
+  { label: "公交站", dataset: "GongJiaoZhan" },
+  { label: "服务区", dataset: "FuWuQu" },
+  { label: "停车场", dataset: "TingCheChang" },
+  { label: "加油站", dataset: "JiaYouZhan" },
+  { label: "收费站", dataset: "ShouFeiZhan" },
 ];
 
 const CITY_TOPIC = [
