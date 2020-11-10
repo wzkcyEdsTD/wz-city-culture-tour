@@ -61,7 +61,7 @@ export const ServiceUrl = {
     "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-DEMLC/rest/realspace/datas/DEM_LC",
   // mvt矢量服务
   YJMVT:
-    "https://ditu.wzcitybrain.com/iserver/services/map-mongodbMvt-Routesdata3/restjsr/v1/vectortile/maps/Routes_data3",
+    "https://ditu.wzcitybrain.com/iserver/services/map-mongodbMvt-test1/restjsr/v1/vectortile/maps/test1",
   //  重要地物注记
   KEYMVT: "https://ditu.wzcitybrain.com/iserver/services/map-mongodbMvt-ZhongYaoDiWu/restjsr/v1/vectortile/maps/ZhongYaoDiWu",
   //  全市区精模
