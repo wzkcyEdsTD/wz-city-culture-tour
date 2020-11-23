@@ -120,7 +120,7 @@
           </div>
           <div class="desc">
             温州全市 /
-            <span>当日</span>
+            <span>当年</span>
           </div>
           <div class="number" v-if="WzOverviewData.规上工业">
             <DynamicNum :value="WzOverviewData.规上工业.industryAddValue" />
