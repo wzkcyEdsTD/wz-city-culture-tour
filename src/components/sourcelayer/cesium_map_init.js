@@ -10,7 +10,7 @@ export const mapConfigInit = () => {
     // window.earth.scene.debugShowFramesPerSecond = true;
     window.earth.clock.currentTime.secondsOfDay = 39279.36380499996
     // window.earth.scene.fxaa = true;
-    window.earth.scene.sun.show = false;
+    window.earth.scene.sun.show = true;
     window.earth.scene.bloomEffect.show = true;
     window.earth.imageryLayers.get(0).show = false;
     window.earth.scene.skyAtmosphere.show = false;
@@ -121,7 +121,7 @@ export const mapRoadLampLayerTurn = (boolean) => {
  */
 export const mapBaimoLayerInit = (arrURL) => {
     return new Promise((resolve, reject) => {
-        arrURL.map(({ KEY, URL, FLOW, d }, index) => {
+        arrURL.map(({ KEY, URL, FLOW, d, withoutFix }, index) => {
             const baimoPromise = window.earth.scene.addS3MTilesLayerByScp(URL, {
                 name: KEY,
             });
@@ -153,9 +153,13 @@ export const mapBaimoLayerInit = (arrURL) => {
                             Cesium.HypsometricSettingEnum.AnalysisRegionMode.ARM_ALL,
                     };
                 } else {
-                    LAYER.brightness = 0.5;
-                    LAYER.gamma = 0.6;
-                    LAYER.refresh();
+                    if (withoutFix) {
+                        LAYER.style3D.fillForeColor = new Cesium.Color(0.4, 0.4, 0.43)
+                    } else {
+                        LAYER.brightness = 0.5;
+                        LAYER.gamma = 0.6;
+                        LAYER.refresh();
+                    }
                 }
                 //  最大可见
                 d && (LAYER.visibleDistanceMax = d)

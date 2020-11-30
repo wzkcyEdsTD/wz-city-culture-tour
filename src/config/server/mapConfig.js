@@ -17,6 +17,11 @@ export const ServiceUrl = {
       FLOW: true
     },
     {
+      KEY: "WZBaimo_WITHOUT_FIX",
+      URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-BaiMoQiTaModel/rest/realspace/datas/BaiMoQiTaModel/config",
+      withoutFix: true
+    },
+    {
       KEY: 'WZBaimo_POINT_JZ',
       URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb4/rest/realspace/datas/JZ/config",
       FLOW: false
