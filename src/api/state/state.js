@@ -103,7 +103,7 @@ export function getUnderGroudByUser() {
 }
 
 /**
- * 城市控规专题-永嘉
+ * 城市规划专题-永嘉
  * @returns {*}
  */
 export function getCityBaseInfo() {

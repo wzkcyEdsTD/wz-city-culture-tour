@@ -56,9 +56,10 @@ const EDUCATION_TOPIC = [
   { label: "高中", dataset: "HighSchool" },
   { label: "中职", dataset: "VocationalSchool" },
   { label: "高校", dataset: "UniversitySchool" },
+  { label: "学校", dataset: "school" },
 ]
 
-// 控规专题
+// 规划专题
 const BASIC_TOPIC = [
   {
     label: "控规信息",
@@ -73,77 +74,27 @@ const CULTURE_TOPIC = [
   { label: "文化礼堂", dataset: "文化礼堂" },
   { label: "文化生活", dataset: "温州文化生活" },
   { label: "百姓健身房", dataset: "百姓健身房" },
+  { label: "文化场所", dataset: "D_HAZARDS_CULTURALPLACE" },
 ];
 //  应急专题
 const EMERGENCY_TOPIC = [
-  {
-    label: "加油站",
-    dataset: "D_HAZARDS_GasStation"
-  },
-  {
-    label: "非煤矿山",
-    dataset: "D_HARAZDS_NONCOALMINE"
-  },
-  {
-    label: "烟花爆竹经营单位",
-    dataset: "D_HARAZDS_FIREWORKS"
-  },
-  {
-    label: "应急避灾场所",
-    dataset: "JZJZNL_BZAZCS"
-  },
-  {
-    label: "应急队伍",
-    dataset: "JZJZNL_YJDW"
-  }
+  { label: "加油站", dataset: "D_HAZARDS_GasStation" },
+  { label: "非煤矿山", dataset: "D_HARAZDS_NONCOALMINE" },
+  { label: "烟花爆竹经营单位", dataset: "D_HARAZDS_FIREWORKS" },
+  { label: "应急避灾场所", dataset: "JZJZNL_BZAZCS" },
+  { label: "应急队伍", dataset: "JZJZNL_YJDW" },
+  { label: "消防站", dataset: "JZJZNL_XFJYNL_XFZ" },
+  { label: "消防栓", dataset: "JZJZNL_XFJYNL_XFS" }
 ];
-//  农贸专题
+//  资源专题
 const SOURCE_TOPIC = [
-  {
-    label: "农贸市场点",
-    dataset: "FarmersMarket_SiQu_P"
-  },
-  // {
-  //   label: "农贸市场面",
-  //   polygon: true,
-  //   dataset: "FarmersMarket_SiQu_M"
-  // },
-  {
-    label: "派出所",
-    dataset: "PoliceStation"
-  },
-  {
-    label: "市场商场",
-    dataset: "market_mall"
-  },
-  {
-    label: "学校",
-    dataset: "school"
-  },
-  {
-    label: "社会福利机构",
-    dataset: "D_HAZARDS_BEADHOUSESHP"
-  },
-  {
-    label: "高层建筑",
-    dataset: "high_buildings_P"
-  },
-  {
-    label: "娱乐场所",
-    dataset: "entertainment_place"
-  },
-  {
-    label: "文化场所",
-    dataset: "D_HAZARDS_CULTURALPLACE"
-  },
-  {
-    label: "体育运动场馆",
-    dataset: "sports_gymnasium"
-  },
-  {
-    label: "客运单位",
-    dataset: "passenger_trans_unit"
-  }
+  { label: "农贸市场点", dataset: "FarmersMarket_SiQu_P" },
+  { label: "派出所", dataset: "PoliceStation" },
+  { label: "市场商场", dataset: "market_mall" },
+  { label: "社会福利机构", dataset: "D_HAZARDS_BEADHOUSESHP" },
+  { label: "高层建筑", dataset: "high_buildings_P" },
+  { label: "娱乐场所", dataset: "entertainment_place" },
+  { label: "体育运动场馆", dataset: "sports_gymnasium" }
 ];
 //  交通专题
 const TRAFFIC_TOPIC = [
@@ -170,7 +121,7 @@ const TRAFFIC_TOPIC = [
     withExtraKey: "NAME",
   },
   { label: "港口码头", dataset: "GangKouMaTou" },
-  // { label: "市域轨道站点", dataset: "ShiYuGuiDaoZhanDian" },
+  { label: "客运单位", dataset: "passenger_trans_unit" },
   { label: "汽车站", dataset: "QiCheZhan" },
   { label: "火车站", dataset: "HuoCheZhan" },
   { label: "车管所", dataset: "CheGuanSuo" },
@@ -310,8 +261,8 @@ export const CESIUM_TREE_OPTION = [
     })
   },
   {
-    id: "控规专题",
-    label: "控规专题",
+    id: "规划专题",
+    label: "规划专题",
     children: [...BASIC_TOPIC].map(v => {
       return {
         ...v,
