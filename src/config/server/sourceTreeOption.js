@@ -96,6 +96,12 @@ const SOURCE_TOPIC = [
   { label: "娱乐场所", dataset: "entertainment_place" },
   { label: "体育运动场馆", dataset: "sports_gymnasium" }
 ];
+//  重点项目
+const KEY_PROJECTS = [
+  { label: "地块", dataset: "ZhengWuData_DiKuai" },
+  { label: "道路交通", dataset: "ZhengWuData_DaoLuJiaoTong" },
+  { label: "水系", dataset: "ZhengWuData_ShuiXi" }
+]
 //  交通专题
 const TRAFFIC_TOPIC = [
   {
@@ -222,6 +228,20 @@ export const CESIUM_TREE_OPTION = [
     id: "应急专题",
     label: "应急专题",
     children: EMERGENCY_TOPIC.map(v => {
+      return {
+        ...v,
+        id: v.label,
+        icon: v.label,
+        url: SERVER_DEFAULT_DATA,
+        type: "mvt",
+        newdataset: `${SW_DATA_NAME}${v.dataset}`
+      };
+    })
+  },
+  {
+    id: "重点项目",
+    label: "重点项目",
+    children: KEY_PROJECTS.map(v => {
       return {
         ...v,
         id: v.label,

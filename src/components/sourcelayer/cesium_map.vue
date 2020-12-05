@@ -141,6 +141,7 @@ export default {
       this.validate();
     });
     this.eventRegsiter();
+    this.testQuery();
   },
   methods: {
     async validate() {
@@ -149,6 +150,29 @@ export default {
       // const res = await doValidation(authorCode);
       // res ? (this.validated = true) : (this.authFailshallPop = true);
       this.validated = true;
+    },
+    testQuery() {
+      var queryByDistanceParams = new SuperMap.REST.QueryByDistanceParameters({
+        queryParams: new Array(
+          new SuperMap.REST.FilterParameter({
+            name: "KaKouDianWei",
+          })
+        ),
+        returnContent: true,
+        distance: 500,
+        geometry: new SuperMap.Geometry.Point(
+          120.76176116100032,
+          27.835492579000004
+        ),
+      });
+      var queryByDistanceService = new SuperMap.REST.QueryByDistanceService(
+        "https://ditu.wzcitybrain.com/iserver/services/map-maptest/rest/maps/KaKouDianWei"
+      );
+      queryByDistanceService.events.on({
+        processCompleted: (res) => console.log(res),
+        processFailed: (err) => console.log(err),
+      });
+      queryByDistanceService.processAsync(queryByDistanceParams);
     },
     initPostRender() {
       window.earth.scene.postRender.addEventListener(() => {

@@ -29,6 +29,7 @@ const indexHash = {
   规划专题: "basicIndex",
   资源专题: "sourceIndex",
   交通专题: "trafficIndex",
+  重点项目: "keyIndex",
 };
 import { mapGetters } from "vuex";
 import SceneSwitch from "../commonFrame/SceneSwitch/SceneSwitch";
@@ -42,6 +43,7 @@ import emergencyIndex from "./now/emergencyIndex";
 import basicIndex from "./now/basicIndex";
 import sourceIndex from "./now/sourceIndex";
 import trafficIndex from "./now/trafficIndex";
+import keyIndex from "./now/keyIndex";
 //  pass
 import cityIndexPass from "./pass/cityIndex";
 
@@ -71,6 +73,7 @@ export default {
     basicIndex,
     sourceIndex,
     trafficIndex,
+    keyIndex,
     cityIndexPass,
   },
 };

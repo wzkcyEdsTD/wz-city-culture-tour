@@ -95,10 +95,10 @@ export const treeDrawTool = (context, { result }, node, fields = [], fn) => {
         geometry: v.geometry, attributes: v.attributes, id: v.id, extra_data: v.attributes,
       };
     }
-    const name = v.attributes.SHORTNAME || v.attributes.NAME || v.attributes.MC || v.attributes.JC || v.attributes[node.withExtraKey];
+    const name = v.attributes.SHORTNAME || v.attributes.NAME || v.attributes.MC || v.attributes.JC || v.attributes["项目名称"] || v.attributes[node.withExtraKey];
     !window.featureMap[node.id] && (window.featureMap[node.id] = {});
     name && (window.featureMap[node.id][v.attributes.SMID] = {
-      name: v.attributes.SHORTNAME || v.attributes.NAME || v.attributes.MC || v.attributes.JC || v.attributes[node.withExtraKey],
+      name,
       attributes: v.attributes,
       geometry: v.geometry,
       fix_data: fixAttributesByOrigin(v.attributes, fieldHash),
