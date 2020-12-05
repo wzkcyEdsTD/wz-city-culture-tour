@@ -141,7 +141,7 @@ export default {
       this.validate();
     });
     this.eventRegsiter();
-    this.testQuery();
+    // this.testQuery();
   },
   methods: {
     async validate() {
