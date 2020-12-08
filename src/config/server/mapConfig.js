@@ -73,6 +73,7 @@ export const ServiceUrl = {
   WZMODEL:
     "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-JMLC20121/rest/realspace/datas/JM_LC_2012_1/config",
   SCENE_WZMODEL: [
+    //  市区
     { key: "ZGDYP_ZB", d: 1400, url: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb3/rest/realspace/datas/ZGDYP_ZB/config" },
     { key: "ZGDYP_DL", d: 5500, url: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb3/rest/realspace/datas/ZGDYP_DL/config" },
     { key: "ZGDYP_QT", d: 1400, url: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb3/rest/realspace/datas/ZGDYP_QT/config" },
@@ -81,6 +82,12 @@ export const ServiceUrl = {
     { key: "ZGDYP_DX", d: 5500, url: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb3/rest/realspace/datas/ZGDYP_DX/config" },
     { key: "MaxShijuJZ", d: 5500, url: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb3/rest/realspace/datas/MaxShijuJZ/config" },
     { key: "MaxShijuQT", d: 1400, url: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb3/rest/realspace/datas/MaxShijuQT/config" },
+    //  瓯江口
+    { key: "OJK_BUILDING", d: 5500, url: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb/rest/realspace/datas/JZ/config" },
+    { key: "OJK_DMG", d: 1400, url: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb/rest/realspace/datas/DX/config" },
+    { key: "OJK_RIVER", d: 1400, url: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb/rest/realspace/datas/SX/config" },
+    { key: "OJK_ROAD", d: 1400, url: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb/rest/realspace/datas/DL/config" },
+    { key: "OJK_PLANT", d: 1400, url: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb/rest/realspace/datas/ZB/config" }
   ],
   ROAD_LAMP: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-LightModel/rest/realspace/datas/LightModel/config"
 };

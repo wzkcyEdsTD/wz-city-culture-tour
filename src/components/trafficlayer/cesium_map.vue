@@ -24,7 +24,7 @@
     <!-- 功能组件 -->
     <div v-if="mapLoaded && validated">
       <DetailedModel v-if="showSubFrame == '3d1'" />
-      <CesiumMapVideo v-if="showSubFrame == '3d1'" />
+      <!-- <CesiumMapVideo v-if="showSubFrame == '3d1'" /> -->
       <TrafficSubwayModel v-if="showSubHubFrame == '3d4'" />
       <RoadLine ref="roadline" />
       <RtmpVideo />
@@ -37,7 +37,7 @@
 
 <script>
 import { ServiceUrl } from "config/server/mapConfig";
-import CesiumMapVideo from "components/trafficlayer/extraModel/CesiumMapVideo/CesiumMapVideo";
+// import CesiumMapVideo from "components/trafficlayer/extraModel/CesiumMapVideo/CesiumMapVideo";
 import LayerHub from "components/trafficlayer/layerHub/layerHub";
 import SearchBox from "components/trafficlayer/layerHub/searchBox";
 import CityIndex from "components/trafficlayer/CityIndex/index";
@@ -82,7 +82,7 @@ export default {
     ...mapGetters("traffic", ["initDataLoaded", "forceTreeLabel"]),
   },
   components: {
-    CesiumMapVideo,
+    // CesiumMapVideo,
     LayerHub,
     SearchBox,
     CityIndex,

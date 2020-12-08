@@ -28,7 +28,7 @@
     <!-- 功能组件 -->
     <div v-if="mapLoaded && validated">
       <DetailedModel v-if="showSubFrame == '3d1'" />
-      <CesiumMapVideo v-if="showSubFrame == '3d1'" />
+      <!-- <CesiumMapVideo v-if="showSubFrame == '3d1'" /> -->
       <Overview ref="overview" v-if="showSubHubFrame == '3d1'" />
       <TrafficSubwayModel v-if="showSubHubFrame == '3d4'" />
       <VideoCircle ref="videoCircle" />
@@ -45,7 +45,7 @@
 
 <script>
 import { ServiceUrl } from "config/server/mapConfig";
-import CesiumMapVideo from "components/sourcelayer/extraModel/CesiumMapVideo/CesiumMapVideo";
+// import CesiumMapVideo from "components/sourcelayer/extraModel/CesiumMapVideo/CesiumMapVideo";
 import LayerHub from "components/sourcelayer/layerHub/layerHub";
 import SearchBox from "components/sourcelayer/layerHub/searchBox";
 import CityIndex from "components/sourcelayer/CityIndex/index";
@@ -103,7 +103,7 @@ export default {
     this.forceTreeLabel == "城市总览" && (this.showSubHubFrame = "3d1");
   },
   components: {
-    CesiumMapVideo,
+    // CesiumMapVideo,
     LayerHub,
     SearchBox,
     CityIndex,
@@ -141,7 +141,6 @@ export default {
       this.validate();
     });
     this.eventRegsiter();
-    this.testQuery();
   },
   methods: {
     async validate() {
@@ -150,29 +149,6 @@ export default {
       // const res = await doValidation(authorCode);
       // res ? (this.validated = true) : (this.authFailshallPop = true);
       this.validated = true;
-    },
-    testQuery() {
-      var queryByDistanceParams = new SuperMap.REST.QueryByDistanceParameters({
-        queryParams: new Array(
-          new SuperMap.REST.FilterParameter({
-            name: "KaKouDianWei@swdata",
-          })
-        ),
-        returnContent: true,
-        distance: 500,
-        geometry: new SuperMap.Geometry.Point(
-          120.76176116100032,
-          27.835492579000004
-        ),
-      });
-      var queryByDistanceService = new SuperMap.REST.QueryByDistanceService(
-        "https://ditu.wzcitybrain.com/iserver/services/map-maptest/rest/maps/KaKouDianWei"
-      );
-      queryByDistanceService.events.on({
-        processCompleted: (res) => console.log(res),
-        processFailed: (err) => console.log(err),
-      });
-      queryByDistanceService.processAsync(queryByDistanceParams);
     },
     initPostRender() {
       window.earth.scene.postRender.addEventListener(() => {
