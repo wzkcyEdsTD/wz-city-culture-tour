@@ -141,7 +141,7 @@ export default {
       this.validate();
     });
     this.eventRegsiter();
-    // this.testQuery();
+    this.testQuery();
   },
   methods: {
     async validate() {
@@ -155,7 +155,7 @@ export default {
       var queryByDistanceParams = new SuperMap.REST.QueryByDistanceParameters({
         queryParams: new Array(
           new SuperMap.REST.FilterParameter({
-            name: "KaKouDianWei",
+            name: "KaKouDianWei@swdata",
           })
         ),
         returnContent: true,
