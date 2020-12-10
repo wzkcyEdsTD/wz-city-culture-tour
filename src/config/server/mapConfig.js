@@ -83,11 +83,11 @@ export const ServiceUrl = {
     { key: "MaxShijuJZ", d: 5500, url: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb3/rest/realspace/datas/MaxShijuJZ/config" },
     { key: "MaxShijuQT", d: 1400, url: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb3/rest/realspace/datas/MaxShijuQT/config" },
     //  瓯江口
-    { key: "OJK_BUILDING", d: 5500, url: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb/rest/realspace/datas/JZ/config" },
-    { key: "OJK_DMG", d: 1400, url: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb/rest/realspace/datas/DX/config" },
-    { key: "OJK_RIVER", d: 1400, url: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb/rest/realspace/datas/SX/config" },
-    { key: "OJK_ROAD", d: 1400, url: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb/rest/realspace/datas/DL/config" },
-    { key: "OJK_PLANT", d: 1400, url: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb/rest/realspace/datas/ZB/config" }
+    // { key: "OJK_BUILDING", d: 5500, url: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb/rest/realspace/datas/JZ/config" },
+    // { key: "OJK_DMG", d: 1400, url: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb/rest/realspace/datas/DX/config" },
+    // { key: "OJK_RIVER", d: 1400, url: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb/rest/realspace/datas/SX/config" },
+    // { key: "OJK_ROAD", d: 1400, url: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb/rest/realspace/datas/DL/config" },
+    // { key: "OJK_PLANT", d: 1400, url: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb/rest/realspace/datas/ZB/config" }
   ],
   ROAD_LAMP: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-LightModel/rest/realspace/datas/LightModel/config"
 };

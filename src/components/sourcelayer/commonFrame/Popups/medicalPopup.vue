@@ -53,9 +53,7 @@
             <header>周边实时人口</header>
             <div>
               <p>范围：500米</p>
-              <strong>{{
-                `人数：${bufferHash[item.id].data || "-"}人`
-              }}</strong>
+              <strong>{{ `人数：${bufferHash[item.id].data || "-"}人` }}</strong>
               <p>{{ bufferHash[item.id].task_time }}</p>
             </div>
           </div>
@@ -115,6 +113,7 @@ export default {
               pointToWindow &&
                 G_medicalList.push({
                   ...item,
+                  geometry: { x, y },
                   extra_data: medicalList[key],
                   pointToWindow,
                 });
@@ -137,12 +136,8 @@ export default {
             attributes: item.attributes,
             extra_data: item.extra_data,
             geometry: item.geometry,
-            x:
-              item.pointToWindow.x -
-              ($(`#trackPopUpContent_${index}`).width() || 0) / 2,
-            y:
-              item.pointToWindow.y -
-              ($(`#trackPopUpContent_${index}`).height() || 0),
+            x: item.pointToWindow.x - ($(`#trackPopUpContent_${index}`).width() || 0) / 2,
+            y: item.pointToWindow.y - ($(`#trackPopUpContent_${index}`).height() || 0),
           });
         });
         this.popList = popList;

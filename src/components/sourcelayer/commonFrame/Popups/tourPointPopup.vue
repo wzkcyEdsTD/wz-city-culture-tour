@@ -47,9 +47,7 @@
             <header>周边实时人口</header>
             <div>
               <p>范围：500米</p>
-              <strong>{{
-                `人数：${bufferHash[item.id].data || "-"}人`
-              }}</strong>
+              <strong>{{ `人数：${bufferHash[item.id].data || "-"}人` }}</strong>
               <p>{{ bufferHash[item.id].task_time }}</p>
             </div>
           </div>
@@ -109,6 +107,7 @@ export default {
               pointToWindow &&
                 G_tourPointList.push({
                   ...item,
+                  geometry: { x, y },
                   extra_data: tourPointList[key],
                   pointToWindow,
                 });
@@ -134,12 +133,8 @@ export default {
                 ? "red"
                 : "gold",
             geometry: item.geometry,
-            x:
-              item.pointToWindow.x -
-              ($(`#trackPopUpContent_${index}`).width() || 0) / 2,
-            y:
-              item.pointToWindow.y -
-              ($(`#trackPopUpContent_${index}`).height() || 0),
+            x: item.pointToWindow.x - ($(`#trackPopUpContent_${index}`).width() || 0) / 2,
+            y: item.pointToWindow.y - ($(`#trackPopUpContent_${index}`).height() || 0),
           });
         });
         this.popList = popList;

@@ -35,9 +35,7 @@
           </div>
         </div>
         <div class="extra-tab to-rtmp-video" @click="doVideoRtmp">直达现场</div>
-        <div class="extra-tab to-around-people" @click="doCircleBuffer">
-          周边人口
-        </div>
+        <div class="extra-tab to-around-people" @click="doCircleBuffer">周边人口</div>
         <div class="around-people" v-if="buffer && buffer.success">
           <!-- <img src="/static/images/common/frameline@2x.png" /> -->
           <div>
@@ -105,10 +103,7 @@ export default {
             x:
               pointToWindow.x -
               (($(".leaflet-popup-content-wrapper").width() || 0) * 1.2) / 2,
-            y:
-              pointToWindow.y -
-              ($(".leaflet-popup-content-wrapper").height() || 0) -
-              90,
+            y: pointToWindow.y - ($(".leaflet-popup-content-wrapper").height() || 0) - 90,
           };
         }
       }
