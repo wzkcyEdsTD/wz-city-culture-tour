@@ -8,12 +8,9 @@
  */
 import * as types from "./mutation-types";
 import {
-  getWzAllOutpatientCount,
-  getWzAllDesignatedHospitals,
-  getWzAllMedicalInsuranceInstitution,
-  getWzAllMedicalInsurancePayment
-} from "api/cityBrainAPI";
-import { getMedicalList, getBayonetList, getStationList, getTourPointList, fetchWzOverviewData, fetchWzTrafficData, fetchTourData, fetchCultureData, fetchSourceData, fetchBasicData, fetchWzPeopleData, fetchEmergencyData } from "api/layerServerAPI";
+  getMedicalList, getBayonetList, getStationList, getTourPointList, fetchWzOverviewData, fetchWzTrafficData,
+  fetchMedicalData, fetchTourData, fetchCultureData, fetchSourceData, fetchBasicData, fetchWzPeopleData, fetchEmergencyData
+} from "api/layerServerAPI";
 
 /**
  * 对象下所有值相加
@@ -106,23 +103,11 @@ export const SetTrafficData = async ({ commit, state }) => {
 }
 
 //  获取全市医疗数据
-export const SetWzMedicalData = async ({ commit }) => {
-  const outpatientCount = await getWzAllOutpatientCount();
-  const designatedHospitals = await getWzAllDesignatedHospitals();
-  const medicalInsuranceInstitution = await getWzAllMedicalInsuranceInstitution();
-  const medicalInsurancePayment = await getWzAllMedicalInsurancePayment();
-  const designatedHospitalsNum = eval(
-    designatedHospitals.data.map(v => parseInt(v.sl)).join("+")
-  );
-  const medicalInsurancePaymentNum = eval(
-    medicalInsurancePayment.data.map(v => parseFloat(v.je)).join("+")
-  );
-  commit(types.SET_WZ_MEDICAL_DATA, {
-    outpatientCount: outpatientCount.data.currentNum,
-    designatedHospitals: designatedHospitalsNum,
-    medicalInsuranceInstitution: medicalInsuranceInstitution.data.currentNum,
-    medicalInsurancePayment: (medicalInsurancePaymentNum / 10000).toFixed(1)
-  });
+export const SetWzMedicalData = async ({ commit, state }) => {
+  if (!Object.keys(state.WzMedicalData).length) {
+    const { result } = await fetchMedicalData();
+    commit(types.SET_WZ_MEDICAL_DATA, result);
+  }
 };
 
 //  设置医院数据

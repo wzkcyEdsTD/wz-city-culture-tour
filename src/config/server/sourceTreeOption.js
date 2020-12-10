@@ -8,7 +8,7 @@
  */
 const SERVER_HOST = "https://ditu.wzcitybrain.com/iserver/services";
 const SW_DATA = "/data-SW_DATA/rest/data";
-const SW_DATA_NAME = "172.20.83.196_swdata:";
+const SW_DATA_NAME = "swdata:";
 const SERVER_DEFAULT_DATA = SERVER_HOST + SW_DATA;
 // 医疗专题
 const MEDICAL_TOPIC = [
@@ -111,6 +111,7 @@ const TRAFFIC_TOPIC = [
     withExtraDataGeometry: "bayonetListWithGeometry",
     saveExtraDataByGeometry: "setBayonetListWithGeometry",
     withExtraKey: "MC",
+    hiddenLabel: true
   },
   {
     label: "S1线路",

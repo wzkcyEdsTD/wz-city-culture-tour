@@ -14,7 +14,11 @@
             <span>当日</span>
           </div>
           <div class="number">
-            <DynamicNum :value="WzMedicalData.outpatientCount" decimals="0" />
+            <DynamicNum
+              v-if="WzMedicalData.全市"
+              :value="WzMedicalData.全市.门诊人次"
+              decimals="0"
+            />
           </div>
         </div>
       </li>
@@ -27,10 +31,14 @@
           </div>
           <div class="desc">
             温州全市 /
-            <span>2020年7月</span>
+            <span>当年</span>
           </div>
           <div class="number">
-            <DynamicNum :value="WzMedicalData.designatedHospitals" decimals="0" />
+            <DynamicNum
+              v-if="WzMedicalData.市本级"
+              :value="WzMedicalData.市本级.定点医院家数"
+              decimals="0"
+            />
           </div>
         </div>
       </li>
@@ -43,10 +51,14 @@
           </div>
           <div class="desc">
             温州全市 /
-            <span>2020年</span>
+            <span>当年</span>
           </div>
           <div class="number">
-            <DynamicNum :value="WzMedicalData.medicalInsuranceInstitution" decimals="0" />
+            <DynamicNum
+              v-if="WzMedicalData.全市"
+              :value="WzMedicalData.全市.医保参保单位数"
+              decimals="0"
+            />
           </div>
         </div>
       </li>
@@ -59,10 +71,13 @@
           </div>
           <div class="desc">
             温州全市 /
-            <span>2020年8月</span>
+            <span>当月</span>
           </div>
           <div class="number">
-            <DynamicNum :value="WzMedicalData.medicalInsurancePayment" />
+            <DynamicNum
+              v-if="WzMedicalData.市本级"
+              :value="(WzMedicalData.市本级.医保支付额 / 10000).toFixed(2)"
+            />
           </div>
         </div>
       </li>

@@ -162,7 +162,7 @@ export default {
       getFeatureBySQLParams = new SuperMap.REST.GetFeaturesBySQLParameters({
         queryParameter: getFeatureParam,
         toIndex: -1,
-        datasetNames: [`172.20.83.196_swdata:${datasetName}`],
+        datasetNames: [`swdata:${datasetName}`],
       });
       var url =
         "http://172.20.83.223:8090/iserver/services/data-SW_Data/rest/data";

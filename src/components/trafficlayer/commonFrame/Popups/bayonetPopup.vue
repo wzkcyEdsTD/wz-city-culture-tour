@@ -4,7 +4,7 @@
  * @LastEditTime: 2020-09-03 21:24:20
  * @LastEditors: eds
  * @Description:
- * @FilePath: \wz-city-culture-tour\src\components\trafficlayer\commonFrame\bayonetPopup.vue
+ * @FilePath: \wz-city-culture-tour\src\components\sourcelayer\commonFrame\bayonetPopup.vue
 -->
 <template>
   <div id="trackPopUp" v-if="shallPop">
@@ -17,14 +17,14 @@
     >
       <div class="popup-tip-container">
         <div class="popup-tip-inner">
-          <div class="tip-name">{{ item.name }}</div>
+          <!-- <div class="tip-name">{{ item.name }}</div> -->
           <div class="tip-num">
             <table border="0">
               <tbody>
                 <tr>
-                  <td>卡口类型</td>
+                  <td>卡口名称</td>
                   <td style="color: #2fc25a">
-                    {{ item.extra_data.category || "-" }}
+                    {{ item.name || "-" }}
                   </td>
                 </tr>
                 <tr>
@@ -33,12 +33,12 @@
                     {{ item.extra_data.current_num || "-" }}
                   </td>
                 </tr>
-                <tr>
+                <!-- <tr>
                   <td>卡口状态</td>
                   <td :class="item.color">
                     {{ item.extra_data.status || "-" }}
                   </td>
-                </tr>
+                </tr> -->
               </tbody>
             </table>
           </div>
@@ -53,9 +53,7 @@
             <header>周边实时人口</header>
             <div>
               <p>范围：500米</p>
-              <strong>{{
-                `人数：${bufferHash[item.id].data || "-"}人`
-              }}</strong>
+              <strong>{{ `人数：${bufferHash[item.id].data || "-"}人` }}</strong>
               <p>{{ bufferHash[item.id].task_time }}</p>
             </div>
           </div>
@@ -132,6 +130,7 @@ export default {
               pointToWindow &&
                 G_bayonetList.push({
                   ...item,
+                  geometry: { x, y },
                   extra_data: bayonetList[key],
                   pointToWindow,
                 });
@@ -147,7 +146,7 @@ export default {
         G_bayonetList.map((item, index) => {
           popList.push({
             id: item.id,
-            name: item.attributes.MC_DISPLAY,
+            name: item.attributes.MC,
             attributes: item.attributes,
             extra_data: item.extra_data,
             color:
@@ -157,12 +156,8 @@ export default {
                 ? "red"
                 : "gold",
             geometry: item.geometry,
-            x:
-              item.pointToWindow.x -
-              ($(`#trackPopUpContent_${index}`).width() || 0) / 2,
-            y:
-              item.pointToWindow.y -
-              ($(`#trackPopUpContent_${index}`).height() || 0),
+            x: item.pointToWindow.x - ($(`#trackPopUpContent_${index}`).width() || 0) / 2,
+            y: item.pointToWindow.y - ($(`#trackPopUpContent_${index}`).height() || 0),
           });
         });
         this.popList = popList;
@@ -241,15 +236,15 @@ export default {
     }
   }
   .popup-tip-container {
-    width: 26vh;
-    height: 24vh;
-    background-image: url("/static/images/common/bayonet-frame@2x.png");
-    background-size: 100% 100%;
+    width: 21vh;
+    height: 15vh;
+    background-image: url(/static/images/common/bayonet-frame@2x.png);
+    background-size: 100% 118%;
     background-repeat: no-repeat;
   }
 
   .popup-tip-inner {
-    height: 12vh;
+    height: 9vh;
     display: flex;
     color: #fff;
   }
@@ -272,14 +267,14 @@ export default {
   .tip-num {
     flex: 1;
     box-sizing: border-box;
-    padding: 2vh 0.6vh 0.6vh 0.6vh;
+    padding: 1.4vh 0.6vh 0vh 0.6vh;
   }
 
   .tip-num table {
     height: 100%;
     width: 100%;
     border-collapse: separate;
-    border-spacing: 0px 5px;
+    border-spacing: 0px 10px;
     font-size: 10px;
   }
 
@@ -325,8 +320,8 @@ export default {
     font-size: 1.8vh;
     display: block;
     width: 50%;
-    height: 2.8vh;
-    line-height: 2.8vh;
+    height: 2.4vh;
+    line-height: 2.4vh;
     letter-spacing: 1px;
     float: left;
     text-shadow: 0px 2px 3px rgba(0, 0, 0, 0);

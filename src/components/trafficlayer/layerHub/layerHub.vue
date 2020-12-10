@@ -91,7 +91,7 @@ export default {
       forceTreeTopic: [],
       //  资源选中层
       swiperOptions: {
-        slidesPerView: 5,
+        slidesPerView: 8,
         navigation: {
           nextEl: ".swiper-button-right",
           prevEl: ".swiper-button-left",
