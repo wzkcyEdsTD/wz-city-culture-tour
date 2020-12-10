@@ -147,7 +147,7 @@ export default {
         G_bayonetList.map((item, index) => {
           popList.push({
             id: item.id,
-            name: item.attributes.MC_DISPLAY,
+            name: item.attributes.MC,
             attributes: item.attributes,
             extra_data: item.extra_data,
             color:
