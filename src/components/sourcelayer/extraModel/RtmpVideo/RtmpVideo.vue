@@ -188,7 +188,7 @@ export default {
         this.fixRtmpList.length &&
           this.openRtmpVideoFrame({
             mp_name: item.mp_name,
-            mp_id: item.mp_id.split("videopoint_")[1],
+            mp_id: item.mp_id.split("normalpoint_")[1],
           });
         this.doRtmpListFrame = true;
       });
