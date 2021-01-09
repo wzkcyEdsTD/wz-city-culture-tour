@@ -45,9 +45,9 @@ const state = {
   //  相机转动
   cameraMode: false,
   //  指标下表
-  forceIndex: '医疗专题',
+  forceIndex: '城市总览',
   //  tab下标
-  forceTreeLabel: "医疗专题",
+  forceTreeLabel: "城市总览",
   forceTrueTopicLabels: [],
   forceTrueTopicLabelId: "",
 };

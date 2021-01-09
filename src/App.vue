@@ -22,7 +22,6 @@ export default {
   data() {
     return {
       nameList: [],
-      // onMessage: false,
     };
   },
   computed: {
@@ -45,21 +44,7 @@ export default {
       false
     );
   },
-  mounted() {
-    // getUserInfo().then(data => {
-    //   if (data.districtName !== this.userInfo.districtName) {
-    //     this.$router.push("/map");
-    //   }
-    //   this.SetUserInfo(data);
-    //   document.getElementsByTagName("title")[0].innerText =
-    //     "温州设计集团大数据可视化分析基础平台";
-    // });
-    // getRoleCategory().then(res => {
-    //   // this.getName(category);
-    //   this.getName(res);
-    //   this.SetNameList(this.nameList);
-    // });
-  },
+  mounted() {},
   methods: {
     ...mapActions(["SetUserInfo", "changeLoad", "SetResize"]),
     ...mapActions("map", ["SetNameList"]),
