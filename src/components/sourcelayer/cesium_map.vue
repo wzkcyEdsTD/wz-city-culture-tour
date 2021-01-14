@@ -307,7 +307,6 @@ export default {
   #cesiumContainer {
     height: 100%;
     width: 100%;
-    // color: rgb(42, 104, 163);
   }
 }
 .mapCover {

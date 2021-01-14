@@ -28,40 +28,29 @@ export default {
     eventRegsiter() {
       const that = this;
       this.$bus.$off("cesium-3d-population-circle");
-      this.$bus.$on(
-        "cesium-3d-population-circle",
-        ({ doDraw, id, geometry }) => {
-          !doDraw
-            ? that.removePopulationCircle(id)
-            : id && geometry
-            ? that.drawPopulationCircle(id, geometry)
-            : undefined;
-        }
-      );
+      this.$bus.$on("cesium-3d-population-circle", ({ doDraw, id, geometry }) => {
+        !doDraw
+          ? that.removePopulationCircle(id)
+          : id && geometry
+          ? that.drawPopulationCircle(id, geometry)
+          : undefined;
+      });
     },
     /**
      * 创建datesource
      */
     createEntityCollection() {
-      const MedicalCircleEntityCollection = new Cesium.CustomDataSource(
-        "medical"
-      );
+      const MedicalCircleEntityCollection = new Cesium.CustomDataSource("medical");
       window.earth.dataSources.add(MedicalCircleEntityCollection);
     },
     /**
      * 开启扫描
      */
-    async drawPopulationScan(
-      doScan,
-      id,
-      { lng, lat } = {},
-      radius = 500,
-      period = 3.0
-    ) {
+    async drawPopulationScan(doScan, id, { lng, lat } = {}, radius = 500, period = 4.0) {
       if (!doScan) return (window.earth.scene.scanEffect.show = false);
       window.earth.scene.scanEffect.show = true;
       window.earth.scene.scanEffect.color = Cesium.Color.fromCssColorString(
-        "rgba(255,255,255,0.3)"
+        "rgb(190,190,190)"
       );
       window.earth.scene.scanEffect.mode = Cesium.ScanEffectMode.CIRCLE;
       window.earth.scene.scanEffect.centerPostion = new Cesium.Cartesian3.fromDegrees(
@@ -87,7 +76,7 @@ export default {
           semiMinorAxis: raidus,
           semiMajorAxis: raidus,
           height: 10,
-          material: Cesium.Color.WHITE.withAlpha(0.2),
+          material: Cesium.Color.WHITE.withAlpha(0.1),
           outline: true,
           outlineWidth: 3,
           outlineColor: Cesium.Color.WHITE,
