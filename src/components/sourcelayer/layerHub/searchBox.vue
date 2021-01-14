@@ -141,14 +141,15 @@ export default {
         this.hospitalChecked.push(item.name);
         // 移动到对应实例位置
         const { x, y } = item.geometry;
-        window.earth.camera.flyTo({
+        // window.earth.camera.flyTo({
+        window.earth.scene.camera.setView({
           destination: Cesium.Cartesian3.fromDegrees(x, y - 0.005, 450),
           orientation: {
             heading: 0.003336768850279448,
             pitch: -0.5808830390057418,
             roll: 0.0,
           },
-          maximumHeight: 450,
+          // maximumHeight: 450,
         });
       }
     },
