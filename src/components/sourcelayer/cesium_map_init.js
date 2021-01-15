@@ -8,16 +8,19 @@ import window_array from "config/local/windowPositions";
 export const mapConfigInit = () => {
     // window.earth.scene.globe.depthTestAgainstTerrain = false;
     // window.earth.scene.debugShowFramesPerSecond = true;
-    window.earth.clock.currentTime.secondsOfDay = 39279.36380499996
+    window.earth.clock.currentTime.secondsOfDay = 51830.97475229357
     // window.earth.scene.fxaa = true;
     window.earth.scene.sun.show = true;
-    window.earth.scene.bloomEffect.bloomIntensity = 1.2;
+    window.earth.scene.bloomEffect.bloomIntensity = 1.05;
     window.earth.scene.bloomEffect.show = true;
     window.earth.imageryLayers.get(0).show = false;
     window.earth.scene.skyAtmosphere.show = false;
     window.earth.scene.globe.baseColor = new Cesium.Color.fromCssColorString(
         "rgba(13,24,45, 1)"
     );
+    // window.earth.scene.globe.enableLighting = true;
+    window.earth.scene.shadowMap.darkness = 0.3;
+    // window.earth.scene.lightSource.ambientLightColor = new Cesium.Color(0.65, 0.65, 0.65, 1);
 }
 
 /**
@@ -117,12 +120,20 @@ export const mapRoadLampLayerTurn = (boolean) => {
 }
 
 /**
+ * 阴影查询
+ */
+export const mapShadowInit = () => {
+    window.shadowQuery = new Cesium.ShadowQueryPoints(window.earth.scene);
+    window.shadowQuery.build();
+}
+
+/**
  * 白模叠加初始化
  * @param {*} arrURL 
  */
 export const mapBaimoLayerInit = (arrURL) => {
     return new Promise((resolve, reject) => {
-        arrURL.map(({ KEY, URL, FLOW, d, withoutFix }, index) => {
+        arrURL.map(({ KEY, URL, FLOW, d, s, withoutFix }, index) => {
             const baimoPromise = window.earth.scene.addS3MTilesLayerByScp(URL, {
                 name: KEY,
             });
@@ -163,7 +174,8 @@ export const mapBaimoLayerInit = (arrURL) => {
                     }
                 }
                 //  最大可见
-                d && (LAYER.visibleDistanceMax = d)
+                d && (LAYER.visibleDistanceMax = d);
+                s && (LAYER.shadowType = 2)
                 index == arrURL.length - 1 && resolve(true)
             });
         });

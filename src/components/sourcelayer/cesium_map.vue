@@ -77,6 +77,7 @@ import {
   mapBaimoLayerInit,
   mapRoadLampLayerInit,
   mapRoadLampLayerTurn,
+  mapShadowInit,
 } from "components/sourcelayer/cesium_map_init";
 import { doValidation } from "api/validation/validation";
 import { mapGetters } from "vuex";
@@ -184,9 +185,7 @@ export default {
       });
     },
     initHandler() {
-      const handler = new Cesium.ScreenSpaceEventHandler(
-        window.earth.scene.canvas
-      );
+      const handler = new Cesium.ScreenSpaceEventHandler(window.earth.scene.canvas);
       // 监听左键点击事件
       handler.setInputAction((e) => {
         const pick = window.earth.scene.pick(e.position);
@@ -262,14 +261,12 @@ export default {
       window.earth = new Cesium.Viewer("cesiumContainer", {
         infoBox: false,
         selectionIndicator: false,
-        shadows: false,
+        // timeline:true,
+        shadows: true,
         // contextOptions: {
         //   maxDrawingBufferWidth: 15360,
         //   maxDrawingBufferHeight: 4320,
         // },
-        // terrainShadows: Cesium.ShadowMode.ENABLED,
-        // shouldAnimate: true,
-        // terrainProvider: Cesium.createWorldTerrain(),
       });
       //  地图配置
       mapConfigInit();
@@ -287,6 +284,8 @@ export default {
       await mapBaimoLayerInit(ServiceUrl.WZBaimo_OBJ);
       //  路灯、光源叠加
       mapRoadLampLayerInit();
+      //  阴影
+      // mapShadowInit();
       //  回调钩子
       fn && fn();
     },
