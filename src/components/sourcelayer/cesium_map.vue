@@ -262,7 +262,7 @@ export default {
         infoBox: false,
         selectionIndicator: false,
         // timeline:true,
-        shadows: true,
+        shadows: false,
         // contextOptions: {
         //   maxDrawingBufferWidth: 15360,
         //   maxDrawingBufferHeight: 4320,

@@ -54,7 +54,7 @@ export default {
         Cesium.when(PROMISES[PROMISES.length - 1], async ([forceLayer, ...oLayer]) => {
           LAYERS.map((v) => {
             const V_LAYER = window.earth.scene.layers.find(v.key);
-            v.s && (V_LAYER.shadowType = 2);
+            // v.s && (V_LAYER.shadowType = 2);
             V_LAYER.visibleDistanceMax = v.d || 1400;
             // V_LAYER.lodRangeScale = 0.01;
           });
