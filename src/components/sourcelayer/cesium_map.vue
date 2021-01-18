@@ -87,7 +87,7 @@ export default {
   data() {
     return {
       showSubFrame: null,
-      showSubHubFrame: "",
+      showSubHubFrame: "3d1",
       mapLoaded: false,
       validated: false,
       isInfoFrame: false,
