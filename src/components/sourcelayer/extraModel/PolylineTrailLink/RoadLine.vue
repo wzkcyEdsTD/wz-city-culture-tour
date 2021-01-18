@@ -34,7 +34,6 @@ export default {
       const that = this;
       window.defaultSkyBox = window.earth.scene.skyBox;
       this.$bus.$on("cesium-3d-switch", ({ value }) => {
-        const _LAYER_ = window.earth.scene.layers.find("baimo");
         this.changeSkyBox(!value ? "day" : "night");
       });
     },

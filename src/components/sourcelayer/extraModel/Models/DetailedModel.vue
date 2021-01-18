@@ -38,6 +38,7 @@ export default {
     //  初始化BIM场景
     initBimScene(fn) {
       window.earth.scene.bloomEffect.show = false;
+      if (!LAYERS.length) return;
       const _LAYER_ = window.earth.scene.layers.find(LAYERS[0].key);
       if (_LAYER_) {
         LAYERS.map((v) => {
@@ -55,7 +56,7 @@ export default {
             const V_LAYER = window.earth.scene.layers.find(v.key);
             v.s && (V_LAYER.shadowType = 2);
             V_LAYER.visibleDistanceMax = v.d || 1400;
-            V_LAYER.lodRangeScale = 0.01;
+            // V_LAYER.lodRangeScale = 0.01;
           });
         });
       }

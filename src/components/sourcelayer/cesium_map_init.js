@@ -7,7 +7,7 @@ import window_array from "config/local/windowPositions";
  */
 export const mapConfigInit = () => {
     // window.earth.scene.globe.depthTestAgainstTerrain = false;
-    // window.earth.scene.debugShowFramesPerSecond = true;
+    window.earth.scene.debugShowFramesPerSecond = true;
     window.earth.clock.currentTime.secondsOfDay = 51830.97475229357
     // window.earth.scene.fxaa = true;
     window.earth.scene.sun.show = true;
@@ -19,7 +19,7 @@ export const mapConfigInit = () => {
         "rgba(13,24,45, 1)"
     );
     // window.earth.scene.globe.enableLighting = true;
-    window.earth.scene.shadowMap.darkness = 0.3;
+    window.earth.scene.shadowMap.darkness = 0.35;
     // window.earth.scene.lightSource.ambientLightColor = new Cesium.Color(0.65, 0.65, 0.65, 1);
 }
 
