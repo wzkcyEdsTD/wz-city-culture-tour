@@ -7,7 +7,7 @@ import window_array from "config/local/windowPositions";
  */
 export const mapConfigInit = () => {
     // window.earth.scene.globe.depthTestAgainstTerrain = false;
-    window.earth.scene.debugShowFramesPerSecond = true;
+    // window.earth.scene.debugShowFramesPerSecond = true;
     window.earth.clock.currentTime.secondsOfDay = 51830.97475229357
     // window.earth.scene.fxaa = true;
     window.earth.scene.sun.show = true;
