@@ -257,7 +257,6 @@ export default {
      * @param {function} fn 回调函数
      */
     async init3DMap(fn) {
-      const that = this;
       window.earth = new Cesium.Viewer("cesiumContainer", {
         infoBox: false,
         selectionIndicator: false,

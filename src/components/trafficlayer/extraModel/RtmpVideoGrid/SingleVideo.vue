@@ -13,11 +13,7 @@
       >
       </el-option>
     </el-select>
-    <el-select
-      class="rtmp-video-select"
-      v-model="forceVideo"
-      @change="resetRtmpVideo"
-    >
+    <el-select class="rtmp-video-select" v-model="forceVideo" @change="resetRtmpVideo">
       <el-option
         v-for="item in forceVideoList"
         :key="item.mp_name"
@@ -66,10 +62,7 @@ export default {
       const { x, y } = this.selectOption.filter(
         (v) => v.name == this.forceBayonet
       )[0].geometry;
-      const { data } = await getRtmpVideoList(
-        { lat: y, lng: x },
-        this.radiusRange
-      );
+      const { data } = await getRtmpVideoList({ lat: y, lng: x }, this.radiusRange);
       this.forceVideoList = data;
       this.forceVideo = data[0].mp_id;
       this.mp_id = undefined;

@@ -15,7 +15,30 @@
       class="leaflet-popup-bayonet"
       :style="{ transform: `translate3d(${item.x}px,${item.y + 10}px, 0)` }"
     >
-      <div class="popup-tip-container">
+      <div class="around-people" v-if="bufferHash[item.id]">
+        <div>
+          <header>周边实时人口</header>
+          <div>
+            <p>范围：500米</p>
+            <strong>{{ `人数：${bufferHash[item.id].data || "-"}人` }}</strong>
+            <p>{{ bufferHash[item.id].task_time }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="main-body">
+        <img
+          @mouseover="hiddenHash[item.id] = true"
+          @mouseleave="hiddenHash[item.id] = false"
+          class="bayonet-ico"
+          :src="`/static/images/common/${item.extra_data.category}-${item.extra_data.status}.png`"
+        />
+      </div>
+      <div
+        class="popup-tip-container"
+        v-show="item.extra_data.status == '红' || hiddenHash[item.id]"
+        @mouseover="hiddenHash[item.id] = true"
+        @mouseleave="hiddenHash[item.id] = false"
+      >
         <div class="popup-tip-inner">
           <!-- <div class="tip-name">{{ item.name }}</div> -->
           <div class="tip-num">
@@ -47,30 +70,6 @@
           <span @click="doVideoRtmp(item)">直达现场</span>
           <span @click="doCircleBuffer(item)">周边人口</span>
         </div>
-        <div class="around-people" v-if="bufferHash[item.id]">
-          <img src="/static/images/common/frameline@2x.png" />
-          <div>
-            <header>周边实时人口</header>
-            <div>
-              <p>范围：500米</p>
-              <strong>{{ `人数：${bufferHash[item.id].data || "-"}人` }}</strong>
-              <p>{{ bufferHash[item.id].task_time }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="main-body">
-        <!-- <img :src="`/static/images/common/快速路流量-绿.png`" />
-        <img src="/static/images/common/warn@2x.png" />-->
-        <img
-          class="bayonet-ico"
-          :src="`/static/images/common/${item.extra_data.category}-${item.extra_data.status}.png`"
-        />
-        <!-- <img
-          class="bayonet-warn"
-          v-if="item.extra_data.status=='红'"
-          src="/static/images/common/warn@2x.png"
-        />-->
       </div>
     </div>
   </div>
@@ -86,6 +85,8 @@ export default {
       popList: [],
       // 保存是否周边查询
       bufferHash: {},
+      //  是否展示
+      hiddenHash: {},
     };
   },
   computed: {
@@ -215,10 +216,17 @@ export default {
   text-align: center;
   top: -20px;
   left: 0;
+  height: 0;
+  width: 0;
   cursor: pointer;
+  .around-people {
+    left: -32vh;
+  }
   .main-body {
     width: 100%;
     height: 0;
+    position: absolute;
+    z-index: 2;
     > .bayonet-ico {
       position: absolute;
       width: 30px;
@@ -236,6 +244,9 @@ export default {
     }
   }
   .popup-tip-container {
+    position: absolute;
+    bottom: 0vh;
+    right: -10.5vh;
     width: 21vh;
     height: 15vh;
     background-image: url(/static/images/common/bayonet-frame@2x.png);

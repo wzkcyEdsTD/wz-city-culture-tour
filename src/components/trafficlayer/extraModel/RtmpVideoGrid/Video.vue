@@ -21,7 +21,9 @@ export default {
     clearInterval(this.videoTimer);
   },
   mounted() {
-    this.getVideoURL();
+    setTimeout(() => {
+      this.getVideoURL();
+    }, this.index * 2000);
   },
   methods: {
     async getVideoURL() {
