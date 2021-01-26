@@ -231,9 +231,9 @@ export default {
           _LAYER_.visible = !value ? false : true;
         });
         //  鼠标缩放限制
-        window.earth.scene.screenSpaceCameraController.maximumZoomDistance = !value
-          ? 800
-          : Infinity;
+        // window.earth.scene.screenSpaceCameraController.maximumZoomDistance = !value
+        //   ? 800
+        //   : Infinity;
         //  底图切换
         window.datalayer.show = !value ? false : true;
         window.imagelayer
