@@ -81,7 +81,7 @@ const getIndexPoints = (WzOverviewData) => {
             "x": 120.6985,
             "y": 27.9939
         },
-        value: WzOverviewData.规上工业 && WzOverviewData.规上工业.industryAddValue ? WzOverviewData.规上工业.industryAddValue : '368.02',
+        value: WzOverviewData.规上工业 && WzOverviewData.规上工业.industryAddValue ? WzOverviewData.规上工业.industryAddValue : '-',
         unit: '亿元',
         label: "规上工业增加值"
     }, {
@@ -89,7 +89,7 @@ const getIndexPoints = (WzOverviewData) => {
             "x": 120.6953,
             "y": 27.9979
         },
-        value: WzOverviewData.gdp || '3076',
+        value: WzOverviewData.gdp || '-',
         unit: '亿元',
         label: "地区GDP"
     }, {
@@ -97,7 +97,7 @@ const getIndexPoints = (WzOverviewData) => {
             "x": 120.6989,
             "y": 27.9985
         },
-        value: WzOverviewData.people || '833.55',
+        value: WzOverviewData.people || '-',
         unit: '万人',
         label: "全市人口"
     }, {

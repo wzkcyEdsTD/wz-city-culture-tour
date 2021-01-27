@@ -32,7 +32,8 @@ export const SetWzOverviewData = async ({ commit, state }) => {
   if (!Object.keys(state.WzOverviewData).length) {
     const { result } = await fetchWzOverviewData();
     const peopleResponse = await fetchWzPeopleData();
-    commit(types.SET_WZ_OVERVIEW_dATA, { ...result, gdp: 3076, people: peopleResponse.result["常住人口登记——总数"] ? (peopleResponse.result["常住人口登记——总数"].currentNum / 10000).toFixed(2) : '-' });
+    const gdp = result['温州GDP'] ? result['温州GDP'][Object.keys(result['温州GDP'])[0]].map(v => v.l_value) : [0]
+    commit(types.SET_WZ_OVERVIEW_dATA, { ...result, gdp: +eval(gdp.join('+')), people: peopleResponse.result["常住人口登记——总数"] ? (peopleResponse.result["常住人口登记——总数"].currentNum / 10000).toFixed(2) : '-' });
   }
 }
 
