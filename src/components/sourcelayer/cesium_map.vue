@@ -242,7 +242,7 @@ export default {
           ? (window.imagelayer = mapImageLayerInit(ServiceUrl.SWImage))
           : undefined;
         //  光源显示
-        // mapRoadLampLayerTurn(!value ? false : true);
+        mapRoadLampLayerTurn(!value ? false : true);
         //  河流显示
         window.earth.scene.layers.find("RIVER").visible = !value ? true : false;
         //  历史页面做回调
@@ -282,7 +282,7 @@ export default {
       //  白模叠加
       await mapBaimoLayerInit(ServiceUrl.WZBaimo_OBJ);
       //  路灯、光源叠加
-      // mapRoadLampLayerInit();
+      mapRoadLampLayerInit();
       //  阴影
       // mapShadowInit();
       //  回调钩子
