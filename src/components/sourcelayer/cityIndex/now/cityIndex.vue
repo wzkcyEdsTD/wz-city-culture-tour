@@ -11,7 +11,7 @@
           </div>
           <div class="desc">
             温州全市 /
-            <span>当季度</span>
+            <span>当年</span>
           </div>
           <div class="number">
             <DynamicNum :value="WzOverviewData.gdp" />

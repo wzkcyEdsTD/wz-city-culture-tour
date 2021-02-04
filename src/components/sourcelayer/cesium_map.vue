@@ -242,7 +242,7 @@ export default {
           ? (window.imagelayer = mapImageLayerInit(ServiceUrl.SWImage))
           : undefined;
         //  光源显示
-        mapRoadLampLayerTurn(!value ? false : true);
+        // mapRoadLampLayerTurn(!value ? false : true);
         //  河流显示
         window.earth.scene.layers.find("RIVER").visible = !value ? true : false;
         //  历史页面做回调
@@ -260,8 +260,8 @@ export default {
       window.earth = new Cesium.Viewer("cesiumContainer", {
         infoBox: false,
         selectionIndicator: false,
-        // timeline:true,
         shadows: false,
+        // timeline:true,
         // contextOptions: {
         //   maxDrawingBufferWidth: 15360,
         //   maxDrawingBufferHeight: 4320,
@@ -274,7 +274,7 @@ export default {
       //  大数据地图
       window.datalayer = mapImageLayerInit(ServiceUrl.DataImage);
       //  地图注记
-      const mapMvt = mapMvtLayerInit("mapMvt", ServiceUrl.YJMVT);
+      mapMvtLayerInit("mapMvt", ServiceUrl.YJMVT);
       //  重要地物注记
       // const keyMvt = mapMvtLayerInit("keyMvt", ServiceUrl.KEYMVT);
       //  水面
@@ -282,7 +282,7 @@ export default {
       //  白模叠加
       await mapBaimoLayerInit(ServiceUrl.WZBaimo_OBJ);
       //  路灯、光源叠加
-      mapRoadLampLayerInit();
+      // mapRoadLampLayerInit();
       //  阴影
       // mapShadowInit();
       //  回调钩子

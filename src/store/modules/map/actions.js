@@ -111,6 +111,11 @@ export const SetWzMedicalData = async ({ commit, state }) => {
   }
 };
 
+//  获取全市事件总数
+export const SetWzEventData = async ({ commit, state }) => {
+  commit(types.SET_WZ_EVENT_DATA, {});
+}
+
 //  设置医院数据
 export const SetHospitalList = ({ commit }, data) => {
   commit(types.SET_HOSPITAL_LIST, data);
@@ -232,4 +237,8 @@ export const SetForceTrueTopicLabels = ({ commit }, data) => {
 //  设置tab子菜单下标
 export const SetForceTrueTopicLabelId = ({ commit }, data) => {
   commit(types.SET_FORCE_TRUE_TOPIC_LABEL_ID, data);
+};
+//  设置图层模式
+export const SetIsSourceLayer = ({ commit }, data) => {
+  commit(types.SET_IS_SOURCE_LAYER, data);
 };

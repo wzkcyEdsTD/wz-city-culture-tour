@@ -1,0 +1,29 @@
+.around-source-analyse {
+    right: 10vh;
+    top: 10vh;
+    width: 20vh;
+
+    .header {
+        display: block;
+        height: 4vh;
+        line-height: 4vh;
+        font-family: YouSheBiaoTiHei;
+        font-size: 3.2vh;
+        color: #ffffff;
+        text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.64);
+        position: relative;
+        padding-left: 1.6vh;
+    }
+
+    .header::before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0.6vh;
+        width: 14vh;
+        height: 1.6vh;
+        z-index: -1;
+        background-image: linear-gradient(90deg, #2acbfe 0%, transparent 100%);
+        transform: skewX(-30deg);
+    }
+}

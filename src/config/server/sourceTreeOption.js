@@ -89,6 +89,7 @@ const EMERGENCY_TOPIC = [
 //  资源专题
 const SOURCE_TOPIC = [
   { label: "农贸市场点", dataset: "FarmersMarket_SiQu_P" },
+  { label: "企业用电", dataset: "company_electricity", hiddenLabel: true },
   { label: "派出所", dataset: "PoliceStation" },
   { label: "市场商场", dataset: "market_mall" },
   { label: "社会福利机构", dataset: "D_HAZARDS_BEADHOUSESHP" },
@@ -111,7 +112,7 @@ const TRAFFIC_TOPIC = [
     withExtraDataGeometry: "bayonetListWithGeometry",
     saveExtraDataByGeometry: "setBayonetListWithGeometry",
     withExtraKey: "MC",
-    hiddenLabel: true
+    hiddenIcon: true
   },
   {
     label: "S1线路",

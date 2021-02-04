@@ -56,12 +56,6 @@
                     {{ item.extra_data.current_num || "-" }}
                   </td>
                 </tr>
-                <!-- <tr>
-                  <td>卡口状态</td>
-                  <td :class="item.color">
-                    {{ item.extra_data.status || "-" }}
-                  </td>
-                </tr> -->
               </tbody>
             </table>
           </div>

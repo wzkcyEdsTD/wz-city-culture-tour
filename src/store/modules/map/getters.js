@@ -7,8 +7,6 @@
  * @FilePath: \wz-city-culture-tour\src\store\modules\map\getters.js
  */
 
-import state from "./state";
-
 // 获取state
 export const forceMapTypeBase = state => state.forceMapTypeBase;
 export const currentMapType = state => state.currentMapType;
@@ -34,6 +32,7 @@ export const WzCultureData = state => state.WzCultureData;
 export const WzBasicData = state => state.WzBasicData;
 export const WzSourceData = state => state.WzSourceData;
 export const WzEmergencyData = state => state.WzEmergencyData;
+export const WzEventData = state => state.WzEventData;
 export const forceIndex = state => state.forceIndex;
 export const forceTime = state => state.forceTime;
 export const nightMode = state => state.nightMode;
@@ -41,3 +40,4 @@ export const cameraMode = state => state.cameraMode;
 export const forceTreeLabel = state => state.forceTreeLabel
 export const forceTrueTopicLabels = state => state.forceTrueTopicLabels;
 export const forceTrueTopicLabelId = state => state.forceTrueTopicLabelId;
+export const isSourceLayer = state => state.isSourceLayer;

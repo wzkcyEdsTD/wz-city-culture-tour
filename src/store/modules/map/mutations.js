@@ -35,6 +35,9 @@ const mutations = {
   [types.SET_WZ_MEDICAL_DATA](state, data) {
     state.WzMedicalData = data;
   },
+  [types.SET_WZ_EVENT_DATA](state, data) {
+    state.WzEventData = data;
+  },
   [types.SET_HOSPITAL_LIST](state, data) {
     state.hospitalList = data;
   },
@@ -103,6 +106,9 @@ const mutations = {
   },
   [types.SET_FORCE_TRUE_TOPIC_LABEL_ID](state, data) {
     state.forceTrueTopicLabelId = data;
+  },
+  [types.SET_IS_SOURCE_LAYER](state, data) {
+    state.isSourceLayer = data;
   }
 };
 

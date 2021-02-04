@@ -8,8 +8,10 @@
 -->
 <template>
   <div class="cityIndex-source">
+    <!-- 事件不加入fixForceIndex判断，来回切换保持原先force -->
     <div v-if="forceTime == 'now'">
-      <component :is="fixForceIndex" />
+      <component v-if="isSourceLayer" :is="fixForceIndex" />
+      <eventIndex v-else />
     </div>
     <div v-if="forceTime == 'pass'">
       <cityIndexPass />
@@ -44,6 +46,7 @@ import basicIndex from "./now/basicIndex";
 import sourceIndex from "./now/sourceIndex";
 import trafficIndex from "./now/trafficIndex";
 import keyIndex from "./now/keyIndex";
+import eventIndex from "./now/eventIndex";
 //  pass
 import cityIndexPass from "./pass/cityIndex";
 
@@ -52,14 +55,14 @@ export default {
     return { indexHash };
   },
   computed: {
-    ...mapGetters("map", ["forceTime", "forceIndex"]),
+    ...mapGetters("map", ["forceTime", "forceIndex", "isSourceLayer"]),
     fixForceIndex() {
       return indexHash[this.forceIndex] || "cityIndex";
     },
   },
   watch: {
     forceIndex(n) {
-      console.log(n);
+      console.log("[forceIndex]", n);
     },
   },
   components: {
@@ -74,6 +77,7 @@ export default {
     sourceIndex,
     trafficIndex,
     keyIndex,
+    eventIndex,
     cityIndexPass,
   },
 };

@@ -53,6 +53,7 @@
 </template>
 
 <script>
+import { getCompanyElectricity } from "@/api/cityBrainAPI";
 export default {
   data() {
     return {
@@ -83,6 +84,20 @@ export default {
       this.buffer = null;
       this.$bus.$emit("cesium-3d-population-circle", { doDraw: false });
       this.$bus.$emit("cesium-3d-rtmpFetch-cb");
+      this.fetchExtraData(forceEntity);
+    },
+    /**
+     * 获取额外信息
+     * @param {object} forceEntity 企业点
+     */
+    async fetchExtraData(forceEntity) {
+      if (
+        forceEntity.dataSet.includes("company_electricity") &&
+        forceEntity.attributes.CREDITCODE
+      ) {
+        const data = await getCompanyElectricity(forceEntity.attributes.CREDITCODE);
+        console.log(data);
+      }
     },
     /**
      *  框体移动

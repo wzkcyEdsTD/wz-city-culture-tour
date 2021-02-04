@@ -32,6 +32,13 @@ export const getRtmpVideoAll = () => {
   return getAxios("100007018");
 };
 /**
+ * 获取企业用电量 100025007
+ * @param {*} creditCode 
+ */
+export const getCompanyElectricity = (CreditCode) => {
+  return getAxios("100025007", { CreditCode });
+};
+/**
  * 获取视频列表 100006019
  * @param {*} param0
  * @param {*} token

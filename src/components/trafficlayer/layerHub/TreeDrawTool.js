@@ -110,7 +110,7 @@ export const treeDrawTool = (context, { result }, node, fields = [], fn) => {
       item.geometry.y,
       4
     );
-    !node.hiddenLabel && window.labelMap[node.id].add({
+    !node.hiddenIcon && window.labelMap[node.id].add({
       id: `label@${item.attributes.SMID}@${node.id}`,
       text: item.attributes.SHORTNAME || item.attributes[node.withExtraKey] || item.attributes.NAME,
       fillColor: Cesium.Color.WHITE,
@@ -126,7 +126,7 @@ export const treeDrawTool = (context, { result }, node, fields = [], fn) => {
       disableDepthTestDistance: Number.POSITIVE_INFINITY,
       position
     });
-    !node.hiddenLabel && window.billboardMap[node.id].add({
+    !node.hiddenIcon && window.billboardMap[node.id].add({
       id: `billboard@${item.attributes.SMID}@${node.icon}`,
       image: `/static/images/map-ico/${node.icon}.png`,
       width: 34,
