@@ -39,13 +39,6 @@ export const getCompanyElectricity = (CreditCode) => {
   return getAxios("100025007", { CreditCode });
 };
 /**
- * 获取周边分析点位 100021005
- * @param {*} obj 
- */
-export const getAroundSourceAnalyse = (obj) => {
-  return getAxios("100021005", obj);
-};
-/**
  * 获取视频列表 100006019
  * @param {*} param0
  * @param {*} token

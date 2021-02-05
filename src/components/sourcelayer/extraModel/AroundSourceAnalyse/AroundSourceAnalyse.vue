@@ -6,13 +6,12 @@
     </span>
     <div class="around-source-pick">
       <el-select
-        class="around-source-select"
+        class="around-source-select-source"
         v-model="selectSourceLayer"
         multiple
-        size="mini"
         :clearable="true"
         placeholder="请选择"
-        @change="optionUpdateHandler"
+        @change="sourceUpdateHandler"
       >
         <el-option
           v-for="item in aroundOption"
@@ -21,20 +20,35 @@
           :value="item.value"
         />
       </el-select>
+      <el-select
+        class="around-source-select-distance"
+        v-model="distance"
+        @change="distanceUpdateHandler"
+      >
+        <el-option
+          v-for="item in distanceOption"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        />
+      </el-select>
     </div>
     <div class="around-source-list">
       <el-collapse accordion>
-        <el-collapse-item
-          v-for="(item, index) in aroundSourceAnalyseList"
-          :key="index"
-          :title="item.title"
-        >
+        <el-collapse-item v-for="(item, index) in aroundSourceAnalyseList" :key="index">
+          <template slot="title">
+            <img
+              class="around-source-list-icon"
+              :src="`/static/images/map-ico/${item.title}.png`"
+            /><span>{{ `${item.title} (${item.list.length})` }}</span>
+          </template>
           <div
             class="around-source-list-single"
             v-for="(value, subIndex) in item.list"
             :key="subIndex"
           >
-            {{ subIndex }}
+            <span>{{ value.resourceName }}</span>
+            <span>距离:{{ (+value.distance).toFixed(2) }}米</span>
           </div>
         </el-collapse-item>
       </el-collapse>
@@ -45,7 +59,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { CESIUM_TREE_AROUND_ANALYSE_OPTION } from "config/server/sourceTreeOption";
-import { getAroundSourceAnalyse } from "@/api/cityBrainAPI";
+import { getAroundSourceAnalyse } from "@/api/layerServerAPI";
 const aroundOption = CESIUM_TREE_AROUND_ANALYSE_OPTION.children.map(
   ({ label, resourceType }) => {
     return { value: resourceType, label };
@@ -56,11 +70,16 @@ export default {
   data() {
     return {
       forceEntity: { lng: 120.654218, lat: 28.016064 },
-      distance: 500,
+      distance: 250,
+      distanceOption: [
+        { value: 250, label: "250m" },
+        { value: 500, label: "500m" },
+        { value: 1000, label: "1000m" },
+      ],
       selectSourceLayer: [],
       aroundOption,
       aroundSourceAnalyseList: [
-        // { title: "list1", list: [] }, 字段样例
+        // { title: "list1",value:"" list: [] }, 字段样例
       ],
     };
   },
@@ -95,41 +114,28 @@ export default {
     fetchSourceAround(forceEntity) {
       const { lng, lat } = forceEntity;
       const distance = this.distance;
+      const aroundSourceAnalyseList = [];
       //  周边分析
-      this.selectSourceLayer.map(async (resourceType) => {
-        const result = await getAroundSourceAnalyse({
-          resourceType,
-          lng,
-          lat,
-          distance,
+      aroundOption
+        .filter((v) => ~this.selectSourceLayer.indexOf(v.value))
+        .map(async ({ label, value }) => {
+          const { data } = await getAroundSourceAnalyse({
+            resourceType: value,
+            lng,
+            lat,
+            distance,
+          });
+          aroundSourceAnalyseList.push({ title: label, list: data });
         });
-        console.log(result);
-      });
-    },
-    //  获取数据集点位
-    fetchFromDataSets(geometry, newdataset, url) {
-      return new Promise((resolve, reject) => {
-        const getFeaturesByGeometryService = new SuperMap.REST.GetFeaturesByGeometryService(
-          url,
-          {
-            eventListeners: {
-              processCompleted: (data) => data && resolve(data.originResult),
-              processFailed: (err) => reject(err),
-            },
-          }
-        );
-        getFeaturesByGeometryService.processAsync(
-          new SuperMap.REST.GetFeaturesByGeometryParameters({
-            datasetNames: [newdataset],
-            geometry,
-            toIndex: -1,
-          })
-        );
-      });
+      this.aroundSourceAnalyseList = aroundSourceAnalyseList;
     },
     initSelectSourceLayer() {
       this.selectSourceLayer = aroundOption.map((v) => v.value);
     },
+    //
+    sourceUpdateHandler() {},
+    //
+    distanceUpdateHandler() {},
     //  关闭周边分析
     closeAroundSourceAnalyse() {
       this.forceEntity = undefined;

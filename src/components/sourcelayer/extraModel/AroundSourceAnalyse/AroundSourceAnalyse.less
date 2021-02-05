@@ -2,8 +2,8 @@
     position: fixed;
     z-index: 10;
     right: 10vh;
-    top: 10vh;
-    width: 40vh;
+    top: 12vh;
+    width: 50vh;
 
     .header {
         display: block;
@@ -38,13 +38,27 @@
 
     .around-source-pick {
         margin-top: 1vh;
+        display: flex;
 
-        &/deep/ .around-source-select {
-            width: 100%;
+        &/deep/ .around-source-select-source {
+            flex: 1;
+        }
+
+        &/deep/ .around-source-select-distance {
+            width: 10vh;
         }
     }
 
     .around-source-list {
         margin-top: 1vh;
+
+        .around-source-list-icon {
+            width: 4vh;
+        }
+
+        &/deep/ .el-collapse-item__content {
+            overflow-y: auto;
+            max-height: 36vh;
+        }
     }
 }
