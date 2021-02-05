@@ -93,3 +93,8 @@ export const getWzAllMedicalInsuranceInstitution = () => {
 export const getWzAllMedicalInsurancePayment = () => {
   return getAxios("100004125");
 };
+
+export const getEventData = (event) => {
+  console.log('event', event)
+  return { "data": [{ "msgType": 3, "cdcProviderId": 2, "scence": "jgqzhxf", "eventUrl": null, "origin": "火灾战警", "title": "智慧消防-全福桥路298号发生开⻔事件", "content": "全福桥路298号发生开⻔事件", "eventPlaceName": null, "eventCoordinate": "120.654218,28.016064", "eventDuration": null, "eventTime": "2020-06-18", "id": 10, "superviseStatus": 0, "areaCode": "330104012000", "innerEventId": "147952" }], "success": true, "requestId": "c0a858011592534339649433726827", "errorCode": "0", "errorMsg": "success" }
+};

@@ -142,10 +142,10 @@ const TRAFFIC_TOPIC = [
 
 //  事件专题
 const EVENT_TOPIC = [
-  { label: "消防火灾事件", dataset: "HuoCheZhan" },
-  { label: "水位超警事件", dataset: "HuoCheZhan" },
-  { label: "突发公共卫生事件", dataset: "HuoCheZhan" },
-  { label: "矛盾调解事件", dataset: "HuoCheZhan" },
+  { label: "消防火灾事件", event: "fire" },
+  { label: "水位超警事件", event: "water" },
+  { label: "突发公共卫生事件", event: "public" },
+  { label: "矛盾调解事件", event: "contradiction" },
 ];
 
 const CITY_TOPIC = [
@@ -322,7 +322,7 @@ export const CESIUM_TREE_EVENT_OPTION = [{
       icon: v.label,
       url: SERVER_DEFAULT_DATA,
       type: v.type || "mvt",
-      newdataset: `${SW_DATA_NAME}${v.dataset}`
+      // newdataset: `${SW_DATA_NAME}${v.dataset}`
     };
   })
 }]

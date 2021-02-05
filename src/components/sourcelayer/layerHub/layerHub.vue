@@ -118,6 +118,9 @@ import {
   CESIUM_TREE_EVENT_OPTION,
   CESIUM_TREE_EXTRA_DATA,
 } from "config/server/sourceTreeOption";
+import {
+  getEventData
+} from "api/cityBrainAPI";
 const Cesium = window.Cesium;
 
 export default {
@@ -190,7 +193,6 @@ export default {
      * 默认选中二级菜单第一个点
      */
     initForceTreeTopic() {
-      console.log('initForceTreeTopic')
       //  清除旧图层
       this.forceTreeTopic
         .filter((v) => ~this.forceTrueTopicLabels.indexOf(v.id))
@@ -271,6 +273,28 @@ export default {
       });
       getFeatureBySQLService.processAsync(getFeatureBySQLParams);
     },
+    async getAPIFeature(node, fn) {
+      let res = await getEventData(node.event)
+      console.log('res', res)
+      if (res.success) {
+        let features = []
+        res.data.forEach(item => {
+          features.push({
+            attributes: {
+              NAME: item.title,
+              SMID: item.id,
+            },
+            geometry: {
+              x: Number(item.eventCoordinate.split(',')[0]),
+              y: Number(item.eventCoordinate.split(',')[1])
+            }
+          })
+        })
+        console.log(444, features)
+        treeDrawTool(this, { result: { features: features } }, node);
+        fn && fn();
+      }
+    },
     nodeCheckChange(node, checked, topicLoad) {
       if (checked) {
         if (node.type == "mvt" && node.id) {
@@ -280,9 +304,15 @@ export default {
             );
             window.labelMap[node.id].setAllLabelsVisible(true);
           } else {
-            this.getPOIPickedFeature(node, () => {
-              this.switchSearchBox(node, topicLoad);
-            });
+            if (this.isSourceLayer) {
+              this.getPOIPickedFeature(node, () => {
+                this.switchSearchBox(node, topicLoad);
+              });
+            } else {
+              this.getAPIFeature(node, () => {
+                // this.switchSearchBox(node, topicLoad);
+              })
+            }
             return
           }
         } else if (node.type == "model") {
