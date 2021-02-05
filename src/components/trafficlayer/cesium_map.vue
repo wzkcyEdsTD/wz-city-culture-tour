@@ -137,9 +137,7 @@ export default {
       });
     },
     initHandler() {
-      const handler = new Cesium.ScreenSpaceEventHandler(
-        window.earth.scene.canvas
-      );
+      const handler = new Cesium.ScreenSpaceEventHandler(window.earth.scene.canvas);
       // 监听左键点击事件
       handler.setInputAction((e) => {
         const pick = window.earth.scene.pick(e.position);
@@ -265,14 +263,7 @@ export default {
     // color: rgb(42, 104, 163);
   }
 }
-.mapCover {
-  position: fixed;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  z-index: 8;
-}
+
 .cesium-viewer-navigationContainer {
   display: none;
 }

@@ -45,7 +45,6 @@
 
 <script>
 import { ServiceUrl } from "config/server/mapConfig";
-// import CesiumMapVideo from "components/sourcelayer/extraModel/CesiumMapVideo/CesiumMapVideo";
 import LayerHub from "components/sourcelayer/layerHub/layerHub";
 import SearchBox from "components/sourcelayer/layerHub/searchBox";
 import CityIndex from "components/sourcelayer/CityIndex/index";
@@ -64,10 +63,6 @@ import RoadLine from "components/sourcelayer/extraModel/PolylineTrailLink/RoadLi
 import VideoCircle from "components/sourcelayer/commonFrame/postMessage/videoCircle";
 import AuthFailPopup from "components/sourcelayer/commonFrame/AuthFailPopup/AuthFailPopup";
 import Overview from "components/sourcelayer/extraModel/Overview/Overview.vue";
-import {
-  getCurrentExtent,
-  isContainByExtent,
-} from "components/sourcelayer/commonFrame/mapTool";
 import { CenterPoint } from "mock/overview.js";
 import {
   mapConfigInit,
@@ -104,7 +99,6 @@ export default {
     this.forceTreeLabel == "城市总览" && (this.showSubHubFrame = "3d1");
   },
   components: {
-    // CesiumMapVideo,
     LayerHub,
     SearchBox,
     CityIndex,
@@ -307,14 +301,7 @@ export default {
     width: 100%;
   }
 }
-.mapCover {
-  position: fixed;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  z-index: 8;
-}
+
 .cesium-viewer-navigationContainer {
   display: none;
 }
