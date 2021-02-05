@@ -140,6 +140,14 @@ const TRAFFIC_TOPIC = [
   { label: "收费站", dataset: "ShouFeiZhan" },
 ];
 
+//  事件专题
+const EVENT_TOPIC = [
+  { label: "消防火灾事件", dataset: "HuoCheZhan" },
+  { label: "水位超警事件", dataset: "HuoCheZhan" },
+  { label: "突发公共卫生事件", dataset: "HuoCheZhan" },
+  { label: "矛盾调解事件", dataset: "HuoCheZhan" },
+];
+
 const CITY_TOPIC = [
   {
     label: "城市总览",
@@ -297,6 +305,20 @@ export const CESIUM_TREE_OPTION = [
     })
   },
 ];
+export const CESIUM_TREE_EVENT_OPTION = [{
+  id: "事件专题",
+  label: "事件专题",
+  children: EVENT_TOPIC.map(v => {
+    return {
+      ...v,
+      id: v.label,
+      icon: v.label,
+      url: SERVER_DEFAULT_DATA,
+      type: v.type || "mvt",
+      newdataset: `${SW_DATA_NAME}${v.dataset}`
+    };
+  })
+}]
 export const CESIUM_TREE_TRAFFIC_OPTION = [{
   id: "交通专题",
   label: "交通专题",

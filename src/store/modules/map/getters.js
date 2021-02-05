@@ -40,4 +40,6 @@ export const cameraMode = state => state.cameraMode;
 export const forceTreeLabel = state => state.forceTreeLabel
 export const forceTrueTopicLabels = state => state.forceTrueTopicLabels;
 export const forceTrueTopicLabelId = state => state.forceTrueTopicLabelId;
+export const forceEventTopicLabels = state => state.forceEventTopicLabels;
+export const forceEventTopicLabelId = state => state.forceEventTopicLabelId;
 export const isSourceLayer = state => state.isSourceLayer;

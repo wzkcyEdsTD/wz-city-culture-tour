@@ -8,9 +8,11 @@
 -->
 <template>
   <div class="bottom-wrapper">
+    <img class="layer-btn source" src="/static/images/layer-ico/资源总览闪电球.png" @click="changeLayer('source')" />
+    <img class="layer-btn event" src="/static/images/layer-ico/事件监测闪电球.png" @click="changeLayer('event')" />
     <div
       class="bottom-layers-container"
-      v-show="forceTreeLabel != '城市总览' && forceTreeTopic.length"
+      v-show="isSourceLayer && forceTreeLabel != '城市总览' && forceTreeTopic.length"
     >
       <div class="swiper-buttons swiper-button-left"></div>
       <swiper ref="mySwiper" class="layers" :options="swiperOptions">
@@ -39,8 +41,39 @@
       </swiper>
       <div class="swiper-buttons swiper-button-right"></div>
     </div>
+    <div
+      class="bottom-layers-container"
+      v-show="!isSourceLayer && forceTreeTopic.length"
+    >
+      <div class="swiper-buttons swiper-button-left"></div>
+      <swiper ref="mySwiper" class="layers" :options="swiperOptions">
+        <swiper-slide
+          v-for="(item, i) in forceTreeTopic"
+          :key="i"
+          :class="{
+            item: true,
+            active: ~forceEventTopicLabels.indexOf(item.id),
+          }"
+        >
+          <div>
+            <img
+              :src="`/static/images/hub-ico/${item.icon}@2x.png`"
+              @click="doForceEventTopicLabels(item.id)"
+            />
+            <!-- 先不用::after 伪类绑定 -->
+            <div
+              class="rings"
+              v-if="~forceEventTopicLabels.indexOf(item.id)"
+              @click="doForceEventTopicLabels(item.id)"
+            />
+            <p>{{ item.id }}</p>
+          </div>
+        </swiper-slide>
+      </swiper>
+      <div class="swiper-buttons swiper-button-right"></div>
+    </div>
     <div class="bottom-topics-container">
-      <ul class="labels">
+      <ul class="labels" v-show="isSourceLayer">
         <li
           v-for="(item, i) in CESIUM_TREE_OPTION"
           :key="i"
@@ -50,6 +83,19 @@
             disabled: item.disabled,
           }"
           @click="!item.disabled ? SetForceTreeLabel(item.id) : undefined"
+        >
+          <i>{{ item.label }}</i>
+        </li>
+      </ul>
+      <ul class="labels" v-show="!isSourceLayer">
+        <li
+          v-for="(item, i) in CESIUM_TREE_EVENT_OPTION"
+          :key="i"
+          :class="{
+            item: true,
+            active: true,
+            disabled: item.disabled,
+          }"
         >
           <i>{{ item.label }}</i>
         </li>
@@ -69,6 +115,7 @@ import { treeDrawTool, fixTreeWithExtra } from "./TreeDrawTool";
 import { getIserverFields } from "api/iServerAPI";
 import {
   CESIUM_TREE_OPTION,
+  CESIUM_TREE_EVENT_OPTION,
   CESIUM_TREE_EXTRA_DATA,
 } from "config/server/sourceTreeOption";
 const Cesium = window.Cesium;
@@ -79,6 +126,7 @@ export default {
     return {
       //  底部树
       CESIUM_TREE_OPTION,
+      CESIUM_TREE_EVENT_OPTION,
       forceTreeTopic: [],
       //  资源选中层
       swiperOptions: {
@@ -97,6 +145,8 @@ export default {
     ...mapGetters("map", [
       "forceTreeLabel",
       "forceTrueTopicLabels",
+      "isSourceLayer",
+      "forceEventTopicLabels",
       ...CESIUM_TREE_EXTRA_DATA,
     ]),
   },
@@ -121,6 +171,9 @@ export default {
         "SetForceTreeLabel",
         "SetForceTrueTopicLabels",
         "SetForceTrueTopicLabelId",
+        "SetForceEventTopicLabels",
+        "SetForceEventTopicLabelId",
+        "SetIsSourceLayer"
       ],
     ]),
     eventRegsiter() {
@@ -137,6 +190,7 @@ export default {
      * 默认选中二级菜单第一个点
      */
     initForceTreeTopic() {
+      console.log('initForceTreeTopic')
       //  清除旧图层
       this.forceTreeTopic
         .filter((v) => ~this.forceTrueTopicLabels.indexOf(v.id))
@@ -171,6 +225,21 @@ export default {
           ...new Set(this.forceTrueTopicLabels.concat([label.id])),
         ]);
         this.SetForceTrueTopicLabelId(label.id);
+        this.nodeCheckChange(label, true, true);
+      }
+    },
+    doForceEventTopicLabels(id) {
+      const label = this.forceTreeTopic.filter((v) => v.id == id)[0];
+      if (~this.forceEventTopicLabels.indexOf(label.id)) {
+        let _fttl_ = [...this.forceEventTopicLabels];
+        _fttl_.splice(_fttl_.indexOf(label.id), 1);
+        this.SetForceEventTopicLabels(_fttl_);
+        this.nodeCheckChange(label, false);
+      } else {
+        this.SetForceEventTopicLabels([
+          ...new Set(this.forceEventTopicLabels.concat([label.id])),
+        ]);
+        this.SetForceEventTopicLabelId(label.id);
         this.nodeCheckChange(label, true, true);
       }
     },
@@ -214,6 +283,7 @@ export default {
             this.getPOIPickedFeature(node, () => {
               this.switchSearchBox(node, topicLoad);
             });
+            return
           }
         } else if (node.type == "model") {
           node.componentEvent &&
@@ -254,6 +324,25 @@ export default {
         node,
       });
     },
+    changeLayer(layer) {
+      if (layer == 'source') {
+        this.SetIsSourceLayer(true)
+        const Topics = this.CESIUM_TREE_OPTION.filter(
+          (v) => v.label == this.forceTreeLabel
+        );
+        this.forceTreeTopic = Topics.length ? Topics[0].children : [];
+      } else {
+        this.SetIsSourceLayer(false)
+        const Topics = this.CESIUM_TREE_EVENT_OPTION[0]
+        this.forceTreeTopic = Topics.children
+        if (!this.forceEventTopicLabels.length) {
+          const forceNode = this.forceTreeTopic[0];
+          this.SetForceEventTopicLabelId(forceNode.id);
+          this.SetForceEventTopicLabels([forceNode.id]);
+          this.nodeCheckChange(forceNode, true, true);
+        }
+      }
+    }
   },
 };
 </script>

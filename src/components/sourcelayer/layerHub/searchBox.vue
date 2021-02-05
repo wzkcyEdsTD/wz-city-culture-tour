@@ -10,12 +10,13 @@
   <div class="search-box" v-show="searchBoxVisible">
     <div class="header">
       <p class="title">资源选择</p>
-      <img
+      <!-- <p class="title" v-show="">事件列表</p> -->
+      <!-- <img
         class="menu"
         :src="searchBoxResult ? menuSelImg : menuImg"
         width="59px"
         @click="toogleVisible"
-      />
+      /> -->
     </div>
     <div class="searchHeader">
       <el-input
@@ -90,7 +91,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("map", [...CESIUM_TREE_EXTRA_DATA, "forceTrueTopicLabelId"]),
+    ...mapGetters("map", [...CESIUM_TREE_EXTRA_DATA, "forceTrueTopicLabelId", "isSourceLayer"]),
   },
   async mounted() {
     this.eventRegsiter();

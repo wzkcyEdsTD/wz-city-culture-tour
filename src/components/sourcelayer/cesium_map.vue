@@ -32,7 +32,7 @@
       <Overview ref="overview" v-if="showSubHubFrame == '3d1'" />
       <TrafficSubwayModel v-if="showSubHubFrame == '3d4'" />
       <VideoCircle ref="videoCircle" />
-      <RoadLine ref="roadline" />
+      <!-- <RoadLine ref="roadline" /> -->
       <InfoFrame ref="infoframe" v-show="isInfoFrame" />
       <div v-show="!isOverview">
         <RtmpVideo />
@@ -272,11 +272,11 @@ export default {
       //  重要地物注记
       // const keyMvt = mapMvtLayerInit("keyMvt", ServiceUrl.KEYMVT);
       //  水面
-      await mapRiverLayerInit("RIVER", ServiceUrl.STATIC_RIVER);
-      //  白模叠加
-      await mapBaimoLayerInit(ServiceUrl.WZBaimo_OBJ);
-      //  路灯、光源叠加
-      mapRoadLampLayerInit();
+      // await mapRiverLayerInit("RIVER", ServiceUrl.STATIC_RIVER);
+      // //  白模叠加
+      // await mapBaimoLayerInit(ServiceUrl.WZBaimo_OBJ);
+      // //  路灯、光源叠加
+      // mapRoadLampLayerInit();
       //  阴影
       // mapShadowInit();
       //  回调钩子

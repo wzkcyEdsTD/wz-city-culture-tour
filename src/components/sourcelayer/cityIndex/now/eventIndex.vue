@@ -1,72 +1,88 @@
 <template>
   <div class="target-wrapper">
-    <span class="header">旅游体征</span>
+    <span class="header">事件体征</span>
     <ul class="content">
       <li class="item">
-        <img src="/static/images/index/unknowns.png" />
+        <img src="/static/images/index/event/消防火灾事件.png" />
         <div>
           <div class="title">
             消防火灾事件数
             <span class="small">(起)</span>
           </div>
-          <div class="number">
-            昨日事件数
-            <DynamicNum :value="1" decimals="0" />
+          <div class="event-number">
+            <span>昨日事件数</span>
+            <div class="day-number">
+              <DynamicNum :value="1" decimals="0" />
+            </div>
           </div>
-          <div class="number">
-            本月事件总数
-            <DynamicNum :value="1" decimals="0" />
+          <div class="event-number">
+            <span>本月事件总数</span>
+            <div class="month-number">
+              <DynamicNum :value="1" decimals="0" />
+            </div>
           </div>
         </div>
       </li>
       <li class="item">
-        <img src="/static/images/index/unknowns.png" />
+        <img src="/static/images/index/event/水位超警事件.png" />
         <div>
           <div class="title">
             水位超警事件数
             <span class="small">(起)</span>
           </div>
-          <div class="number">
-            昨日事件数
-            <DynamicNum :value="1" decimals="0" />
+          <div class="event-number">
+            <span>昨日事件数</span>
+            <div class="day-number">
+              <DynamicNum :value="1" decimals="0" />
+            </div>
           </div>
-          <div class="number">
-            本月事件总数
-            <DynamicNum :value="1" decimals="0" />
+          <div class="event-number">
+            <span>本月事件总数</span>
+            <div class="month-number">
+              <DynamicNum :value="1" decimals="0" />
+            </div>
           </div>
         </div>
       </li>
       <li class="item">
-        <img src="/static/images/index/unknowns.png" />
+        <img src="/static/images/index/event/突发公共卫生事件.png" />
         <div>
           <div class="title">
             突发公共卫生事件数
             <span class="small">(起)</span>
           </div>
-          <div class="number">
-            昨日事件数
-            <DynamicNum :value="1" decimals="0" />
+          <div class="event-number">
+            <span>昨日事件数</span>
+            <div class="day-number">
+              <DynamicNum :value="1" decimals="0" />
+            </div>
           </div>
-          <div class="number">
-            本月事件总数
-            <DynamicNum :value="1" decimals="0" />
+          <div class="event-number">
+            <span>本月事件总数</span>
+            <div class="month-number">
+              <DynamicNum :value="1" decimals="0" />
+            </div>
           </div>
         </div>
       </li>
       <li class="item">
-        <img src="/static/images/index/unknowns.png" />
+        <img src="/static/images/index/event/矛盾调解事件.png" />
         <div>
           <div class="title">
-            矛盾调节事件数
+            矛盾调解事件数
             <span class="small">(起)</span>
           </div>
-          <div class="number">
-            昨日事件数
-            <DynamicNum :value="1" decimals="0" />
+          <div class="event-number">
+            <span>昨日事件数</span>
+            <div class="day-number">
+              <DynamicNum :value="1" decimals="0" />
+            </div>
           </div>
-          <div class="number">
-            本月事件总数
-            <DynamicNum :value="1" decimals="0" />
+          <div class="event-number">
+            <span>本月事件总数</span>
+            <div class="month-number">
+              <DynamicNum :value="1" decimals="0" />
+            </div>
           </div>
         </div>
       </li>

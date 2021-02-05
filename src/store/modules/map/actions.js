@@ -229,6 +229,7 @@ export const SetCameraMode = ({ commit }, data) => {
 //  设置tab下标
 export const SetForceTreeLabel = ({ commit }, data) => {
   commit(types.SET_FORCE_TREE_LABEL, data);
+  commit(types.SET_IS_SOURCE_LAYER, true);
 };
 //  设置tab子菜单下标数组
 export const SetForceTrueTopicLabels = ({ commit }, data) => {
@@ -237,6 +238,14 @@ export const SetForceTrueTopicLabels = ({ commit }, data) => {
 //  设置tab子菜单下标
 export const SetForceTrueTopicLabelId = ({ commit }, data) => {
   commit(types.SET_FORCE_TRUE_TOPIC_LABEL_ID, data);
+};
+//  设置tab子菜单下标数组
+export const SetForceEventTopicLabels = ({ commit }, data) => {
+  commit(types.SET_FORCE_EVENT_TOPIC_LABEL, data);
+};
+//  设置tab子菜单下标
+export const SetForceEventTopicLabelId = ({ commit }, data) => {
+  commit(types.SET_FORCE_EVENT_TOPIC_LABEL_ID, data);
 };
 //  设置图层模式
 export const SetIsSourceLayer = ({ commit }, data) => {
