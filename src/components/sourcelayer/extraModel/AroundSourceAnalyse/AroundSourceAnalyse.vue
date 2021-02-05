@@ -9,6 +9,7 @@
         class="around-source-select-source"
         v-model="selectSourceLayer"
         multiple
+        collapse-tags
         :clearable="true"
         placeholder="请选择"
         @change="sourceUpdateHandler"
