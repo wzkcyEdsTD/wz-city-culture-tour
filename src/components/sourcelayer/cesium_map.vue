@@ -32,8 +32,9 @@
       <Overview ref="overview" v-if="showSubHubFrame == '3d1'" />
       <TrafficSubwayModel v-if="showSubHubFrame == '3d4'" />
       <VideoCircle ref="videoCircle" />
-      <!-- <RoadLine ref="roadline" /> -->
+      <RoadLine ref="roadline" />
       <InfoFrame ref="infoframe" v-show="isInfoFrame" />
+      <AroundSourceAnalyse ref="aroundSourceAnalyse" />
       <div v-show="!isOverview">
         <RtmpVideo />
         <Population />
@@ -50,6 +51,7 @@ import SearchBox from "components/sourcelayer/layerHub/searchBox";
 import CityIndex from "components/sourcelayer/CityIndex/index";
 import Roulette from "components/sourcelayer/roulette/roulette";
 import DetailedModel from "components/sourcelayer/extraModel/Models/DetailedModel";
+import AroundSourceAnalyse from "components/sourcelayer/extraModel/AroundSourceAnalyse/AroundSourceAnalyse";
 import TrafficSubwayModel from "components/sourcelayer/extraModel/Models/TrafficSubwayModel";
 import InfoFrame from "components/sourcelayer/commonFrame/InfoFrame/InfoFrame";
 import MedicalPopup from "components/sourcelayer/commonFrame/Popups/medicalPopup";
@@ -95,9 +97,6 @@ export default {
       return this.showSubHubFrame == "3d1";
     },
   },
-  created() {
-    this.forceTreeLabel == "城市总览" && (this.showSubHubFrame = "3d1");
-  },
   components: {
     LayerHub,
     SearchBox,
@@ -117,6 +116,7 @@ export default {
     VideoCircle,
     AuthFailPopup,
     Overview,
+    AroundSourceAnalyse,
   },
   created() {
     //  点位信息 hash
@@ -272,10 +272,10 @@ export default {
       //  重要地物注记
       // const keyMvt = mapMvtLayerInit("keyMvt", ServiceUrl.KEYMVT);
       //  水面
-      // await mapRiverLayerInit("RIVER", ServiceUrl.STATIC_RIVER);
-      // //  白模叠加
-      // await mapBaimoLayerInit(ServiceUrl.WZBaimo_OBJ);
-      // //  路灯、光源叠加
+      await mapRiverLayerInit("RIVER", ServiceUrl.STATIC_RIVER);
+      //  白模叠加
+      await mapBaimoLayerInit(ServiceUrl.WZBaimo_OBJ);
+      //  路灯、光源叠加
       // mapRoadLampLayerInit();
       //  阴影
       // mapShadowInit();

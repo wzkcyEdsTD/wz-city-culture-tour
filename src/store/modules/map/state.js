@@ -47,13 +47,13 @@ const state = {
   cameraMode: false,
   //  指标下表
   forceIndex: '城市总览',
-  //  tab下标
-  forceTreeLabel: "城市总览",
-  //  树选择类型
-  forceTrueTopicLabels: [], //  资源图层选中子节点
-  forceTrueTopicLabelId: "",//  资源图层当前选中节点
-  forceEventTopicLabels: [], //  事件图层选中子节点
-  forceEventTopicLabelId: "",//  事件图层当前选中节点
+  //  tab下标
+  forceTreeLabel: "城市总览",
+  //  树选择类型
+  forceTrueTopicLabels: [], //  资源图层选中子节点
+  forceTrueTopicLabelId: "",//  资源图层当前选中节点
+  forceEventTopicLabels: [], //  事件图层选中子节点
+  forceEventTopicLabelId: "",//  事件图层当前选中节点
   //  图层模式
   isSourceLayer: true
 };
