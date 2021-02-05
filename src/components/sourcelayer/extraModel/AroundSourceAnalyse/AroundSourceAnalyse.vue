@@ -48,8 +48,9 @@
             v-for="(value, subIndex) in item.list"
             :key="subIndex"
           >
+            <img class="single-location" src="/static/images/common/location.png" />
             <span>{{ value.resourceName }}</span>
-            <span>距离:{{ (+value.distance).toFixed(2) }}米</span>
+            <span class="single-distance">{{ (+value.distance).toFixed(2) }}米</span>
           </div>
         </el-collapse-item>
       </el-collapse>
@@ -60,6 +61,11 @@
 <script>
 import { mapGetters } from "vuex";
 import { CESIUM_TREE_AROUND_ANALYSE_OPTION } from "config/server/sourceTreeOption";
+import {
+  aroundSourceAnalyseDraw,
+  initPrimitivesCollection,
+  aroundSourceAnalyseCircle,
+} from "./AroundSourceAnalyseDraw";
 import { getAroundSourceAnalyse } from "@/api/layerServerAPI";
 const aroundOption = CESIUM_TREE_AROUND_ANALYSE_OPTION.children.map(
   ({ label, resourceType }) => {
@@ -79,9 +85,7 @@ export default {
       ],
       selectSourceLayer: [],
       aroundOption,
-      aroundSourceAnalyseList: [
-        // { title: "list1",value:"" list: [] }, 字段样例
-      ],
+      aroundSourceAnalyseList: [],
     };
   },
   props: ["force"],
@@ -105,9 +109,6 @@ export default {
         this.fetchSourceAround(forceEntity);
       });
     },
-    optionUpdateHandler() {
-      console.log(this.selectSourceLayer);
-    },
     /**
      * 获取周边分析圈,执行周边分析
      * @param {object} forceEntity 分析点
@@ -116,6 +117,8 @@ export default {
       const { lng, lat } = forceEntity;
       const distance = this.distance;
       const aroundSourceAnalyseList = [];
+      //  统一清除 circle label icon
+      aroundOption.map(({ value }) => initPrimitivesCollection(value));
       //  周边分析
       aroundOption
         .filter((v) => ~this.selectSourceLayer.indexOf(v.value))
@@ -126,19 +129,29 @@ export default {
             lat,
             distance,
           });
-          aroundSourceAnalyseList.push({ title: label, list: data });
+          const sourceAnalyseResult = { title: label, key: value, list: data };
+          aroundSourceAnalyseList.push(sourceAnalyseResult);
+          //  周边分析画点
+          aroundSourceAnalyseDraw(sourceAnalyseResult);
         });
+      //  周边分析画圆
+      aroundSourceAnalyseCircle(lng, lat, distance);
       this.aroundSourceAnalyseList = aroundSourceAnalyseList;
     },
     initSelectSourceLayer() {
       this.selectSourceLayer = aroundOption.map((v) => v.value);
     },
-    //
-    sourceUpdateHandler() {},
-    //
-    distanceUpdateHandler() {},
+    //  重新分析
+    sourceUpdateHandler() {
+      this.fetchSourceAround(this.forceEntity);
+    },
+    //  重新分析
+    distanceUpdateHandler() {
+      this.fetchSourceAround(this.forceEntity);
+    },
     //  关闭周边分析
     closeAroundSourceAnalyse() {
+      aroundOption.map(({ value }) => initPrimitivesCollection(value));
       this.forceEntity = undefined;
       this.selectSourceLayer = [];
       this.aroundSourceAnalyseList = [];

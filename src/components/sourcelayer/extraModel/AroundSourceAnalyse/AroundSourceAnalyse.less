@@ -70,7 +70,32 @@
                 color: white;
                 font-size: 1.5vh;
                 box-sizing: border-box;
-                padding: 0.4vh 1vh;
+                padding: 0.4vh 0vh;
+
+                .around-source-list-single {
+                    height: 3vh;
+                    line-height: 3vh;
+                    cursor: pointer;
+                    box-sizing: border-box;
+                    padding: 0vh 1vh;
+
+                    &:hover {
+                        background: rgba(255, 255, 255, 0.2);
+                    }
+
+                    >* {
+                        vertical-align: middle;
+                    }
+
+                    .single-location {
+                        width: 2.4vh;
+                        margin-right: 0.4vh;
+                    }
+
+                    .single-distance {
+                        float: right;
+                    }
+                }
             }
         }
 
@@ -79,8 +104,7 @@
             padding-left: 1vh;
             color: white;
             font-size: 1.6vh;
-            background: linear-gradient(to right, rgba(35, 97, 159, 0.84) 0%, rgba(0, 36, 72, 0.55) 70%, rgba(0, 19, 38, 0) 100%);
-
+            background: linear-gradient(to right, rgba(25, 113, 201, 0.84) 0%, rgba(0, 36, 72, 0.55) 70%, rgba(0, 19, 38, 0) 100%);
         }
     }
 }
