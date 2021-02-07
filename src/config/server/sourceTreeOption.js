@@ -142,10 +142,10 @@ const TRAFFIC_TOPIC = [
 
 //  事件专题
 const EVENT_TOPIC = [
-  { label: "消防火灾事件", event: "fire" },
-  { label: "水位超警事件", event: "water" },
-  { label: "突发公共卫生事件", event: "public" },
-  { label: "矛盾调解事件", event: "contradiction" },
+  { label: "消防火灾事件", event: "eventLayer_fire" },
+  { label: "水位超警事件", event: "eventLayer_water" },
+  { label: "突发公共卫生事件", event: "eventLayer_public" },
+  { label: "矛盾调解事件", event: "eventLayer_contradiction" },
 ];
 
 const CITY_TOPIC = [
@@ -318,7 +318,7 @@ export const CESIUM_TREE_EVENT_OPTION = [{
   children: EVENT_TOPIC.map(v => {
     return {
       ...v,
-      id: v.label,
+      id: v.event,
       icon: v.label,
       url: SERVER_DEFAULT_DATA,
       type: v.type || "mvt",

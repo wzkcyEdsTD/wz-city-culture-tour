@@ -68,8 +68,8 @@ export default {
   },
   methods: {
     eventRegsiter() {
-      this.$bus.$on("cesium-3d-around-people", ({ id, result }) => {
-        this.buffer = result;
+      this.$bus.$on("cesium-3d-around-people", ({ id, result, type }) => {
+        if (type != "event") this.buffer = result;
       });
       this.$bus.$on("cesium-3d-detail-pop-clear", () => {
         this.closePopup();
@@ -92,7 +92,8 @@ export default {
      */
     async fetchExtraData(forceEntity) {
       if (
-        forceEntity.dataSet.includes("company_electricity") &&
+        forceEntity &&
+        forceEntity.dataSet == "company_electricity" &&
         forceEntity.attributes.CREDITCODE
       ) {
         const data = await getCompanyElectricity(forceEntity.attributes.CREDITCODE);

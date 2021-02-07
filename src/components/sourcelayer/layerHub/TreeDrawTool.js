@@ -102,7 +102,7 @@ export const treeDrawTool = (context, { result }, node, fields = [], fn) => {
       attributes: v.attributes,
       geometry: v.geometry,
       fix_data: fixAttributesByOrigin(v.attributes, fieldHash),
-      dataSet: node.newdataset
+      dataSet: node.dataset
     })
   })
   result.features.map(item => {
@@ -128,7 +128,7 @@ export const treeDrawTool = (context, { result }, node, fields = [], fn) => {
       position
     });
     !node.hiddenIcon && window.billboardMap[node.id].add({
-      id: `billboard@${item.attributes.SMID}@${node.icon}`,
+      id: `billboard@${item.attributes.SMID}@${node.id}`,
       image: `/static/images/map-ico/${node.icon}.png`,
       width: 34,
       height: 34,

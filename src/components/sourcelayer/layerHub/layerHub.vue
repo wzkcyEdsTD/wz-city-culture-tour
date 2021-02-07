@@ -8,8 +8,16 @@
 -->
 <template>
   <div class="bottom-wrapper">
-    <img class="layer-btn source" src="/static/images/layer-ico/资源总览闪电球.png" @click="changeLayer('source')" />
-    <img class="layer-btn event" src="/static/images/layer-ico/事件监测闪电球.png" @click="changeLayer('event')" />
+    <img
+      class="layer-btn source"
+      src="/static/images/layer-ico/资源总览闪电球.png"
+      @click="changeLayer('source')"
+    />
+    <img
+      class="layer-btn event"
+      src="/static/images/layer-ico/事件监测闪电球.png"
+      @click="changeLayer('event')"
+    />
     <div
       class="bottom-layers-container"
       v-show="isSourceLayer && forceTreeLabel != '城市总览' && forceTreeTopic.length"
@@ -35,16 +43,13 @@
               v-if="~forceTrueTopicLabels.indexOf(item.id)"
               @click="doForceTrueTopicLabels(item.id)"
             />
-            <p>{{ item.id }}</p>
+            <p>{{ item.label }}</p>
           </div>
         </swiper-slide>
       </swiper>
       <div class="swiper-buttons swiper-button-right"></div>
     </div>
-    <div
-      class="bottom-layers-container"
-      v-show="!isSourceLayer && forceTreeTopic.length"
-    >
+    <div class="bottom-layers-container" v-show="!isSourceLayer && forceTreeTopic.length">
       <div class="swiper-buttons swiper-button-left"></div>
       <swiper ref="mySwiper" class="layers" :options="swiperOptions">
         <swiper-slide
@@ -66,7 +71,7 @@
               v-if="~forceEventTopicLabels.indexOf(item.id)"
               @click="doForceEventTopicLabels(item.id)"
             />
-            <p>{{ item.id }}</p>
+            <p>{{ item.label }}</p>
           </div>
         </swiper-slide>
       </swiper>
@@ -118,9 +123,7 @@ import {
   CESIUM_TREE_EVENT_OPTION,
   CESIUM_TREE_EXTRA_DATA,
 } from "config/server/sourceTreeOption";
-import {
-  getEventData
-} from "api/cityBrainAPI";
+import { getEventData } from "api/cityBrainAPI";
 const Cesium = window.Cesium;
 
 export default {
@@ -176,7 +179,7 @@ export default {
         "SetForceTrueTopicLabelId",
         "SetForceEventTopicLabels",
         "SetForceEventTopicLabelId",
-        "SetIsSourceLayer"
+        "SetIsSourceLayer",
       ],
     ]),
     eventRegsiter() {
@@ -274,34 +277,25 @@ export default {
       getFeatureBySQLService.processAsync(getFeatureBySQLParams);
     },
     async getAPIFeature(node, fn) {
-      let res = await getEventData(node.event)
-      console.log('res', res)
-      if (res.success) {
-        let features = []
-        res.data.forEach(item => {
-          features.push({
-            attributes: {
-              NAME: item.title,
-              SMID: item.id,
-            },
-            geometry: {
-              x: Number(item.eventCoordinate.split(',')[0]),
-              y: Number(item.eventCoordinate.split(',')[1])
-            }
-          })
-        })
-        console.log(444, features)
-        treeDrawTool(this, { result: { features: features } }, node);
-        fn && fn();
-      }
+      let res = await getEventData(node.event);
+      let features = [];
+      res.data.forEach((item) => {
+        features.push({
+          attributes: { NAME: item.title, SMID: item.id },
+          geometry: {
+            x: +item.eventCoordinate.split(",")[0],
+            y: +item.eventCoordinate.split(",")[1],
+          },
+        });
+      });
+      treeDrawTool(this, { result: { features: features } }, node);
+      fn && fn();
     },
     nodeCheckChange(node, checked, topicLoad) {
       if (checked) {
         if (node.type == "mvt" && node.id) {
           if (node.id && window.billboardMap[node.id]) {
-            window.billboardMap[node.id]._billboards.map(
-              (v) => (v.show = true)
-            );
+            window.billboardMap[node.id]._billboards.map((v) => (v.show = true));
             window.labelMap[node.id].setAllLabelsVisible(true);
           } else {
             if (this.isSourceLayer) {
@@ -311,9 +305,9 @@ export default {
             } else {
               this.getAPIFeature(node, () => {
                 // this.switchSearchBox(node, topicLoad);
-              })
+              });
             }
-            return
+            return;
           }
         } else if (node.type == "model") {
           node.componentEvent &&
@@ -321,9 +315,7 @@ export default {
             this.$bus.$emit(node.componentEvent, { value: node.componentKey });
         } else if (node.type == "image") {
           const LAYER = this.tileLayers[node.id];
-          this.tileLayers[
-            node.id
-          ] = window.earth.imageryLayers.addImageryProvider(
+          this.tileLayers[node.id] = window.earth.imageryLayers.addImageryProvider(
             new Cesium.SuperMapImageryProvider({
               url: node.url,
               name: node.id,
@@ -343,8 +335,7 @@ export default {
           window.billboardMap[node.id]._billboards.map((v) => (v.show = false));
           window.labelMap[node.id].setAllLabelsVisible(false);
         }
-        node.componentEvent &&
-          this.$bus.$emit(node.componentEvent, { value: null });
+        node.componentEvent && this.$bus.$emit(node.componentEvent, { value: null });
       }
     },
     //  先只显示医疗
@@ -355,16 +346,16 @@ export default {
       });
     },
     changeLayer(layer) {
-      if (layer == 'source') {
-        this.SetIsSourceLayer(true)
+      if (layer == "source") {
+        this.SetIsSourceLayer(true);
         const Topics = this.CESIUM_TREE_OPTION.filter(
           (v) => v.label == this.forceTreeLabel
         );
         this.forceTreeTopic = Topics.length ? Topics[0].children : [];
       } else {
-        this.SetIsSourceLayer(false)
-        const Topics = this.CESIUM_TREE_EVENT_OPTION[0]
-        this.forceTreeTopic = Topics.children
+        this.SetIsSourceLayer(false);
+        const Topics = this.CESIUM_TREE_EVENT_OPTION[0];
+        this.forceTreeTopic = Topics.children;
         if (!this.forceEventTopicLabels.length) {
           const forceNode = this.forceTreeTopic[0];
           this.SetForceEventTopicLabelId(forceNode.id);
@@ -372,7 +363,7 @@ export default {
           this.nodeCheckChange(forceNode, true, true);
         }
       }
-    }
+    },
   },
 };
 </script>

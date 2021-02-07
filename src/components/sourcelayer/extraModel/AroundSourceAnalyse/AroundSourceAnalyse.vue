@@ -76,7 +76,8 @@ export default {
   name: "aroundSourceAnalyse",
   data() {
     return {
-      forceEntity: { lng: 120.654218, lat: 28.016064 },
+      // forceEntity: { lng: 120.654218, lat: 28.016064 },
+      forceEntity: undefined,
       distance: 250,
       distanceOption: [
         { value: 250, label: "250m" },
@@ -97,7 +98,7 @@ export default {
   },
   mounted() {
     this.eventRegsiter();
-    this.fetchSourceAround(this.forceEntity);
+    // this.fetchSourceAround(this.forceEntity);
   },
   beforeDestroy() {},
   methods: {

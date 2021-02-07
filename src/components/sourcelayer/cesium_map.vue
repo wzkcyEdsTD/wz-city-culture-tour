@@ -14,8 +14,9 @@
       <BayonetPopup ref="bayonetPopup" />
       <TourPointPopup ref="tourPointPopup" />
       <MedicalPopup ref="medicalPopup" />
-      <DetailPopup ref="detailPopup" />
       <StationPopup ref="stationPopup" />
+      <DetailPopup ref="detailPopup" />
+      <EventPopup ref="eventPopup" />
     </div>
     <!-- 城市各类指标 -->
     <CityIndex ref="totalTarget" />
@@ -58,6 +59,7 @@ import MedicalPopup from "components/sourcelayer/commonFrame/Popups/medicalPopup
 import BayonetPopup from "components/sourcelayer/commonFrame/Popups/bayonetPopup";
 import StationPopup from "components/sourcelayer/commonFrame/Popups/stationPopup";
 import DetailPopup from "components/sourcelayer/commonFrame/Popups/DetailPopup";
+import EventPopup from "components/sourcelayer/commonFrame/Popups/EventPopup";
 import TourPointPopup from "components/sourcelayer/commonFrame/Popups/tourPointPopup";
 import RtmpVideo from "components/sourcelayer/extraModel/RtmpVideo/RtmpVideo";
 import Population from "components/sourcelayer/extraModel/Population/Population";
@@ -110,6 +112,7 @@ export default {
     StationPopup,
     TourPointPopup,
     DetailPopup,
+    EventPopup,
     RtmpVideo,
     Population,
     RoadLine,
@@ -176,6 +179,10 @@ export default {
         if (this.$refs.detailPopup) {
           this.$refs.detailPopup.renderForceEntity();
         }
+        //  *****[eventPopup]  事件详情查看点位*****
+        if (this.$refs.eventPopup) {
+          this.$refs.eventPopup.renderForceEntity();
+        }
       });
     },
     initHandler() {
@@ -200,12 +207,19 @@ export default {
           }
         } else if (typeof pick.id == "string") {
           const [_TYPE_, _SMID_, _NODEID_] = pick.id.split("@");
-          //  *****[detailPopup]  资源详情点*****
-          if (~["label", "billboard"].indexOf(_TYPE_)) {
-            this.$refs.detailPopup.getForceEntity({
+          if (_NODEID_.includes("eventLayer_")) {
+            this.$refs.eventPopup.getForceEntity({
               ...window.featureMap[_NODEID_][_SMID_],
               position: pick.primitive.position,
             });
+          } else {
+            //  *****[detailPopup]  资源详情点*****
+            if (~["label", "billboard"].indexOf(_TYPE_)) {
+              this.$refs.detailPopup.getForceEntity({
+                ...window.featureMap[_NODEID_][_SMID_],
+                position: pick.primitive.position,
+              });
+            }
           }
         }
       }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
@@ -274,7 +288,7 @@ export default {
       //  水面
       // await mapRiverLayerInit("RIVER", ServiceUrl.STATIC_RIVER);
       // //  白模叠加
-      // await mapBaimoLayerInit(ServiceUrl.WZBaimo_OBJ);
+      await mapBaimoLayerInit(ServiceUrl.WZBaimo_OBJ);
       //  路灯、光源叠加
       // mapRoadLampLayerInit();
       //  阴影

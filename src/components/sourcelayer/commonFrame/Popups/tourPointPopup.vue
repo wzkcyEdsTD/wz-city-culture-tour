@@ -81,8 +81,8 @@ export default {
   methods: {
     ...mapActions("map", ["fetchTourPointList"]),
     eventRegsiter() {
-      this.$bus.$on("cesium-3d-around-people", ({ id, result }) => {
-        this.bufferHash[id] = result;
+      this.$bus.$on("cesium-3d-around-people", ({ id, result, type }) => {
+        if (type != "event") this.bufferHash[id] = result;
       });
     },
     fixPopup() {
