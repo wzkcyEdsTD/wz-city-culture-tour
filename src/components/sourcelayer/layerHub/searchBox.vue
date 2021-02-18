@@ -10,13 +10,6 @@
   <div class="search-box" v-show="searchBoxVisible">
     <div class="header">
       <p class="title">资源选择</p>
-      <!-- <p class="title" v-show="">事件列表</p> -->
-      <!-- <img
-        class="menu"
-        :src="searchBoxResult ? menuSelImg : menuImg"
-        width="59px"
-        @click="toogleVisible"
-      /> -->
     </div>
     <div class="searchHeader">
       <el-input
@@ -45,21 +38,15 @@
           v-for="(item, i) in extraSearchList"
           :key="`sitem-${i}`"
         >
-          <div class="left">
-            <div class="address">
-              <i class="icon-position"></i>
-              <p class="name">
-                {{ item.name }}
-              </p>
-            </div>
-          </div>
-          <div class="right">
-            <input
-              type="checkbox"
-              :checked="hospitalChecked.indexOf(item.name) >= 0"
-              @click="checkedOne(item)"
-            />
-          </div>
+          <i class="icon-position" />
+          <p class="name" :title="item.name">
+            {{ item.name }}
+          </p>
+          <input
+            type="checkbox"
+            :checked="hospitalChecked.indexOf(item.name) >= 0"
+            @click="checkedOne(item)"
+          />
         </li>
       </ul>
     </div>
@@ -91,7 +78,11 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("map", [...CESIUM_TREE_EXTRA_DATA, "forceTrueTopicLabelId", "isSourceLayer"]),
+    ...mapGetters("map", [
+      ...CESIUM_TREE_EXTRA_DATA,
+      "forceTrueTopicLabelId",
+      "isSourceLayer",
+    ]),
   },
   async mounted() {
     this.eventRegsiter();
@@ -144,7 +135,7 @@ export default {
         // 移动到对应实例位置
         const { x, y } = item.geometry;
         window.earth.camera.flyTo({
-        // window.earth.scene.camera.setView({
+          // window.earth.scene.camera.setView({
           destination: Cesium.Cartesian3.fromDegrees(x, y - 0.005, 450),
           orientation: {
             heading: 0.003336768850279448,

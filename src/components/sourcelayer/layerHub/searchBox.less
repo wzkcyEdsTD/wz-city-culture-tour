@@ -4,7 +4,7 @@
     left: 4vh;
     z-index: 10;
     height: 28vh;
-    width: 38vh;
+    width: 34vh;
 
     .header {
         position: relative;
@@ -77,52 +77,42 @@
             overflow-y: auto;
 
             .result-item {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
                 padding: 5px 0 5px 15px;
+                display: flex;
 
-                .left {
-                    display: flex;
-                    flex-direction: column;
-
-                    .name {
-                        padding-left: 0.15rem;
-                        color: #fff;
-                        font-size: 1.6vh;
-                        display: inline;
-                    }
-
-                    .address {
-                        font-size: 1.3vh;
-                        color: #cbcbcb;
-
-                        .icon-position {
-                            display: inline-block;
-                            width: 2vh;
-                            height: 2vh;
-                            vertical-align: middle;
-                            .bg-image('/static/images/common/position');
-                        }
-                    }
+                .name {
+                    padding-left: 0.15rem;
+                    color: #fff;
+                    font-size: 1.6vh;
+                    flex: 1;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    word-break: break-all;
                 }
 
-                .right {
-                    position: relative;
+                .icon-position {
+                    display: inline-block;
+                    width: 2vh;
+                    height: 2vh;
+                    vertical-align: middle;
+                    .bg-image('/static/images/common/position');
+                }
 
-                    input[type=checkbox] {
-                        width: 1.4vh;
-                        height: 1.4vh;
-                        background-color: #fff;
-                        appearance: none;
-                        -webkit-appearance: none;
-                        outline: none;
-                    }
 
-                    input[type=checkbox]:checked {
-                        background: url("/static/images/common/checked.png")no-repeat center;
-                        background-size: 1.4vh;
-                    }
+                input[type=checkbox] {
+                    width: 1.4vh;
+                    height: 1.4vh;
+                    background-color: #fff;
+                    appearance: none;
+                    -webkit-appearance: none;
+                    outline: none;
+                    cursor: pointer;
+                }
+
+                input[type=checkbox]:checked {
+                    background: url("/static/images/common/checked.png")no-repeat center;
+                    background-size: 1.4vh;
                 }
             }
 

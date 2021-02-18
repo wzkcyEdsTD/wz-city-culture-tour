@@ -8,16 +8,6 @@
 -->
 <template>
   <div class="bottom-wrapper">
-    <img
-      class="layer-btn source"
-      src="/static/images/layer-ico/资源总览闪电球.png"
-      @click="changeLayer('source')"
-    />
-    <img
-      class="layer-btn event"
-      src="/static/images/layer-ico/事件监测闪电球.png"
-      @click="changeLayer('event')"
-    />
     <div
       class="bottom-layers-container"
       v-show="isSourceLayer && forceTreeLabel != '城市总览' && forceTreeTopic.length"
@@ -78,6 +68,13 @@
       <div class="swiper-buttons swiper-button-right"></div>
     </div>
     <div class="bottom-topics-container">
+      <div
+        class="layer-btn source"
+        :class="{ active: isSourceLayer }"
+        @click="changeLayer('source')"
+      >
+        <img src="/static/images/layer-ico/source.png" />
+      </div>
       <ul class="labels" v-show="isSourceLayer">
         <li
           v-for="(item, i) in CESIUM_TREE_OPTION"
@@ -105,17 +102,26 @@
           <i>{{ item.label }}</i>
         </li>
       </ul>
+      <div
+        class="layer-btn event"
+        :class="{ active: !isSourceLayer }"
+        @click="changeLayer('event')"
+      >
+        <img src="/static/images/layer-ico/event.png" />
+      </div>
     </div>
     <!-- extra Components -->
     <transition name="fade">
       <KgLegend v-if="~forceTrueTopicLabels.indexOf('控规信息')" />
     </transition>
+    <ClearLayer />
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
 import KgLegend from "./components/KgLegend";
+import ClearLayer from "./components/ClearLayer";
 import { treeDrawTool, fixTreeWithExtra } from "./TreeDrawTool";
 import { getIserverFields } from "api/iServerAPI";
 import {
@@ -146,7 +152,7 @@ export default {
       tileLayers: {},
     };
   },
-  components: { KgLegend },
+  components: { KgLegend, ClearLayer },
   computed: {
     ...mapGetters("map", [
       "forceTreeLabel",
