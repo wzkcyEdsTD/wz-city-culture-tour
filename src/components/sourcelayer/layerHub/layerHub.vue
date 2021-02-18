@@ -338,7 +338,10 @@ export default {
         node.componentEvent && this.$bus.$emit(node.componentEvent, { value: null });
       }
     },
-    //  先只显示医疗
+    /**
+     * 展示对应资源列表搜索框
+     * @param {object} node 节点
+     */
     switchSearchBox(node, topicLoad) {
       this.$bus.$emit("cesium-3d-switch-searchBox", {
         shall: node.type == "mvt" && node.id ? true : false,

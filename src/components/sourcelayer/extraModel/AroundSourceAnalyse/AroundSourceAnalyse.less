@@ -46,10 +46,18 @@
 
         &/deep/ .around-source-select-source {
             flex: 1;
+            margin-right: 1vh;
         }
 
         &/deep/ .around-source-select-distance {
-            width: 10vh;
+            width: 11vh;
+        }
+
+        &/deep/ .el-input__inner {
+            background: transparent;
+            font-size: 1.6vh;
+            font-weight: bold;
+            color: white;
         }
     }
 
@@ -78,6 +86,7 @@
                     cursor: pointer;
                     box-sizing: border-box;
                     padding: 0vh 1vh;
+                    display: flex;
 
                     &:hover {
                         background: rgba(255, 255, 255, 0.2);
@@ -90,6 +99,16 @@
                     .single-location {
                         width: 2.4vh;
                         margin-right: 0.4vh;
+                    }
+
+                    .single-title {
+                        flex: 1;
+                        box-sizing: border-box;
+                        padding-right: 1vh;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+                        word-break: break-all;
                     }
 
                     .single-distance {

@@ -49,8 +49,10 @@
             :key="subIndex"
           >
             <img class="single-location" src="/static/images/common/location.png" />
-            <span>{{ value.resourceName }}</span>
-            <span class="single-distance">{{ (+value.distance).toFixed(2) }}米</span>
+            <span class="single-title" :title="value.resourceName">{{
+              value.resourceName
+            }}</span>
+            <span class="single-distance">{{ (+value.distance).toFixed(2) }}m</span>
           </div>
         </el-collapse-item>
       </el-collapse>
@@ -66,6 +68,7 @@ import {
   initPrimitivesCollection,
   aroundSourceAnalyseCircle,
 } from "./AroundSourceAnalyseDraw";
+import { arrayCompareWithParam } from "common/js/util";
 import { getAroundSourceAnalyse } from "@/api/layerServerAPI";
 const aroundOption = CESIUM_TREE_AROUND_ANALYSE_OPTION.children.map(
   ({ label, resourceType }) => {
@@ -98,7 +101,6 @@ export default {
   },
   mounted() {
     this.eventRegsiter();
-    // this.fetchSourceAround(this.forceEntity);
   },
   beforeDestroy() {},
   methods: {
@@ -130,7 +132,11 @@ export default {
             lat,
             distance,
           });
-          const sourceAnalyseResult = { title: label, key: value, list: data };
+          const sourceAnalyseResult = {
+            title: label,
+            key: value,
+            list: data.sort(arrayCompareWithParam("distance")),
+          };
           aroundSourceAnalyseList.push(sourceAnalyseResult);
           //  周边分析画点
           aroundSourceAnalyseDraw(sourceAnalyseResult);
@@ -140,7 +146,9 @@ export default {
       this.aroundSourceAnalyseList = aroundSourceAnalyseList;
     },
     initSelectSourceLayer() {
-      this.selectSourceLayer = aroundOption.map((v) => v.value);
+      this.selectSourceLayer = aroundOption
+        .map((v) => v.value)
+        .filter((v) => v != "fire_hydrant");
     },
     //  重新分析
     sourceUpdateHandler() {
