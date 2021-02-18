@@ -102,7 +102,7 @@ export const treeDrawTool = (context, { result }, node, fields = [], fn) => {
       attributes: v.attributes,
       geometry: v.geometry,
       fix_data: fixAttributesByOrigin(v.attributes, fieldHash),
-      dataSet: node.newdataset
+      dataSet: node.dataset
     })
   })
   result.features.map(item => {

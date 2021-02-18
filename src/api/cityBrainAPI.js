@@ -6,6 +6,7 @@
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\api\cityBrainAPI.js
  */
+import { getYesterdayWithoutChar } from "common/js/util"
 import axios from "axios";
 const BASEURL = "https://sourceserver.wzcitybrain.com/statistics/ProxyGetCityBraainData";
 const instance = axios.create();
@@ -36,7 +37,7 @@ export const getRtmpVideoAll = () => {
  * @param {*} creditCode 
  */
 export const getCompanyElectricity = (CreditCode) => {
-  return getAxios("100025007", { CreditCode });
+  return getAxios("100025007", { CreditCode, indicatorCycle: getYesterdayWithoutChar() });
 };
 /**
  * 获取视频列表 100006019

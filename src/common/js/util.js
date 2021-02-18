@@ -17,6 +17,22 @@ export function getDate() {
   return year + '-' + conver(month) + '-' + conver(date) + ' ' + conver(h) + ':' + conver(m) + ':' + conver(s)
 }
 
+/**
+ * 返回日期
+ * @returns {string}
+ */
+export function getYesterdayWithoutChar() {
+  var myDate = new Date(+new Date() - 24 * 3600 * 1000)
+  // 获取当前年
+  var year = myDate.getFullYear()
+  // 获取当前月
+  var month = myDate.getMonth() + 1
+  // 获取当前日
+  var date = myDate.getDate()
+  // 获取当前时间
+  return year + conver(month) + conver(date)
+}
+
 function conver(s) {
   return s < 10 ? '0' + s : s
 }

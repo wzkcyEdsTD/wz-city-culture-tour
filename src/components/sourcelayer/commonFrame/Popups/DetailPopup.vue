@@ -92,11 +92,12 @@ export default {
      */
     async fetchExtraData(forceEntity) {
       if (
-        forceEntity.dataSet.includes("company_electricity") &&
+        forceEntity.dataSet === "company_electricity" &&
         forceEntity.attributes.CREDITCODE
       ) {
-        const data = await getCompanyElectricity(forceEntity.attributes.CREDITCODE);
-        console.log(data);
+        const { data } = await getCompanyElectricity(forceEntity.attributes.CREDITCODE);
+        this.forceEntity.fix_data["昨日用电量"] =
+          data.length && data[0].electricity ? data[0].electricity : "-";
       }
     },
     /**
