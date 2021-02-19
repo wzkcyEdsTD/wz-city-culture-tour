@@ -12,7 +12,7 @@
       class="bottom-layers-container"
       v-show="isSourceLayer && forceTreeLabel != '城市总览' && forceTreeTopic.length"
     >
-      <div class="swiper-buttons swiper-button-left"></div>
+      <div class="swiper-buttons swiper-button-left" />
       <swiper ref="mySwiper" class="layers" :options="swiperOptions">
         <swiper-slide
           v-for="(item, i) in forceTreeTopic"
@@ -37,13 +37,16 @@
           </div>
         </swiper-slide>
       </swiper>
-      <div class="swiper-buttons swiper-button-right"></div>
+      <div class="swiper-buttons swiper-button-right" />
     </div>
-    <div class="bottom-layers-container" v-show="!isSourceLayer && forceTreeTopic.length">
-      <div class="swiper-buttons swiper-button-left"></div>
+    <div
+      class="bottom-layers-container"
+      v-show="!isSourceLayer && forceTreeEventTopic.length"
+    >
+      <div class="swiper-buttons swiper-button-left" />
       <swiper ref="mySwiper" class="layers" :options="swiperOptions">
         <swiper-slide
-          v-for="(item, i) in forceTreeTopic"
+          v-for="(item, i) in forceTreeEventTopic"
           :key="i"
           :class="{
             item: true,
@@ -65,7 +68,7 @@
           </div>
         </swiper-slide>
       </swiper>
-      <div class="swiper-buttons swiper-button-right"></div>
+      <div class="swiper-buttons swiper-button-right" />
     </div>
     <div class="bottom-topics-container">
       <div
@@ -95,9 +98,10 @@
           :key="i"
           :class="{
             item: true,
-            active: true,
+            active: item.id == forceTreeEventLabel,
             disabled: item.disabled,
           }"
+          @click="!item.disabled ? SetForceTreeEventLabel(item.id) : undefined"
         >
           <i>{{ item.label }}</i>
         </li>
@@ -122,15 +126,18 @@
 import { mapGetters, mapActions } from "vuex";
 import KgLegend from "./components/KgLegend";
 import ClearLayer from "./components/ClearLayer";
-import { treeDrawTool, fixTreeWithExtra } from "./TreeDrawTool";
+import { treeDrawTool } from "./TreeDrawTool";
 import { getIserverFields } from "api/iServerAPI";
 import {
   CESIUM_TREE_OPTION,
   CESIUM_TREE_EVENT_OPTION,
-  CESIUM_TREE_EXTRA_DATA,
 } from "config/server/sourceTreeOption";
 import { getEventData } from "api/cityBrainAPI";
-const Cesium = window.Cesium;
+const TREE_OPTION_HUB = {};
+CESIUM_TREE_OPTION.concat(CESIUM_TREE_EVENT_OPTION)
+  .map((v) => v.children)
+  .flat(2)
+  .map((v) => (TREE_OPTION_HUB[v.id] = v));
 
 export default {
   name: "layerHub",
@@ -140,6 +147,7 @@ export default {
       CESIUM_TREE_OPTION,
       CESIUM_TREE_EVENT_OPTION,
       forceTreeTopic: [],
+      forceTreeEventTopic: [],
       //  资源选中层
       swiperOptions: {
         slidesPerView: 8,
@@ -155,11 +163,14 @@ export default {
   components: { KgLegend, ClearLayer },
   computed: {
     ...mapGetters("map", [
+      //  tab下标
       "forceTreeLabel",
+      "forceTreeEventLabel",
+      //  选中子节点
       "forceTrueTopicLabels",
-      "isSourceLayer",
       "forceEventTopicLabels",
-      ...CESIUM_TREE_EXTRA_DATA,
+      //  是否为资源图层tab
+      "isSourceLayer",
     ]),
   },
   watch: {
@@ -180,44 +191,96 @@ export default {
       ...[
         "SetForceIndex",
         "SetForceTime",
+        //  选中tab下标
         "SetForceTreeLabel",
+        "SetForceTreeEventLabel",
+        //  选中子节点
         "SetForceTrueTopicLabels",
-        "SetForceTrueTopicLabelId",
         "SetForceEventTopicLabels",
+        //  当前选中节点
+        "SetForceTrueTopicLabelId",
         "SetForceEventTopicLabelId",
+        //  tab模块
         "SetIsSourceLayer",
       ],
     ]),
+    /**
+     * 事件传递打开对应专题图层
+     */
     eventRegsiter() {
-      /**
-       * 事件传递打开对应专题图层
-       */
       this.$bus.$off("check-hub");
       this.$bus.$on("check-hub", ({ key }) => {
         this.SetForceTreeLabel(key);
       });
+      this.$bus.$off("check-clear-topic");
+      this.$bus.$on("check-clear-topic", () => {
+        this.clearForceTopic();
+      });
+    },
+    /**
+     * 清除图层
+     * 包括资源和事件
+     */
+    clearForceTopic() {
+      //  资源图层
+      this.forceTrueTopicLabels.map((v) =>
+        this.nodeCheckChange(TREE_OPTION_HUB[v], false, "source")
+      );
+      this.SetForceTrueTopicLabelId("");
+      this.SetForceTrueTopicLabels([]);
+      //  事件图层
+      this.forceEventTopicLabels.map((v) =>
+        this.nodeCheckChange(TREE_OPTION_HUB[v], false, "event")
+      );
+      this.SetForceEventTopicLabelId("");
+      this.SetForceEventTopicLabels([]);
+    },
+    /**
+     * 城市总览剔除
+     * labels数组内不剔除，多一步操作
+     */
+    pickCityOverview() {
+      this.forceTreeTopic.map(
+        (v) => v.label == "城市总览" && this.nodeCheckChange(v, false, "source")
+      );
     },
     /**
      * 一级菜单点击切换
      * 默认选中二级菜单第一个点
      */
     initForceTreeTopic() {
-      //  清除旧图层
-      this.forceTreeTopic
-        .filter((v) => ~this.forceTrueTopicLabels.indexOf(v.id))
-        .map((v) => this.nodeCheckChange(v, false));
       //  处理新图层
-      const Topics = this.CESIUM_TREE_OPTION.filter(
-        (v) => v.label == this.forceTreeLabel
-      );
-      this.forceTreeTopic = Topics.length ? Topics[0].children : [];
-      if (this.forceTreeTopic.length) {
-        const forceNode = this.forceTreeTopic[0];
-        this.SetForceTrueTopicLabelId(forceNode.id);
-        this.SetForceTrueTopicLabels([forceNode.id]);
-        this.nodeCheckChange(forceNode, true, true);
+      this.pickCityOverview();
+      if (this.isSourceLayer) {
+        const Topics = this.CESIUM_TREE_OPTION.filter(
+          (v) => v.label == this.forceTreeLabel
+        );
+        this.forceTreeTopic = Topics.length ? Topics[0].children : [];
+        if (this.forceTreeTopic.length) {
+          const forceNode = this.forceTreeTopic[0];
+          this.SetForceTrueTopicLabelId(forceNode.id);
+          this.SetForceTrueTopicLabels([
+            ...new Set(this.forceTrueTopicLabels.concat([forceNode.id])),
+          ]);
+          this.nodeCheckChange(forceNode, true, "source");
+        } else {
+          this.SetForceTrueTopicLabels([]);
+        }
       } else {
-        this.SetForceTrueTopicLabels([]);
+        const Topics = this.CESIUM_TREE_EVENT_OPTION.filter(
+          (v) => v.label == this.forceTreeEventLabel
+        );
+        this.forceTreeEventTopic = Topics.length ? Topics[0].children : [];
+        if (this.forceTreeEventTopic.length) {
+          const forceNode = this.forceTreeEventTopic[0];
+          this.SetForceEventTopicLabelId(forceNode.id);
+          this.SetForceEventTopicLabels([
+            ...new Set(this.forceEventTopicLabels.concat([forceNode.id])),
+          ]);
+          this.nodeCheckChange(forceNode, true, "event");
+        } else {
+          this.SetForceEventTopicLabels([]);
+        }
       }
     },
     /**
@@ -230,28 +293,28 @@ export default {
         let _fttl_ = [...this.forceTrueTopicLabels];
         _fttl_.splice(_fttl_.indexOf(label.id), 1);
         this.SetForceTrueTopicLabels(_fttl_);
-        this.nodeCheckChange(label, false);
+        this.nodeCheckChange(label, false, "source");
       } else {
         this.SetForceTrueTopicLabels([
           ...new Set(this.forceTrueTopicLabels.concat([label.id])),
         ]);
         this.SetForceTrueTopicLabelId(label.id);
-        this.nodeCheckChange(label, true, true);
+        this.nodeCheckChange(label, true, "source");
       }
     },
     doForceEventTopicLabels(id) {
-      const label = this.forceTreeTopic.filter((v) => v.id == id)[0];
+      const label = this.forceTreeEventTopic.filter((v) => v.id == id)[0];
       if (~this.forceEventTopicLabels.indexOf(label.id)) {
         let _fttl_ = [...this.forceEventTopicLabels];
         _fttl_.splice(_fttl_.indexOf(label.id), 1);
         this.SetForceEventTopicLabels(_fttl_);
-        this.nodeCheckChange(label, false);
+        this.nodeCheckChange(label, false, "event");
       } else {
         this.SetForceEventTopicLabels([
           ...new Set(this.forceEventTopicLabels.concat([label.id])),
         ]);
         this.SetForceEventTopicLabelId(label.id);
-        this.nodeCheckChange(label, true, true);
+        this.nodeCheckChange(label, true, "event");
       }
     },
     /**
@@ -297,7 +360,7 @@ export default {
       treeDrawTool(this, { result: { features: features } }, node);
       fn && fn();
     },
-    nodeCheckChange(node, checked, topicLoad) {
+    nodeCheckChange(node, checked, type) {
       if (checked) {
         if (node.type == "mvt" && node.id) {
           if (node.id && window.billboardMap[node.id]) {
@@ -306,11 +369,11 @@ export default {
           } else {
             if (this.isSourceLayer) {
               this.getPOIPickedFeature(node, () => {
-                this.switchSearchBox(node, topicLoad);
+                this.switchSearchBox(node, type);
               });
             } else {
               this.getAPIFeature(node, () => {
-                // this.switchSearchBox(node, topicLoad);
+                this.switchSearchBox(node, type);
               });
             }
             return;
@@ -320,7 +383,6 @@ export default {
             node.componentKey &&
             this.$bus.$emit(node.componentEvent, { value: node.componentKey });
         } else if (node.type == "image") {
-          const LAYER = this.tileLayers[node.id];
           this.tileLayers[node.id] = window.earth.imageryLayers.addImageryProvider(
             new Cesium.SuperMapImageryProvider({
               url: node.url,
@@ -328,7 +390,7 @@ export default {
             })
           );
         }
-        this.switchSearchBox(node, topicLoad);
+        this.switchSearchBox(node, type);
         //  有相机视角配置 -> 跳视角
         node.camera && window.earth.scene.camera.setView(node.camera);
       } else {
@@ -347,31 +409,34 @@ export default {
     /**
      * 展示对应资源列表搜索框
      * @param {object} node 节点
+     * @param {string} type 类型
      */
-    switchSearchBox(node, topicLoad) {
-      this.$bus.$emit("cesium-3d-switch-searchBox", {
+    switchSearchBox(node, type) {
+      this.$bus.$emit(`cesium-3d-switch-searchBox-${type}`, {
         shall: node.type == "mvt" && node.id ? true : false,
         node,
       });
     },
+    /**
+     * 改变图层模块
+     * @param {string} layer 图层
+     * 如果转到事件图层，则默认点击开启事件图层第一个
+     */
     changeLayer(layer) {
-      if (layer == "source") {
-        this.SetIsSourceLayer(true);
+      const _IS_SOURCE_ = layer == "source";
+      this.SetIsSourceLayer(_IS_SOURCE_);
+      if (_IS_SOURCE_) {
         const Topics = this.CESIUM_TREE_OPTION.filter(
           (v) => v.label == this.forceTreeLabel
         );
         this.forceTreeTopic = Topics.length ? Topics[0].children : [];
       } else {
-        this.SetIsSourceLayer(false);
-        const Topics = this.CESIUM_TREE_EVENT_OPTION[0];
-        this.forceTreeTopic = Topics.children;
-        if (!this.forceEventTopicLabels.length) {
-          const forceNode = this.forceTreeTopic[0];
-          this.SetForceEventTopicLabelId(forceNode.id);
-          this.SetForceEventTopicLabels([forceNode.id]);
-          this.nodeCheckChange(forceNode, true, true);
-        }
+        const Topics = this.CESIUM_TREE_EVENT_OPTION.filter(
+          (v) => v.label == this.forceTreeEventLabel
+        );
+        this.forceTreeEventTopic = Topics.length ? Topics[0].children : [];
       }
+      this.initForceTreeTopic();
     },
   },
 };

@@ -37,9 +37,12 @@ export const forceIndex = state => state.forceIndex;
 export const forceTime = state => state.forceTime;
 export const nightMode = state => state.nightMode;
 export const cameraMode = state => state.cameraMode;
-export const forceTreeLabel = state => state.forceTreeLabel
+export const forceTreeLabel = state => state.forceTreeLabel;
+export const forceTreeEventLabel = state => state.forceTreeEventLabel;
 export const forceTrueTopicLabels = state => state.forceTrueTopicLabels;
 export const forceTrueTopicLabelId = state => state.forceTrueTopicLabelId;
 export const forceEventTopicLabels = state => state.forceEventTopicLabels;
 export const forceEventTopicLabelId = state => state.forceEventTopicLabelId;
 export const isSourceLayer = state => state.isSourceLayer;
+export const searchBoxVisible = state => state.searchBoxVisible;
+export const searchBoxSource = state => state.searchBoxSource;

@@ -231,6 +231,10 @@ export const SetForceTreeLabel = ({ commit }, data) => {
   commit(types.SET_FORCE_TREE_LABEL, data);
   commit(types.SET_IS_SOURCE_LAYER, true);
 };
+export const SetForceTreeEventLabel = ({ commit }, data) => {
+  commit(types.SET_FORCE_TREE_EVENT_LABEL, data);
+  commit(types.SET_IS_SOURCE_LAYER, false);
+}
 //  设置tab子菜单下标数组
 export const SetForceTrueTopicLabels = ({ commit }, data) => {
   commit(types.SET_FORCE_TRUE_TOPIC_LABEL, data);
@@ -250,4 +254,13 @@ export const SetForceEventTopicLabelId = ({ commit }, data) => {
 //  设置图层模式
 export const SetIsSourceLayer = ({ commit }, data) => {
   commit(types.SET_IS_SOURCE_LAYER, data);
+  commit(types.SET_SEARCH_BOX_SOURCE, data);
 };
+//  设置搜索框显隐
+export const SetSearchBoxVisible = ({ commit }, data) => {
+  commit(types.SET_SEARCH_BOX_VISIBLE, data);
+}
+//  设置搜索框模式
+export const SetSearchBoxSource = ({ commit }, data) => {
+  commit(types.SET_SEARCH_BOX_SOURCE, data);
+}

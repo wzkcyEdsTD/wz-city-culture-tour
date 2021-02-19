@@ -9,7 +9,9 @@
 export default {
   name: "ClearLayer",
   methods: {
-    doClearLayer() {},
+    doClearLayer() {
+      this.$bus.$emit("check-clear-topic");
+    },
   },
 };
 </script>
@@ -36,8 +38,11 @@ export default {
   > span {
     font-size: 1.7vh;
     letter-spacing: 2px;
-    color: rgba(255, 255, 255, 0.8);
-    font-weight: bold;
+    color: rgba(255, 255, 255, 0.5);
+    transition: all 0.2s;
+    &:hover {
+      color: rgba(255, 255, 255, 0.9);
+    }
   }
 }
 </style>

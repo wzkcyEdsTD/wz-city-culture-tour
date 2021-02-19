@@ -318,7 +318,7 @@ export const CESIUM_TREE_EVENT_OPTION = [{
   children: EVENT_TOPIC.map(v => {
     return {
       ...v,
-      id: v.event,
+      id: v.label,
       icon: v.label,
       url: SERVER_DEFAULT_DATA,
       type: v.type || "mvt",

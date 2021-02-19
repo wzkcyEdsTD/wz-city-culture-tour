@@ -1,27 +1,10 @@
-<!--
- * @Author: eds
- * @Date: 2020-07-07 10:57:45
- * @LastEditTime: 2020-09-15 11:07:30
- * @LastEditors: eds
- * @Description:
- * @FilePath: \wz-city-culture-tour\src\components\trafficlayer\treeTool\searchBox.vue
--->
 <template>
-  <div class="search-box" v-show="searchBoxVisible">
-    <div class="header">
-      <p class="title">资源选择</p>
-      <img
-        class="menu"
-        :src="searchBoxResult ? menuSelImg : menuImg"
-        width="59px"
-        @click="toogleVisible"
-      />
-    </div>
+  <div class="search-main search-event">
     <div class="searchHeader">
       <el-input
         v-model="searchText"
         class="searchFilterInput"
-        :placeholder="`附近的${forceTrueTopicLabelId}有哪些？`"
+        :placeholder="`附近的${forceEventTopicLabelId}有哪些？`"
         size="small"
         @keyup.enter.native="searchFilter"
       />
@@ -44,21 +27,14 @@
           v-for="(item, i) in extraSearchList"
           :key="`sitem-${i}`"
         >
-          <div class="left">
-            <div class="address">
-              <i class="icon-position"></i>
-              <p class="name">
-                {{ item.name }}
-              </p>
-            </div>
-          </div>
-          <div class="right">
-            <input
-              type="checkbox"
-              :checked="searchChecked.indexOf(item.name) >= 0"
-              @click="checkedOne(item)"
-            />
-          </div>
+          <p class="name" :title="item.name">
+            {{ item.name }}
+          </p>
+          <input
+            type="checkbox"
+            :checked="searchChecked.indexOf(item.name) >= 0"
+            @click="checkedOne(item)"
+          />
         </li>
       </ul>
     </div>
@@ -67,45 +43,40 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import { treeDrawTool, fixTreeWithExtra } from "./TreeDrawTool";
-import { getIserverFields } from "api/iServerAPI";
-import {
-  CESIUM_TREE_OPTION,
-  CESIUM_TREE_EXTRA_DATA,
-} from "config/server/sourceTreeOption";
-const Cesium = window.Cesium;
+import { CESIUM_TREE_EXTRA_DATA } from "config/server/sourceTreeOption";
 
 export default {
-  name: "searchBox",
+  name: "SearchEvent",
   data() {
     return {
-      searchBoxVisible: false,
       searchBoxResult: true,
       searchText: "",
       forceNode: {},
       extraSearchList: [],
       searchChecked: [],
-      menuImg: "/static/images/common/menu-un.png",
-      menuSelImg: "/static/images/common/menu-sel.png",
     };
   },
   computed: {
-    ...mapGetters("traffic", [...CESIUM_TREE_EXTRA_DATA, "forceTrueTopicLabelId"]),
+    ...mapGetters("map", [
+      ...CESIUM_TREE_EXTRA_DATA,
+      "forceEventTopicLabelId",
+      "searchBoxVisible",
+    ]),
   },
-  created() {
+  async mounted() {
     this.eventRegsiter();
   },
   methods: {
+    ...mapActions("map", ["SetSearchBoxVisible"]),
+    /**
+     * 事件传递打开对应专题图层
+     */
     eventRegsiter() {
-      /**
-       * 事件传递打开对应专题图层
-       */
-      this.$bus.$off("cesium-3d-switch-searchBox");
-      this.$bus.$on("cesium-3d-switch-searchBox", ({ shall, node }) => {
-        this.searchClear();
-        this.searchBoxVisible = shall;
+      this.$bus.$off("cesium-3d-switch-searchBox-event");
+      this.$bus.$on("cesium-3d-switch-searchBox-event", ({ shall, node }) => {
+        this.SetSearchBoxVisible(shall);
         this.forceNode = node || {};
-        shall ? this.searchFilter() : undefined;
+        this.searchClear();
       });
     },
     toogleVisible() {
@@ -150,14 +121,10 @@ export default {
             pitch: -0.5808830390057418,
             roll: 0.0,
           },
-          // maximumHeight: 450,
+          maximumHeight: 450,
         });
       }
     },
   },
 };
 </script>
-
-<style lang="less">
-@import url("./searchBox.less");
-</style>

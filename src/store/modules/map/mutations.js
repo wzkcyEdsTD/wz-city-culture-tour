@@ -101,6 +101,9 @@ const mutations = {
   [types.SET_FORCE_TREE_LABEL](state, data) {
     state.forceTreeLabel = data
   },
+  [types.SET_FORCE_TREE_EVENT_LABEL](state, data) {
+    state.forceTreeEventLabel = data
+  },
   [types.SET_FORCE_TRUE_TOPIC_LABEL](state, data) {
     state.forceTrueTopicLabels = [...data];
   },
@@ -115,7 +118,13 @@ const mutations = {
   },
   [types.SET_IS_SOURCE_LAYER](state, data) {
     state.isSourceLayer = data;
-  }
+  },
+  [types.SET_SEARCH_BOX_VISIBLE](state, data) {
+    state.searchBoxVisible = data;
+  },
+  [types.SET_SEARCH_BOX_SOURCE](state, data) {
+    state.searchBoxSource = data;
+  },
 };
 
 export default mutations;

@@ -48,7 +48,7 @@
 <script>
 import { ServiceUrl } from "config/server/mapConfig";
 import LayerHub from "components/sourcelayer/layerHub/layerHub";
-import SearchBox from "components/sourcelayer/layerHub/searchBox";
+import SearchBox from "components/sourcelayer/layerHub/SearchBox/SearchBox";
 import CityIndex from "components/sourcelayer/CityIndex/index";
 import Roulette from "components/sourcelayer/roulette/roulette";
 import DetailedModel from "components/sourcelayer/extraModel/Models/DetailedModel";
@@ -80,7 +80,6 @@ import {
 } from "components/sourcelayer/cesium_map_init";
 import { doValidation } from "api/validation/validation";
 import { mapGetters } from "vuex";
-const Cesium = window.Cesium;
 
 export default {
   data() {

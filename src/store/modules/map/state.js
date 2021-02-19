@@ -49,11 +49,16 @@ const state = {
   forceIndex: '城市总览',
   //  tab下标
   forceTreeLabel: "城市总览",
+  forceTreeEventLabel: "事件专题",
   //  树选择类型
   forceTrueTopicLabels: [], //  资源图层选中子节点
   forceTrueTopicLabelId: "",//  资源图层当前选中节点
   forceEventTopicLabels: [], //  事件图层选中子节点
   forceEventTopicLabelId: "",//  事件图层当前选中节点
+  //  搜索框是否展示
+  searchBoxVisible: false,
+  //  搜索框模式
+  searchBoxSource: true,
   //  图层模式
   isSourceLayer: true
 };
