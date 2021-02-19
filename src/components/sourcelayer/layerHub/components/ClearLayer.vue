@@ -1,12 +1,17 @@
 <template>
-  <div class="clear-layer">
+  <div class="clear-layer" @click="doClearLayer">
     <img src="static/images/layer-ico/clear.png" />
     <span>清除图层</span>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  name: "ClearLayer",
+  methods: {
+    doClearLayer() {},
+  },
+};
 </script>
 
 <style lang="less" scoped>

@@ -55,12 +55,7 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import { treeDrawTool, fixTreeWithExtra } from "./TreeDrawTool";
-import { getIserverFields } from "api/iServerAPI";
-import {
-  CESIUM_TREE_OPTION,
-  CESIUM_TREE_EXTRA_DATA,
-} from "config/server/sourceTreeOption";
+import { CESIUM_TREE_EXTRA_DATA } from "config/server/sourceTreeOption";
 const Cesium = window.Cesium;
 
 export default {
@@ -73,16 +68,10 @@ export default {
       forceNode: {},
       extraSearchList: [],
       hospitalChecked: [],
-      menuImg: "/static/images/common/menu-un.png",
-      menuSelImg: "/static/images/common/menu-sel.png",
     };
   },
   computed: {
-    ...mapGetters("map", [
-      ...CESIUM_TREE_EXTRA_DATA,
-      "forceTrueTopicLabelId",
-      "isSourceLayer",
-    ]),
+    ...mapGetters("map", [...CESIUM_TREE_EXTRA_DATA, "forceTrueTopicLabelId"]),
   },
   async mounted() {
     this.eventRegsiter();

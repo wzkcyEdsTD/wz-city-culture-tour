@@ -25,7 +25,7 @@
     <!-- 模块切换 -->
     <LayerHub ref="layerHub" v-if="initDataLoaded" />
     <!-- 时间转盘 -->
-    <Roulette />
+    <Roulette ref="roulette" v-show="isSourceLayer" />
     <!-- 功能组件 -->
     <div v-if="mapLoaded && validated">
       <DetailedModel v-if="showSubFrame == '3d1'" />
@@ -94,7 +94,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("map", ["initDataLoaded", "forceTreeLabel"]),
+    ...mapGetters("map", ["initDataLoaded", "forceTreeLabel", "isSourceLayer"]),
     isOverview() {
       return this.showSubHubFrame == "3d1";
     },
