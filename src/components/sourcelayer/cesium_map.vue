@@ -218,7 +218,7 @@ export default {
       this.$bus.$on("cesium-3d-event", ({ value }) => {
         this.showSubFrame = value;
       });
-      this.$bus.$on("cesium-3d-switch", async ({ value }) => {
+      this.$bus.$on("cesium-3d-switch", ({ value }) => {
         this.$bus.$emit("cesium-3d-event", { value: !value ? "3d1" : null });
         ServiceUrl.WZBaimo_OBJ.map(({ KEY }) => {
           const _LAYER_ = window.earth.scene.layers.find(KEY);
@@ -238,7 +238,7 @@ export default {
         //  光源显示
         mapRoadLampLayerTurn(!value ? false : true);
         //  河流显示
-        await mapRiverLayerInit("RIVER", ServiceUrl.STATIC_RIVER, !value);
+        mapRiverLayerInit("RIVER", ServiceUrl.STATIC_RIVER, !value);
         //  历史页面做回调
         this.$bus.$emit("cesium-3d-switch-pass");
       });

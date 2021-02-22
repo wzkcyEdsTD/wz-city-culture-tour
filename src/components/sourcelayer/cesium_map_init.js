@@ -48,21 +48,14 @@ export const mapMvtLayerInit = (name, url) => {
  * @param {*} url 
  */
 export const mapRiverLayerInit = (name, url, visible = true) => {
-    return new Promise((resolve, reject) => {
-        const riverLayer = window.earth.scene.layers.find("RIVER");
-        if (riverLayer) {
-            riverLayer.visible = visible;
-            resolve(true)
-        } else {
-            if (visible) {
-                const riverPromise = window.earth.scene.addS3MTilesLayerByScp(url, { name });
-                Cesium.when(riverPromise, () => {
-                    const LAYER = window.earth.scene.layers.find(name)
-                    resolve(true)
-                });
-            }
+    const riverLayer = window.earth.scene.layers.find("RIVER");
+    if (riverLayer) {
+        riverLayer.visible = visible;
+    } else {
+        if (visible) {
+            window.earth.scene.addS3MTilesLayerByScp(url, { name });
         }
-    })
+    }
 }
 
 /**
