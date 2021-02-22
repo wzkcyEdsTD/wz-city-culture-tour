@@ -47,17 +47,21 @@ export const mapMvtLayerInit = (name, url) => {
  * @param {*} name 
  * @param {*} url 
  */
-export const mapRiverLayerInit = (name, url) => {
+export const mapRiverLayerInit = (name, url, visible = true) => {
     return new Promise((resolve, reject) => {
-        const riverPromise = window.earth.scene.addS3MTilesLayerByScp(url, { name });
-        Cesium.when(riverPromise, () => {
-            const LAYER = window.earth.scene.layers.find(name)
-            LAYER.style3D.bottomAltitude = 1;
-            LAYER.refresh();
-            LAYER.visibleDistanceMax = 2000;
-            LAYER.visible = false;
+        const riverLayer = window.earth.scene.layers.find("RIVER");
+        if (riverLayer) {
+            riverLayer.visible = visible;
             resolve(true)
-        });
+        } else {
+            if (visible) {
+                const riverPromise = window.earth.scene.addS3MTilesLayerByScp(url, { name });
+                Cesium.when(riverPromise, () => {
+                    const LAYER = window.earth.scene.layers.find(name)
+                    resolve(true)
+                });
+            }
+        }
     })
 }
 
