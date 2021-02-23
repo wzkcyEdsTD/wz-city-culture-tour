@@ -5,12 +5,12 @@ const _ENTITY_ID_ = "aroundSourceAnalyseCircle";
  * 地图画点
  * @param {*} param0 
  */
-export const aroundSourceAnalyseDraw = ({ key, list, title }) => {
+export const aroundSourceAnalyseDraw = ({ key, list, title, dataset }) => {
     const KEY = `${_COLLECTION_KEY_}_${key}`;
     list.length &&
         list.map((v) => {
             const position = Cesium.Cartesian3.fromDegrees(+v.lng, +v.lat, 4);
-            initFeatureMap(KEY, v);
+            initFeatureMap(dataset, KEY, v);
             window.labelMap[KEY].add({
                 id: `label@${v.resourceName}@${KEY}`,
                 text: v.resourceName,
@@ -88,9 +88,9 @@ export const initPrimitivesCollection = (key) => {
  * @param {string} KEY
  * @param {object} data
  */
-const initFeatureMap = async (KEY, data) => {
-    // const fields = await getIserverFields(url, newdataset);
-    // const fieldHash = fixFieldsByArr(fields);
+const initFeatureMap = async ({ url, newdataset }, KEY, data) => {
+    const fields = await getIserverFields(url, newdataset);
+    const fieldHash = fixFieldsByArr(fields);
     const attributes = doObjFromArr(data.originalData);
     const name = data.resourceName;
     window.featureMap[KEY][name] = {
@@ -100,8 +100,8 @@ const initFeatureMap = async (KEY, data) => {
             y: +data.lat,
         },
         attributes,
-        // fix_data: fixAttributesByOrigin(attributes, fieldHash),
-        fix_data: attributes,
+        fix_data: fixAttributesByOrigin(attributes, fieldHash),
+        // fix_data: attributes,
         dataSet: "",
     };
 }

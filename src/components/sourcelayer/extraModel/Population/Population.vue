@@ -28,11 +28,11 @@ export default {
     eventRegsiter() {
       const that = this;
       this.$bus.$off("cesium-3d-population-circle");
-      this.$bus.$on("cesium-3d-population-circle", ({ doDraw, id, geometry }) => {
+      this.$bus.$on("cesium-3d-population-circle", ({ doDraw, id, geometry, type }) => {
         !doDraw
           ? that.removePopulationCircle(id)
           : id && geometry
-          ? that.drawPopulationCircle(id, geometry)
+          ? that.drawPopulationCircle(id, geometry, type)
           : undefined;
       });
     },
@@ -67,7 +67,7 @@ export default {
      * @param {geometry!} 没geometry不画
      * @param {radius?} 单位[米] 先默认 不屌他
      */
-    async drawPopulationCircle(id, { lng, lat }, raidus = 500) {
+    async drawPopulationCircle(id, { lng, lat }, type, raidus = 500) {
       console.log("[drawPopulationCircle]", lng, lat);
       const datasource = window.earth.dataSources.getByName("medical")[0];
       const circleEntity = new Cesium.Entity({
@@ -86,7 +86,7 @@ export default {
       datasource.entities.add(circleEntity);
       const result = await getPopulation({ lng, lat });
       this.drawPopulationScan(true, id, { lng, lat });
-      this.$bus.$emit("cesium-3d-around-people", { id, result });
+      this.$bus.$emit("cesium-3d-around-people", { id, result, type });
     },
     /**
      * 删缓冲区

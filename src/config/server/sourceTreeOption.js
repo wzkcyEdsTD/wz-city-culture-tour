@@ -158,10 +158,10 @@ const CITY_TOPIC = [
 ]
 
 const AROUND_ANALYSE_TOPIC = [
-  { label: "医疗场所", resourceType: "medical_care" },
-  { label: "消防站", resourceType: "fire_station" },
-  { label: "消防栓", resourceType: "fire_hydrant" },
-  { label: "交通卡口", resourceType: "bayonet" }
+  { label: "医疗场所", resourceType: "medical_care", dataset: "JZJZNL_YLJH_JHCS", },
+  { label: "消防站", resourceType: "fire_station", dataset: "JZJZNL_XFJYNL_XFZ" },
+  { label: "消防栓", resourceType: "fire_hydrant", dataset: "JZJZNL_XFJYNL_XFS" },
+  { label: "交通卡口", resourceType: "bayonet", dataset: "KaKouDianWei" }
 ]
 
 /**
@@ -318,11 +318,10 @@ export const CESIUM_TREE_EVENT_OPTION = [{
   children: EVENT_TOPIC.map(v => {
     return {
       ...v,
-      id: v.label,
+      id: v.event,
       icon: v.label,
       url: SERVER_DEFAULT_DATA,
       type: v.type || "mvt",
-      // newdataset: `${SW_DATA_NAME}${v.dataset}`
     };
   })
 }]
@@ -349,6 +348,8 @@ export const CESIUM_TREE_AROUND_ANALYSE_OPTION = {
       ...v,
       id: v.label,
       icon: v.label,
+      url: SERVER_DEFAULT_DATA,
+      newdataset: `${SW_DATA_NAME}${v.dataset}`
     };
   })
 }

@@ -73,7 +73,6 @@
 </template>
 
 <script>
-import { getCompanyElectricity } from "@/api/cityBrainAPI";
 export default {
   data() {
     return {

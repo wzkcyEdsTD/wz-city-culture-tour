@@ -12,13 +12,13 @@
           <div class="event-number">
             <span>昨日事件数</span>
             <div class="day-number">
-              <DynamicNum :value="1" decimals="0" />
+              <DynamicNum :value="undefined" decimals="0" />
             </div>
           </div>
           <div class="event-number">
             <span>本月事件总数</span>
             <div class="month-number">
-              <DynamicNum :value="1" decimals="0" />
+              <DynamicNum :value="undefined" decimals="0" />
             </div>
           </div>
         </div>
@@ -33,13 +33,13 @@
           <div class="event-number">
             <span>昨日事件数</span>
             <div class="day-number">
-              <DynamicNum :value="1" decimals="0" />
+              <DynamicNum :value="undefined" decimals="0" />
             </div>
           </div>
           <div class="event-number">
             <span>本月事件总数</span>
             <div class="month-number">
-              <DynamicNum :value="1" decimals="0" />
+              <DynamicNum :value="undefined" decimals="0" />
             </div>
           </div>
         </div>
@@ -54,13 +54,13 @@
           <div class="event-number">
             <span>昨日事件数</span>
             <div class="day-number">
-              <DynamicNum :value="1" decimals="0" />
+              <DynamicNum :value="undefined" decimals="0" />
             </div>
           </div>
           <div class="event-number">
             <span>本月事件总数</span>
             <div class="month-number">
-              <DynamicNum :value="1" decimals="0" />
+              <DynamicNum :value="undefined" decimals="0" />
             </div>
           </div>
         </div>
@@ -75,13 +75,13 @@
           <div class="event-number">
             <span>昨日事件数</span>
             <div class="day-number">
-              <DynamicNum :value="1" decimals="0" />
+              <DynamicNum :value="undefined" decimals="0" />
             </div>
           </div>
           <div class="event-number">
             <span>本月事件总数</span>
             <div class="month-number">
-              <DynamicNum :value="1" decimals="0" />
+              <DynamicNum :value="undefined" decimals="0" />
             </div>
           </div>
         </div>

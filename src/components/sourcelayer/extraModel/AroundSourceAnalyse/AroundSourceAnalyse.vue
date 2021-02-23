@@ -136,6 +136,9 @@ export default {
             title: label,
             key: value,
             list: data.sort(arrayCompareWithParam("distance")),
+            dataset: CESIUM_TREE_AROUND_ANALYSE_OPTION.children.filter(
+              ({ resourceType }) => resourceType == value
+            )[0],
           };
           aroundSourceAnalyseList.push(sourceAnalyseResult);
           //  周边分析画点

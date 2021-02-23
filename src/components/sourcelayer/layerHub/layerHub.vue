@@ -258,9 +258,9 @@ export default {
         this.forceTreeTopic = Topics.length ? Topics[0].children : [];
         if (this.forceTreeTopic.length) {
           const forceNode = this.forceTreeTopic[0];
-          this.SetForceTrueTopicLabelId(forceNode.id);
+          this.SetForceTrueTopicLabelId(forceNode.label);
           this.SetForceTrueTopicLabels([
-            ...new Set(this.forceTrueTopicLabels.concat([forceNode.id])),
+            ...new Set(this.forceTrueTopicLabels.concat([forceNode.label])),
           ]);
           this.nodeCheckChange(forceNode, true, "source");
         } else {
@@ -273,9 +273,9 @@ export default {
         this.forceTreeEventTopic = Topics.length ? Topics[0].children : [];
         if (this.forceTreeEventTopic.length) {
           const forceNode = this.forceTreeEventTopic[0];
-          this.SetForceEventTopicLabelId(forceNode.id);
+          this.SetForceEventTopicLabelId(forceNode.label);
           this.SetForceEventTopicLabels([
-            ...new Set(this.forceEventTopicLabels.concat([forceNode.id])),
+            ...new Set(this.forceEventTopicLabels.concat([forceNode.label])),
           ]);
           this.nodeCheckChange(forceNode, true, "event");
         } else {
@@ -357,7 +357,7 @@ export default {
           },
         });
       });
-      treeDrawTool(this, { result: { features: features } }, node);
+      treeDrawTool(this, { result: { features } }, node);
       fn && fn();
     },
     nodeCheckChange(node, checked, type) {
