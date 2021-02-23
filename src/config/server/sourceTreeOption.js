@@ -195,7 +195,7 @@ export const CESIUM_TREE_OPTION = [
         icon: v.label,
         url: SERVER_DEFAULT_DATA,
         type: "mvt",
-        newdataset: `${SW_DATA_NAME}${v.dataset}`
+        dataSource: `${SW_DATA_NAME}${v.dataset}`
       };
     })
   },
@@ -209,7 +209,7 @@ export const CESIUM_TREE_OPTION = [
         icon: v.label,
         url: SERVER_DEFAULT_DATA,
         type: "mvt",
-        newdataset: `${SW_DATA_NAME}${v.dataset}`
+        dataSource: `${SW_DATA_NAME}${v.dataset}`
       };
     })
   },
@@ -223,7 +223,7 @@ export const CESIUM_TREE_OPTION = [
         icon: v.label,
         url: SERVER_DEFAULT_DATA,
         type: "mvt",
-        newdataset: `${SW_DATA_NAME}${v.dataset}`
+        dataSource: `${SW_DATA_NAME}${v.dataset}`
       };
     })
   },
@@ -237,7 +237,7 @@ export const CESIUM_TREE_OPTION = [
         icon: v.label,
         url: SERVER_DEFAULT_DATA,
         type: "mvt",
-        newdataset: `${SW_DATA_NAME}${v.dataset}`
+        dataSource: `${SW_DATA_NAME}${v.dataset}`
       };
     })
   },
@@ -251,7 +251,7 @@ export const CESIUM_TREE_OPTION = [
         icon: v.label,
         url: SERVER_DEFAULT_DATA,
         type: "mvt",
-        newdataset: `${SW_DATA_NAME}${v.dataset}`
+        dataSource: `${SW_DATA_NAME}${v.dataset}`
       };
     })
   },
@@ -265,7 +265,7 @@ export const CESIUM_TREE_OPTION = [
         icon: v.label,
         url: SERVER_DEFAULT_DATA,
         type: "mvt",
-        newdataset: `${SW_DATA_NAME}${v.dataset}`
+        dataSource: `${SW_DATA_NAME}${v.dataset}`
       };
     })
   },
@@ -279,7 +279,7 @@ export const CESIUM_TREE_OPTION = [
         icon: v.label,
         url: SERVER_DEFAULT_DATA,
         type: "mvt",
-        newdataset: `${SW_DATA_NAME}${v.dataset}`
+        dataSource: `${SW_DATA_NAME}${v.dataset}`
       };
     })
   },
@@ -293,7 +293,7 @@ export const CESIUM_TREE_OPTION = [
         icon: v.label,
         url: SERVER_DEFAULT_DATA,
         type: v.type || "mvt",
-        newdataset: `${SW_DATA_NAME}${v.dataset}`
+        dataSource: `${SW_DATA_NAME}${v.dataset}`
       };
     })
   },
@@ -307,7 +307,7 @@ export const CESIUM_TREE_OPTION = [
         icon: v.label,
         url: v.url || SERVER_DEFAULT_DATA,
         type: v.type || "mvt",
-        newdataset: `${SW_DATA_NAME}${v.dataset}`
+        dataSource: `${SW_DATA_NAME}${v.dataset}`
       };
     })
   },
@@ -335,7 +335,7 @@ export const CESIUM_TREE_TRAFFIC_OPTION = [{
       icon: v.label,
       url: SERVER_DEFAULT_DATA,
       type: v.type || "mvt",
-      newdataset: `${SW_DATA_NAME}${v.dataset}`
+      dataSource: `${SW_DATA_NAME}${v.dataset}`
     };
   })
 }]
@@ -349,7 +349,7 @@ export const CESIUM_TREE_AROUND_ANALYSE_OPTION = {
       id: v.label,
       icon: v.label,
       url: SERVER_DEFAULT_DATA,
-      newdataset: `${SW_DATA_NAME}${v.dataset}`
+      dataSource: `${SW_DATA_NAME}${v.dataset}`
     };
   })
 }

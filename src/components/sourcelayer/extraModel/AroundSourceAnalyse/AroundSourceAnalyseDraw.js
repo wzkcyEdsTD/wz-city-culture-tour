@@ -88,8 +88,8 @@ export const initPrimitivesCollection = (key) => {
  * @param {string} KEY
  * @param {object} data
  */
-const initFeatureMap = async ({ url, newdataset }, KEY, data) => {
-    const fields = await getIserverFields(url, newdataset);
+const initFeatureMap = async ({ url, dataSource }, KEY, data) => {
+    const fields = await getIserverFields(url, dataSource);
     const fieldHash = fixFieldsByArr(fields);
     const attributes = doObjFromArr(data.originalData);
     const name = data.resourceName;

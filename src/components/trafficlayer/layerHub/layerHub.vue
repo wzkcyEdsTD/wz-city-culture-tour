@@ -180,7 +180,7 @@ export default {
      * @param {object} node
      */
     getPOIPickedFeature(node, fn) {
-      const { newdataset, url } = node;
+      const { dataSource, url } = node;
       var getFeatureParam, getFeatureBySQLService, getFeatureBySQLParams;
       getFeatureParam = new SuperMap.REST.FilterParameter({
         // attributeFilter: `SMID <= 1000`,
@@ -189,12 +189,12 @@ export default {
       getFeatureBySQLParams = new SuperMap.REST.GetFeaturesBySQLParameters({
         queryParameter: getFeatureParam,
         toIndex: -1,
-        datasetNames: [newdataset],
+        datasetNames: [dataSource],
       });
       getFeatureBySQLService = new SuperMap.REST.GetFeaturesBySQLService(url, {
         eventListeners: {
           processCompleted: async (res) => {
-            const fields = await getIserverFields(url, newdataset);
+            const fields = await getIserverFields(url, dataSource);
             treeDrawTool(this, res, node, fields, fn);
           },
           processFailed: (msg) => console.log(msg),
