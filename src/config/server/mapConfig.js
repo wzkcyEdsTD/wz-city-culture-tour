@@ -105,6 +105,10 @@ export const ExtraSourceURL = {
     "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-S1/rest/realspace/datas/S1/config",
 };
 
+export const PathURL = {
+  findPathWz: "http://10.36.234.81:8090/iserver/services/transportationAnalyst-ruian/rest/networkanalyst/BuildNetwork@MapManager"
+}
+
 
 export const BimSourceURL = {
   SCENE_URL:

@@ -73,6 +73,9 @@
 </template>
 
 <script>
+import { _RESULT_SETTING_ } from "config/local/findPathParams";
+import { PathURL } from "config/server/mapConfig";
+
 export default {
   data() {
     return {
@@ -87,11 +90,16 @@ export default {
   },
   methods: {
     eventRegsiter() {
+      //  周边实时人口分析
       this.$bus.$on("cesium-3d-around-people", ({ id, result, type }) => {
         if (type == "event") this.buffer = result;
       });
+      //  清除pop附带信息
       this.$bus.$on("cesium-3d-detail-pop-clear", () => {
         this.closePopup();
+      });
+      this.$bus.$on("cesium-poi-location", (startPoint) => {
+        this.findPath(startPoint.geometry);
       });
     },
     /**
@@ -165,6 +173,36 @@ export default {
       const { geometry } = this.forceEntity;
       const { x, y } = geometry;
       this.$bus.$emit("cesium-3d-around-analyse-pick", { lng: x, lat: y });
+    },
+    /**
+     * 查找最佳路线
+     * @param {object} 起始点位
+     */
+    findPath(startGeometry) {
+      const { geometry } = this.forceEntity;
+      const nodes = [
+        new SuperMap.Geometry.Point(startGeometry.x, startGeometry.y),
+        new SuperMap.Geometry.Point(geometry.x, geometry.y),
+      ];
+      const findPathParameter = new SuperMap.REST.FindPathParameters({
+        isAnalyzeById: false,
+        nodes,
+        hasLeastEdgeCount: false,
+        parameter: new SuperMap.REST.TransportationAnalystParameter({
+          resultSetting: new SuperMap.REST.TransportationAnalystResultSetting(
+            _RESULT_SETTING_
+          ),
+          weightFieldName: "SmLength",
+        }),
+      });
+      const findPathService = new SuperMap.REST.FindPathService(PathURL.findPathWz, {
+        eventListeners: {
+          processCompleted: (serviceResult) => {
+            console.log(serviceResult);
+          },
+        },
+      });
+      findPathService.processAsync(findPathParameter);
     },
     closePopup() {
       this.forcePosition = {};

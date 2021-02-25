@@ -14,8 +14,8 @@ const SERVER_DEFAULT_DATA = SERVER_HOST + SW_DATA;
 const MEDICAL_TOPIC = [
   {
     label: "医疗场所",
-    // dataset: "JZJZNL_YLJH_JHCS_LC",
-    dataset: "JZJZNL_YLJH_JHCS",
+    // dataset: "JZJZNL_YLJH_JHCS_LC",  //  鹿城区范围
+    dataset: "JZJZNL_YLJH_JHCS",        //  全市域范围
     withExtraData: "medicalList",
     withExtraDataGeometry: "medicalListWithGeometry",
     saveExtraDataByGeometry: "setMedicalListWithGeometry",
@@ -318,7 +318,7 @@ export const CESIUM_TREE_EVENT_OPTION = [{
   children: EVENT_TOPIC.map(v => {
     return {
       ...v,
-      id: v.event,
+      id: v.label,
       icon: v.label,
       url: SERVER_DEFAULT_DATA,
       type: v.type || "mvt",

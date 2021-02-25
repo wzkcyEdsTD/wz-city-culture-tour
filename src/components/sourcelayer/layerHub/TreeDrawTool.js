@@ -111,8 +111,9 @@ export const treeDrawTool = (context, { result }, node, fields = [], fn) => {
       item.geometry.y,
       4
     );
+    const eventTag = node.event ? "eventLayer_" : "";
     !node.hiddenIcon && !node.hiddenLabel && window.labelMap[node.id].add({
-      id: `label@${item.attributes.SMID}@${node.id}`,
+      id: `${eventTag}label@${item.attributes.SMID}@${node.id}`,
       text: item.attributes.SHORTNAME || item.attributes[node.withExtraKey] || item.attributes.NAME,
       fillColor: Cesium.Color.WHITE,
       outlineColor: Cesium.Color.BLACK,
@@ -128,7 +129,7 @@ export const treeDrawTool = (context, { result }, node, fields = [], fn) => {
       position
     });
     !node.hiddenIcon && window.billboardMap[node.id].add({
-      id: `billboard@${item.attributes.SMID}@${node.id}`,
+      id: `${eventTag}billboard@${item.attributes.SMID}@${node.id}`,
       image: `/static/images/map-ico/${node.icon}.png`,
       width: 34,
       height: 34,

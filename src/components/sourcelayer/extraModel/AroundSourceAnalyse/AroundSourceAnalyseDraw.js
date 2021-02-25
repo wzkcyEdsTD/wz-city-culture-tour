@@ -12,7 +12,7 @@ export const aroundSourceAnalyseDraw = ({ key, list, title, dataset }) => {
             const position = Cesium.Cartesian3.fromDegrees(+v.lng, +v.lat, 4);
             initFeatureMap(dataset, KEY, v);
             window.labelMap[KEY].add({
-                id: `label@${v.resourceName}@${KEY}`,
+                id: `label@${v.resourceName}@${KEY}@location`,
                 text: v.resourceName,
                 fillColor: Cesium.Color.WHITE,
                 outlineColor: Cesium.Color.BLACK,
@@ -28,7 +28,7 @@ export const aroundSourceAnalyseDraw = ({ key, list, title, dataset }) => {
                 position,
             });
             window.billboardMap[KEY].add({
-                id: `billboard@${v.resourceName}@${KEY}`,
+                id: `billboard@${v.resourceName}@${KEY}@location`,
                 image: `/static/images/map-ico/${title}.png`,
                 width: 26,
                 height: 26,

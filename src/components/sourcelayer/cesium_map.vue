@@ -205,8 +205,8 @@ export default {
             });
           }
         } else if (typeof pick.id == "string") {
-          const [_TYPE_, _SMID_, _NODEID_] = pick.id.split("@");
-          if (_NODEID_.includes("eventLayer_")) {
+          const [_TYPE_, _SMID_, _NODEID_, _LOCATION_] = pick.id.split("@");
+          if (_TYPE_.includes("eventLayer_")) {
             this.$refs.eventPopup.getForceEntity({
               ...window.featureMap[_NODEID_][_SMID_],
               position: pick.primitive.position,
@@ -218,6 +218,10 @@ export default {
                 ...window.featureMap[_NODEID_][_SMID_],
                 position: pick.primitive.position,
               });
+            }
+            //  额外判断 若存在标志则进行导航
+            if (~["location"].indexOf(_LOCATION_)) {
+              this.$bus.$emit("cesium-poi-location", window.featureMap[_NODEID_][_SMID_]);
             }
           }
         }
@@ -237,10 +241,6 @@ export default {
           const _LAYER_ = window.earth.scene.layers.find(KEY);
           _LAYER_.visible = !value ? false : true;
         });
-        //  鼠标缩放限制
-        // window.earth.scene.screenSpaceCameraController.maximumZoomDistance = !value
-        //   ? 800
-        //   : Infinity;
         //  底图切换
         window.datalayer.show = !value ? false : true;
         window.imagelayer
