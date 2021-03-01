@@ -126,7 +126,7 @@
 import { mapGetters, mapActions } from "vuex";
 import KgLegend from "./components/KgLegend";
 import ClearLayer from "./components/ClearLayer";
-import { treeDrawTool } from "./TreeDrawTool";
+import { treeDrawTool, treeDrawEventTool } from "./TreeDrawTool";
 import { getIserverFields } from "api/iServerAPI";
 import {
   CESIUM_TREE_OPTION,
@@ -348,16 +348,19 @@ export default {
     async getAPIFeature(node, fn) {
       let res = await getEventData(node.event);
       let features = [];
-      res.data.forEach((item) => {
+      res.forEach((item) => {
         features.push({
-          attributes: { NAME: item.title, SMID: item.id },
+          attributes: {
+            ...item,
+            ...{ NAME: item.title, SMID: item.innerEventId },
+          },
           geometry: {
             x: +item.eventCoordinate.split(",")[0],
             y: +item.eventCoordinate.split(",")[1],
           },
         });
       });
-      treeDrawTool(this, { result: { features } }, node);
+      treeDrawEventTool(this, { result: { features } }, node);
       fn && fn();
     },
     nodeCheckChange(node, checked, type) {
@@ -424,6 +427,7 @@ export default {
      */
     changeLayer(layer) {
       const _IS_SOURCE_ = layer == "source";
+      if (_IS_SOURCE_ == this.isSourceLayer) return;
       this.SetIsSourceLayer(_IS_SOURCE_);
       if (_IS_SOURCE_) {
         const Topics = this.CESIUM_TREE_OPTION.filter(

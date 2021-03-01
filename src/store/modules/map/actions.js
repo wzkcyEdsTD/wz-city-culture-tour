@@ -11,6 +11,7 @@ import {
   getMedicalList, getBayonetList, getStationList, getTourPointList, fetchWzOverviewData, fetchWzTrafficData,
   fetchMedicalData, fetchTourData, fetchCultureData, fetchSourceData, fetchBasicData, fetchWzPeopleData, fetchEmergencyData
 } from "api/layerServerAPI";
+import { getEventCount } from "api/cityBrainAPI"
 
 /**
  * 对象下所有值相加
@@ -113,7 +114,9 @@ export const SetWzMedicalData = async ({ commit, state }) => {
 
 //  获取全市事件总数
 export const SetWzEventData = async ({ commit, state }) => {
-  commit(types.SET_WZ_EVENT_DATA, {});
+  const day = await getEventCount(1);
+  const week = await getEventCount(7);
+  commit(types.SET_WZ_EVENT_DATA, { day, week });
 }
 
 //  设置医院数据

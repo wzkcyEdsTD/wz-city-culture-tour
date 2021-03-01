@@ -16,7 +16,6 @@
       <MedicalPopup ref="medicalPopup" />
       <StationPopup ref="stationPopup" />
       <DetailPopup ref="detailPopup" />
-      <EventPopup ref="eventPopup" />
     </div>
     <!-- 城市各类指标 -->
     <CityIndex ref="totalTarget" />
@@ -39,6 +38,9 @@
       <div v-show="!isOverview">
         <RtmpVideo />
         <Population />
+      </div>
+      <div class="popup-groups">
+        <EventPopup ref="eventPopup" />
       </div>
     </div>
     <AuthFailPopup ref="authFailPopup" v-if="authFailshallPop" />

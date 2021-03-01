@@ -106,7 +106,7 @@ export const ExtraSourceURL = {
 };
 
 export const PathURL = {
-  findPathWz: "http://10.36.234.81:8090/iserver/services/transportationAnalyst-ruian/rest/networkanalyst/BuildNetwork@MapManager"
+  findPathWz: "https://ditu.wzcitybrain.com/iserver/services/transportationAnalyst-tra/rest/networkanalyst/tra@tra"
 }
 
 

@@ -6,6 +6,27 @@
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\sourcelayer\treeTool\TreeDrawTool.js
  */
+import { isDayOff } from "common/js/util";
+// 标识配置
+const labelConfig = {
+  fillColor: Cesium.Color.WHITE,
+  outlineColor: Cesium.Color.BLACK,
+  style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+  font: "10px",
+  scale: 1,
+  outlineWidth: 4,
+  showBackground: true,
+  backgroundColor: Cesium.Color(0.165, 0.165, 0.165, 0.1),
+  distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 2000),
+  pixelOffset: new Cesium.Cartesian2(0, -30),
+  disableDepthTestDistance: Number.POSITIVE_INFINITY,
+}
+//  图像配置
+const billboardConfig = {
+  width: 34,
+  height: 34,
+  disableDepthTestDistance: Number.POSITIVE_INFINITY,
+}
 
 /**
  * 取面中心点
@@ -80,10 +101,6 @@ export const fixTreeWithExtra = (gArr, eObj, node, context) => {
  */
 export const treeDrawTool = (context, { result }, node, fields = [], fn) => {
   const fieldHash = fixFieldsByArr(fields);
-  // const poiEntityCollection = new Cesium.CustomDataSource(node.id);
-  // window.earth.dataSources.add(poiEntityCollection).then(datasource => {
-  //   window.entityMap[node.id] = datasource;
-  // });
   //  hash赋值
   window.billboardMap[node.id] = window.earth.scene.primitives.add(new Cesium.BillboardCollection());
   window.labelMap[node.id] = window.earth.scene.primitives.add(new Cesium.LabelCollection());
@@ -104,38 +121,75 @@ export const treeDrawTool = (context, { result }, node, fields = [], fn) => {
       fix_data: fixAttributesByOrigin(v.attributes, fieldHash),
       dataSet: node.dataset
     })
-  })
-  result.features.map(item => {
+    //  叠加
     const position = Cesium.Cartesian3.fromDegrees(
-      item.geometry.x,
-      item.geometry.y,
+      v.geometry.x,
+      v.geometry.y,
       4
     );
-    const eventTag = node.event ? "eventLayer_" : "";
     !node.hiddenIcon && !node.hiddenLabel && window.labelMap[node.id].add({
-      id: `${eventTag}label@${item.attributes.SMID}@${node.id}`,
-      text: item.attributes.SHORTNAME || item.attributes[node.withExtraKey] || item.attributes.NAME,
-      fillColor: Cesium.Color.WHITE,
-      outlineColor: Cesium.Color.BLACK,
-      style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-      font: "10px",
-      scale: 1,
-      outlineWidth: 4,
-      showBackground: true,
-      backgroundColor: Cesium.Color(0.165, 0.165, 0.165, 0.1),
-      distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 2000),
-      pixelOffset: new Cesium.Cartesian2(0, -30),
-      disableDepthTestDistance: Number.POSITIVE_INFINITY,
-      position
+      id: `label@${v.attributes.SMID}@${node.id}`,
+      text: v.attributes.SHORTNAME || v.attributes[node.withExtraKey] || v.attributes.NAME,
+      position,
+      ...labelConfig
     });
     !node.hiddenIcon && window.billboardMap[node.id].add({
-      id: `${eventTag}billboard@${item.attributes.SMID}@${node.id}`,
+      id: `billboard@${v.attributes.SMID}@${node.id}`,
       image: `/static/images/map-ico/${node.icon}.png`,
-      width: 34,
-      height: 34,
-      disableDepthTestDistance: Number.POSITIVE_INFINITY,
-      position
+      position,
+      ...billboardConfig,
     })
-  });
+  })
+  fn && fn();
+};
+
+/**
+ * 画事件点、面
+ * @param {*} context
+ * @param {*} param1
+ * @param {*} node
+ * @param {*} fields 别名数组
+ * @param {function} fn 回调
+ */
+export const treeDrawEventTool = (context, { result }, node, fn) => {
+  //  hash赋值
+  window.billboardMap[node.id] = window.earth.scene.primitives.add(new Cesium.BillboardCollection());
+  window.labelMap[node.id] = window.earth.scene.primitives.add(new Cesium.LabelCollection());
+  //  属性赋值
+  result.features.map(v => {
+    const name = v.attributes.NAME;
+    const eventTime = v.attributes.eventTime;
+    const dayOff = eventTime && isDayOff(eventTime) ? '_extra' : '';
+    !window.featureMap[node.id] && (window.featureMap[node.id] = {});
+    window.featureMap[node.id][v.attributes.SMID] = {
+      name,
+      attributes: v.attributes,
+      geometry: v.geometry,
+      fix_data: v.attributes,
+    }
+    //  叠加
+    const position = Cesium.Cartesian3.fromDegrees(
+      v.geometry.x,
+      v.geometry.y,
+      4
+    );
+    const eventTag = "eventLayer_";
+    !node.hiddenIcon && !node.hiddenLabel && window.labelMap[node.id].add({
+      id: `${eventTag}label@${v.attributes.SMID}@${node.id}`,
+      text: v.attributes.NAME,
+      position,
+      ...labelConfig
+    });
+    !node.hiddenIcon && window.billboardMap[node.id].add({
+      id: `${eventTag}billboard@${v.attributes.SMID}@${node.id}`,
+      image: `/static/images/map-ico/${node.icon}${dayOff}.png`,
+      position,
+      ...billboardConfig,
+      ...(dayOff ? {
+        width: 46,
+        height: 46,
+      } : {})
+    })
+  })
   fn && fn();
 };

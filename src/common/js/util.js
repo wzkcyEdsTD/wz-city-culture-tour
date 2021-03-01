@@ -2,8 +2,8 @@
  * 返回日期
  * @returns {string}
  */
-export function getDate() {
-  var myDate = new Date()
+export function getDate(date) {
+  var myDate = date || new Date()
   // 获取当前年
   var year = myDate.getFullYear()
   // 获取当前月
@@ -15,6 +15,14 @@ export function getDate() {
   var s = myDate.getSeconds()
   // 获取当前时间
   return year + '-' + conver(month) + '-' + conver(date) + ' ' + conver(h) + ':' + conver(m) + ':' + conver(s)
+}
+
+/**
+ * 是否一天之内
+ * @param {*} eventTime 
+ */
+export function isDayOff(eventTime) {
+  return (+new Date() - +new Date(eventTime)) < 24 * 3600 * 1000;
 }
 
 function conver(s) {

@@ -7,19 +7,22 @@
  * @FilePath: \wz-city-culture-tour\src\api\cityBrainAPI.js
  */
 import axios from "axios";
+import { getDate } from 'common/js/util'
 const BASEURL = "https://sourceserver.wzcitybrain.com/statistics/ProxyGetCityBraainData";
 const instance = axios.create();
 instance.defaults.baseURL = BASEURL;
 instance.defaults.method = "get";
+
 /**
  * axios default
- * @param {*} url
- * @param {*} data
+ * @param {*} code 
+ * @param {*} data 
+ * @param {*} method 
  */
-const getAxios = (code = "", data = {}) => {
+const getAxios = (code = "", data = {}, method = "POST") => {
   return instance.request({
     url: "",
-    params: { params: JSON.stringify(data), code, systype: 1 }
+    params: { params: JSON.stringify(data), code, systype: 1, method }
   }).then(res => {
     return res.data ? Promise.resolve(JSON.parse(res.data.result)) : Promise.reject(res);
   });
@@ -93,8 +96,25 @@ export const getWzAllMedicalInsuranceInstitution = () => {
 export const getWzAllMedicalInsurancePayment = () => {
   return getAxios("100004125");
 };
-
-export const getEventData = (event) => {
-  console.log('event', event)
-  return { "data": [{ "msgType": 3, "cdcProviderId": 2, "scence": "jgqzhxf", "eventUrl": null, "origin": "火灾战警", "title": "智慧消防-全福桥路298号发生开⻔事件", "content": "全福桥路298号发生开⻔事件", "eventPlaceName": null, "eventCoordinate": "120.654218,28.016064", "eventDuration": null, "eventTime": "2020-06-18", "id": 10, "superviseStatus": 0, "areaCode": "330104012000", "innerEventId": "147952" }], "success": true, "requestId": "c0a858011592534339649433726827", "errorCode": "0", "errorMsg": "success" }
+/**
+ * [事件] 获取时间段内事件信息 100027001
+ */
+export const getEventData = () => {
+  const endTime = new Date();
+  return getAxios("100027001", {
+    startTime: getDate(new Date(endTime.getTime() - 7 * 24 * 3600 * 1000)),
+    endTime: getDate(endTime),
+    onlyCount: false
+  }, "GET");
+};
+/**
+ * [事件] 获取时间段内事件数量 100027001
+ */
+export const getEventCount = (day = 1) => {
+  const endTime = new Date();
+  return getAxios("100027001", {
+    startTime: getDate(new Date(endTime.getTime() - day * 24 * 3600 * 1000)),
+    endTime: getDate(endTime),
+    onlyCount: true
+  }, "GET");
 };

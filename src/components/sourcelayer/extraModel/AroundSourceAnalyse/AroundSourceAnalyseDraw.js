@@ -10,9 +10,10 @@ export const aroundSourceAnalyseDraw = ({ key, list, title, dataset }) => {
     list.length &&
         list.map((v) => {
             const position = Cesium.Cartesian3.fromDegrees(+v.lng, +v.lat, 4);
-            initFeatureMap(dataset, KEY, v);
+            const smid = v.originalData.fieldValues[0]
+            initFeatureMap(dataset, KEY, v, smid);
             window.labelMap[KEY].add({
-                id: `label@${v.resourceName}@${KEY}@location`,
+                id: `label@${smid}@${KEY}@location`,
                 text: v.resourceName,
                 fillColor: Cesium.Color.WHITE,
                 outlineColor: Cesium.Color.BLACK,
@@ -28,7 +29,7 @@ export const aroundSourceAnalyseDraw = ({ key, list, title, dataset }) => {
                 position,
             });
             window.billboardMap[KEY].add({
-                id: `billboard@${v.resourceName}@${KEY}@location`,
+                id: `billboard@${smid}@${KEY}@location`,
                 image: `/static/images/map-ico/${title}.png`,
                 width: 26,
                 height: 26,
@@ -88,13 +89,14 @@ export const initPrimitivesCollection = (key) => {
  * @param {string} KEY
  * @param {object} data
  */
-const initFeatureMap = async ({ url, dataSource }, KEY, data) => {
+const initFeatureMap = async ({ url, dataSource }, KEY, data, smid) => {
     const fields = await getIserverFields(url, dataSource);
     const fieldHash = fixFieldsByArr(fields);
     const attributes = doObjFromArr(data.originalData);
     const name = data.resourceName;
-    window.featureMap[KEY][name] = {
+    window.featureMap[KEY][smid] = {
         name,
+        smid,
         geometry: {
             x: +data.lng,
             y: +data.lat,

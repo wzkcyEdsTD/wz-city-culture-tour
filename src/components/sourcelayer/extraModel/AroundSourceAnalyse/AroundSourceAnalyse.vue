@@ -167,6 +167,7 @@ export default {
       this.forceEntity = undefined;
       this.selectSourceLayer = [];
       this.aroundSourceAnalyseList = [];
+      this.$bus.$emit("cesium-poi-location-clear");
     },
   },
 };

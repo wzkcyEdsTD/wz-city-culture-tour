@@ -75,6 +75,7 @@
 <script>
 import { _RESULT_SETTING_ } from "config/local/findPathParams";
 import { PathURL } from "config/server/mapConfig";
+import { dealPathWithXhr, clearPath } from "./tools/PathTools";
 
 export default {
   data() {
@@ -84,6 +85,14 @@ export default {
       buffer: null,
       filterKey: ["永久固定码", "唯一码", "分类代码"],
     };
+  },
+  created() {
+    window.billboardMap["pathRoute_analyse_points"] = window.earth.scene.primitives.add(
+      new Cesium.PointPrimitiveCollection()
+    );
+    window.labelMap["pathRoute_analyse_labels"] = window.earth.scene.primitives.add(
+      new Cesium.LabelCollection()
+    );
   },
   async mounted() {
     this.eventRegsiter();
@@ -99,7 +108,11 @@ export default {
         this.closePopup();
       });
       this.$bus.$on("cesium-poi-location", (startPoint) => {
+        clearPath();
         this.findPath(startPoint.geometry);
+      });
+      this.$bus.$on("cesium-poi-location-clear", () => {
+        clearPath();
       });
     },
     /**
@@ -198,7 +211,7 @@ export default {
       const findPathService = new SuperMap.REST.FindPathService(PathURL.findPathWz, {
         eventListeners: {
           processCompleted: (serviceResult) => {
-            console.log(serviceResult);
+            dealPathWithXhr(serviceResult);
           },
         },
       });
@@ -210,6 +223,7 @@ export default {
       this.buffer = null;
       this.$bus.$emit("cesium-3d-population-circle", { doDraw: false });
       this.$bus.$emit("cesium-3d-rtmpFetch-cb");
+      clearPath();
     },
   },
 };
@@ -288,27 +302,28 @@ export default {
     > .content-body {
       flex: 1;
       overflow-y: auto;
+      margin-bottom: 1vh;
       > li {
         font-size: 1.4vh;
-        height: 2.4vh;
         line-height: 2.4vh;
         font-weight: 300;
         float: left;
         width: 100%;
+        display: flex;
         // border-bottom: 1px rgba(255,255,255,0.6) solid;
         > span {
           display: inline-block;
           vertical-align: top;
           height: 100%;
-          float: left;
-          flex: 1;
           overflow: hidden;
           white-space: nowrap;
           text-overflow: ellipsis;
-          width: 13vh;
         }
         > span:first-child {
           width: 9vh;
+        }
+        > span:last-child {
+          flex: 1;
         }
       }
     }
