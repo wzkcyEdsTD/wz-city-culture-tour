@@ -45,4 +45,4 @@ export const forceEventTopicLabels = state => state.forceEventTopicLabels;
 export const forceEventTopicLabelId = state => state.forceEventTopicLabelId;
 export const isSourceLayer = state => state.isSourceLayer;
 export const searchBoxVisible = state => state.searchBoxVisible;
-export const searchBoxSource = state => state.searchBoxSource;
+export const searchBoxModel = state => state.searchBoxModel;

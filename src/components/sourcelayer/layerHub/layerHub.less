@@ -6,22 +6,30 @@
   width: 100%;
 
   .bottom-layers-container {
-    width: 100vh;
+    width: 105vh;
     height: auto;
     margin: 0 auto;
-    padding: 6px 0;
+    padding: 2vh 3vh;
     overflow: hidden;
     position: relative;
 
     &::after {
       content: "";
       width: 100%;
-      height: 0.1vh;
-      bottom: 0vh;
-      left: 0vh;
+      height: 4vh;
+      bottom: -0.8vh;
       position: absolute;
-      background-image: url(/static/images/layer-ico/line.png);
+      background-image: url(/static/images/layer-ico/lighting.png);
       background-size: 100% 100%;
+    }
+
+    &.bottom-line-left::after {
+      left: 0vh;
+    }
+
+    &.bottom-line-right::after {
+      right: 0vh;
+      transform: rotate(180deg);
     }
 
     >* {
@@ -119,7 +127,7 @@
 
     .layer-btn {
       position: absolute;
-      width: 8vh;
+      width: 11vh;
       bottom: 0vh;
       cursor: pointer;
       filter: grayscale(100%);
@@ -130,11 +138,11 @@
       }
 
       &.source {
-        left: -10vh;
+        left: -13vh;
       }
 
       &.event {
-        right: -10vh;
+        right: -13vh;
       }
 
       &.active {
@@ -142,10 +150,10 @@
 
         &::after {
           content: "";
-          width: 12vh;
-          height: 12vh;
-          left: -2vh;
-          top: -2vh;
+          width: 17vh;
+          height: 17vh;
+          left: -3vh;
+          top: -3vh;
           position: absolute;
           background-image: url(/static/images/layer-ico/around.png);
           background-size: 100% 100%;
@@ -181,7 +189,7 @@
       display: flex;
       justify-content: center;
       box-sizing: border-box;
-      padding: 0.6vh 0;
+      padding: 0;
 
       .item {
         cursor: pointer;

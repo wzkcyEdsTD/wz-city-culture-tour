@@ -20,7 +20,7 @@ const drawPathWithLine = (points) => {
         id: "pathRoute_line",
         polyline: new Cesium.PolylineGraphics({
             positions: Cesium.Cartesian3.fromDegreesArrayHeights(
-                points.map(({ x, y }) => [x, y, 2]).flat(2)
+                points.map(({ x, y }) => [x, y, 10]).flat(2)
             ),
             width: 12,
             disableDepthTestDistance: Number.POSITIVE_INFINITY,
@@ -32,7 +32,7 @@ const drawPathWithLine = (points) => {
         const position = Cesium.Cartesian3.fromDegrees(
             parseFloat(x),
             parseFloat(y),
-            2
+            10
         );
         i < points.length - 1 && window.billboardMap["pathRoute_analyse_points"].add({
             id: "pathRoute_points_" + i,
@@ -55,7 +55,7 @@ const drawLabelWithCenter = ({ x, y }, length) => {
     const position = Cesium.Cartesian3.fromDegrees(
         parseFloat(x),
         parseFloat(y),
-        2
+        10
     );
     window.labelMap["pathRoute_analyse_labels"].add({
         id: "pathRoute_analyse_center",

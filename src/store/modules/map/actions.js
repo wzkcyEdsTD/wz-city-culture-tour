@@ -257,13 +257,13 @@ export const SetForceEventTopicLabelId = ({ commit }, data) => {
 //  设置图层模式
 export const SetIsSourceLayer = ({ commit }, data) => {
   commit(types.SET_IS_SOURCE_LAYER, data);
-  commit(types.SET_SEARCH_BOX_SOURCE, data);
+  commit(types.SET_SEARCH_BOX_MODEL, data ? 1 : 2);
 };
 //  设置搜索框显隐
 export const SetSearchBoxVisible = ({ commit }, data) => {
   commit(types.SET_SEARCH_BOX_VISIBLE, data);
 }
 //  设置搜索框模式
-export const SetSearchBoxSource = ({ commit }, data) => {
-  commit(types.SET_SEARCH_BOX_SOURCE, data);
+export const SetSearchBoxModel = ({ commit }, data) => {
+  commit(types.SET_SEARCH_BOX_MODEL, data);
 }

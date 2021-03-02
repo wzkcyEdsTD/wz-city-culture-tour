@@ -122,8 +122,8 @@ const mutations = {
   [types.SET_SEARCH_BOX_VISIBLE](state, data) {
     state.searchBoxVisible = data;
   },
-  [types.SET_SEARCH_BOX_SOURCE](state, data) {
-    state.searchBoxSource = data;
+  [types.SET_SEARCH_BOX_MODEL](state, data) {
+    state.searchBoxModel = data;
   },
 };
 

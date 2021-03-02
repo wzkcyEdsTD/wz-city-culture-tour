@@ -57,8 +57,8 @@ const state = {
   forceEventTopicLabelId: "",//  事件图层当前选中节点
   //  搜索框是否展示
   searchBoxVisible: false,
-  //  搜索框模式
-  searchBoxSource: true,
+  //  搜索框模式 1资源 2事件 3地名地址
+  searchBoxModel: 1,
   //  图层模式
   isSourceLayer: true
 };

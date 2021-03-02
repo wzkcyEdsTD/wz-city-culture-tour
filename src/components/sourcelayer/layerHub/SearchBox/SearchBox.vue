@@ -9,12 +9,14 @@
 <template>
   <div class="search-box" v-show="searchBoxVisible">
     <div class="header">
-      <p :class="{ active: searchBoxSource }" @click="searchSwitch(true)">资源检索</p>
+      <p :class="{ active: doSource }" @click="searchSwitch(1)">资源</p>
       <p>/</p>
-      <p :class="{ active: !searchBoxSource }" @click="searchSwitch(false)">事件检索</p>
+      <p :class="{ active: doEvent }" @click="searchSwitch(2)">事件</p>
+      <p>/</p>
+      <p :class="{ active: doAdress }" @click="searchSwitch(3)">地名地址</p>
     </div>
-    <SearchSource v-show="searchBoxSource" />
-    <SearchEvent v-show="!searchBoxSource" />
+    <SearchSource v-show="doSource" />
+    <SearchEvent v-show="doEvent" />
   </div>
 </template>
 
@@ -25,17 +27,26 @@ import SearchEvent from "./SearchEvent";
 export default {
   name: "SearchBox",
   computed: {
-    ...mapGetters("map", ["searchBoxVisible", "searchBoxSource"]),
+    ...mapGetters("map", ["searchBoxVisible", "searchBoxModel"]),
+    doSource() {
+      return this.searchBoxModel == 1;
+    },
+    doEvent() {
+      return this.searchBoxModel == 2;
+    },
+    doAdress() {
+      return this.searchBoxModel == 3;
+    },
   },
   components: { SearchSource, SearchEvent },
   methods: {
-    ...mapActions("map", ["SetSearchBoxSource"]),
+    ...mapActions("map", ["SetSearchBoxModel"]),
     /**
      * 选择检索类型
-     * @param {boolean} boolean
+     * @param {number} type
      */
-    searchSwitch(boolean) {
-      this.SetSearchBoxSource(boolean);
+    searchSwitch(type) {
+      this.SetSearchBoxModel(type);
     },
   },
 };

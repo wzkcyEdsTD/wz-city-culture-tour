@@ -28,9 +28,7 @@
           :key="`sitem-${i}`"
           @click="checkedOne(item, i)"
         >
-          <p class="name" :title="item.name">
-            {{ item.name }}
-          </p>
+          <p class="name" :title="item.name">{{ ++i }}. {{ item.name }}</p>
           <input type="checkbox" :checked="searchChecked == i" />
         </li>
       </ul>

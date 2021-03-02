@@ -11,16 +11,16 @@ export const ServiceUrl = {
   WZBaimo: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-RESPYQSY/rest/realspace/datas/RES_PY_QSY/config",
   //  夜间模型
   WZBaimo_OBJ: [
-    {
-      KEY: 'WZBaimo_POINT_AROUND',
-      URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-BaiMo/rest/realspace/datas/BaiMo/config",
-      FLOW: true,
-    },
     // {
-    //   KEY: "WZBaimo_WITHOUT_FIX",
-    //   URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-BaiMoQiTaModel/rest/realspace/datas/BaiMoQiTaModel/config",
-    //   withoutFix: true
+    //   KEY: 'WZBaimo_POINT_AROUND',
+    //   URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-BaiMo/rest/realspace/datas/BaiMo/config",
+    //   FLOW: true,
     // },
+    {
+      KEY: "WZBaimo_WITHOUT_FIX",
+      URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-BaiMoQiTaModel/rest/realspace/datas/BaiMoQiTaModel/config",
+      withoutFix: true
+    },
     // {
     //   KEY: 'WZBaimo_POINT_JZ',
     //   URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb4/rest/realspace/datas/JZ/config",

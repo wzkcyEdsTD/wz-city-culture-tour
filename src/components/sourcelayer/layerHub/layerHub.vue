@@ -9,7 +9,7 @@
 <template>
   <div class="bottom-wrapper">
     <div
-      class="bottom-layers-container"
+      class="bottom-layers-container bottom-line-left"
       v-show="isSourceLayer && forceTreeLabel != '城市总览' && forceTreeTopic.length"
     >
       <div class="swiper-buttons swiper-button-left" />
@@ -40,7 +40,7 @@
       <div class="swiper-buttons swiper-button-right" />
     </div>
     <div
-      class="bottom-layers-container"
+      class="bottom-layers-container bottom-line-right"
       v-show="!isSourceLayer && forceTreeEventTopic.length"
     >
       <div class="swiper-buttons swiper-button-left" />
@@ -92,7 +92,7 @@
           <i>{{ item.label }}</i>
         </li>
       </ul>
-      <ul class="labels" v-show="!isSourceLayer">
+      <ul class="labels" v-show="false">
         <li
           v-for="(item, i) in CESIUM_TREE_EVENT_OPTION"
           :key="i"
@@ -106,6 +106,7 @@
           <i>{{ item.label }}</i>
         </li>
       </ul>
+      <EventForm v-show="!isSourceLayer" />
       <div
         class="layer-btn event"
         :class="{ active: !isSourceLayer }"
@@ -126,6 +127,7 @@
 import { mapGetters, mapActions } from "vuex";
 import KgLegend from "./components/KgLegend";
 import ClearLayer from "./components/ClearLayer";
+import EventForm from "./components/EventForm";
 import { treeDrawTool, treeDrawEventTool } from "./TreeDrawTool";
 import { getIserverFields } from "api/iServerAPI";
 import {
@@ -160,7 +162,7 @@ export default {
       tileLayers: {},
     };
   },
-  components: { KgLegend, ClearLayer },
+  components: { KgLegend, ClearLayer, EventForm },
   computed: {
     ...mapGetters("map", [
       //  tab下标
