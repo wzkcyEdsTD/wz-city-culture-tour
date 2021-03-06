@@ -113,11 +113,14 @@
         @click="changeLayer('event')"
       >
         <img src="/static/images/layer-ico/event.png" />
+        <span class="event-count" v-show="isSourceLayer">{{
+          WzEventData.week || 0
+        }}</span>
       </div>
     </div>
     <!-- extra Components -->
     <transition name="fade">
-      <KgLegend v-if="~forceTrueTopicLabels.indexOf('控规信息')" />
+      <SourceLegend />
     </transition>
     <ClearLayer />
   </div>
@@ -125,7 +128,7 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import KgLegend from "./components/KgLegend";
+import SourceLegend from "./components/SourceLegend";
 import ClearLayer from "./components/ClearLayer";
 import EventForm from "./components/EventForm";
 import { treeDrawTool, treeDrawEventTool } from "./TreeDrawTool";
@@ -162,7 +165,7 @@ export default {
       tileLayers: {},
     };
   },
-  components: { KgLegend, ClearLayer, EventForm },
+  components: { SourceLegend, ClearLayer, EventForm },
   computed: {
     ...mapGetters("map", [
       //  tab下标
@@ -173,6 +176,8 @@ export default {
       "forceEventTopicLabels",
       //  是否为资源图层tab
       "isSourceLayer",
+      //  事件总数
+      "WzEventData"
     ]),
   },
   watch: {
@@ -204,6 +209,8 @@ export default {
         "SetForceEventTopicLabelId",
         //  tab模块
         "SetIsSourceLayer",
+        //  事件总数
+        "WzEventData",
       ],
     ]),
     /**
@@ -388,12 +395,16 @@ export default {
             node.componentKey &&
             this.$bus.$emit(node.componentEvent, { value: node.componentKey });
         } else if (node.type == "image") {
-          this.tileLayers[node.id] = window.earth.imageryLayers.addImageryProvider(
-            new Cesium.SuperMapImageryProvider({
-              url: node.url,
-              name: node.id,
-            })
-          );
+          if (this.tileLayers[node.id]) {
+            this.tileLayers[node.id].show = true;
+          } else {
+            this.tileLayers[node.id] = window.earth.imageryLayers.addImageryProvider(
+              new Cesium.SuperMapImageryProvider({
+                url: node.url,
+                name: node.id,
+              })
+            );
+          }
         }
         this.switchSearchBox(node, type);
         //  有相机视角配置 -> 跳视角

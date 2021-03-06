@@ -33,13 +33,13 @@
           <div class="event-number">
             <span>24小时事件数</span>
             <div class="number day-number">
-              <DynamicNum :value="undefined" decimals="0" />
+              <DynamicNum :value="13" decimals="0" />
             </div>
           </div>
           <div class="event-number">
             <span>本月事件总数</span>
             <div class="number month-number">
-              <DynamicNum :value="undefined" decimals="0" />
+              <DynamicNum :value="190" decimals="0" />
             </div>
           </div>
         </div>
@@ -54,13 +54,13 @@
           <div class="event-number">
             <span>24小时事件数</span>
             <div class="number day-number">
-              <DynamicNum :value="undefined" decimals="0" />
+              <DynamicNum :value="31" decimals="0" />
             </div>
           </div>
           <div class="event-number">
             <span>本月事件总数</span>
             <div class="number month-number">
-              <DynamicNum :value="undefined" decimals="0" />
+              <DynamicNum :value="165" decimals="0" />
             </div>
           </div>
         </div>
@@ -75,13 +75,13 @@
           <div class="event-number">
             <span>24小时事件数</span>
             <div class="number day-number">
-              <DynamicNum :value="undefined" decimals="0" />
+              <DynamicNum :value="22" decimals="0" />
             </div>
           </div>
           <div class="event-number">
             <span>本月事件总数</span>
             <div class="number month-number">
-              <DynamicNum :value="undefined" decimals="0" />
+              <DynamicNum :value="98" decimals="0" />
             </div>
           </div>
         </div>

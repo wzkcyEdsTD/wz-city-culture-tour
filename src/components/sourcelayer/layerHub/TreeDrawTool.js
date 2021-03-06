@@ -7,6 +7,7 @@
  * @FilePath: \wz-city-culture-tour\src\components\sourcelayer\treeTool\TreeDrawTool.js
  */
 import { isDayOff } from "common/js/util";
+import { EVENT_FIELDS } from "config/local/eventFields"
 // 标识配置
 const labelConfig = {
   fillColor: Cesium.Color.WHITE,
@@ -56,7 +57,7 @@ const fixFieldsByArr = fields => {
 };
 
 /**
- * 属性名替换中文别名
+ * 属性名替换中文别名 - 资源图层
  * @param {*} attributes
  * @param {*} fields
  */
@@ -68,6 +69,20 @@ const fixAttributesByOrigin = (attributes, fields) => {
   }
   return fixAttributes;
 };
+
+/**
+ * 属性名替换中文别名 - 事件图层
+ * @param {*} attributes 
+ * @param {*} event 
+ */
+const fixAttributesByEvent = (attributes, event) => {
+  const fields = EVENT_FIELDS[event];
+  const fixAttributes = {};
+  for (let v in attributes) {
+    fields[v] ? (fixAttributes[fields[v]] = attributes[v]) : undefined;
+  }
+  return fixAttributes;
+}
 
 /**
  * 从feature数组里剔除有信息的个例，并返回新的两个数组
@@ -165,7 +180,8 @@ export const treeDrawEventTool = (context, { result }, node, fn) => {
       name,
       attributes: v.attributes,
       geometry: v.geometry,
-      fix_data: v.attributes,
+      // fix_data: v.attributes
+      fix_data: fixAttributesByEvent(v.attributes, node.event),
     }
     //  叠加
     const position = Cesium.Cartesian3.fromDegrees(

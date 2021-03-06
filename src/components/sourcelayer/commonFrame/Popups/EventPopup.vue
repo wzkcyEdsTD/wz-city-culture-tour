@@ -183,9 +183,9 @@ export default {
      * 周边分析跳转
      */
     doAroundSourceAnalyse() {
-      const { geometry } = this.forceEntity;
+      const { geometry, fix_data } = this.forceEntity;
       const { x, y } = geometry;
-      this.$bus.$emit("cesium-3d-around-analyse-pick", { lng: x, lat: y });
+      this.$bus.$emit("cesium-3d-around-analyse-pick", { lng: x, lat: y, fix_data });
     },
     /**
      * 查找最佳路线

@@ -11,7 +11,8 @@
     <!-- 事件不加入fixForceIndex判断，来回切换保持原先force -->
     <div v-if="forceTime == 'now'">
       <component v-if="isSourceLayer" :is="fixForceIndex" />
-      <eventIndex v-else />
+      <!-- 拿数据 -->
+      <eventIndex v-show="!isSourceLayer" />
     </div>
     <div v-if="forceTime == 'pass'">
       <cityIndexPass />

@@ -1,33 +1,31 @@
 <template>
   <div class="around-source-analyse" v-show="forceEntity">
     <span class="header"
-      >周边分析
+      >事件详情
       <i class="around-source-close" @click="closeAroundSourceAnalyse">x</i>
     </span>
+    <ul class="around-content-body" v-if="forceEntity">
+      <li
+        v-for="(item, key, index) in forceEntity.fix_data"
+        :key="index"
+        v-show="item && !~filterKey.indexOf(key)"
+      >
+        <span>{{ key }}</span>
+        <span>{{ item }}</span>
+      </li>
+    </ul>
+    <span class="header">周边分析 </span>
     <div class="around-source-pick">
       <el-select
-        class="around-source-select-source"
+        class="around-source-select-source el-event-select"
         v-model="selectSourceLayer"
         multiple
-        collapse-tags
         :clearable="true"
         placeholder="请选择"
         @change="sourceUpdateHandler"
       >
         <el-option
           v-for="item in aroundOption"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        />
-      </el-select>
-      <el-select
-        class="around-source-select-distance"
-        v-model="distance"
-        @change="distanceUpdateHandler"
-      >
-        <el-option
-          v-for="item in distanceOption"
           :key="item.value"
           :label="item.label"
           :value="item.value"
@@ -42,6 +40,19 @@
               class="around-source-list-icon"
               :src="`/static/images/map-ico/${item.title}.png`"
             /><span>{{ `${item.title} (${item.list.length})` }}</span>
+            <el-select
+              class="around-source-select-distance el-event-select"
+              v-model="aroundDistance[item.key]"
+              size="small"
+              @change="distanceUpdateHandler"
+            >
+              <el-option
+                v-for="item in distanceOption"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
           </template>
           <div
             class="around-source-list-single"
@@ -67,21 +78,26 @@ import {
   aroundSourceAnalyseDraw,
   initPrimitivesCollection,
   aroundSourceAnalyseCircle,
+  aroundSourceAnalyseCircleClear,
 } from "./AroundSourceAnalyseDraw";
 import { arrayCompareWithParam } from "common/js/util";
 import { getAroundSourceAnalyse } from "@/api/layerServerAPI";
+const RANGE_DISTANCE = 1050;
+const DEFAULT_DISTANCE = 250;
+const aroundDistance = {};
 const aroundOption = CESIUM_TREE_AROUND_ANALYSE_OPTION.children.map(
   ({ label, resourceType }) => {
+    aroundDistance[resourceType] = DEFAULT_DISTANCE;
     return { value: resourceType, label };
   }
 );
+
 export default {
   name: "aroundSourceAnalyse",
   data() {
     return {
-      // forceEntity: { lng: 120.654218, lat: 28.016064 },
       forceEntity: undefined,
-      distance: 250,
+      aroundDistance,
       distanceOption: [
         { value: 250, label: "250m" },
         { value: 500, label: "500m" },
@@ -90,6 +106,8 @@ export default {
       selectSourceLayer: [],
       aroundOption,
       aroundSourceAnalyseList: [],
+      //  filter
+      filterKey: ["永久固定码", "唯一码", "分类代码"],
     };
   },
   props: ["force"],
@@ -109,29 +127,31 @@ export default {
       this.$bus.$on("cesium-3d-around-analyse-pick", (forceEntity) => {
         this.initSelectSourceLayer();
         this.forceEntity = forceEntity;
-        this.fetchSourceAround(forceEntity);
+        const { lng, lat } = forceEntity;
+        //  周边分析画圆
+        aroundSourceAnalyseCircle(lng, lat, RANGE_DISTANCE);
+        //  周边分析画点
+        this.fetchSourceAround(lng, lat);
       });
     },
     /**
      * 获取周边分析圈,执行周边分析
      * @param {object} forceEntity 分析点
      */
-    fetchSourceAround(forceEntity) {
-      const { lng, lat } = forceEntity;
-      const distance = this.distance;
+    fetchSourceAround(lng, lat) {
+      const aroundSourceAnalyseObj = {};
       const aroundSourceAnalyseList = [];
       //  统一清除 circle label icon
       aroundOption.map(({ value }) => initPrimitivesCollection(value));
       //  周边分析
-      aroundOption
-        .filter((v) => ~this.selectSourceLayer.indexOf(v.value))
-        .map(async ({ label, value }) => {
-          const { data } = await getAroundSourceAnalyse({
-            resourceType: value,
-            lng,
-            lat,
-            distance,
-          });
+      Promise.all(
+        aroundOption
+          .filter((v) => ~this.selectSourceLayer.indexOf(v.value))
+          .map(({ label, value }) => {
+            return this.fetchSourceSingle(lng, lat, value, label);
+          })
+      ).then((result) => {
+        result.map(({ data, value, label }) => {
           const sourceAnalyseResult = {
             title: label,
             key: value,
@@ -140,13 +160,33 @@ export default {
               ({ resourceType }) => resourceType == value
             )[0],
           };
-          aroundSourceAnalyseList.push(sourceAnalyseResult);
+          aroundSourceAnalyseObj[value] = sourceAnalyseResult;
           //  周边分析画点
           aroundSourceAnalyseDraw(sourceAnalyseResult);
         });
-      //  周边分析画圆
-      aroundSourceAnalyseCircle(lng, lat, distance);
-      this.aroundSourceAnalyseList = aroundSourceAnalyseList;
+        for (let k in aroundSourceAnalyseObj) {
+          aroundSourceAnalyseList.push(aroundSourceAnalyseObj[k]);
+        }
+        this.aroundSourceAnalyseList = aroundSourceAnalyseList;
+      });
+    },
+    /**
+     * 逐个获取 * 为保证现实顺序一致
+     * @param {number} lng
+     * @param {number} lat
+     * @param {string} value 标识
+     * @param {string} label 名称
+     */
+    fetchSourceSingle(lng, lat, value, label) {
+      return new Promise(async (resolve) => {
+        const { data } = await getAroundSourceAnalyse({
+          resourceType: value,
+          lng,
+          lat,
+          distance: this.aroundDistance[value],
+        });
+        resolve({ data, value, label });
+      });
     },
     initSelectSourceLayer() {
       this.selectSourceLayer = aroundOption
@@ -155,15 +195,18 @@ export default {
     },
     //  重新分析
     sourceUpdateHandler() {
-      this.fetchSourceAround(this.forceEntity);
+      const { lng, lat } = this.forceEntity;
+      this.fetchSourceAround(lng, lat);
     },
     //  重新分析
     distanceUpdateHandler() {
-      this.fetchSourceAround(this.forceEntity);
+      const { lng, lat } = this.forceEntity;
+      this.fetchSourceAround(lng, lat);
     },
     //  关闭周边分析
     closeAroundSourceAnalyse() {
       aroundOption.map(({ value }) => initPrimitivesCollection(value));
+      aroundSourceAnalyseCircleClear();
       this.forceEntity = undefined;
       this.selectSourceLayer = [];
       this.aroundSourceAnalyseList = [];

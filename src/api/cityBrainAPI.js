@@ -104,6 +104,8 @@ export const getEventData = () => {
   return getAxios("100027001", {
     startTime: getDate(new Date(endTime.getTime() - 7 * 24 * 3600 * 1000)),
     endTime: getDate(endTime),
+    areaCode: "330300",
+    status: 1,
     onlyCount: false
   }, "GET");
 };
@@ -115,6 +117,8 @@ export const getEventCount = (day = 1) => {
   return getAxios("100027001", {
     startTime: getDate(new Date(endTime.getTime() - day * 24 * 3600 * 1000)),
     endTime: getDate(endTime),
+    status: 1,
+    areaCode: "330300",
     onlyCount: true
   }, "GET");
 };

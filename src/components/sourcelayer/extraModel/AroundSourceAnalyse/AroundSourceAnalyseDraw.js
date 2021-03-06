@@ -46,16 +46,22 @@ export const aroundSourceAnalyseDraw = ({ key, list, title, dataset }) => {
  * @param {*} distance 
  */
 export const aroundSourceAnalyseCircle = (lng, lat, distance) => {
+    //  去圆 重复去
+    window.earth.entities.removeById(_ENTITY_ID_);
     const circleEntity = new Cesium.Entity({
         position: Cesium.Cartesian3.fromDegrees(lng, lat, 0),
         ellipse: {
             semiMinorAxis: distance,
             semiMajorAxis: distance,
             height: 12,
-            material: Cesium.Color.WHITE.withAlpha(0.1),
-            outline: true,
-            outlineWidth: 3,
-            outlineColor: Cesium.Color.WHITE,
+            // material: Cesium.Color.WHITE.withAlpha(0.1),
+            material: new Cesium.ImageMaterialProperty({
+                image: '/static/images/common/range.png',
+                transparent: true
+            })
+            // outline: true,
+            // outlineWidth: 3,
+            // outlineColor: Cesium.Color.WHITE,
         },
         name: _ENTITY_ID_,
         id: _ENTITY_ID_,
@@ -64,12 +70,17 @@ export const aroundSourceAnalyseCircle = (lng, lat, distance) => {
 }
 
 /**
+ * 清除圈
+ */
+export const aroundSourceAnalyseCircleClear = () => {
+    window.earth.entities.removeById(_ENTITY_ID_);
+}
+
+/**
  * 清除之前点位
  * @param {string} KEY 标识
 */
 export const initPrimitivesCollection = (key) => {
-    //  去圆 重复去
-    window.earth.entities.removeById(_ENTITY_ID_);
     const KEY = `${_COLLECTION_KEY_}_${key}`;
     //  若选择的图层存在，清点，清图层
     if (window.billboardMap[KEY]) {
