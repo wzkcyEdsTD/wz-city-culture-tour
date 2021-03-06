@@ -13,10 +13,11 @@
       <p>/</p>
       <p :class="{ active: doEvent }" @click="searchSwitch(2)">事件</p>
       <p>/</p>
-      <p :class="{ active: doAdress }" @click="searchSwitch(3)">地名地址</p>
+      <p :class="{ active: doAddress }" @click="searchSwitch(3)">地名地址</p>
     </div>
     <SearchSource v-show="doSource" />
     <SearchEvent v-show="doEvent" />
+    <SearchAddress v-show="doAddress" />
   </div>
 </template>
 
@@ -24,6 +25,7 @@
 import { mapGetters, mapActions } from "vuex";
 import SearchSource from "./SearchSource";
 import SearchEvent from "./SearchEvent";
+import SearchAddress from "./SearchAddress";
 export default {
   name: "SearchBox",
   computed: {
@@ -34,11 +36,11 @@ export default {
     doEvent() {
       return this.searchBoxModel == 2;
     },
-    doAdress() {
+    doAddress() {
       return this.searchBoxModel == 3;
     },
   },
-  components: { SearchSource, SearchEvent },
+  components: { SearchSource, SearchEvent, SearchAddress },
   methods: {
     ...mapActions("map", ["SetSearchBoxModel"]),
     /**

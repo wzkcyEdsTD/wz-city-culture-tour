@@ -26,5 +26,5 @@ const getAxios = (data = {}, url = "") => {
  * 地名地址标准数据在线调用服务
  */
 export const getAddressList = (address) => {
-    return getAxios({ address, pageNum: 1, pageSize: 100 });
+    return getAxios({ address, pageNum: 1, pageSize: 50 });
 };
