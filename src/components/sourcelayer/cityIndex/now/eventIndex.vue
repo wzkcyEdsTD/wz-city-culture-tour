@@ -10,7 +10,7 @@
             <span class="small">(起)</span>
           </div>
           <div class="event-number">
-            <span>24小时事件数</span>
+            <span>当日事件数</span>
             <div class="number day-number">
               <DynamicNum :value="WzEventData.day" decimals="0" />
             </div>
@@ -31,7 +31,7 @@
             <span class="small">(起)</span>
           </div>
           <div class="event-number">
-            <span>24小时事件数</span>
+            <span>当日事件数</span>
             <div class="number day-number">
               <DynamicNum :value="13" decimals="0" />
             </div>
@@ -52,7 +52,7 @@
             <span class="small">(起)</span>
           </div>
           <div class="event-number">
-            <span>24小时事件数</span>
+            <span>当日事件数</span>
             <div class="number day-number">
               <DynamicNum :value="31" decimals="0" />
             </div>
@@ -73,7 +73,7 @@
             <span class="small">(起)</span>
           </div>
           <div class="event-number">
-            <span>24小时事件数</span>
+            <span>当日事件数</span>
             <div class="number day-number">
               <DynamicNum :value="22" decimals="0" />
             </div>
