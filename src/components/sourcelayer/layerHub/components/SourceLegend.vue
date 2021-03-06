@@ -1,8 +1,17 @@
 <template>
   <div class="source-legend">
     <ul>
-      <li v-for="(val, i) in forceTrueTopicLabels" :key="i" v-show="val != '城市总览'">
-        <img :src="`/static/images/map-ico/${val}.png`" /> <span>{{ val }}</span>
+      <li
+        v-for="(val, i) in forceTrueTopicLabels"
+        :key="`s_${i}`"
+        v-show="val != '城市总览' && val != '控规信息'"
+      >
+        <span>{{ val }}</span
+        ><img :src="`/static/images/map-ico/${val}.png`" />
+      </li>
+      <li v-for="(val, i) in forceEventTopicLabels" :key="`e_${i}`">
+        <span>{{ val }}</span
+        ><img :src="`/static/images/map-ico/${val}.png`" />
       </li>
     </ul>
     <KgLegend v-if="~forceTrueTopicLabels.indexOf('控规信息')" />
@@ -16,7 +25,7 @@ export default {
   name: "SourceLegend",
   components: { KgLegend },
   computed: {
-    ...mapGetters("map", ["forceTrueTopicLabels"]),
+    ...mapGetters("map", ["forceTrueTopicLabels", "forceEventTopicLabels"]),
   },
 };
 </script>
@@ -45,6 +54,7 @@ export default {
       height: 3.2vh;
       padding: 0.2vh 0;
       display: flex;
+      text-align: right;
       > * {
         display: inline-block;
         vertical-align: middle;
@@ -54,6 +64,8 @@ export default {
       > span {
         color: white;
         flex: 1;
+        margin-right: 1vh;
+        font-size: 1.6vh;
       }
     }
   }

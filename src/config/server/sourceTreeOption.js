@@ -37,6 +37,7 @@ const TOUR_TOPIC = [
   { label: "温州民宿", dataset: "温州民宿" },
   { label: "森林康养基地", dataset: "温州市森林康养基地" },
   { label: "夜光经济", dataset: "夜景" },
+  { label: "市场商场", dataset: "market_mall" },
   {
     label: "AAA级景区村庄",
     dataset: "AAAJiFengJingQuCunZhuang"
@@ -75,6 +76,8 @@ const CULTURE_TOPIC = [
   { label: "文化生活", dataset: "温州文化生活" },
   { label: "百姓健身房", dataset: "百姓健身房" },
   { label: "文化场所", dataset: "D_HAZARDS_CULTURALPLACE" },
+  { label: "娱乐场所", dataset: "entertainment_place" },
+  { label: "体育运动场馆", dataset: "sports_gymnasium" }
 ];
 //  应急专题
 const EMERGENCY_TOPIC = [
@@ -86,19 +89,16 @@ const EMERGENCY_TOPIC = [
   { label: "消防站", dataset: "JZJZNL_XFJYNL_XFZ" },
   { label: "消防栓", dataset: "JZJZNL_XFJYNL_XFS" }
 ];
-//  资源专题
+//  公共专题
 const SOURCE_TOPIC = [
   { label: "农贸市场点", dataset: "FarmersMarket_SiQu_P" },
-  { label: "企业用电", dataset: "company_electricity", hiddenLabel: true },
   { label: "派出所", dataset: "PoliceStation" },
-  { label: "市场商场", dataset: "market_mall" },
   { label: "社会福利机构", dataset: "D_HAZARDS_BEADHOUSESHP" },
   { label: "高层建筑", dataset: "high_buildings_P" },
-  { label: "娱乐场所", dataset: "entertainment_place" },
-  { label: "体育运动场馆", dataset: "sports_gymnasium" }
 ];
-//  重点项目
+//  经济专题
 const KEY_PROJECTS = [
+  { label: "企业用电", dataset: "company_electricity", hiddenLabel: true },
   { label: "地块", dataset: "ZhengWuData_DiKuai" },
   { label: "道路交通", dataset: "ZhengWuData_DaoLuJiaoTong" },
   { label: "水系", dataset: "ZhengWuData_ShuiXi" }
@@ -256,8 +256,8 @@ export const CESIUM_TREE_OPTION = [
     })
   },
   {
-    id: "重点项目",
-    label: "重点项目",
+    id: "经济专题",
+    label: "经济专题",
     children: KEY_PROJECTS.map(v => {
       return {
         ...v,
@@ -270,8 +270,8 @@ export const CESIUM_TREE_OPTION = [
     })
   },
   {
-    id: "资源专题",
-    label: "资源专题",
+    id: "公共专题",
+    label: "公共专题",
     children: SOURCE_TOPIC.map(v => {
       return {
         ...v,

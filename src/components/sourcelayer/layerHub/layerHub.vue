@@ -77,6 +77,7 @@
         @click="changeLayer('source')"
       >
         <img src="/static/images/layer-ico/source.png" />
+        <span class="source-count tag-count" v-show="!isSourceLayer">{{ TREE_OPTION }}</span>
       </div>
       <ul class="labels" v-show="isSourceLayer">
         <li
@@ -113,7 +114,7 @@
         @click="changeLayer('event')"
       >
         <img src="/static/images/layer-ico/event.png" />
-        <span class="event-count" v-show="isSourceLayer">{{
+        <span class="event-count tag-count" v-show="isSourceLayer">{{
           WzEventData.week || 0
         }}</span>
       </div>
@@ -139,6 +140,7 @@ import {
 } from "config/server/sourceTreeOption";
 import { getEventData } from "api/cityBrainAPI";
 const TREE_OPTION_HUB = {};
+const TREE_OPTION = CESIUM_TREE_OPTION.map((v) => v.children).flat(2).length - 1;
 CESIUM_TREE_OPTION.concat(CESIUM_TREE_EVENT_OPTION)
   .map((v) => v.children)
   .flat(2)
@@ -163,6 +165,8 @@ export default {
       },
       //  tile layers
       tileLayers: {},
+      //  tree count
+      TREE_OPTION,
     };
   },
   components: { SourceLegend, ClearLayer, EventForm },
@@ -177,7 +181,7 @@ export default {
       //  是否为资源图层tab
       "isSourceLayer",
       //  事件总数
-      "WzEventData"
+      "WzEventData",
     ]),
   },
   watch: {

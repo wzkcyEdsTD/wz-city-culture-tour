@@ -30,9 +30,9 @@ const indexHash = {
   文化专题: "cultureIndex",
   应急专题: "emergencyIndex",
   规划专题: "basicIndex",
-  资源专题: "sourceIndex",
+  公共专题: "sourceIndex",
   交通专题: "trafficIndex",
-  重点项目: "keyIndex",
+  经济专题: "keyIndex",
 };
 import { mapGetters } from "vuex";
 import SceneSwitch from "../commonFrame/SceneSwitch/SceneSwitch";

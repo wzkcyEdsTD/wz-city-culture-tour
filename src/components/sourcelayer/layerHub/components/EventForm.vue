@@ -14,7 +14,7 @@
     </div>
     <div>
       <i>区域</i>
-      <el-select v-model="areaCode" placeholder="区域" size="small">
+      <el-select disabled v-model="areaCode" placeholder="区域" size="small">
         <el-option
           v-for="item in AREA_CODE"
           :key="item.value"
@@ -26,7 +26,7 @@
     </div>
     <div>
       <i>处理状态</i>
-      <el-select v-model="dealStatus" placeholder="事件状态" size="small">
+      <el-select disabled v-model="dealStatus" placeholder="事件状态" size="small">
         <el-option
           v-for="item in DEAL_STATUS"
           :key="item.value"
@@ -74,7 +74,7 @@ export default {
       margin-right: 0.6vh;
     }
     &/deep/ .el-input {
-        width: 13vh;
+      width: 13vh;
       .el-input__inner {
         background: transparent;
         color: white;
