@@ -80,6 +80,9 @@ export default {
       this.$bus.$on("cesium-3d-detail-pop-clear", () => {
         this.closePopup();
       });
+      this.$bus.$on("cesium-3d-pick-from-analyseList", (forceEntity) => {
+        this.getForceEntity(forceEntity);
+      });
     },
     /**
      *  详情点赋值

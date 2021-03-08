@@ -10,7 +10,7 @@
         ><img :src="`/static/images/map-ico/${val}.png`" />
       </li>
       <li v-for="(val, i) in forceEventTopicLabels" :key="`e_${i}`">
-        <span>{{ val }}</span>
+        <span>{{ val }} - 24小时内</span>
         <img :src="`/static/images/map-ico/${val}_today.png`" />
       </li>
       <li v-for="(val, i) in forceEventTopicLabels" :key="`ed_${i}`">

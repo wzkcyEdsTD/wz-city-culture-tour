@@ -24,7 +24,7 @@
     <!-- 模块切换 -->
     <LayerHub ref="layerHub" v-if="initDataLoaded" />
     <!-- 时间转盘 -->
-    <Roulette ref="roulette" v-show="isSourceLayer" />
+    <Roulette ref="roulette" />
     <!-- 功能组件 -->
     <div v-if="mapLoaded && validated">
       <DetailedModel v-if="showSubFrame == '3d1'" />

@@ -59,6 +59,7 @@
             class="around-source-list-single"
             v-for="(value, subIndex) in item.list"
             :key="subIndex"
+            @click="forceAnalyseSingle(item.key, value)"
           >
             <img class="single-location" src="/static/images/common/location.png" />
             <span class="single-title" :title="value.resourceName">{{
@@ -100,6 +101,7 @@ export default {
       forceEntity: undefined,
       aroundDistance,
       distanceOption: [
+        { value: 100000, label: "最近" },
         { value: 250, label: "250m" },
         { value: 500, label: "500m" },
         { value: 1000, label: "1000m" },
@@ -157,10 +159,18 @@ export default {
           })
       ).then((result) => {
         result.map(({ data, value, label }) => {
+          let list = data
+            .map((v) => {
+              return { ...v, distance: parseFloat(v.distance) };
+            })
+            .sort(arrayCompareWithParam("distance"));
+          if (this.aroundDistance[value] == 100000) {
+            list = list.slice(0, 3);
+          }
           const sourceAnalyseResult = {
             title: label,
             key: value,
-            list: data.sort(arrayCompareWithParam("distance")),
+            list,
             dataset: CESIUM_TREE_AROUND_ANALYSE_OPTION.children.filter(
               ({ resourceType }) => resourceType == value
             )[0],
@@ -207,6 +217,27 @@ export default {
     distanceUpdateHandler() {
       const { lng, lat } = this.forceEntity;
       this.fetchSourceAround(lng, lat);
+    },
+    //  点击单个点位
+    forceAnalyseSingle(key, item) {
+      const KEY = `eventAround_${key}`;
+      const point = window.featureMap[KEY][item.originalData.fieldValues[0]];
+      const { x, y } = point.geometry;
+      this.$bus.$emit("cesium-3d-pick-from-analyseList", {
+        ...point,
+        position: new Cesium.Cartesian3.fromDegrees(x, y, 4),
+        isLocated: true,
+      });
+      window.earth.camera.flyTo({
+        destination: Cesium.Cartesian3.fromDegrees(x, y - 0.005, 450),
+        orientation: {
+          heading: 0.003336768850279448,
+          pitch: -0.5808830390057418,
+          roll: 0.0,
+        },
+        maximumHeight: 450,
+        duration: 1,
+      });
     },
     //  关闭周边分析
     closeAroundSourceAnalyse() {
