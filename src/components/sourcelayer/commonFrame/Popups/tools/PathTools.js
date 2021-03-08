@@ -2,9 +2,8 @@
  * 分析导航路径
  * @param {*} originResult 
  */
-export const dealPathWithXhr = ({ originResult }) => {
-    if (!originResult.pathList.length) return;
-    const { line, length } = originResult.pathList[0].route;
+export const dealPathWithXhr = (result) => {
+    const { line, length } = result.route;
     const { points, center } = line;
     drawPathWithLine(points);
     drawLabelWithCenter(center, length)

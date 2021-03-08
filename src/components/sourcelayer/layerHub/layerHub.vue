@@ -77,7 +77,9 @@
         @click="changeLayer('source')"
       >
         <img src="/static/images/layer-ico/source.png" />
-        <span class="source-count tag-count" v-show="!isSourceLayer">{{ TREE_OPTION }}</span>
+        <span class="source-count tag-count" v-show="!isSourceLayer">{{
+          TREE_OPTION
+        }}</span>
       </div>
       <ul class="labels" v-show="isSourceLayer">
         <li
@@ -358,21 +360,46 @@ export default {
       });
       getFeatureBySQLService.processAsync(getFeatureBySQLParams);
     },
+    /**
+     * 动态获取事件数据
+     * @param {object} node 节点数据
+     * @param {function} fn 回调钩子
+     */
     async getAPIFeature(node, fn) {
       let res = await getEventData(node.event);
       let features = [];
-      res.forEach((item) => {
-        features.push({
-          attributes: {
-            ...item,
-            ...{ NAME: item.title, SMID: item.innerEventId },
+      res
+        .concat([
+          {
+            msgType: 3,
+            cdcProviderId: 2,
+            scence: "jgqzhxf",
+            eventUrl: null,
+            origin: "火灾战警",
+            title: "智慧消防-全福桥路298号发生开⻔事件",
+            content: "全福桥路298号发生开⻔事件",
+            eventPlaceName: null,
+            eventCoordinate: "120.654218,28.016064",
+            eventDuration: null,
+            eventTime: "2020-06-18",
+            id: 10,
+            superviseStatus: 0,
+            areaCode: "330104012000",
+            innerEventId: "147952",
           },
-          geometry: {
-            x: +item.eventCoordinate.split(",")[0],
-            y: +item.eventCoordinate.split(",")[1],
-          },
+        ])
+        .forEach((item) => {
+          features.push({
+            attributes: {
+              ...item,
+              ...{ NAME: item.title, SMID: item.innerEventId },
+            },
+            geometry: {
+              x: +item.eventCoordinate.split(",")[0],
+              y: +item.eventCoordinate.split(",")[1],
+            },
+          });
         });
-      });
       treeDrawEventTool(this, { result: { features } }, node);
       fn && fn();
     },

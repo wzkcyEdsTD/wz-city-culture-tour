@@ -33,6 +33,9 @@
               </li>
             </ul>
           </div>
+          <div v-if="forceEntity.isLocated" class="detail-location" @click="doLocation">
+            <img />路径分析
+          </div>
         </div>
         <div class="extra-tab to-rtmp-video" @click="doVideoRtmp">直达现场</div>
         <div class="extra-tab to-around-people" @click="doCircleBuffer">周边人口</div>
@@ -47,6 +50,7 @@
             </div>
           </div>
         </div>
+        <Navigation />
       </div>
     </div>
   </div>
@@ -54,6 +58,7 @@
 
 <script>
 import { getCompanyElectricity } from "@/api/cityBrainAPI";
+import Navigation from "./components/Navigation";
 export default {
   data() {
     return {
@@ -63,6 +68,7 @@ export default {
       filterKey: ["永久固定码", "唯一码", "分类代码"],
     };
   },
+  components: { Navigation },
   async mounted() {
     this.eventRegsiter();
   },
@@ -153,12 +159,28 @@ export default {
         geometry: { lng: x, lat: y },
       });
     },
+    /**
+     * 路径分析
+     */
+    doLocation() {
+      const end = this.$parent.$refs.eventPopup.forceEntity;
+      const start = this.forceEntity;
+      if (end.name) {
+        this.$bus.$emit("cesium-3d-navigation", { start, end });
+      } else {
+        this.$message({
+          type: "error",
+          message: "无事件目的地信息",
+        });
+      }
+    },
     closePopup() {
       this.forcePosition = {};
       this.forceEntity = {};
       this.buffer = null;
       this.$bus.$emit("cesium-3d-population-circle", { doDraw: false });
       this.$bus.$emit("cesium-3d-rtmpFetch-cb");
+      this.$bus.$emit("cesium-3d-navigation-clear");
     },
   },
 };
@@ -172,6 +194,7 @@ export default {
     left: 0;
     position: absolute;
     text-align: center;
+    z-index: 2;
   }
 
   .leaflet-popup-close-button {
@@ -275,6 +298,12 @@ export default {
         }
       }
     }
+  }
+
+  .detail-location {
+    line-height: 4vh;
+    text-decoration: underline;
+    cursor: pointer;
   }
 }
 </style>

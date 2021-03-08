@@ -216,14 +216,12 @@ export default {
           } else {
             //  *****[detailPopup]  资源详情点*****
             if (~["label", "billboard"].indexOf(_TYPE_)) {
+              const isLocated = ~["location"].indexOf(_LOCATION_);
               this.$refs.detailPopup.getForceEntity({
                 ...window.featureMap[_NODEID_][_SMID_],
                 position: pick.primitive.position,
+                isLocated,
               });
-            }
-            //  额外判断 若存在标志则进行导航
-            if (~["location"].indexOf(_LOCATION_)) {
-              this.$bus.$emit("cesium-poi-location", window.featureMap[_NODEID_][_SMID_]);
             }
           }
         }

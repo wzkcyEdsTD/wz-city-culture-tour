@@ -7,7 +7,7 @@
  * @FilePath: \wz-city-culture-tour\src\api\cityBrainAPI.js
  */
 import axios from "axios";
-import { getDate } from 'common/js/util'
+import { getDate, getStartTime } from 'common/js/util'
 const BASEURL = "https://sourceserver.wzcitybrain.com/statistics/ProxyGetCityBraainData";
 const instance = axios.create();
 instance.defaults.baseURL = BASEURL;
@@ -97,25 +97,37 @@ export const getWzAllMedicalInsurancePayment = () => {
   return getAxios("100004125");
 };
 /**
- * [事件] 获取时间段内事件信息 100027001
+ * [事件] 获取时间段内事件信息 EVENT_TYPE
+ * @param {*} eventType 
+ * @param {*} type 
+ * @returns 
  */
-export const getEventData = () => {
-  const endTime = new Date();
-  return getAxios("100027001", {
-    startTime: getDate(new Date(endTime.getTime() - 7 * 24 * 3600 * 1000)),
-    endTime: getDate(endTime),
-    areaCode: "330300",
-    status: 1,
-    onlyCount: false
-  }, "GET");
+const EVENT_TYPE = {
+  eventLayer_fire: "100027001",
+}
+export const getEventData = (eventType, type = 6) => {
+  const _API_CODE_ = EVENT_TYPE[eventType];
+  if (_API_CODE_) {
+    const endTime = new Date();
+    return getAxios("100027001", {
+      startTime: getStartTime(type),
+      endTime: getDate(endTime),
+      areaCode: "330300",
+      status: 1,
+      onlyCount: false
+    }, "GET");
+  } else {
+    return [];
+  }
+
 };
 /**
  * [事件] 获取时间段内事件数量 100027001
  */
-export const getEventCount = (day = 1) => {
+export const getEventCount = (type) => {
   const endTime = new Date();
   return getAxios("100027001", {
-    startTime: getDate(new Date(endTime.getTime() - day * 24 * 3600 * 1000)),
+    startTime: getStartTime(type),
     endTime: getDate(endTime),
     status: 1,
     areaCode: "330300",

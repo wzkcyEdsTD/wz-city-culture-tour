@@ -1,6 +1,5 @@
 export const EVENT_TIME = [
     { label: "当日", value: 1 },
-    { label: "本周", value: 2 },
     { label: "本月", value: 3 },
     { label: "24小时内", value: 4 },
     { label: "三天内", value: 5 },

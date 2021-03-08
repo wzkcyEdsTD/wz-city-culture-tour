@@ -9,10 +9,7 @@
 
 <script>
 import Loading from "components/loading/loading";
-import { getUserInfo } from "./api/public/public";
 import { mapGetters, mapActions, mapState } from "vuex";
-import { getRoleCategory } from "api/map/map";
-import category from "mock/category";
 export default {
   name: "App",
   components: {

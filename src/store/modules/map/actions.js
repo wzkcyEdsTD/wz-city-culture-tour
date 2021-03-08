@@ -115,7 +115,7 @@ export const SetWzMedicalData = async ({ commit, state }) => {
 //  获取全市事件总数
 export const SetWzEventData = async ({ commit, state }) => {
   const day = await getEventCount(1);
-  const week = await getEventCount(7);
+  const week = await getEventCount(3);
   commit(types.SET_WZ_EVENT_DATA, { day, week });
 }
 
@@ -258,6 +258,10 @@ export const SetForceEventTopicLabelId = ({ commit }, data) => {
 export const SetIsSourceLayer = ({ commit }, data) => {
   commit(types.SET_IS_SOURCE_LAYER, data);
   commit(types.SET_SEARCH_BOX_MODEL, data ? 1 : 2);
+};
+//  设置事件搜索参数
+export const SetEventFormParams = ({ commit }, data) => {
+  commit(types.SET_EVENT_FORM_PARAMS, data)
 };
 //  设置搜索框显隐
 export const SetSearchBoxVisible = ({ commit }, data) => {

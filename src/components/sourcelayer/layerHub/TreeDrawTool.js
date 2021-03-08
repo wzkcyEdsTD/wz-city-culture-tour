@@ -174,7 +174,10 @@ export const treeDrawEventTool = (context, { result }, node, fn) => {
   result.features.map(v => {
     const name = v.attributes.NAME;
     const eventTime = v.attributes.eventTime;
-    const dayOff = eventTime && isDayOff(eventTime) ? '_extra' : '';
+    const superviseStatus = v.attributes.superviseStatus;
+    const dayOff = eventTime && isDayOff(eventTime) ? '_today' : '';
+    const statusOff = superviseStatus && superviseStatus == 0 ? '_off' : '';
+    const extraSuffix = statusOff || dayOff || '';
     !window.featureMap[node.id] && (window.featureMap[node.id] = {});
     window.featureMap[node.id][v.attributes.SMID] = {
       name,
@@ -198,13 +201,13 @@ export const treeDrawEventTool = (context, { result }, node, fn) => {
     });
     !node.hiddenIcon && window.billboardMap[node.id].add({
       id: `${eventTag}billboard@${v.attributes.SMID}@${node.id}`,
-      image: `/static/images/map-ico/${node.icon}${dayOff}.png`,
+      image: `/static/images/map-ico/${node.icon}${extraSuffix}.png`,
       position,
       ...billboardConfig,
       ...(dayOff ? {
         width: 46,
         height: 46,
-      } : {})
+      } : {}),
     })
   })
   fn && fn();

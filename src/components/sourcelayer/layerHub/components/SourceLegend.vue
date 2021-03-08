@@ -10,8 +10,16 @@
         ><img :src="`/static/images/map-ico/${val}.png`" />
       </li>
       <li v-for="(val, i) in forceEventTopicLabels" :key="`e_${i}`">
-        <span>{{ val }}</span
-        ><img :src="`/static/images/map-ico/${val}.png`" />
+        <span>{{ val }}</span>
+        <img :src="`/static/images/map-ico/${val}_today.png`" />
+      </li>
+      <li v-for="(val, i) in forceEventTopicLabels" :key="`ed_${i}`">
+        <span>{{ val }} - 24小时前</span>
+        <img :src="`/static/images/map-ico/${val}.png`" />
+      </li>
+      <li v-for="(val, i) in forceEventTopicLabels" :key="`eo_${i}`">
+        <span>{{ val }} - 已处理</span>
+        <img :src="`/static/images/map-ico/${val}_off.png`" />
       </li>
     </ul>
     <KgLegend v-if="~forceTrueTopicLabels.indexOf('控规信息')" />
@@ -35,7 +43,7 @@ export default {
   position: fixed;
   right: 2vh;
   bottom: 8vh;
-  width: 22vh;
+  width: 26vh;
   box-sizing: border-box;
   padding: 0 10px;
   > header {

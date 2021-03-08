@@ -60,6 +60,12 @@ const state = {
   //  搜索框模式 1资源 2事件 3地名地址
   searchBoxModel: 1,
   //  图层模式
-  isSourceLayer: true
+  isSourceLayer: true,
+  //  事件条件
+  eventFormParams: {
+    timeType: 6,
+    areaCode: 330300,
+    dealStatus: 0
+  }
 };
 export default state;

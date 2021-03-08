@@ -73,10 +73,6 @@
 </template>
 
 <script>
-import { _RESULT_SETTING_ } from "config/local/findPathParams";
-import { PathURL } from "config/server/mapConfig";
-import { dealPathWithXhr, clearPath } from "./tools/PathTools";
-
 export default {
   data() {
     return {
@@ -104,15 +100,8 @@ export default {
         if (type == "event") this.buffer = result;
       });
       //  清除pop附带信息
-      this.$bus.$on("cesium-3d-detail-pop-clear", () => {
+      this.$bus.$on("cesium-3d-event-pop-clear", () => {
         this.closePopup();
-      });
-      this.$bus.$on("cesium-poi-location", (startPoint) => {
-        clearPath();
-        this.findPath(startPoint.geometry);
-      });
-      this.$bus.$on("cesium-poi-location-clear", () => {
-        clearPath();
       });
     },
     /**
@@ -187,43 +176,14 @@ export default {
       const { x, y } = geometry;
       this.$bus.$emit("cesium-3d-around-analyse-pick", { lng: x, lat: y, fix_data });
     },
-    /**
-     * 查找最佳路线
-     * @param {object} 起始点位
-     */
-    findPath(startGeometry) {
-      const { geometry } = this.forceEntity;
-      const nodes = [
-        new SuperMap.Geometry.Point(startGeometry.x, startGeometry.y),
-        new SuperMap.Geometry.Point(geometry.x, geometry.y),
-      ];
-      const findPathParameter = new SuperMap.REST.FindPathParameters({
-        isAnalyzeById: false,
-        nodes,
-        hasLeastEdgeCount: false,
-        parameter: new SuperMap.REST.TransportationAnalystParameter({
-          resultSetting: new SuperMap.REST.TransportationAnalystResultSetting(
-            _RESULT_SETTING_
-          ),
-          weightFieldName: "SmLength",
-        }),
-      });
-      const findPathService = new SuperMap.REST.FindPathService(PathURL.findPathWz, {
-        eventListeners: {
-          processCompleted: (serviceResult) => {
-            dealPathWithXhr(serviceResult);
-          },
-        },
-      });
-      findPathService.processAsync(findPathParameter);
-    },
     closePopup() {
       this.forcePosition = {};
       this.forceEntity = {};
       this.buffer = null;
       this.$bus.$emit("cesium-3d-population-circle", { doDraw: false });
       this.$bus.$emit("cesium-3d-rtmpFetch-cb");
-      clearPath();
+      this.$bus.$emit("cesium-3d-around-analyse-clear");
+      this.$bus.$emit("cesium-3d-navigation-clear");
     },
   },
 };

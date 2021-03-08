@@ -17,6 +17,7 @@
         </div>
       </div>
     </div>
+    <div class="search-count">共找到 {{ searchList.length }} 个结果</div>
     <div class="result-wrapper">
       <ul class="result-list">
         <li
@@ -28,8 +29,7 @@
           :key="`sitem-${i}`"
           @click="checkedOne(item, i)"
         >
-          <p class="name" :title="item.name">{{ ++i }}. {{ item.result }}</p>
-          <input type="checkbox" :checked="searchChecked == i" />
+          <p class="name" :title="item.result">{{ i + 1 }}. {{ item.result }}</p>
         </li>
       </ul>
     </div>
@@ -53,7 +53,13 @@ export default {
     this.eventRegsiter();
   },
   methods: {
-    eventRegsiter() {},
+    eventRegsiter() {
+      this.$bus.$off("cesium-3d-searchAddress-clear");
+      this.$bus.$on("cesium-3d-searchAddress-clear", () => {
+        this.searchChecked = undefined;
+        window.earth.entities.removeById(iconId);
+      });
+    },
     async doSearchAddress() {
       this.searchChecked = undefined;
       const { records, total } = await getAddressList(this.searchText);
@@ -67,7 +73,8 @@ export default {
       this.searchText = "";
       window.earth.entities.removeById(iconId);
     },
-    checkedOne() {
+    checkedOne({ lng, lat, result },i) {
+      this.searchChecked = i;
       window.earth.camera.flyTo({
         destination: Cesium.Cartesian3.fromDegrees(lng, lat - 0.005, 450),
         orientation: {

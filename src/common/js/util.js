@@ -1,9 +1,24 @@
+const START_TIME_TYPE = {
+  1: () => getDate(new Date(new Date(new Date().toLocaleDateString()))),
+  3: () => getDate(new Date().setDate(1)),
+  4: () => getDate(new Date(new Date().getTime() - 1 * 24 * 3600 * 1000)),
+  5: () => getDate(new Date(new Date().getTime() - 3 * 24 * 3600 * 1000)),
+  6: () => getDate(new Date(new Date().getTime() - 7 * 24 * 3600 * 1000)),
+  7: () => getDate(new Date(new Date().getTime() - 30 * 24 * 3600 * 1000))
+}
+/**
+ * 获取开始时间
+ * @param {*} type 
+ */
+export const getStartTime = type => {
+  return START_TIME_TYPE[type]();
+}
 /**
  * 返回日期
  * @returns {string}
  */
 export function getDate(date) {
-  var myDate = date || new Date()
+  var myDate = date ? (typeof date == "number" ? new Date(date) : date) : new Date();
   // 获取当前年
   var year = myDate.getFullYear()
   // 获取当前月

@@ -1,14 +1,14 @@
 <template>
   <div class="dynamicNum">
     <countTo
-      v-if="value"
+      v-if="value || value == 0"
       :startVal="0"
       :endVal="value ? parseFloat(value) : 0"
       :duration="parseInt(Math.random(1) * 600 + 900)"
       :autoplay="true"
       :decimals="decimals || decimals == 0 ? parseInt(decimals) : 2"
     />
-    <span v-if="!value">-</span>
+    <span v-if="!value && value != 0">-</span>
   </div>
 </template>
 

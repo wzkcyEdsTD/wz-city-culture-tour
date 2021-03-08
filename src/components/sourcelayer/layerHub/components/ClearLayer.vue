@@ -11,6 +11,9 @@ export default {
   methods: {
     doClearLayer() {
       this.$bus.$emit("check-clear-topic");
+      this.$bus.$emit("cesium-3d-detail-pop-clear");
+      this.$bus.$emit("cesium-3d-event-pop-clear");
+      this.$bus.$emit("cesium-3d-searchAddress-clear");
     },
   },
 };

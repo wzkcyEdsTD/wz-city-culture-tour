@@ -119,6 +119,9 @@ const mutations = {
   [types.SET_IS_SOURCE_LAYER](state, data) {
     state.isSourceLayer = data;
   },
+  [types.SET_EVENT_FORM_PARAMS](state, data) {
+    state.eventFormParams = data
+  },
   [types.SET_SEARCH_BOX_VISIBLE](state, data) {
     state.searchBoxVisible = data;
   },

@@ -17,6 +17,7 @@
         </div>
       </div>
     </div>
+    <div class="search-count">共找到 {{ extraSearchList.length }} 个结果</div>
     <div class="result-wrapper" v-show="searchBoxResult">
       <ul class="result-list">
         <li
@@ -28,8 +29,7 @@
           :key="`sitem-${i}`"
           @click="checkedOne(item, i)"
         >
-          <p class="name" :title="item.name">{{ ++i }}. {{ item.name }}</p>
-          <input type="checkbox" :checked="searchChecked == i" />
+          <p class="name" :title="item.name">{{ i + 1 }}. {{ item.name }}</p>
         </li>
       </ul>
     </div>

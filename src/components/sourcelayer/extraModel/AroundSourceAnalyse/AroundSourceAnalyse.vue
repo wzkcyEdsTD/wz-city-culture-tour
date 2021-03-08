@@ -2,6 +2,7 @@
   <div class="around-source-analyse" v-show="forceEntity">
     <span class="header"
       >事件详情
+      <img src="/static/images/common/warn-icon.png" />
       <i class="around-source-close" @click="closeAroundSourceAnalyse">x</i>
     </span>
     <ul class="around-content-body" v-if="forceEntity">
@@ -133,6 +134,10 @@ export default {
         //  周边分析画点
         this.fetchSourceAround(lng, lat);
       });
+      this.$bus.$off("cesium-3d-around-analyse-clear");
+      this.$bus.$on("cesium-3d-around-analyse-clear", () => {
+        this.closeAroundSourceAnalyse();
+      });
     },
     /**
      * 获取周边分析圈,执行周边分析
@@ -210,7 +215,7 @@ export default {
       this.forceEntity = undefined;
       this.selectSourceLayer = [];
       this.aroundSourceAnalyseList = [];
-      this.$bus.$emit("cesium-poi-location-clear");
+      this.$bus.$emit("cesium-3d-navigation-clear");
     },
   },
 };
