@@ -77,11 +77,15 @@ const fixAttributesByOrigin = (attributes, fields) => {
  */
 const fixAttributesByEvent = (attributes, event) => {
   const fields = EVENT_FIELDS[event];
-  const fixAttributes = {};
-  for (let v in attributes) {
-    fields[v] ? (fixAttributes[fields[v]] = attributes[v]) : undefined;
+  if (fields) {
+    const fixAttributes = {};
+    for (let v in attributes) {
+      fields[v] ? (fixAttributes[fields[v]] = attributes[v]) : undefined;
+    }
+    return fixAttributes;
+  } else {
+    return attributes;
   }
-  return fixAttributes;
 }
 
 /**

@@ -34,7 +34,7 @@
             </ul>
           </div>
           <div v-if="forceEntity.isLocated" class="detail-location" @click="doLocation">
-            <img />路径分析
+            <img src="/static/images/common/navigation-icon.png" />路径分析
           </div>
         </div>
         <div class="extra-tab to-rtmp-video" @click="doVideoRtmp">直达现场</div>
@@ -307,6 +307,11 @@ export default {
     line-height: 4vh;
     text-decoration: underline;
     cursor: pointer;
+    > img {
+      height: 2.4vh;
+      display: inline;
+      vertical-align: middle;
+    }
   }
 }
 </style>

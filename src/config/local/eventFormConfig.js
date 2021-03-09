@@ -8,7 +8,7 @@ export const EVENT_TIME = [
 ]
 
 export const AREA_CODE = [
-    { label: "全市域", value: 330300 },
+    { label: "全市域", value: -1 },
     { label: "鹿城区", value: 330302 },
     { label: "龙湾区", value: 330303 },
     { label: "瓯海区", value: 330304 },
@@ -25,7 +25,8 @@ export const AREA_CODE = [
 ]
 
 export const DEAL_STATUS = [
-    { label: "全部", value: 0 },
-    { label: "已处理", value: 1 },
-    { label: "未处理", value: 2 },
+    { label: "全部", value: -1 },
+    { label: "已处理", value: 2 },
+    { label: "处理中", value: 1 },
+    { label: "未处理", value: 0 },
 ]

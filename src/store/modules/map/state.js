@@ -63,9 +63,9 @@ const state = {
   isSourceLayer: true,
   //  事件条件
   eventFormParams: {
-    timeType: 6,
-    areaCode: 330300,
-    dealStatus: 0
+    timeType: 1,
+    areaCode: -1,
+    dealStatus: -1
   }
 };
 export default state;

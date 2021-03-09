@@ -8,6 +8,7 @@
  */
 import axios from "axios";
 import { getDate, getStartTime } from 'common/js/util'
+import eventLayerMock from "mock/eventLayer_mock"
 const BASEURL = "https://sourceserver.wzcitybrain.com/statistics/ProxyGetCityBraainData";
 const instance = axios.create();
 instance.defaults.baseURL = BASEURL;
@@ -104,22 +105,22 @@ export const getWzAllMedicalInsurancePayment = () => {
  */
 const EVENT_TYPE = {
   eventLayer_fire: "100027001",
+  eventLayer_water: undefined,
+  eventLayer_public: undefined,
+  eventLayer_contradiction: undefined
 }
-export const getEventData = (eventType, type = 6) => {
+export const getEventData = (eventType, type = 1) => {
   const _API_CODE_ = EVENT_TYPE[eventType];
   if (_API_CODE_) {
     const endTime = new Date();
     return getAxios("100027001", {
       startTime: getStartTime(type),
       endTime: getDate(endTime),
-      areaCode: "330300",
-      status: 1,
       onlyCount: false
     }, "GET");
   } else {
-    return [];
+    return eventLayerMock[eventType];
   }
-
 };
 /**
  * [事件] 获取时间段内事件数量 100027001
@@ -129,8 +130,6 @@ export const getEventCount = (type) => {
   return getAxios("100027001", {
     startTime: getStartTime(type),
     endTime: getDate(endTime),
-    status: 1,
-    areaCode: "330300",
     onlyCount: true
   }, "GET");
 };

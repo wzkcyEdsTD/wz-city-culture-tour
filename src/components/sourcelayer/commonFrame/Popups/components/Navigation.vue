@@ -4,7 +4,7 @@
       路径分析<a class="navigation-close" href="#" @click="closeNavigation">×</a>
     </header>
     <div class="start-to-end">
-      <img />
+      <img src="/static/images/common/navigation-route.png" />
       <div class="s-t-e">
         <div>{{ start.name }}</div>
         <div>{{ end.name }}</div>
@@ -136,8 +136,7 @@ export default {
     box-sizing: border-box;
     padding: 0.4vh 1vh;
     > img {
-      width: 3vh;
-      background: gray;
+      height: 100%;
     }
     > .s-t-e {
       flex: 1;
