@@ -121,10 +121,10 @@ export default {
           window.earth.scene,
           forceEntity.position
         );
-        console.log("detail", pointToWindow);
         if (
-          this.forcePosition.x !== pointToWindow.x ||
-          this.forcePosition.y !== pointToWindow.y
+          pointToWindow &&
+          (this.forcePosition.x !== pointToWindow.x ||
+            this.forcePosition.y !== pointToWindow.y)
         ) {
           this.forcePosition = {
             x:
