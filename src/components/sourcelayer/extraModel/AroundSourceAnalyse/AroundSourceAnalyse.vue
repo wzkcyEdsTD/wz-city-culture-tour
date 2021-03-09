@@ -85,7 +85,7 @@ import {
 import { arrayCompareWithParam } from "common/js/util";
 import { getAroundSourceAnalyse } from "@/api/layerServerAPI";
 const RANGE_DISTANCE = 1050;
-const DEFAULT_DISTANCE = 250;
+const DEFAULT_DISTANCE = 500;
 const aroundDistance = {};
 const aroundOption = CESIUM_TREE_AROUND_ANALYSE_OPTION.children.map(
   ({ label, resourceType }) => {

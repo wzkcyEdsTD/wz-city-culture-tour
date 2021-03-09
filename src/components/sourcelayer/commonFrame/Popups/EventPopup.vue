@@ -126,8 +126,9 @@ export default {
           forceEntity.position
         );
         if (
-          this.forcePosition.x !== pointToWindow.x ||
-          this.forcePosition.y !== pointToWindow.y
+          pointToWindow &&
+          (this.forcePosition.x !== pointToWindow.x ||
+            this.forcePosition.y !== pointToWindow.y)
         ) {
           this.forcePosition = {
             x:

@@ -184,6 +184,8 @@ export default {
       "isSourceLayer",
       //  事件总数
       "WzEventData",
+      //  事件下方筛选条件
+      "eventFormParams",
     ]),
   },
   watch: {
@@ -230,6 +232,11 @@ export default {
       this.$bus.$off("check-clear-topic");
       this.$bus.$on("check-clear-topic", () => {
         this.clearForceTopic();
+      });
+      //  事件筛选重新查询渲染
+      this.$bus.$off("cesium-3d-event-form-update");
+      this.$bus.$on("cesium-3d-event-form-update", () => {
+        this.eventFromUpdate();
       });
     },
     /**
@@ -366,7 +373,8 @@ export default {
      * @param {function} fn 回调钩子
      */
     async getAPIFeature(node, fn) {
-      let res = await getEventData(node.event);
+      const { timeType, areaCode, status } = this.eventFormParams;
+      let res = await getEventData(node.event, { areaCode, status }, timeType);
       let features = [];
       res.forEach((item) => {
         features.push({
@@ -432,6 +440,23 @@ export default {
         }
         node.componentEvent && this.$bus.$emit(node.componentEvent, { value: null });
       }
+    },
+    //  事件传递，重新查询、渲染页面
+    eventFromUpdate() {
+      this.CESIUM_TREE_EVENT_OPTION[0].children.map((node) => {
+        //  消除featureMap
+        delete window.featureMap[node.id];
+        //  消除label、billboard
+        window.billboardMap[node.id] && window.billboardMap[node.id].removeAll();
+        delete window.billboardMap[node.id];
+        window.labelMap[node.id] && window.labelMap[node.id].removeAll();
+        delete window.labelMap[node.id];
+        console.log();
+        if (~this.forceEventTopicLabels.indexOf(node.id)) {
+          //  选择已勾选的label重新叠加点位
+          this.nodeCheckChange(node, true, "event");
+        }
+      });
     },
     /**
      * 展示对应资源列表搜索框

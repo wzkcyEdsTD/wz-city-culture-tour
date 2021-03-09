@@ -93,6 +93,7 @@ export default {
       this.buffer = null;
       this.$bus.$emit("cesium-3d-population-circle", { doDraw: false });
       this.$bus.$emit("cesium-3d-rtmpFetch-cb");
+      this.$bus.$emit("cesium-3d-navigation-clear");
       this.fetchExtraData(forceEntity);
     },
     /**
@@ -120,6 +121,7 @@ export default {
           window.earth.scene,
           forceEntity.position
         );
+        console.log("detail", pointToWindow);
         if (
           this.forcePosition.x !== pointToWindow.x ||
           this.forcePosition.y !== pointToWindow.y

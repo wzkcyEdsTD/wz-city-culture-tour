@@ -289,7 +289,7 @@ export default {
       // //  白模叠加
       await mapBaimoLayerInit(ServiceUrl.WZBaimo_OBJ);
       //  路灯、光源叠加
-      // mapRoadLampLayerInit();
+      mapRoadLampLayerInit();
       //  阴影
       // mapShadowInit();
       //  回调钩子

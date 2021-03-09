@@ -109,15 +109,19 @@ const EVENT_TYPE = {
   eventLayer_public: undefined,
   eventLayer_contradiction: undefined
 }
-export const getEventData = (eventType, type = 1) => {
+export const getEventData = (eventType, eventFormParams = {}, type = 1) => {
   const _API_CODE_ = EVENT_TYPE[eventType];
   if (_API_CODE_) {
-    const endTime = new Date();
-    return getAxios("100027001", {
+    const option = {
       startTime: getStartTime(type),
       endTime: getDate(endTime),
       onlyCount: false
-    }, "GET");
+    }
+    for (let key in eventFormParams) {
+      if (eventFormParams[key] != -1) option[key] = eventFormParams[key]
+    }
+    const endTime = new Date();
+    return getAxios("100027001", option, "GET");
   } else {
     return eventLayerMock[eventType];
   }

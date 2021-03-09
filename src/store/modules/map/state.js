@@ -65,7 +65,7 @@ const state = {
   eventFormParams: {
     timeType: 1,
     areaCode: -1,
-    dealStatus: -1
+    status: -1
   }
 };
 export default state;
