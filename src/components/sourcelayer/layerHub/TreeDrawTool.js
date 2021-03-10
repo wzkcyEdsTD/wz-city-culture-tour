@@ -24,8 +24,8 @@ const labelConfig = {
 }
 //  图像配置
 const billboardConfig = {
-  width: 34,
-  height: 34,
+  width: 30,
+  height: 30,
   disableDepthTestDistance: Number.POSITIVE_INFINITY,
 }
 
@@ -187,7 +187,7 @@ export const treeDrawEventTool = (context, { result }, node, fn) => {
       name,
       attributes: v.attributes,
       geometry: v.geometry,
-      // fix_data: v.attributes
+      eventTime: v.attributes.eventTime,
       fix_data: fixAttributesByEvent(v.attributes, node.event),
     }
     //  叠加
@@ -208,10 +208,6 @@ export const treeDrawEventTool = (context, { result }, node, fn) => {
       image: `/static/images/map-ico/${node.icon}${extraSuffix}.png`,
       position,
       ...billboardConfig,
-      ...(dayOff ? {
-        width: 46,
-        height: 46,
-      } : {}),
     })
   })
   fn && fn();

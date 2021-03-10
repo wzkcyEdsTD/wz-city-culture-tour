@@ -83,9 +83,9 @@ export default {
     };
   },
   created() {
-    window.billboardMap["pathRoute_analyse_points"] = window.earth.scene.primitives.add(
-      new Cesium.PointPrimitiveCollection()
-    );
+    // window.billboardMap["pathRoute_analyse_points"] = window.earth.scene.primitives.add(
+    //   new Cesium.PointPrimitiveCollection()
+    // );
     window.labelMap["pathRoute_analyse_labels"] = window.earth.scene.primitives.add(
       new Cesium.LabelCollection()
     );

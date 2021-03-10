@@ -287,9 +287,9 @@ export default {
       //  水面
       // await mapRiverLayerInit("RIVER", ServiceUrl.STATIC_RIVER);
       // //  白模叠加
-      await mapBaimoLayerInit(ServiceUrl.WZBaimo_OBJ);
+      // await mapBaimoLayerInit(ServiceUrl.WZBaimo_OBJ);
       //  路灯、光源叠加
-      mapRoadLampLayerInit();
+      // mapRoadLampLayerInit();
       //  阴影
       // mapShadowInit();
       //  回调钩子

@@ -1,18 +1,21 @@
 import { getIserverFields } from "api/iServerAPI";
 const _COLLECTION_KEY_ = "eventAround";
-const _ENTITY_ID_ = "aroundSourceAnalyseCircle";
+const _ENTITY_CIRCLE_ID_ = "aroundSourceAnalyseCircle";
+const _ENTITY_CIRCLE_RANGE_ID_ = "aroundSourceAnalyseRange"
+const _ENTITY_CIRCLE_RANGE_ = [250, 500, 1000]
+const _ENTITY_METER_ID_ = _ENTITY_CIRCLE_RANGE_.map(v => `aroundSourceAnalyseMeter_${v}`)
 /**
  * 地图画点
  * @param {*} param0 
  */
-export const aroundSourceAnalyseDraw = ({ key, list, title, dataset }) => {
+export const aroundSourceAnalyseDraw = ({ key, list, title, node }) => {
     const KEY = `${_COLLECTION_KEY_}_${key}`;
     list.length &&
         list.map((v) => {
             const position = Cesium.Cartesian3.fromDegrees(+v.lng, +v.lat, 4);
             const smid = v.originalData.fieldValues[0]
-            initFeatureMap(dataset, KEY, v, smid);
-            window.labelMap[KEY].add({
+            initFeatureMap(node, KEY, v, smid);
+            !node.hiddenLabel && window.labelMap[KEY].add({
                 id: `label@${smid}@${KEY}@location`,
                 text: v.resourceName,
                 fillColor: Cesium.Color.WHITE,
@@ -47,33 +50,54 @@ export const aroundSourceAnalyseDraw = ({ key, list, title, dataset }) => {
  */
 export const aroundSourceAnalyseCircle = (lng, lat, distance) => {
     //  去圆 重复去
-    window.earth.entities.removeById(_ENTITY_ID_);
+    window.earth.entities.removeById(_ENTITY_CIRCLE_ID_);
     const circleEntity = new Cesium.Entity({
         position: Cesium.Cartesian3.fromDegrees(lng, lat, 0),
         ellipse: {
             semiMinorAxis: distance,
             semiMajorAxis: distance,
             height: 12,
-            // material: Cesium.Color.WHITE.withAlpha(0.1),
             material: new Cesium.ImageMaterialProperty({
                 image: '/static/images/common/range.png',
                 transparent: true
             })
-            // outline: true,
-            // outlineWidth: 3,
-            // outlineColor: Cesium.Color.WHITE,
         },
-        name: _ENTITY_ID_,
-        id: _ENTITY_ID_,
+        name: _ENTITY_CIRCLE_ID_,
+        id: _ENTITY_CIRCLE_ID_,
     });
     window.earth.entities.add(circleEntity);
+    //  去label 重复去
+    if (window.labelMap[_ENTITY_CIRCLE_RANGE_ID_]) {
+        window.labelMap[_ENTITY_CIRCLE_RANGE_ID_].removeAll();
+    }
+    window.labelMap[_ENTITY_CIRCLE_RANGE_ID_] = window.earth.scene.primitives.add(
+        new Cesium.LabelCollection()
+    );
+    _ENTITY_CIRCLE_RANGE_.map((v, i) => {
+        const position = Cesium.Cartesian3.fromDegrees(lng, lat - 0.0000088 * v, 10);
+        window.labelMap[_ENTITY_CIRCLE_RANGE_ID_].add({
+            id: _ENTITY_METER_ID_[i],
+            text: `${v} 米`,
+            fillColor: Cesium.Color.WHITE,
+            outlineColor: Cesium.Color.BLACK,
+            style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+            font: "12px",
+            scale: 1,
+            outlineWidth: 4,
+            showBackground: true,
+            distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 10000),
+            disableDepthTestDistance: Number.POSITIVE_INFINITY,
+            position,
+        });
+    });
 }
 
 /**
  * 清除圈
  */
 export const aroundSourceAnalyseCircleClear = () => {
-    window.earth.entities.removeById(_ENTITY_ID_);
+    window.earth.entities.removeById(_ENTITY_CIRCLE_ID_);
+    window.labelMap[_ENTITY_CIRCLE_RANGE_ID_].removeAll();
 }
 
 /**

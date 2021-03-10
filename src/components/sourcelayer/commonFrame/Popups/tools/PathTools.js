@@ -27,22 +27,22 @@ const drawPathWithLine = (points) => {
             material: new Cesium.PolylineArrowMaterialProperty(Cesium.Color.RED), //体会编码，下面的覆盖上面,material对应了一个实例
         }),
     });
-    points.map(({ x, y }, i) => {
-        const position = Cesium.Cartesian3.fromDegrees(
-            parseFloat(x),
-            parseFloat(y),
-            10
-        );
-        i < points.length - 1 && window.billboardMap["pathRoute_analyse_points"].add({
-            id: "pathRoute_points_" + i,
-            pixelSize: 6,
-            color: Cesium.Color.RED,
-            outlineColor: Cesium.Color.YELLOW,
-            outlineWidth: 3,
-            disableDepthTestDistance: Number.POSITIVE_INFINITY,
-            position,
-        });
-    });
+    // points.map(({ x, y }, i) => {
+    //     const position = Cesium.Cartesian3.fromDegrees(
+    //         parseFloat(x),
+    //         parseFloat(y),
+    //         10
+    //     );
+    //     i < points.length - 1 && window.billboardMap["pathRoute_analyse_points"].add({
+    //         id: "pathRoute_points_" + i,
+    //         pixelSize: 6,
+    //         color: Cesium.Color.RED,
+    //         outlineColor: Cesium.Color.YELLOW,
+    //         outlineWidth: 3,
+    //         disableDepthTestDistance: Number.POSITIVE_INFINITY,
+    //         position,
+    //     });
+    // });
 }
 
 /**
@@ -77,7 +77,7 @@ const drawLabelWithCenter = ({ x, y }, length) => {
  * 清除导航路径
  */
 export const clearPath = () => {
-    window.billboardMap["pathRoute_analyse_points"].removeAll();
+    // window.billboardMap["pathRoute_analyse_points"].removeAll();
     window.labelMap["pathRoute_analyse_labels"].removeAll();
     window.earth.entities.remove(window.billboardMap["pathRoute_analyse_lines"]);
 }

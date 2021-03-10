@@ -160,7 +160,7 @@ const CITY_TOPIC = [
 const AROUND_ANALYSE_TOPIC = [
   { label: "医疗场所", resourceType: "medical_care", dataset: "JZJZNL_YLJH_JHCS", },
   { label: "消防站", resourceType: "fire_station", dataset: "JZJZNL_XFJYNL_XFZ" },
-  { label: "消防栓", resourceType: "fire_hydrant", dataset: "JZJZNL_XFJYNL_XFS" },
+  { label: "消防栓", resourceType: "fire_hydrant", dataset: "JZJZNL_XFJYNL_XFS", hiddenLabel: true },
   { label: "交通卡口", resourceType: "bayonet", dataset: "KaKouDianWei" },
   { label: "救援队伍", resourceType: "rescue_team", dataset: "JZJZNL_YJDW" }
 ]

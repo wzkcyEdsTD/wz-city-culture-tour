@@ -42,6 +42,7 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import { CESIUM_TREE_EXTRA_DATA } from "config/server/sourceTreeOption";
+import { arrayCompareWithParam } from "common/js/util";
 
 export default {
   name: "SearchEvent",
@@ -90,11 +91,15 @@ export default {
       if (!this.searchBoxVisible) return;
       const featureMap = window.featureMap[this.forceNode.id];
       // const withExtraData = this[this.forceNode.withExtraData];
-      const allSearchList = [];
+      let allSearchList = [];
       for (let key in featureMap) {
         const item = window.featureMap[this.forceNode.id][key];
-        allSearchList.push(item);
+        const { x, y } = item.geometry;
+        if (x <= 121.408 && x >= 119.407 && y <= 28.692 && y >= 27.059) {
+          allSearchList.push(item);
+        }
       }
+      allSearchList = allSearchList.sort(arrayCompareWithParam("eventTime")).reverse();
       this.extraSearchList = this.searchText
         ? allSearchList.filter((item) => ~item.name.indexOf(this.searchText))
         : allSearchList;
