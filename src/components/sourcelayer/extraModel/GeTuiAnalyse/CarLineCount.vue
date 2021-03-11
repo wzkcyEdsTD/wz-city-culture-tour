@@ -41,7 +41,7 @@ export default {
           id: tag,
           polyline: {
             positions: Cesium.Cartesian3.fromDegreesArrayHeights(singeLine),
-            width: lines[index].type >= 50 ? 3 : lines[index].num > 30 ? 12 : 20,
+            width: lines[index].type > 40 ? 3 : lines[index].num > 20 ? 12 : 20,
             material: new Cesium.PolylineTrailLinkMaterialProperty(
               lines[index].num > 60
                 ? Cesium.Color.INDIANRED
