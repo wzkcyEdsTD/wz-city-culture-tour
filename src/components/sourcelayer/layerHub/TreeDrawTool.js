@@ -133,10 +133,13 @@ export const treeDrawTool = (context, { result }, node, fields = [], fn) => {
     }
     const name = v.attributes.SHORTNAME || v.attributes.NAME || v.attributes.MC || v.attributes.JC || v.attributes[node.withExtraKey] || v.attributes["项目名称"] || v.attributes.SMID;
     !window.featureMap[node.id] && (window.featureMap[node.id] = {});
+    const billboardId = `billboard@${v.attributes.SMID}@${node.id}`;
     name && (window.featureMap[node.id][v.attributes.SMID] = {
       name,
       attributes: v.attributes,
       geometry: v.geometry,
+      billboardId,
+      node,
       fix_data: fixAttributesByOrigin(v.attributes, fieldHash),
       dataSet: node.dataset
     })
@@ -153,7 +156,7 @@ export const treeDrawTool = (context, { result }, node, fields = [], fn) => {
       ...labelConfig
     });
     !node.hiddenIcon && window.billboardMap[node.id].add({
-      id: `billboard@${v.attributes.SMID}@${node.id}`,
+      id: billboardId,
       image: `/static/images/map-ico/${node.icon}.png`,
       position,
       ...billboardConfig,
@@ -170,7 +173,8 @@ export const treeDrawTool = (context, { result }, node, fields = [], fn) => {
  * @param {*} fields 别名数组
  * @param {function} fn 回调
  */
-export const treeDrawEventTool = (context, { result }, node, fn) => {
+export const treeDrawEventTool = ({ result }, node, fn) => {
+  const eventTag = "eventLayer_";
   //  hash赋值
   window.billboardMap[node.id] = window.earth.scene.primitives.add(new Cesium.BillboardCollection());
   window.labelMap[node.id] = window.earth.scene.primitives.add(new Cesium.LabelCollection());
@@ -183,11 +187,14 @@ export const treeDrawEventTool = (context, { result }, node, fn) => {
     const statusOff = superviseStatus && superviseStatus == 0 ? '_off' : '';
     const extraSuffix = statusOff || dayOff || '';
     !window.featureMap[node.id] && (window.featureMap[node.id] = {});
+    const billboardId = `${eventTag}billboard@${v.attributes.SMID}@${node.id}`
     window.featureMap[node.id][v.attributes.SMID] = {
       name,
       attributes: v.attributes,
       geometry: v.geometry,
       eventTime: v.attributes.eventTime,
+      billboardId,
+      node,
       fix_data: fixAttributesByEvent(v.attributes, node.event),
     }
     //  叠加
@@ -196,7 +203,7 @@ export const treeDrawEventTool = (context, { result }, node, fn) => {
       v.geometry.y,
       4
     );
-    const eventTag = "eventLayer_";
+
     !node.hiddenIcon && !node.hiddenLabel && window.labelMap[node.id].add({
       id: `${eventTag}label@${v.attributes.SMID}@${node.id}`,
       text: v.attributes.NAME,
@@ -204,7 +211,7 @@ export const treeDrawEventTool = (context, { result }, node, fn) => {
       ...labelConfig
     });
     !node.hiddenIcon && window.billboardMap[node.id].add({
-      id: `${eventTag}billboard@${v.attributes.SMID}@${node.id}`,
+      id: billboardId,
       image: `/static/images/map-ico/${node.icon}${extraSuffix}.png`,
       position,
       ...billboardConfig,

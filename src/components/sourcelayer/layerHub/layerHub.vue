@@ -217,8 +217,6 @@ export default {
         "SetForceEventTopicLabelId",
         //  tab模块
         "SetIsSourceLayer",
-        //  事件总数
-        "WzEventData",
       ],
     ]),
     /**
@@ -388,7 +386,7 @@ export default {
           },
         });
       });
-      treeDrawEventTool(this, { result: { features } }, node);
+      treeDrawEventTool({ result: { features } }, node);
       fn && fn();
     },
     nodeCheckChange(node, checked, type) {

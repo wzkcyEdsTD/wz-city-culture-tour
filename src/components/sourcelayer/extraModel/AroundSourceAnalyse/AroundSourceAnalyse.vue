@@ -223,7 +223,7 @@ export default {
       const KEY = `eventAround_${key}`;
       const point = window.featureMap[KEY][item.originalData.fieldValues[0]];
       const { x, y } = point.geometry;
-      this.$bus.$emit("cesium-3d-pick-from-analyseList", {
+      this.$bus.$emit("cesium-3d-pick-to-detail", {
         ...point,
         position: new Cesium.Cartesian3.fromDegrees(x, y, 4),
         isLocated: true,

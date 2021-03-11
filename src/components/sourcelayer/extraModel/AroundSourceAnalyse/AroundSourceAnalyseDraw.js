@@ -97,7 +97,7 @@ export const aroundSourceAnalyseCircle = (lng, lat, distance) => {
  */
 export const aroundSourceAnalyseCircleClear = () => {
     window.earth.entities.removeById(_ENTITY_CIRCLE_ID_);
-    window.labelMap[_ENTITY_CIRCLE_RANGE_ID_].removeAll();
+    window.labelMap[_ENTITY_CIRCLE_RANGE_ID_] && window.labelMap[_ENTITY_CIRCLE_RANGE_ID_].removeAll();
 }
 
 /**

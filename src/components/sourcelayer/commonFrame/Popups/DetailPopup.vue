@@ -57,6 +57,7 @@
 </template>
 
 <script>
+import { updateBillboard, lowerCaseIcon } from "./tools/updateBillboard";
 import { getCompanyElectricity } from "@/api/cityBrainAPI";
 import Navigation from "./components/Navigation";
 export default {
@@ -80,7 +81,7 @@ export default {
       this.$bus.$on("cesium-3d-detail-pop-clear", () => {
         this.closePopup();
       });
-      this.$bus.$on("cesium-3d-pick-from-analyseList", (forceEntity) => {
+      this.$bus.$on("cesium-3d-pick-to-detail", (forceEntity) => {
         this.getForceEntity(forceEntity);
       });
     },
@@ -88,8 +89,9 @@ export default {
      *  详情点赋值
      *  @param {object} forceEntity 详情点信息
      */
-    getForceEntity(forceEntity) {
-      this.forceEntity = forceEntity;
+    async getForceEntity(newForceEntity) {
+      await updateBillboard(this.forceEntity, newForceEntity);
+      this.forceEntity = newForceEntity;
       this.buffer = null;
       this.$bus.$emit("cesium-3d-population-circle", { doDraw: false });
       this.$bus.$emit("cesium-3d-rtmpFetch-cb");
@@ -180,6 +182,7 @@ export default {
       }
     },
     closePopup() {
+      lowerCaseIcon(this.forceEntity);
       this.forcePosition = {};
       this.forceEntity = {};
       this.buffer = null;

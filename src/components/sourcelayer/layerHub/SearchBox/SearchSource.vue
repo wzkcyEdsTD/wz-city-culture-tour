@@ -104,9 +104,12 @@ export default {
       } else {
         // 选中该checkbox
         this.searchChecked = i;
-        this.searchChecked.push(i);
-        // 移动到对应实例位置
         const { x, y } = item.geometry;
+        this.$bus.$emit("cesium-3d-pick-to-detail", {
+          ...item,
+          position: new Cesium.Cartesian3.fromDegrees(x, y, 4),
+        });
+        // 移动到对应实例位置
         window.earth.camera.flyTo({
           // window.earth.scene.camera.setView({
           destination: Cesium.Cartesian3.fromDegrees(x, y - 0.005, 450),

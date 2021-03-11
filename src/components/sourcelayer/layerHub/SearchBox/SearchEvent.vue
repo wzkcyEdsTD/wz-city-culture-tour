@@ -76,6 +76,9 @@ export default {
         this.SetSearchBoxVisible(shall);
         this.forceNode = node || {};
         this.searchClear();
+        this.$nextTick(() => {
+          this.checkedOne(this.extraSearchList[0], 0);
+        });
       });
     },
     toogleVisible() {
@@ -112,8 +115,12 @@ export default {
       } else {
         // 选中该checkbox
         this.searchChecked = i;
-        // 移动到对应实例位置
         const { x, y } = item.geometry;
+        this.$bus.$emit("cesium-3d-pick-to-event", {
+          ...item,
+          position: new Cesium.Cartesian3.fromDegrees(x, y, 4),
+        });
+        // 移动到对应实例位置
         window.earth.camera.flyTo({
           // window.earth.scene.camera.setView({
           destination: Cesium.Cartesian3.fromDegrees(x, y - 0.005, 450),

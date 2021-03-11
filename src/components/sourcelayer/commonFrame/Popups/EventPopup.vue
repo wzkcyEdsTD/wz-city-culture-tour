@@ -73,6 +73,7 @@
 </template>
 
 <script>
+import { updateBillboard, lowerCaseIcon } from "./tools/updateBillboard";
 export default {
   data() {
     return {
@@ -103,13 +104,17 @@ export default {
       this.$bus.$on("cesium-3d-event-pop-clear", () => {
         this.closePopup();
       });
+      this.$bus.$on("cesium-3d-pick-to-event", (forceEntity) => {
+        this.getForceEntity(forceEntity);
+      });
     },
     /**
      *  详情点赋值
      *  @param {object} forceEntity 详情点信息
      */
-    getForceEntity(forceEntity) {
-      this.forceEntity = forceEntity;
+    async getForceEntity(newForceEntity) {
+      await updateBillboard(this.forceEntity, newForceEntity);
+      this.forceEntity = newForceEntity;
       this.buffer = null;
       this.$bus.$emit("cesium-3d-population-circle", { doDraw: false });
       this.$bus.$emit("cesium-3d-rtmpFetch-cb");
@@ -178,6 +183,7 @@ export default {
       this.$bus.$emit("cesium-3d-around-analyse-pick", { lng: x, lat: y, fix_data });
     },
     closePopup() {
+      lowerCaseIcon(this.forceEntity);
       this.forcePosition = {};
       this.forceEntity = {};
       this.buffer = null;
