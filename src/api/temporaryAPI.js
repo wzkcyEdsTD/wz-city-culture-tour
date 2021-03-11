@@ -7,48 +7,75 @@
  * @FilePath: \wz-city-culture-tour\src\api\cityBrainAPI.js
  */
 import axios from "axios";
-import { getDate } from 'common/js/util'
-const BASEURL = "http://10.36.217.144:9009/api";
+import { sha256 } from 'js-sha256'
+import md5 from 'js-md5';
+import { _BBOX_, _AREA_CODE_ } from "config/local/getuiInterfaceConfig"
+const BASEURL = "https://webapi.getui.com/api";
 const instance = axios.create();
 instance.defaults.baseURL = BASEURL;
-instance.defaults.method = "get";
+instance.defaults.method = "post";
+const _APPKEY_ = "wenzhou_PAPI_wzsjj";
+const _VERSION_ = "v1.0"
+const _MASTER_SECERT_ = "dfd28b6141e6b19e7a20f7dde4a0020ec626034f7379abc79a8312a0f0a668f1470d26258f296cb3bd5c808bb3608d713d58d238a60569aa98bfa0b3fcb793ac";
 
+/**
+ * 捕捉器
+ */
+instance.interceptors.request.use(
+    async config => {
+        if (config.url != "/auth/creditAuth") {
+            const timestamp = parseInt(+new Date() / 1000);
+            const { data } = await getAxios("/auth/creditAuth", {
+                appKey: _APPKEY_,
+                timestamp,
+                version: _VERSION_,
+                sign: sha256(_APPKEY_ + md5(timestamp.toString()) + _MASTER_SECERT_) + _MASTER_SECERT_
+            })
+            config.headers["Access-Token"] = data.accessToken;
+        }
+        return config;
+    },
+    err => {
+        // 请求超时!
+        return Promise.reject(err);
+    }
+);
 /**
  * axios default
  * @param {*} code 
  * @param {*} data 
  * @param {*} method 
  */
-const getAxios = (url, data = {}) => {
+const getAxios = (url, data = {}, method = 'post') => {
     return instance.request({
-        url,
-        params: data
+        url, method,
+        data,
     }).then(res => {
-        return res.data ? Promise.resolve(res) : Promise.reject(res);
+        return res.data ? Promise.resolve(res.data) : Promise.reject(res);
     });
 };
 
 /**
- * 获取近一天事件信息
+ * 车辆数盘 / 获取某区域车速及车数数据
+ * /vehicle/dashboard/getRoadsData
+ * @returns {Promise}
  */
-export const getEventData = () => {
-    const endTime = new Date();
-    return getAxios("/designImpl", {
-        startTime: getDate(new Date(endTime.getTime() - 24 * 3600 * 1000)),
-        endTime: getDate(endTime),
-        onlyCount: false
-    }, "GET");
+export const getRoadsData = () => {
+    return getAxios("/vehicle/dashboard/getRoadsData", {
+        bbox: _BBOX_,
+        code: _AREA_CODE_,
+        type_limit: 60,
+        zoom: 18
+    });
 };
 
 /**
- * 获取近day天事件数量
- * @param {number} day 
+ * 根据 code 查询热力图
+ * /population/count/getHeatMapByCode
+ * @returns {Promise}
  */
-export const getEventCount = (day = 1) => {
-    const endTime = new Date();
-    return getAxios("/designImpl", {
-        startTime: getDate(new Date(endTime.getTime() - day * 24 * 3600 * 1000)),
-        endTime: getDate(endTime),
-        onlyCount: true
-    }, "GET");
-};
+export const getHeatMapByCode = () => {
+    return getAxios("/population/count/getHeatMapByCode", {
+        area_code: _AREA_CODE_,
+    });
+}

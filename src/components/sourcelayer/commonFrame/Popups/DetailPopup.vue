@@ -96,7 +96,7 @@ export default {
       this.$bus.$emit("cesium-3d-population-circle", { doDraw: false });
       this.$bus.$emit("cesium-3d-rtmpFetch-cb");
       this.$bus.$emit("cesium-3d-navigation-clear");
-      this.fetchExtraData(forceEntity);
+      this.fetchExtraData(newForceEntity);
     },
     /**
      * 获取额外信息

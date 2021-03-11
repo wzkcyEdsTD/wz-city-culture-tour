@@ -18,6 +18,8 @@ import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/css/swiper.css'
 //  font
 import "./font/font.css";
+//  material
+import "./material/PolylineTrailLink";
 
 Vue.use(VueAwesomeSwiper, /* { default options with global component } */)
 

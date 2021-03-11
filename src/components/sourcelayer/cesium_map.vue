@@ -29,8 +29,12 @@
     <div v-if="mapLoaded && validated">
       <DetailedModel v-if="showSubFrame == '3d1'" />
       <!-- <CesiumMapVideo v-if="showSubFrame == '3d1'" /> -->
-      <Overview ref="overview" v-if="showSubHubFrame == '3d1'" />
-      <TrafficSubwayModel v-if="showSubHubFrame == '3d4'" />
+      <div id="extra-model-components">
+        <Overview ref="overview" v-if="showSubHubFrame == '3d1'" />
+        <TrafficSubwayModel v-if="showSubHubFrame == '3d4'" />
+        <CarLineCount />
+        <!-- <PeopleAreaHeat /> -->
+      </div>
       <VideoCircle ref="videoCircle" />
       <!-- <RoadLine ref="roadline" /> -->
       <InfoFrame ref="infoframe" v-show="isInfoFrame" />
@@ -56,6 +60,8 @@ import Roulette from "components/sourcelayer/roulette/roulette";
 import DetailedModel from "components/sourcelayer/extraModel/Models/DetailedModel";
 import AroundSourceAnalyse from "components/sourcelayer/extraModel/AroundSourceAnalyse/AroundSourceAnalyse";
 import TrafficSubwayModel from "components/sourcelayer/extraModel/Models/TrafficSubwayModel";
+import CarLineCount from "components/sourcelayer/extraModel/GeTuiAnalyse/CarLineCount";
+import PeopleAreaHeat from "components/sourcelayer/extraModel/GeTuiAnalyse/PeopleAreaHeat";
 import InfoFrame from "components/sourcelayer/commonFrame/InfoFrame/InfoFrame";
 import MedicalPopup from "components/sourcelayer/commonFrame/Popups/medicalPopup";
 import BayonetPopup from "components/sourcelayer/commonFrame/Popups/bayonetPopup";
@@ -78,7 +84,6 @@ import {
   mapBaimoLayerInit,
   mapRoadLampLayerInit,
   mapRoadLampLayerTurn,
-  mapShadowInit,
 } from "components/sourcelayer/cesium_map_init";
 import { doValidation } from "api/validation/validation";
 import { mapGetters } from "vuex";
@@ -107,6 +112,8 @@ export default {
     Roulette,
     DetailedModel,
     TrafficSubwayModel,
+    CarLineCount,
+    PeopleAreaHeat,
     InfoFrame,
     MedicalPopup,
     BayonetPopup,

@@ -138,7 +138,6 @@ const initFeatureMap = async ({ url, dataSource }, KEY, data, smid) => {
         },
         attributes,
         fix_data: fixAttributesByOrigin(attributes, fieldHash),
-        // fix_data: attributes,
         dataSet: "",
     };
 }
