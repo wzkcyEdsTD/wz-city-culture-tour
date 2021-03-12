@@ -9,14 +9,14 @@
 <template>
   <div class="cesiumContainer">
     <div id="cesiumContainer" />
-    <!-- 城市各类指标 -->
-    <CityIndex ref="totalTarget" />
-    <!-- 菜单切换 -->
-    <LayerHub ref="layerHub" v-if="initDataLoaded" />
-    <!-- 时间转盘 -->
-    <Roulette ref="roulette" />
     <!-- 功能组件 -->
     <div v-if="mapLoaded && validated">
+      <!-- 城市各类指标 -->
+      <CityIndex ref="totalTarget" />
+      <!-- 菜单切换 -->
+      <LayerHub ref="layerHub" v-if="initDataLoaded" />
+      <!-- 时间转盘 -->
+      <Roulette ref="roulette" />
       <!-- 气泡框 -->
       <PopupHub />
       <!-- 场景 -->
@@ -80,20 +80,23 @@ export default {
     window.entityMapGeometry = {};
   },
   async mounted() {
-    await this.init3DMap(() => {
+    await this.init3DMap(async () => {
       this.mapLoaded = true;
-      this.initHandler();
-      this.validate();
+      await this.validate();
+      if (!this.authFailshallPop) {
+        this.initScene();
+        this.initHandler();
+      }
     });
     this.eventRegsiter();
   },
   methods: {
     async validate() {
-      // let authorCode = this.$route.query.authorCode;
-      // if (!authorCode) return (this.authFailshallPop = true);
-      // const res = await doValidation(authorCode);
-      // res ? (this.validated = true) : (this.authFailshallPop = true);
-      this.validated = true;
+      let authorCode = this.$route.query.authorCode;
+      if (!authorCode) return (this.authFailshallPop = true);
+      const res = await doValidation(authorCode);
+      res ? (this.validated = true) : (this.authFailshallPop = true);
+      // this.validated = true;
     },
 
     initHandler() {
@@ -165,14 +168,16 @@ export default {
       });
       //  地图配置
       mapConfigInit();
+      //  回调钩子
+      fn && fn();
+    },
+    initScene() {
       //  相机位置
       this.cameraMove();
       //  地图注记
       mapMvtLayerInit("mapMvt", ServiceUrl.YJMVT);
       //  重要地物注记
       // const keyMvt = mapMvtLayerInit("keyMvt", ServiceUrl.KEYMVT);
-      //  回调钩子
-      fn && fn();
     },
     /**
      * move your fat ass bro
