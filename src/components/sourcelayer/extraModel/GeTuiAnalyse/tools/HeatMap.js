@@ -1,3 +1,4 @@
+
 import { gcj02towgs84 } from "common/js/coordinateTransfer";
 /**
  * 开关热力图
@@ -48,6 +49,7 @@ export const doHeatMap = (heatArr) => {
 
     // add data to heatmap
     heatMap.setWGS84Data(valueMin, valueMax, data)
+    return heatMap;
 }
 
 /**

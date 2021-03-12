@@ -353,6 +353,7 @@ CHInstance.prototype.updateLayer = function () {
 			// 	hierarchy: this._polygon,
 			// 	material,
 			// },
+			id: "heatmap_" + +new Date(),
 			rectangle: {
 				coordinates: this._rectangle,
 				material,

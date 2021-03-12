@@ -67,15 +67,15 @@ export const aroundSourceAnalyseCircle = (lng, lat, distance) => {
     });
     window.earth.entities.add(circleEntity);
     //  去label 重复去
-    if (window.labelMap[_ENTITY_CIRCLE_RANGE_ID_]) {
-        window.labelMap[_ENTITY_CIRCLE_RANGE_ID_].removeAll();
+    if (window.extraPrimitiveMap[_ENTITY_CIRCLE_RANGE_ID_]) {
+        window.extraPrimitiveMap[_ENTITY_CIRCLE_RANGE_ID_].removeAll();
     }
-    window.labelMap[_ENTITY_CIRCLE_RANGE_ID_] = window.earth.scene.primitives.add(
+    window.extraPrimitiveMap[_ENTITY_CIRCLE_RANGE_ID_] = window.earth.scene.primitives.add(
         new Cesium.LabelCollection()
     );
     _ENTITY_CIRCLE_RANGE_.map((v, i) => {
         const position = Cesium.Cartesian3.fromDegrees(lng, lat - 0.0000088 * v, 10);
-        window.labelMap[_ENTITY_CIRCLE_RANGE_ID_].add({
+        window.extraPrimitiveMap[_ENTITY_CIRCLE_RANGE_ID_].add({
             id: _ENTITY_METER_ID_[i],
             text: `${v} 米`,
             fillColor: Cesium.Color.WHITE,
@@ -97,7 +97,7 @@ export const aroundSourceAnalyseCircle = (lng, lat, distance) => {
  */
 export const aroundSourceAnalyseCircleClear = () => {
     window.earth.entities.removeById(_ENTITY_CIRCLE_ID_);
-    window.labelMap[_ENTITY_CIRCLE_RANGE_ID_] && window.labelMap[_ENTITY_CIRCLE_RANGE_ID_].removeAll();
+    window.extraPrimitiveMap[_ENTITY_CIRCLE_RANGE_ID_] && window.extraPrimitiveMap[_ENTITY_CIRCLE_RANGE_ID_].removeAll();
 }
 
 /**

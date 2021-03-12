@@ -32,11 +32,10 @@
       <div id="extra-model-components">
         <Overview ref="overview" v-if="showSubHubFrame == '3d1'" />
         <TrafficSubwayModel v-if="showSubHubFrame == '3d4'" />
-        <CarLineCount />
-        <!-- <PeopleAreaHeat /> -->
+        <CarLineCount v-if="showSubHubFrame == '3d5'" />
+        <PeopleAreaHeat v-if="showSubHubFrame == '3d6'" />
       </div>
       <VideoCircle ref="videoCircle" />
-      <!-- <RoadLine ref="roadline" /> -->
       <InfoFrame ref="infoframe" v-show="isInfoFrame" />
       <AroundSourceAnalyse ref="aroundSourceAnalyse" />
       <div v-show="!isOverview">
@@ -71,7 +70,6 @@ import EventPopup from "components/sourcelayer/commonFrame/Popups/EventPopup";
 import TourPointPopup from "components/sourcelayer/commonFrame/Popups/tourPointPopup";
 import RtmpVideo from "components/sourcelayer/extraModel/RtmpVideo/RtmpVideo";
 import Population from "components/sourcelayer/extraModel/Population/Population";
-import RoadLine from "components/sourcelayer/extraModel/PolylineTrailLink/RoadLine";
 import VideoCircle from "components/sourcelayer/commonFrame/postMessage/videoCircle";
 import AuthFailPopup from "components/sourcelayer/commonFrame/AuthFailPopup/AuthFailPopup";
 import Overview from "components/sourcelayer/extraModel/Overview/Overview.vue";
@@ -123,7 +121,6 @@ export default {
     EventPopup,
     RtmpVideo,
     Population,
-    RoadLine,
     VideoCircle,
     AuthFailPopup,
     Overview,
@@ -136,6 +133,8 @@ export default {
     window.billboardMap = {};
     //  点位label hash
     window.labelMap = {};
+    //  额外各类primitive
+    window.extraPrimitiveMap = {};
     //  特殊信息 hash
     window.entityMapGeometry = {};
   },
@@ -294,7 +293,7 @@ export default {
       //  水面
       // await mapRiverLayerInit("RIVER", ServiceUrl.STATIC_RIVER);
       // //  白模叠加
-      // await mapBaimoLayerInit(ServiceUrl.WZBaimo_OBJ);
+      await mapBaimoLayerInit(ServiceUrl.WZBaimo_OBJ);
       //  路灯、光源叠加
       // mapRoadLampLayerInit();
       //  阴影

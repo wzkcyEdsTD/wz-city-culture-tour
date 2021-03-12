@@ -31,5 +31,5 @@ const upperCaseIcon = (n) => {
  * @param {*} o 
  */
 export const lowerCaseIcon = (o) => {
-    window.billboardMap[o.node.id].getById(o.billboardId).scale = _LOWER_SCALE_
+    o.node && (window.billboardMap[o.node.id].getById(o.billboardId).scale = _LOWER_SCALE_)
 }

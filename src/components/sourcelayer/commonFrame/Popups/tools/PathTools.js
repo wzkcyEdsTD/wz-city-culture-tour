@@ -14,7 +14,7 @@ export const dealPathWithXhr = (result) => {
  * @param {*} points 
  */
 const drawPathWithLine = (points) => {
-    window.billboardMap["pathRoute_analyse_lines"] = window.earth.entities.add({
+    window.extraPrimitiveMap["pathRoute_analyse_lines"] = window.earth.entities.add({
         name: "pathRoute_line",
         id: "pathRoute_line",
         polyline: new Cesium.PolylineGraphics({
@@ -33,7 +33,7 @@ const drawPathWithLine = (points) => {
     //         parseFloat(y),
     //         10
     //     );
-    //     i < points.length - 1 && window.billboardMap["pathRoute_analyse_points"].add({
+    //     i < points.length - 1 && window.extraPrimitiveMap["pathRoute_analyse_points"].add({
     //         id: "pathRoute_points_" + i,
     //         pixelSize: 6,
     //         color: Cesium.Color.RED,
@@ -56,7 +56,7 @@ const drawLabelWithCenter = ({ x, y }, length) => {
         parseFloat(y),
         10
     );
-    window.labelMap["pathRoute_analyse_labels"].add({
+    window.extraPrimitiveMap["pathRoute_analyse_labels"].add({
         id: "pathRoute_analyse_center",
         text: length.toFixed(2) + ' 米',
         fillColor: Cesium.Color.YELLOW,
@@ -77,7 +77,7 @@ const drawLabelWithCenter = ({ x, y }, length) => {
  * 清除导航路径
  */
 export const clearPath = () => {
-    // window.billboardMap["pathRoute_analyse_points"].removeAll();
-    window.labelMap["pathRoute_analyse_labels"].removeAll();
-    window.earth.entities.remove(window.billboardMap["pathRoute_analyse_lines"]);
+    // window.extraPrimitiveMap["pathRoute_analyse_points"].removeAll();
+    window.extraPrimitiveMap["pathRoute_analyse_labels"].removeAll();
+    window.earth.entities.remove(window.extraPrimitiveMap["pathRoute_analyse_lines"]);
 }

@@ -3,6 +3,7 @@
 </template>
 
 <script>
+const _HEATMAP_INDEX_ = "getui_heatmap_index";
 import { getHeatMapByCode } from "api/temporaryAPI";
 import { doHeatMap } from "./tools/HeatMap";
 export default {
@@ -11,8 +12,12 @@ export default {
     return {};
   },
   async created() {
-    const { data } = await getHeatMapByCode();
-    this.doAreaHeat(data);
+    if (window.extraPrimitiveMap[_HEATMAP_INDEX_]) {
+      window.extraPrimitiveMap[_HEATMAP_INDEX_].show(true);
+    } else {
+      const { data } = await getHeatMapByCode();
+      this.doAreaHeat(data);
+    }
   },
   mounted() {
     this.eventRegsiter();
@@ -27,9 +32,15 @@ export default {
      * @param {array} points 热力图点
      */
     doAreaHeat({ heatmap }) {
-      doHeatMap(heatmap);
+      window.extraPrimitiveMap[_HEATMAP_INDEX_] = doHeatMap(heatmap);
     },
-    resetAreaHeat() {},
+    resetAreaHeat() {
+      //   window.earth.entities.removeById(
+      //     window.extraPrimitiveMap[_HEATMAP_INDEX_]._layer.id
+      //   );
+      //   delete window.extraPrimitiveMap[_HEATMAP_INDEX_];
+      window.extraPrimitiveMap[_HEATMAP_INDEX_].show(false);
+    },
   },
 };
 </script>

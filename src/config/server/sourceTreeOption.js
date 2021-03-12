@@ -95,6 +95,12 @@ const SOURCE_TOPIC = [
   { label: "派出所", dataset: "PoliceStation" },
   { label: "社会福利机构", dataset: "D_HAZARDS_BEADHOUSESHP" },
   { label: "高层建筑", dataset: "high_buildings_P" },
+  {
+    label: "人口密集分析",
+    componentEvent: "cesium-3d-hub-event",
+    componentKey: "3d6",
+    type: 'model'
+  },
 ];
 //  经济专题
 const KEY_PROJECTS = [
@@ -113,6 +119,12 @@ const TRAFFIC_TOPIC = [
     saveExtraDataByGeometry: "setBayonetListWithGeometry",
     withExtraKey: "MC",
     hiddenIcon: true
+  },
+  {
+    label: "道路车辆分析",
+    componentEvent: "cesium-3d-hub-event",
+    componentKey: "3d5",
+    type: 'model'
   },
   {
     label: "S1线路",
@@ -279,7 +291,7 @@ export const CESIUM_TREE_OPTION = [
         id: v.label,
         icon: v.label,
         url: SERVER_DEFAULT_DATA,
-        type: "mvt",
+        type: v.type || "mvt",
         dataSource: `${SW_DATA_NAME}${v.dataset}`
       };
     })
