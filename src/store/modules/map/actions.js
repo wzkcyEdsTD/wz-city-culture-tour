@@ -271,3 +271,7 @@ export const SetSearchBoxVisible = ({ commit }, data) => {
 export const SetSearchBoxModel = ({ commit }, data) => {
   commit(types.SET_SEARCH_BOX_MODEL, data);
 }
+//  设置唯一场景
+export const SetSubModel = ({ commit }, data) => {
+  commit(types.SET_SUB_MODEL, data);
+}

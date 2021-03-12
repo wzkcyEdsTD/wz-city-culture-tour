@@ -4,41 +4,42 @@
  * @LastEditTime: 2020-09-11 17:27:50
  * @LastEditors: eds
  * @Description:
- * @FilePath: \wz-city-culture-tour\src\components\sourcelayer\extraModel\DetailedModel.vue
+ * @FilePath: \wz-city-culture-tour\src\components\sourcelayer\extraModel\DayModel.vue
 -->
 <template>
-  <div class="nanTangModel"></div>
+  <div class="day-model"></div>
 </template>
 
 <script>
-const Cesium = window.Cesium;
 import { ServiceUrl } from "config/server/mapConfig";
-import { mapGetters, mapActions } from "vuex";
+import {
+  mapImageLayerInit,
+  mapRiverLayerInit,
+  changeSkyBox,
+} from "components/sourcelayer/cesium_map_init";
 const LAYERS = ServiceUrl.SCENE_WZMODEL;
 export default {
-  data() {
-    return {
-      //  cesium Object
-    };
-  },
+  name: "dayModel",
   async mounted() {
-    this.initBimScene();
+    await this.initScene();
     this.eventRegsiter();
   },
   beforeDestroy() {
-    window.earth.scene.bloomEffect.show = true;
-    this.closeNanTangModel();
+    this.resetDayModel();
   },
   methods: {
     //  事件绑定
-    eventRegsiter() {
-      const that = this;
-      this.$bus.$emit("cesium-3d-switch", { value: false });
-    },
+    eventRegsiter() {},
     //  初始化BIM场景
-    initBimScene(fn) {
+    async initScene() {
       window.earth.scene.bloomEffect.show = false;
-      if (!LAYERS.length) return;
+      this.initImageLayer();
+      changeSkyBox('day');
+      this.initS3MModel();
+      await this.initRiver();
+    },
+    //  开启精模
+    initS3MModel() {
       const _LAYER_ = window.earth.scene.layers.find(LAYERS[0].key);
       if (_LAYER_) {
         LAYERS.map((v) => {
@@ -61,17 +62,34 @@ export default {
         });
       }
     },
-    //  关闭BIM分析模块
-    closeNanTangModel() {
-      this.clearNanTangModel();
-      this.$bus.$emit("cesium-3d-event", { value: null });
+    //  开启影像底图
+    initImageLayer() {
+      if (window.imagelayer) {
+        window.imagelayer.show = true;
+      } else {
+        window.imagelayer = mapImageLayerInit(ServiceUrl.SWImage);
+      }
     },
-    //  清除BIM模块
-    clearNanTangModel() {
+    //  开启河流
+    async initRiver() {
+      //  河流显示
+      if (window.earth.scene.layers.find("RIVER")) {
+        window.earth.scene.layers.find("RIVER").visible = true;
+      } else {
+        await mapRiverLayerInit("RIVER", ServiceUrl.STATIC_RIVER);
+      }
+    },
+    //  关闭模块
+    resetDayModel() {
+      //  关闭精模
       LAYERS.map((v) => {
         const V_LAYER = window.earth.scene.layers.find(v.key);
         V_LAYER.visible = false;
       });
+      //  关闭影像图
+      window.imagelayer.show = false;
+      //  关闭河流
+      window.earth.scene.layers.find("RIVER").visible = false;
     },
   },
 };

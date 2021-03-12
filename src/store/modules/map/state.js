@@ -66,6 +66,8 @@ const state = {
     timeType: 1,
     areaCode: -1,
     status: -1
-  }
+  },
+  //  唯一 模块
+  subModel: '3d1'
 };
 export default state;

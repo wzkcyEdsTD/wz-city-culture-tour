@@ -54,9 +54,7 @@
         </div>
       </li>
       <li class="item">
-        <img
-          src="/static/images/index/city/数字经济核心产业制造业增加值增速.png"
-        />
+        <img src="/static/images/index/city/数字经济核心产业制造业增加值增速.png" />
         <div>
           <div class="title">
             工业增加值
@@ -216,9 +214,6 @@ export default {
       },
       immediate: true,
     },
-    nightMode(n) {
-      this.$bus.$emit("cesium-3d-switch", { value: n });
-    },
   },
   computed: {
     ...mapGetters("map", ["nightMode"]),
@@ -251,9 +246,7 @@ export default {
   },
   beforeDestroy() {
     //  关历史影像
-    Object.keys(window.passImages).map(
-      (key) => (window.passImages[key].show = false)
-    );
+    Object.keys(window.passImages).map((key) => (window.passImages[key].show = false));
     //  开底图
     window.datalayer && (window.datalayer.show = true);
     window.earth.scene.bloomEffect.show = true;
@@ -306,15 +299,11 @@ export default {
         if (_year_ == year) {
           window.passImages[year]
             ? (window.passImages[year].show = true)
-            : (window.passImages[
-                year
-              ] = window.earth.imageryLayers.addImageryProvider(
+            : (window.passImages[year] = window.earth.imageryLayers.addImageryProvider(
                 new Cesium.SuperMapImageryProvider({ url })
               ));
         } else {
-          window.passImages[year]
-            ? (window.passImages[year].show = false)
-            : undefined;
+          window.passImages[year] ? (window.passImages[year].show = false) : undefined;
         }
       });
     },
@@ -369,7 +358,7 @@ export default {
 }
 .vue-slider-ltr {
   height: 0.7vh !important;
-  padding: 0.6vh 0!important;
+  padding: 0.6vh 0 !important;
   cursor: pointer;
 }
 .vue-slider-process {

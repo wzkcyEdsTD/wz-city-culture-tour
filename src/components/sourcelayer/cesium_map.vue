@@ -9,43 +9,23 @@
 <template>
   <div class="cesiumContainer">
     <div id="cesiumContainer" />
-    <!-- 气泡框 -->
-    <div class="popup-groups">
-      <BayonetPopup ref="bayonetPopup" />
-      <TourPointPopup ref="tourPointPopup" />
-      <MedicalPopup ref="medicalPopup" />
-      <StationPopup ref="stationPopup" />
-      <DetailPopup ref="detailPopup" />
-    </div>
     <!-- 城市各类指标 -->
     <CityIndex ref="totalTarget" />
-    <!-- 搜索框 -->
-    <div v-show="!isOverview"><SearchBox ref="searchBox" /></div>
-    <!-- 模块切换 -->
+    <!-- 菜单切换 -->
     <LayerHub ref="layerHub" v-if="initDataLoaded" />
     <!-- 时间转盘 -->
     <Roulette ref="roulette" />
     <!-- 功能组件 -->
     <div v-if="mapLoaded && validated">
-      <DetailedModel v-if="showSubFrame == '3d1'" />
-      <!-- <CesiumMapVideo v-if="showSubFrame == '3d1'" /> -->
-      <div id="extra-model-components">
-        <Overview ref="overview" v-if="showSubHubFrame == '3d1'" />
-        <TrafficSubwayModel v-if="showSubHubFrame == '3d4'" />
-        <CarLineCount v-if="showSubHubFrame == '3d5'" />
-        <PeopleAreaHeat v-if="showSubHubFrame == '3d6'" />
-      </div>
-      <VideoCircle ref="videoCircle" />
-      <InfoFrame ref="infoframe" v-show="isInfoFrame" />
-      <AroundSourceAnalyse ref="aroundSourceAnalyse" />
-      <div v-show="!isOverview">
-        <RtmpVideo />
-        <Population />
-      </div>
-      <div class="popup-groups">
-        <EventPopup ref="eventPopup" />
-      </div>
+      <!-- 气泡框 -->
+      <PopupHub />
+      <!-- 场景 -->
+      <ExtraModel />
+      <!-- 白天、夜晚精模 -->
+      <NightModel v-if="sceneModel" />
+      <DayModel v-if="!sceneModel" />
     </div>
+    <!-- 验证失败弹窗 -->
     <AuthFailPopup ref="authFailPopup" v-if="authFailshallPop" />
   </div>
 </template>
@@ -53,78 +33,39 @@
 <script>
 import { ServiceUrl } from "config/server/mapConfig";
 import LayerHub from "components/sourcelayer/layerHub/layerHub";
-import SearchBox from "components/sourcelayer/layerHub/SearchBox/SearchBox";
 import CityIndex from "components/sourcelayer/CityIndex/index";
 import Roulette from "components/sourcelayer/roulette/roulette";
-import DetailedModel from "components/sourcelayer/extraModel/Models/DetailedModel";
-import AroundSourceAnalyse from "components/sourcelayer/extraModel/AroundSourceAnalyse/AroundSourceAnalyse";
-import TrafficSubwayModel from "components/sourcelayer/extraModel/Models/TrafficSubwayModel";
-import CarLineCount from "components/sourcelayer/extraModel/GeTuiAnalyse/CarLineCount";
-import PeopleAreaHeat from "components/sourcelayer/extraModel/GeTuiAnalyse/PeopleAreaHeat";
-import InfoFrame from "components/sourcelayer/commonFrame/InfoFrame/InfoFrame";
-import MedicalPopup from "components/sourcelayer/commonFrame/Popups/medicalPopup";
-import BayonetPopup from "components/sourcelayer/commonFrame/Popups/bayonetPopup";
-import StationPopup from "components/sourcelayer/commonFrame/Popups/stationPopup";
-import DetailPopup from "components/sourcelayer/commonFrame/Popups/DetailPopup";
-import EventPopup from "components/sourcelayer/commonFrame/Popups/EventPopup";
-import TourPointPopup from "components/sourcelayer/commonFrame/Popups/tourPointPopup";
-import RtmpVideo from "components/sourcelayer/extraModel/RtmpVideo/RtmpVideo";
-import Population from "components/sourcelayer/extraModel/Population/Population";
-import VideoCircle from "components/sourcelayer/commonFrame/postMessage/videoCircle";
+import PopupHub from "components/sourcelayer/commonFrame/Popups/PopupHub";
+import ExtraModel from "components/sourcelayer/extraModel/ExtraModel";
+import DayModel from "components/sourcelayer/extraModel/Models/DayModel";
+import NightModel from "components/sourcelayer/extraModel/Models/NightModel";
 import AuthFailPopup from "components/sourcelayer/commonFrame/AuthFailPopup/AuthFailPopup";
-import Overview from "components/sourcelayer/extraModel/Overview/Overview.vue";
 import { CenterPoint } from "mock/overview.js";
-import {
-  mapConfigInit,
-  mapImageLayerInit,
-  mapMvtLayerInit,
-  mapRiverLayerInit,
-  mapBaimoLayerInit,
-  mapRoadLampLayerInit,
-  mapRoadLampLayerTurn,
-} from "components/sourcelayer/cesium_map_init";
+import { mapConfigInit, mapMvtLayerInit } from "components/sourcelayer/cesium_map_init";
 import { doValidation } from "api/validation/validation";
 import { mapGetters } from "vuex";
 
 export default {
   data() {
     return {
-      showSubFrame: null,
-      showSubHubFrame: "3d1",
+      sceneModel: true,
       mapLoaded: false,
       validated: false,
-      isInfoFrame: false,
       authFailshallPop: false,
     };
   },
   computed: {
     ...mapGetters("map", ["initDataLoaded", "forceTreeLabel", "isSourceLayer"]),
-    isOverview() {
-      return this.showSubHubFrame == "3d1";
-    },
   },
   components: {
     LayerHub,
-    SearchBox,
     CityIndex,
     Roulette,
-    DetailedModel,
-    TrafficSubwayModel,
-    CarLineCount,
-    PeopleAreaHeat,
-    InfoFrame,
-    MedicalPopup,
-    BayonetPopup,
-    StationPopup,
-    TourPointPopup,
-    DetailPopup,
-    EventPopup,
-    RtmpVideo,
-    Population,
-    VideoCircle,
+    PopupHub,
+    ExtraModel,
+    DayModel,
+    NightModel,
     AuthFailPopup,
-    Overview,
-    AroundSourceAnalyse,
   },
   created() {
     //  点位信息 hash
@@ -141,7 +82,6 @@ export default {
   async mounted() {
     await this.init3DMap(() => {
       this.mapLoaded = true;
-      this.initPostRender();
       this.initHandler();
       this.validate();
     });
@@ -155,43 +95,7 @@ export default {
       // res ? (this.validated = true) : (this.authFailshallPop = true);
       this.validated = true;
     },
-    initPostRender() {
-      window.earth.scene.postRender.addEventListener(() => {
-        if (!window.earth || !this.mapLoaded || !this.validated) return;
-        //  *****[medicalList] 医疗点位*****
-        if (this.$refs.medicalPopup) {
-          this.$refs.medicalPopup.fixPopup();
-        }
-        //  *****[bayonetList] 卡口点位*****
-        if (this.$refs.bayonetPopup) {
-          this.$refs.bayonetPopup.fixPopup();
-        }
-        //  *****[stationList] 站点点位*****
-        if (this.$refs.stationPopup) {
-          this.$refs.stationPopup.fixPopup();
-        }
-        //  *****[stationList] 景区点位*****
-        if (this.$refs.tourPointPopup) {
-          this.$refs.tourPointPopup.fixPopup();
-        }
-        //  *****[indexPoints]  城市总览指标*****
-        if (this.isOverview && this.$refs.overview.$refs.overviewNow) {
-          this.$refs.overview.$refs.overviewNow.doIndexPoints();
-        }
-        //  *****[videoCircle]  事件传递点位*****
-        if (this.$refs.videoCircle && this.$refs.videoCircle.shallPop) {
-          this.$refs.videoCircle.doPopup();
-        }
-        //  *****[detailPopup]  详情查看点位*****
-        if (this.$refs.detailPopup) {
-          this.$refs.detailPopup.renderForceEntity();
-        }
-        //  *****[eventPopup]  事件详情查看点位*****
-        if (this.$refs.eventPopup) {
-          this.$refs.eventPopup.renderForceEntity();
-        }
-      });
-    },
+
     initHandler() {
       const handler = new Cesium.ScreenSpaceEventHandler(window.earth.scene.canvas);
       // 监听左键点击事件
@@ -215,7 +119,7 @@ export default {
         } else if (typeof pick.id == "string") {
           const [_TYPE_, _SMID_, _NODEID_, _LOCATION_] = pick.id.split("@");
           if (_TYPE_.includes("eventLayer_")) {
-            this.$refs.eventPopup.getForceEntity({
+            this.$bus.$emit("cesium-3d-pick-to-event", {
               ...window.featureMap[_NODEID_][_SMID_],
               position: pick.primitive.position,
             });
@@ -223,7 +127,7 @@ export default {
             //  *****[detailPopup]  资源详情点*****
             if (~["label", "billboard"].indexOf(_TYPE_)) {
               const isLocated = ~["location"].indexOf(_LOCATION_);
-              this.$refs.detailPopup.getForceEntity({
+              this.$bus.$emit("cesium-3d-pick-to-detail", {
                 ...window.featureMap[_NODEID_][_SMID_],
                 position: pick.primitive.position,
                 isLocated,
@@ -238,31 +142,10 @@ export default {
      */
     eventRegsiter() {
       this.$bus.$off("cesium-3d-event");
-      this.$bus.$on("cesium-3d-event", ({ value }) => {
-        this.showSubFrame = value;
-      });
-      this.$bus.$on("cesium-3d-switch", ({ value }) => {
-        this.$bus.$emit("cesium-3d-event", { value: !value ? "3d1" : null });
-        ServiceUrl.WZBaimo_OBJ.map(({ KEY }) => {
-          const _LAYER_ = window.earth.scene.layers.find(KEY);
-          _LAYER_.visible = !value ? false : true;
-        });
-        //  底图切换
-        window.datalayer.show = !value ? false : true;
-        window.imagelayer
-          ? (window.imagelayer.show = !value ? true : false)
-          : !value
-          ? (window.imagelayer = mapImageLayerInit(ServiceUrl.SWImage))
-          : undefined;
-        //  光源显示
-        mapRoadLampLayerTurn(!value ? false : true);
-        //  河流显示
-        window.earth.scene.layers.find("RIVER").visible = !value ? true : false;
+      this.$bus.$on("cesium-3d-event", (boolean) => {
+        this.sceneModel = boolean;
         //  历史页面做回调
         this.$bus.$emit("cesium-3d-switch-pass");
-      });
-      this.$bus.$on("cesium-3d-hub-event", ({ value }) => {
-        this.showSubHubFrame = value;
       });
     },
     /**
@@ -284,20 +167,10 @@ export default {
       mapConfigInit();
       //  相机位置
       this.cameraMove();
-      //  大数据地图
-      window.datalayer = mapImageLayerInit(ServiceUrl.DataImage);
       //  地图注记
       mapMvtLayerInit("mapMvt", ServiceUrl.YJMVT);
       //  重要地物注记
       // const keyMvt = mapMvtLayerInit("keyMvt", ServiceUrl.KEYMVT);
-      //  水面
-      // await mapRiverLayerInit("RIVER", ServiceUrl.STATIC_RIVER);
-      // //  白模叠加
-      await mapBaimoLayerInit(ServiceUrl.WZBaimo_OBJ);
-      //  路灯、光源叠加
-      // mapRoadLampLayerInit();
-      //  阴影
-      // mapShadowInit();
       //  回调钩子
       fn && fn();
     },

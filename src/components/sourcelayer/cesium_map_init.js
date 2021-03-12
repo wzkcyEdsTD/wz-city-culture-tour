@@ -21,7 +21,28 @@ export const mapConfigInit = () => {
     );
     // window.earth.scene.globe.enableLighting = true;
     window.earth.scene.shadowMap.darkness = 0.35;
+    window.defaultSkyBox = window.earth.scene.skyBox;
     // window.earth.scene.lightSource.ambientLightColor = new Cesium.Color(0.65, 0.65, 0.65, 1);
+}
+
+/**
+ * 改天空盒子
+ * @param {*} boxType 
+ */
+export const changeSkyBox = (boxType) => {
+    window.earth.scene.skyBox =
+        boxType == "day"
+            ? new Cesium.SkyBox({
+                sources: {
+                    positiveX: "/static/images/skyBox/day/posx.png",
+                    negativeX: "/static/images/skyBox/day/negx.png",
+                    positiveY: "/static/images/skyBox/day/posy1.png",
+                    negativeY: "/static/images/skyBox/day/negy1.png",
+                    positiveZ: "/static/images/skyBox/day/negz1.png",
+                    negativeZ: "/static/images/skyBox/day/posz1.png",
+                },
+            })
+            : window.defaultSkyBox;
 }
 
 /**
@@ -55,8 +76,6 @@ export const mapRiverLayerInit = (name, url) => {
             const LAYER = window.earth.scene.layers.find(name)
             LAYER.style3D.bottomAltitude = 1;
             LAYER.refresh();
-            LAYER.visibleDistanceMax = 2000;
-            LAYER.visible = false;
             resolve(true)
         });
     })
@@ -113,11 +132,15 @@ export const mapRoadLampLayerInit = (...params) => {
  * @param {*} boolean 
  */
 export const mapRoadLampLayerTurn = (boolean) => {
-    window.earth.scene.lightSource.pointLight._array.map(v => v.intensity = boolean ? 4 : 0)
-    window.earth.scene.lightSource.spotLight._array.map(v => v.intensity = boolean ? 2 : 0)
-    window.earth.scene.lightSource.directionalLight._array.map(v => v.intensity = boolean ? 1 : 0)
-    window.windowEntityMap.show = boolean ? true : false;
-    window.earth.scene.sun.show = boolean ? false : true;
+    if (!window.earth.scene.lightSource.pointLight._array.length && boolean) {
+        mapRoadLampLayerInit();
+    } else {
+        window.earth.scene.lightSource.pointLight._array.map(v => v.intensity = boolean ? 4 : 0)
+        window.earth.scene.lightSource.spotLight._array.map(v => v.intensity = boolean ? 2 : 0)
+        window.earth.scene.lightSource.directionalLight._array.map(v => v.intensity = boolean ? 1 : 0)
+        window.windowEntityMap.show = boolean ? true : false;
+        // window.earth.scene.sun.show = boolean ? false : true;
+    }
 }
 
 /**

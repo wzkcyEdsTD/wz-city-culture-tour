@@ -128,6 +128,9 @@ const mutations = {
   [types.SET_SEARCH_BOX_MODEL](state, data) {
     state.searchBoxModel = data;
   },
+  [types.SET_SUB_MODEL](state, data) {
+    state.subModel = data;
+  }
 };
 
 export default mutations;
