@@ -20,10 +20,10 @@ export const switchHeatMap = (blocks, forceKey, heatArr) => {
  */
 export const doHeatMap = (heatArr) => {
     let bounds = {
-        west: 120.58254,
-        east: 120.738342,
-        south: 27.984375,
-        north: 28.031321
+        west: 119.407,
+        east: 121.408,
+        south: 27.059,
+        north: 28.692
     };
 
     // init heatmap
@@ -32,17 +32,17 @@ export const doHeatMap = (heatArr) => {
         bounds,
         {
             backgroundColor: "rgba(0,0,0,0)",
-            radius: 40,
+            radius: 3,
             maxOpacity: 0.4,
             minOpacity: 0,
-            blur: 0.5
+            blur: 0.2
         }
     );
 
     // random example data
     let data = heatArr.map(({ lng, lat, count }) => {
         const [x, y] = gcj02towgs84(lng, lat)
-        return { x, y, value: count / 80 }
+        return { x, y, value: count / 100 }
     });
     let valueMin = 0;
     let valueMax = 100;

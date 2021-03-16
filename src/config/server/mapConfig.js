@@ -14,7 +14,7 @@ export const ServiceUrl = {
     {
       KEY: 'WZBaimo_POINT_AROUND',
       URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-BaiMo/rest/realspace/datas/BaiMo/config",
-      FLOW: true,
+      // FLOW: true,
     },
     // {
     //   KEY: "WZBaimo_WITHOUT_FIX",
