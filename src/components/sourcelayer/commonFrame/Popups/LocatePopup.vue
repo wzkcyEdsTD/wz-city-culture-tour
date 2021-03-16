@@ -7,7 +7,7 @@
  * @FilePath: \wz-city-culture-tour\src\components\sourcelayer\commonFrame\DetailPopup\DetailPopup.vue
 -->
 <template>
-  <div id="detail-force-popup" v-show="forcePosition.x && forcePosition.y">
+  <div id="locate-force-popup" v-show="forcePosition.x && forcePosition.y">
     <div
       id="forcePopUpContent"
       class="leaflet-popup"
@@ -33,8 +33,8 @@
               </li>
             </ul>
           </div>
-          <div class="around-analyse" @click="doAroundSourceAnalyse">
-            <img src="/static/images/common/navigation-around.png" />周边分析
+          <div class="detail-location" @click="doLocation">
+            <img src="/static/images/common/navigation-icon.png" />路径分析
           </div>
         </div>
         <div class="extra-tab to-rtmp-video" @click="doVideoRtmp">直达现场</div>
@@ -76,12 +76,12 @@ export default {
   methods: {
     eventRegsiter() {
       this.$bus.$on("cesium-3d-around-people", ({ id, result, type }) => {
-        if (type == "detail") this.buffer = result;
+        if (type == "source") this.buffer = result;
       });
-      this.$bus.$on("cesium-3d-detail-pop-clear", () => {
+      this.$bus.$on("cesium-3d-locate-pop-clear", () => {
         this.closePopup();
       });
-      this.$bus.$on("cesium-3d-pick-to-detail", (forceEntity) => {
+      this.$bus.$on("cesium-3d-pick-to-locate", (forceEntity) => {
         this.getForceEntity(forceEntity);
       });
     },
@@ -151,7 +151,7 @@ export default {
           lng: geometry.x,
           lat: geometry.y,
         },
-        type: "detail",
+        type: "source",
       });
     },
 
@@ -167,12 +167,22 @@ export default {
         geometry: { lng: x, lat: y },
       });
     },
-    //  周边分析
-    doAroundSourceAnalyse() {
-      this.$bus.$emit("cesium-3d-event-pop-clear");
-      const { geometry, fix_data } = this.forceEntity;
-      const { x, y } = geometry;
-      this.$bus.$emit("cesium-3d-around-analyse-pick", { lng: x, lat: y, fix_data });
+    /**
+     * 路径分析
+     */
+    doLocation() {
+      const sourceEntity = this.$parent.$refs.detailPopup.forceEntity;
+      const eventEntity = this.$parent.$refs.eventPopup.forceEntity;
+      const end = sourceEntity.name ? sourceEntity : eventEntity.name ? eventEntity : {};
+      const start = this.forceEntity;
+      if (end.name) {
+        this.$bus.$emit("cesium-3d-navigation", { start, end });
+      } else {
+        this.$message({
+          type: "error",
+          message: "无事件目的地信息",
+        });
+      }
     },
     closePopup() {
       lowerCaseIcon(this.forceEntity);
@@ -181,7 +191,6 @@ export default {
       this.buffer = null;
       this.$bus.$emit("cesium-3d-population-circle", { doDraw: false });
       this.$bus.$emit("cesium-3d-rtmpFetch-cb");
-      this.$bus.$emit("cesium-3d-around-analyse-clear");
       this.$bus.$emit("cesium-3d-navigation-clear");
     },
   },
@@ -190,7 +199,7 @@ export default {
 
 <style lang="less" scoped>
 @import url("./aroundPeople.less");
-#detail-force-popup {
+#locate-force-popup {
   .leaflet-popup {
     top: 0;
     left: 0;
@@ -302,7 +311,7 @@ export default {
     }
   }
 
-  .around-analyse {
+  .detail-location {
     line-height: 4vh;
     text-decoration: underline;
     cursor: pointer;

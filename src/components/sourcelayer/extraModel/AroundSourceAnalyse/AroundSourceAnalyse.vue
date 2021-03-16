@@ -223,10 +223,9 @@ export default {
       const KEY = `eventAround_${key}`;
       const point = window.featureMap[KEY][item.originalData.fieldValues[0]];
       const { x, y } = point.geometry;
-      this.$bus.$emit("cesium-3d-pick-to-detail", {
+      this.$bus.$emit("cesium-3d-pick-to-locate", {
         ...point,
         position: new Cesium.Cartesian3.fromDegrees(x, y, 4),
-        isLocated: true,
       });
       window.earth.camera.flyTo({
         destination: Cesium.Cartesian3.fromDegrees(x, y - 0.005, 450),

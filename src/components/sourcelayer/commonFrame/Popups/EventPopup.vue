@@ -7,7 +7,7 @@
  * @FilePath: \wz-city-culture-tour\src\components\sourcelayer\commonFrame\DetailPopup\DetailPopup.vue
 -->
 <template>
-  <div id="forcePopUp" v-show="forcePosition.x && forcePosition.y">
+  <div id="event-force-popup" v-show="forcePosition.x && forcePosition.y">
     <div
       id="forcePopUpContent"
       class="leaflet-popup"
@@ -178,6 +178,7 @@ export default {
      * 周边分析跳转
      */
     doAroundSourceAnalyse() {
+      this.$bus.$emit("cesium-3d-detail-pop-clear");
       const { geometry, fix_data } = this.forceEntity;
       const { x, y } = geometry;
       this.$bus.$emit("cesium-3d-around-analyse-pick", { lng: x, lat: y, fix_data });
@@ -198,7 +199,7 @@ export default {
 
 <style lang="less" scoped>
 @import url("./aroundPeople.less");
-#forcePopUp {
+#event-force-popup {
   .leaflet-popup {
     top: 0;
     left: 0;

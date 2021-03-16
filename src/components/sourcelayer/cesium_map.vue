@@ -130,7 +130,7 @@ export default {
             //  *****[detailPopup]  资源详情点*****
             if (~["label", "billboard"].indexOf(_TYPE_)) {
               const isLocated = ~["location"].indexOf(_LOCATION_);
-              this.$bus.$emit("cesium-3d-pick-to-detail", {
+              this.$bus.$emit(`cesium-3d-pick-to-${isLocated ? "locate" : "detail"}`, {
                 ...window.featureMap[_NODEID_][_SMID_],
                 position: pick.primitive.position,
                 isLocated,

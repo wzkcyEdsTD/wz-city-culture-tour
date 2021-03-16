@@ -5,6 +5,7 @@
     <MedicalPopup ref="medicalPopup" />
     <StationPopup ref="stationPopup" />
     <DetailPopup ref="detailPopup" />
+    <LocatePopup ref="locatePopup" />
     <EventPopup ref="eventPopup" />
     <!-- 视频弹窗 -->
     <VideoCircle ref="videoCircle" />
@@ -18,6 +19,7 @@ import MedicalPopup from "./medicalPopup";
 import BayonetPopup from "./bayonetPopup";
 import StationPopup from "./stationPopup";
 import DetailPopup from "./DetailPopup";
+import LocatePopup from "./LocatePopup";
 import EventPopup from "./EventPopup";
 import TourPointPopup from "./tourPointPopup";
 import VideoCircle from "components/sourcelayer/commonFrame/postMessage/videoCircle";
@@ -34,6 +36,7 @@ export default {
     StationPopup,
     TourPointPopup,
     DetailPopup,
+    LocatePopup,
     EventPopup,
     VideoCircle,
     InfoFrame,
@@ -72,6 +75,10 @@ export default {
         //  *****[eventPopup]  事件详情查看点位*****
         if (this.$refs.eventPopup) {
           this.$refs.eventPopup.renderForceEntity();
+        }
+        //  *****[stationList] 导航栏详情查看点位*****
+        if (this.$refs.locatePopup) {
+          this.$refs.locatePopup.renderForceEntity();
         }
       });
     },
