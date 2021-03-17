@@ -98,7 +98,7 @@ const SOURCE_TOPIC = [
   {
     label: "人口密集分析",
     componentEvent: "cesium-3d-hub-event",
-    componentKey: "3d6",
+    componentKey: "3d20",
     type: 'model'
   },
 ];
@@ -121,9 +121,15 @@ const TRAFFIC_TOPIC = [
     hiddenIcon: true
   },
   {
-    label: "道路车辆分析",
+    label: "交通路况分析",
     componentEvent: "cesium-3d-hub-event",
-    componentKey: "3d5",
+    componentKey: "3d10",
+    type: 'model'
+  },
+  {
+    label: "交通车辆检测",
+    componentEvent: "cesium-3d-hub-event",
+    componentKey: "3d11",
     type: 'model'
   },
   {

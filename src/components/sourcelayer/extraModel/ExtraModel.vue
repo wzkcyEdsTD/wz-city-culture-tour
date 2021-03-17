@@ -3,8 +3,9 @@
     <div id="extra-model-components">
       <Overview ref="overview" v-if="subModel == '3d1'" />
       <TrafficSubwayModel v-if="subModel == '3d4'" />
-      <CarLineCount v-if="subModel == '3d5'" />
-      <PeopleAreaHeat v-if="subModel == '3d6'" />
+      <CarLineSpeed v-if="subModel == '3d10'" />
+      <CarLineCount v-if="subModel == '3d11'" />
+      <PeopleAreaHeat v-if="subModel == '3d20'" />
     </div>
     <div id="extra-object-components">
       <AroundSourceAnalyse ref="aroundSourceAnalyse" />
@@ -21,6 +22,7 @@ import { mapGetters, mapActions } from "vuex";
 
 import Overview from "components/sourcelayer/extraModel/Overview/Overview.vue";
 import TrafficSubwayModel from "components/sourcelayer/extraModel/Models/TrafficSubwayModel";
+import CarLineSpeed from "components/sourcelayer/extraModel/GeTuiAnalyse/CarLineSpeed";
 import CarLineCount from "components/sourcelayer/extraModel/GeTuiAnalyse/CarLineCount";
 import PeopleAreaHeat from "components/sourcelayer/extraModel/GeTuiAnalyse/PeopleAreaHeat";
 import AroundSourceAnalyse from "components/sourcelayer/extraModel/AroundSourceAnalyse/AroundSourceAnalyse";
@@ -33,6 +35,7 @@ export default {
   components: {
     Overview,
     TrafficSubwayModel,
+    CarLineSpeed,
     CarLineCount,
     PeopleAreaHeat,
     AroundSourceAnalyse,

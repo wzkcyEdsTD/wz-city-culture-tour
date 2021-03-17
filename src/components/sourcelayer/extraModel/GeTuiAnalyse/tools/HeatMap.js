@@ -35,14 +35,14 @@ export const doHeatMap = (heatArr) => {
             radius: 3,
             maxOpacity: 0.4,
             minOpacity: 0,
-            blur: 0.2
+            blur: 1
         }
     );
 
     // random example data
     let data = heatArr.map(({ lng, lat, count }) => {
         const [x, y] = gcj02towgs84(lng, lat)
-        return { x, y, value: count / 100 }
+        return { x, y, value: parseInt(count / 20) }
     });
     let valueMin = 0;
     let valueMax = 100;

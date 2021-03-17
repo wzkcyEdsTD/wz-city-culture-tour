@@ -85,18 +85,18 @@ export default {
       await this.validate();
       if (!this.authFailshallPop) {
         this.initScene();
-        this.initHandler();
+        // this.initHandler();
       }
     });
     this.eventRegsiter();
   },
   methods: {
     async validate() {
-      let authorCode = this.$route.query.authorCode;
-      if (!authorCode) return (this.authFailshallPop = true);
-      const res = await doValidation(authorCode);
-      res ? (this.validated = true) : (this.authFailshallPop = true);
-      // this.validated = true;
+      // let authorCode = this.$route.query.authorCode;
+      // if (!authorCode) return (this.authFailshallPop = true);
+      // const res = await doValidation(authorCode);
+      // res ? (this.validated = true) : (this.authFailshallPop = true);
+      this.validated = true;
     },
 
     initHandler() {

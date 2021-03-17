@@ -3,7 +3,7 @@
 </template>
 
 <script>
-const _TAG_ = "getui_car_line_count_";
+const _TAG_ = "getui_car_line_speed_";
 import { getRoadsData } from "api/temporaryAPI";
 import { gcj02towgs84 } from "common/js/coordinateTransfer";
 export default {
@@ -41,14 +41,14 @@ export default {
           id: tag,
           polyline: {
             positions: Cesium.Cartesian3.fromDegreesArrayHeights(singeLine),
-            width: 10,
+            width: lines[index].type > 40 ? 3 : lines[index].num > 20 ? 12 : 20,
             material: new Cesium.PolylineTrailLinkMaterialProperty(
-              lines[index].num > 40
+              lines[index].speed < 15
                 ? Cesium.Color.INDIANRED
-                : lines[index].num > 20
+                : lines[index].speed < 30
                 ? Cesium.Color.ORANGE
                 : Cesium.Color.LIGHTGREEN,
-              10000
+              (1 / lines[index].speed) * 250000
             ),
           },
         });

@@ -1,25 +1,12 @@
 <template>
   <div class="all-legend">
+    <HeatVisualBar v-if="~forceTrueTopicLabels.indexOf('人口密集分析')" />
+    <GridVisualBar v-if="~forceTrueTopicLabels.indexOf('人口网格分析')" />
     <ul>
       <li v-for="(val, i) in forceTrueTopicLabels" :key="`s_${i}`" class="source-legend">
         <div v-if="!~filterKey.indexOf(val)">
-          <div>
-            <i>{{ val }}</i
-            ><img :src="`/static/images/map-ico/${val}.png`" />
-          </div>
-        </div>
-        <div v-if="val == '道路车辆分析'">
-          <div>
-            <i>阻塞道路 ( > 60辆 )</i
-            ><img :src="`/static/images/map-ico/道路车辆分析_high.png`" />
-          </div>
-          <div>
-            <i>拥挤道路 ( > 40辆 )</i
-            ><img :src="`/static/images/map-ico/道路车辆分析_middle.png`" />
-          </div>
-          <div>
-            <i>通常道路</i><img :src="`/static/images/map-ico/道路车辆分析_low.png`" />
-          </div>
+          <i>{{ val }}</i
+          ><img :src="`/static/images/map-ico/${val}.png`" />
         </div>
       </li>
       <li v-for="(val, i) in forceEventTopicLabels" :key="`e_${i}`" class="event-legend">
@@ -39,6 +26,8 @@
         </div>
       </li>
     </ul>
+    <CarLineSpeedLegend v-if="~forceTrueTopicLabels.indexOf('交通路况分析')" />
+    <CarLineCountLegend v-if="~forceTrueTopicLabels.indexOf('交通车辆检测')" />
     <KgLegend v-if="~forceTrueTopicLabels.indexOf('控规信息')" />
   </div>
 </template>
@@ -46,14 +35,32 @@
 <script>
 import { mapGetters } from "vuex";
 import KgLegend from "./KgLegend";
+import HeatVisualBar from "./HeatVisualBar";
+import GridVisualBar from "./GridVisualBar";
+import CarLineSpeedLegend from "./CarLineSpeedLegend";
+import CarLineCountLegend from "./CarLineCountLegend";
+
 export default {
   name: "SourceLegend",
   data() {
     return {
-      filterKey: ["城市总览", "控规信息", "道路车辆分析", "人口密集分析"],
+      filterKey: [
+        "城市总览",
+        "控规信息",
+        "交通路况分析",
+        "交通车辆检测",
+        "人口密集分析",
+        "人口网格分析",
+      ],
     };
   },
-  components: { KgLegend },
+  components: {
+    KgLegend,
+    HeatVisualBar,
+    GridVisualBar,
+    CarLineSpeedLegend,
+    CarLineCountLegend,
+  },
   computed: {
     ...mapGetters("map", ["forceTrueTopicLabels", "forceEventTopicLabels"]),
   },
@@ -78,33 +85,9 @@ export default {
     max-height: 24vh;
     width: 100%;
     box-sizing: border-box;
-    padding: 10px 0;
+    padding: 0.6vh 0;
     overflow-y: auto;
-    > .source-legend {
-      > div {
-        > div {
-          height: 3.2vh;
-          padding: 0.2vh 0;
-          box-sizing: border-box;
-          width: 100%;
-          text-align: right;
-          color: white;
-          flex: 1;
-          margin-right: 1vh;
-          font-size: 1.6vh;
-          > * {
-            display: inline-block;
-            vertical-align: middle;
-            height: 2.8vh;
-          }
-          > i {
-            line-height: 2.8vh;
-            font-style: normal;
-          }
-        }
-      }
-    }
-    > .event-legend {
+    > li {
       > div {
         height: 3.2vh;
         padding: 0.2vh 0;
