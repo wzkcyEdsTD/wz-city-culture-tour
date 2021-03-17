@@ -9,15 +9,15 @@
         <img src="/static/images/index/traffic/高速收费站入口总量.png" />
         <div>
           <div class="title">
-            高速收费站入口总量
-            <span class="small">(万)</span>
+            道路车辆总数
+            <span class="small">(辆)</span>
           </div>
           <div class="desc">
             温州全市 /
-            <span>当月</span>
+            <span>当前</span>
           </div>
           <div class="number">
-            <DynamicNum :value="WzTrafficData.高速收费站入口总量" />
+            <DynamicNum :value="WzTrafficData.vehicle_count" />
           </div>
         </div>
       </li>
@@ -25,15 +25,15 @@
         <img src="/static/images/index/traffic/高速收费站出口总量.png" />
         <div>
           <div class="title">
-            高速收费站出口总量
-            <span class="small">(万)</span>
+            主城区车辆数
+            <span class="small">(辆)</span>
           </div>
           <div class="desc">
             温州全市 /
-            <span>当月</span>
+            <span>当前</span>
           </div>
           <div class="number">
-            <DynamicNum :value="WzTrafficData.高速收费站出口总量" />
+            <DynamicNum :value="WzTrafficData.urban_area_car_num" />
           </div>
         </div>
       </li>
@@ -41,15 +41,15 @@
         <img src="/static/images/index/traffic/高速公路收费站流量总量.png" />
         <div>
           <div class="title">
-            高速公路收费站流量总量
-            <span class="small">(万)</span>
+            高速路段车流速
+            <span class="small">(公里/小时)</span>
           </div>
           <div class="desc">
             温州全市 /
-            <span>当月</span>
+            <span>当前</span>
           </div>
           <div class="number">
-            <DynamicNum :value="WzTrafficData.高速公路收费站流量总量" />
+            <DynamicNum :value="WzTrafficData.highway_speed" />
           </div>
         </div>
       </li>
@@ -57,15 +57,15 @@
         <img src="/static/images/index/traffic/道路客运发客总量.png" />
         <div>
           <div class="title">
-            道路客运发客总量
-            <span class="small">(万)</span>
+            主干路段车流速
+            <span class="small">(公里/小时)</span>
           </div>
           <div class="desc">
             温州全市 /
             <span>当月</span>
           </div>
           <div class="number">
-            <DynamicNum :value="WzTrafficData.道路客运发客总量" />
+            <DynamicNum :value="WzTrafficData.mainway_speed" />
           </div>
         </div>
       </li>

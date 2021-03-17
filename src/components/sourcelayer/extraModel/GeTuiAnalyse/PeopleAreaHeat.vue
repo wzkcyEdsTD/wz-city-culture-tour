@@ -4,7 +4,7 @@
 
 <script>
 const _HEATMAP_INDEX_ = "getui_heatmap_index";
-import { getHeatMapByCode } from "api/temporaryAPI";
+import { getHeatMapByCode } from "api/getuiAPI";
 import { doHeatMap } from "./tools/HeatMap";
 export default {
   name: "PeopleAreaHeat",

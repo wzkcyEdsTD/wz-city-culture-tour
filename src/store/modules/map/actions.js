@@ -11,6 +11,7 @@ import {
   getMedicalList, getBayonetList, getStationList, getTourPointList, fetchWzOverviewData, fetchWzTrafficData,
   fetchMedicalData, fetchTourData, fetchCultureData, fetchSourceData, fetchBasicData, fetchWzPeopleData, fetchEmergencyData
 } from "api/layerServerAPI";
+import { getDashboardStat, getWorkData } from "api/getuiAPI"
 import { getEventCount } from "api/cityBrainAPI"
 
 /**
@@ -50,8 +51,9 @@ export const SetWzTourData = async ({ commit, state }) => {
 //  获取全市资源数据
 export const SetWzSourceData = async ({ commit, state }) => {
   if (!Object.keys(state.WzSourceData).length) {
+    const { data } = await getWorkData();
     const { result } = await fetchSourceData();
-    commit(types.SET_WZ_SOURCE_DATA, result.全市);
+    commit(types.SET_WZ_SOURCE_DATA, { ...result.全市, ...data });
   }
 }
 
@@ -90,17 +92,18 @@ export const SetWzCultureData = async ({ commit, state }) => {
 //  获取全市交通数据
 export const SetTrafficData = async ({ commit, state }) => {
   if (!Object.keys(state.WzTrafficData).length) {
-    const { result } = await fetchWzTrafficData();
+    const { data } = await getDashboardStat();
+    // const { result } = await fetchWzTrafficData();
     const _result_ = {};
-    for (let key in result) {
-      const obj = result[key];
-      let num = 0;
-      for (let i in obj) {
-        num += parseInt(obj[i]);
-      }
-      _result_[key] = (num / 10000).toFixed(2)
-    }
-    commit(types.SET_WZ_TRAFFIC_DATA, _result_);
+    // for (let key in result) {
+    //   const obj = result[key];
+    //   let num = 0;
+    //   for (let i in obj) {
+    //     num += parseInt(obj[i]);
+    //   }
+    //   _result_[key] = (num / 10000).toFixed(2)
+    // }
+    commit(types.SET_WZ_TRAFFIC_DATA, { ..._result_, ...data });
   }
 }
 

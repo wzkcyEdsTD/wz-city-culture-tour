@@ -4,7 +4,7 @@
 
 <script>
 const _TAG_ = "getui_car_line_speed_";
-import { getRoadsData } from "api/temporaryAPI";
+import { getRoadsData } from "api/getuiAPI";
 import { gcj02towgs84 } from "common/js/coordinateTransfer";
 export default {
   name: "CarLineCount",

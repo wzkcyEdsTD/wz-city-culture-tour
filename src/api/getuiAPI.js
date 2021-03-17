@@ -79,3 +79,25 @@ export const getHeatMapByCode = () => {
         area_code: _AREA_CODE_,
     });
 }
+
+/**
+ * 获取大屏统计
+ * /vehicle/dashboard/getDashboardStat
+ * @returns {Promise}
+ */
+export const getDashboardStat = () => {
+    return getAxios("/vehicle/dashboard/getDashboardStat", {
+        code: _AREA_CODE_,
+    });
+}
+
+/**
+ * 根据 code 查询职住数据
+ * /population/count/getWorkData
+ * @returns {Promise}
+ */
+export const getWorkData = () => {
+    return getAxios("/population/count/getWorkData", {
+        area_code: _AREA_CODE_,
+    });
+}

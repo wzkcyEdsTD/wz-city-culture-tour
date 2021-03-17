@@ -50,6 +50,38 @@
           </div>
         </div>
       </li>
+      <li class="item">
+        <img src="/static/images/index/unknowns.png" />
+        <div>
+          <div class="title">
+            全市工作人口
+            <span class="small">(万人)</span>
+          </div>
+          <div class="desc">
+            温州全市 /
+            <span>当月</span>
+          </div>
+          <div class="number">
+            <DynamicNum :value="WzSourceData.work_count/10000" />
+          </div>
+        </div>
+      </li>
+      <li class="item">
+        <img src="/static/images/index/unknowns.png" />
+        <div>
+          <div class="title">
+            全市居住人口
+            <span class="small">(万人)</span>
+          </div>
+          <div class="desc">
+            温州全市 /
+            <span>当月</span>
+          </div>
+          <div class="number">
+            <DynamicNum :value="WzSourceData.home_count/10000" />
+          </div>
+        </div>
+      </li>
     </ul>
   </div>
 </template>
