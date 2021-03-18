@@ -72,11 +72,12 @@ export const getRoadsData = () => {
 /**
  * 根据 code 查询热力图
  * /population/count/getHeatMapByCode
- * @returns {Promise}
+ * @param {*} area_code 
+ * @returns 
  */
-export const getHeatMapByCode = () => {
+export const getHeatMapByCode = (area_code = _AREA_CODE_) => {
     return getAxios("/population/count/getHeatMapByCode", {
-        area_code: _AREA_CODE_,
+        area_code,
     });
 }
 
@@ -100,4 +101,13 @@ export const getWorkData = () => {
     return getAxios("/population/count/getWorkData", {
         area_code: _AREA_CODE_,
     });
+}
+
+/**
+ * 获取区县街道列表
+ * /population/dashboard/getList
+ * @returns {Promise}
+ */
+export const getAreaCodeList = () => {
+    return getAxios("/population/dashboard/getList");
 }

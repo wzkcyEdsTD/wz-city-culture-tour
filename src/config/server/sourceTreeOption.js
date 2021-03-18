@@ -101,6 +101,12 @@ const SOURCE_TOPIC = [
     componentKey: "3d20",
     type: 'model'
   },
+  {
+    label: "人口网格分析",
+    componentEvent: "cesium-3d-hub-event",
+    componentKey: "3d21",
+    type: 'model'
+  },
 ];
 //  经济专题
 const KEY_PROJECTS = [

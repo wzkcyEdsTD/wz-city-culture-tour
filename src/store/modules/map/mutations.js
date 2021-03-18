@@ -130,7 +130,10 @@ const mutations = {
   },
   [types.SET_SUB_MODEL](state, data) {
     state.subModel = data;
-  }
+  },
+  [types.SET_AREA_CODE_LIST](state, data) {
+    state.areaCodeList = data;
+  },
 };
 
 export default mutations;

@@ -51,6 +51,26 @@ export default {
         //  白模叠加
         await mapBaimoLayerInit(LAYERS);
       }
+      // var promise = window.earth.scene.open(
+      //   "http://www.supermapol.com/realspace/services/3D-Histogram/rest/realspace"
+      // );
+      // Cesium.when.all(
+      //   promise,
+      //   function (layers) {
+      //     window.earth.scene.camera.setView({
+      //       destination: new Cesium.Cartesian3.fromDegrees(145.0214, -37.8148, 2420),
+      //       orientation: {
+      //         heading: 4.707156513009547,
+      //         pitch: -0.41235417870811397,
+      //         roll: 0.0035480416143034432,
+      //       },
+      //     });
+      //   },
+      //   function () {
+      //     var title = "加载SCP失败，请检查网络连接状态或者url地址是否正确？";
+      //     widget.showErrorPanel(title, undefined, e);
+      //   }
+      // );
     },
     //  开启大数据底图
     initImageLayer() {

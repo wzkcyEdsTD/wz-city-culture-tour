@@ -6,6 +6,7 @@
       <CarLineSpeed v-if="subModel == '3d10'" />
       <CarLineCount v-if="subModel == '3d11'" />
       <PeopleAreaHeat v-if="subModel == '3d20'" />
+      <PeopleAreaGrid v-if="subModel == '3d21'" />
     </div>
     <div id="extra-object-components">
       <AroundSourceAnalyse ref="aroundSourceAnalyse" />
@@ -25,6 +26,7 @@ import TrafficSubwayModel from "components/sourcelayer/extraModel/Models/Traffic
 import CarLineSpeed from "components/sourcelayer/extraModel/GeTuiAnalyse/CarLineSpeed";
 import CarLineCount from "components/sourcelayer/extraModel/GeTuiAnalyse/CarLineCount";
 import PeopleAreaHeat from "components/sourcelayer/extraModel/GeTuiAnalyse/PeopleAreaHeat";
+import PeopleAreaGrid from "components/sourcelayer/extraModel/GeTuiAnalyse/PeopleAreaGrid";
 import AroundSourceAnalyse from "components/sourcelayer/extraModel/AroundSourceAnalyse/AroundSourceAnalyse";
 import RtmpVideo from "components/sourcelayer/extraModel/RtmpVideo/RtmpVideo";
 import Population from "components/sourcelayer/extraModel/Population/Population";
@@ -38,6 +40,7 @@ export default {
     CarLineSpeed,
     CarLineCount,
     PeopleAreaHeat,
+    PeopleAreaGrid,
     AroundSourceAnalyse,
     RtmpVideo,
     Population,

@@ -68,6 +68,8 @@ const state = {
     status: -1
   },
   //  唯一 模块
-  subModel: '3d1'
+  subModel: '3d1',
+  //  区县街镇
+  areaCodeList: []
 };
 export default state;

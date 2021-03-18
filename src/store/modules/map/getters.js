@@ -48,3 +48,4 @@ export const eventFormParams = state => state.eventFormParams;
 export const searchBoxVisible = state => state.searchBoxVisible;
 export const searchBoxModel = state => state.searchBoxModel;
 export const subModel = state => state.subModel;
+export const areaCodeList = state => state.areaCodeList;

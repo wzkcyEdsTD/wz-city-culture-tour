@@ -85,7 +85,7 @@ export default {
       await this.validate();
       if (!this.authFailshallPop) {
         this.initScene();
-        // this.initHandler();
+        this.initHandler();
       }
     });
     this.eventRegsiter();
@@ -104,7 +104,7 @@ export default {
       // 监听左键点击事件
       handler.setInputAction((e) => {
         const pick = window.earth.scene.pick(e.position);
-        if (!pick || !pick.id) return;
+        if (!pick && !pick.primitive && !pick.id) return;
         if (typeof pick.id == "object") {
           //  *****[videoCircle]  监控视频点*****
           if (pick.id.id && ~pick.id.id.indexOf("videopoint_")) {
@@ -137,6 +137,17 @@ export default {
               });
             }
           }
+        }
+        //  网格分析点击
+        if (
+          pick.primitive &&
+          pick.primitive._instanceIds.length &&
+          pick.primitive._instanceIds[0]
+        ) {
+          const [BUS_EVENT_TAG_CLICK, x, y, count] = pick.primitive._instanceIds[0].split(
+            "@"
+          );
+          BUS_EVENT_TAG_CLICK && this.$bus.$emit(BUS_EVENT_TAG_CLICK, { x, y, count });
         }
       }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
     },
@@ -179,9 +190,6 @@ export default {
       //  重要地物注记
       // const keyMvt = mapMvtLayerInit("keyMvt", ServiceUrl.KEYMVT);
     },
-    /**
-     * move your fat ass bro
-     */
     cameraMove() {
       window.earth.scene.camera.setView(CenterPoint);
     },

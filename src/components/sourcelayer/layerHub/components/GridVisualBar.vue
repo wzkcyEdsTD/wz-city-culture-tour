@@ -27,11 +27,17 @@ export default {
     border-radius: 1vh;
     background: linear-gradient(
       to top,
-      rgba(0, 0, 0, 0) 0%,
-      rgb(0, 0, 255) 25%,
-      rgb(0, 255, 0) 55%,
-      yellow 85%,
-      red 100%
+      rgb(27, 29, 41) 0%,
+      rgb(0, 73, 135) 10%,
+      rgb(26, 116, 192) 20%,
+      rgb(139, 185, 227) 30%,
+      rgb(220, 238, 255) 40%,
+      rgb(255, 255, 255) 50%,
+      rgb(232, 232, 189) 60%,
+      rgb(243, 208, 139) 70%,
+      rgb(249, 172, 98) 80%,
+      rgb(229, 80, 56) 90%,
+      rgb(166, 0, 21) 100%
     );
   }
   > .grid-visual-tag {
