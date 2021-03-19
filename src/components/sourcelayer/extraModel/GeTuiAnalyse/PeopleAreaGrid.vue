@@ -14,16 +14,17 @@
 
 <script>
 import { ServiceUrl } from "config/server/mapConfig";
-const LAYERS = ServiceUrl.WZBaimo_OBJ;
-const _GRIDMAP_INDEX_ = "getui_gridmap_index";
-const _GRIDLABEL_INDEX_ = "getui_gridlabel_index";
 import { getHeatMapByCode } from "api/getuiAPI";
 import { doGridMap, doGridLabel } from "./tools/GridMap";
 import GetGeohashByCodeForGrid from "./components/GetGeohashByCodeForGrid";
 import GetGeohashByGeometry from "./components/GetGeohashByGeometry";
+const LAYERS = ServiceUrl.WZBaimo_OBJ;
+const _GRIDMAP_INDEX_ = "getui_gridmap_index";
+const _GRIDLABEL_INDEX_ = "getui_gridlabel_index";
 const BUS_EVENT_TAG_GRID_CODE = "cesium-getui-area-grid-code";
 const BUS_EVENT_TAG_GRID_DRAW = "cesium-getui-area-grid-draw";
 const BUS_EVENT_TAG_CLICK = "cesium-getui-area-grid-click";
+
 export default {
   name: "PeopleAreaGrid",
   data() {

@@ -24,7 +24,6 @@ const labelConfig = {
     scale: 1.1,
     outlineWidth: 2,
     showBackground: true,
-    // distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 2200),
     disableDepthTestDistance: Number.POSITIVE_INFINITY,
 }
 
@@ -70,7 +69,6 @@ export const doGridLabel = ({ x, y, count }, _GRIDLABEL_INDEX_) => {
     if (!window.extraPrimitiveMap[_GRIDLABEL_INDEX_]) {
         window.extraPrimitiveMap[_GRIDLABEL_INDEX_] = window.earth.scene.primitives.add(new Cesium.LabelCollection())
     }
-    // window.extraPrimitiveMap[_GRIDLABEL_INDEX_].removeAll();
     window.extraPrimitiveMap[_GRIDLABEL_INDEX_].add({
         id: +new Date(),
         text: count,
