@@ -21,8 +21,8 @@ const labelConfig = {
     outlineColor: Cesium.Color.BLACK,
     style: Cesium.LabelStyle.FILL_AND_OUTLINE,
     font: "10px",
-    scale: 1.1,
-    outlineWidth: 2,
+    scale: 1.2,
+    outlineWidth: 4,
     showBackground: true,
     disableDepthTestDistance: Number.POSITIVE_INFINITY,
 }
@@ -76,8 +76,10 @@ export const doGridLabel = ({ x, y, count }, _GRIDLABEL_INDEX_) => {
         position: Cesium.Cartesian3.fromDegrees(
             +x,
             +y,
-            parseInt(+count / DENOMINATOR) + 8
+            parseInt(+count / DENOMINATOR) + 10
         ),
-        ...labelConfig
+        ...labelConfig,
+        distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 10000),
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
     });
 }

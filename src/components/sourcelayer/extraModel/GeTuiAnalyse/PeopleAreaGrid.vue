@@ -104,8 +104,10 @@ export default {
     resetAreaGrid() {
       if (window.extraPrimitiveMap[_GRIDMAP_INDEX_]) {
         window.extraPrimitiveMap[_GRIDMAP_INDEX_].removeAll();
-        window.extraPrimitiveMap[_GRIDLABEL_INDEX_].removeAll();
         delete window.extraPrimitiveMap[_GRIDMAP_INDEX_];
+      }
+      if (window.extraPrimitiveMap[_GRIDLABEL_INDEX_]) {
+        window.extraPrimitiveMap[_GRIDLABEL_INDEX_].removeAll();
         delete window.extraPrimitiveMap[_GRIDLABEL_INDEX_];
       }
     },
