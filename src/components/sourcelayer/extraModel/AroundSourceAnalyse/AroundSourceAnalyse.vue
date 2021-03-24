@@ -34,8 +34,12 @@
       </el-select>
     </div>
     <div class="around-source-list">
-      <el-collapse accordion>
-        <el-collapse-item v-for="(item, index) in aroundSourceAnalyseList" :key="index">
+      <el-collapse v-model="activeNames" accordion>
+        <el-collapse-item
+          v-for="(item, index) in aroundSourceAnalyseList"
+          :key="index"
+          :name="item.title"
+        >
           <template slot="title">
             <img
               class="around-source-list-icon"
@@ -111,6 +115,8 @@ export default {
       aroundSourceAnalyseList: [],
       //  filter
       filterKey: ["永久固定码", "唯一码", "分类代码"],
+      //  展开条目
+      activeNames: undefined,
     };
   },
   props: ["force"],
@@ -183,6 +189,7 @@ export default {
           aroundSourceAnalyseList.push(aroundSourceAnalyseObj[k]);
         }
         this.aroundSourceAnalyseList = aroundSourceAnalyseList;
+        this.activeNames = aroundSourceAnalyseList[0].title;
       });
     },
     /**

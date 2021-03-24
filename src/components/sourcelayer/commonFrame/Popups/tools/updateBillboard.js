@@ -23,7 +23,7 @@ export const updateBillboard = (o, n) => {
  * @param {*} n 
  */
 const upperCaseIcon = (n) => {
-    window.billboardMap[n.node.id].getById(n.billboardId).scale = _UPPER_SCALE_
+    window.billboardMap[n.node.id] && (window.billboardMap[n.node.id].getById(n.billboardId).scale = _UPPER_SCALE_)
 }
 
 /**
@@ -31,5 +31,5 @@ const upperCaseIcon = (n) => {
  * @param {*} o 
  */
 export const lowerCaseIcon = (o) => {
-    o.node && (window.billboardMap[o.node.id].getById(o.billboardId).scale = _LOWER_SCALE_)
+    o.node && window.billboardMap[o.node.id].getById(o.billboardId) && (window.billboardMap[o.node.id].getById(o.billboardId).scale = _LOWER_SCALE_)
 }

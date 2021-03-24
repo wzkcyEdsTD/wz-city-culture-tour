@@ -13,7 +13,7 @@
 
 <script>
 const _HEATMAP_INDEX_ = "getui_heatmap_index";
-import { getHeatMapByCode } from "api/getuiAPI";
+import { getHeatMapByCode, getHeatMapByGeometry } from "api/getuiAPI";
 import { doHeatMap } from "./tools/HeatMap";
 import GetGeohashByCode from "./components/GetGeohashByCode";
 import GetGeohashByGeometry from "./components/GetGeohashByGeometry";
@@ -43,6 +43,10 @@ export default {
     eventRegsiter() {
       this.$bus.$off(BUS_EVENT_TAG_HEAT_CODE);
       this.$bus.$on(BUS_EVENT_TAG_HEAT_CODE, (code) => this.initHeatMap(code));
+      this.$bus.$off(BUS_EVENT_TAG_HEAT_DRAW);
+      this.$bus.$on(BUS_EVENT_TAG_HEAT_DRAW, (ranges) =>
+        this.initHeatMapByGeometry(ranges)
+      );
     },
     async initHeatMap(code) {
       this.resetAreaHeat();
@@ -54,6 +58,18 @@ export default {
       } catch (e) {
       } finally {
         this.isHeatCodeLoading = false;
+      }
+    },
+    async initHeatMapByGeometry(ranges) {
+      this.resetAreaHeat();
+      try {
+        this.isHeatDrawLoading = true;
+        const { data } = await getHeatMapByGeometry(ranges);
+        this.doCameraMove(data.heatmap[parseInt(data.heatmap.length / 2)]);
+        this.doAreaHeat(data);
+      } catch (e) {
+      } finally {
+        this.isHeatDrawLoading = false;
       }
     },
     /**

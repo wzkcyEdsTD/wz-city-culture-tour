@@ -21,12 +21,15 @@ const drawPathWithLine = (points) => {
             positions: Cesium.Cartesian3.fromDegreesArrayHeights(
                 points.map(({ x, y }) => [x, y, 10]).flat(2)
             ),
-            width: 12,
+            width: 10,
             disableDepthTestDistance: Number.POSITIVE_INFINITY,
-            material: Cesium.Color.RED,
-            material: new Cesium.PolylineArrowMaterialProperty(Cesium.Color.RED), //体会编码，下面的覆盖上面,material对应了一个实例
+            material: new Cesium.PolylineGlowMaterialProperty({
+                glowPower: .15, //一个数字属性，指定发光强度，占总线宽的百分比。
+                color: Cesium.Color.LIGHTBLUE.withAlpha(.9)
+            })
         }),
     });
+    //  点 先不放
     // points.map(({ x, y }, i) => {
     //     const position = Cesium.Cartesian3.fromDegrees(
     //         parseFloat(x),

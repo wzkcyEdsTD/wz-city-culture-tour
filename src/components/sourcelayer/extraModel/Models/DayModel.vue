@@ -16,7 +16,7 @@ import {
   mapImageLayerInit,
   mapRiverLayerInit,
   changeSkyBox,
-} from "components/sourcelayer/cesium_map_init";
+} from "components/sourcelayer/mapInit/cesium_map_init";
 const LAYERS = ServiceUrl.SCENE_WZMODEL;
 export default {
   name: "dayModel",
@@ -34,7 +34,7 @@ export default {
     async initScene() {
       window.earth.scene.bloomEffect.show = false;
       this.initImageLayer();
-      changeSkyBox('day');
+      changeSkyBox("day");
       this.initS3MModel();
       await this.initRiver();
     },

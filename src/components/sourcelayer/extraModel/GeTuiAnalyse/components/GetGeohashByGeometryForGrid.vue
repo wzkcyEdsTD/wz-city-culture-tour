@@ -1,5 +1,5 @@
 <template>
-  <div class="get-geohash-by-geometry">
+  <div class="get-geohash-by-geometry-for-grid">
     <span class="header">区域绘制</span>
     <div class="form-content">
       <el-button size="small" @click="doDrawPolygon">绘制</el-button>
@@ -17,7 +17,7 @@
 <script>
 let handlerPolygon = undefined;
 export default {
-  name: "getGeohashByGeometry",
+  name: "getGeohashByGeometryForGrid",
   data() {
     return {};
   },
@@ -65,7 +65,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.get-geohash-by-geometry {
+.get-geohash-by-geometry-for-grid {
   margin-bottom: 1.5vh;
   .header {
     display: block;

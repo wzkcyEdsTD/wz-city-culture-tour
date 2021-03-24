@@ -80,6 +80,11 @@ export const getHeatMapByCode = (area_code = _AREA_CODE_) => {
         area_code,
     });
 }
+export const getHeatMapByGeometry = (ranges, area_code = _AREA_CODE_) => {
+    return getAxios("/population/count/getHeatMapByCode", {
+        area_code, ranges
+    });
+}
 
 /**
  * 获取大屏统计

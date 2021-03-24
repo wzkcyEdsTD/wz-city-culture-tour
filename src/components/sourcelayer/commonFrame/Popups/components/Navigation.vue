@@ -13,8 +13,8 @@
     <ul class="navigation-detail">
       <li v-for="(item, i) in routeList" :key="i">
         <i>{{ i == 0 ? "推荐" : `备选${i}` }}</i>
-        <p>{{ item.route ? parseInt(item.route.length) || 100 : "-" }} 米</p>
-        <i>{{ item.route ? parseInt(item.route.length / 50) : "-" }} 分钟</i>
+        <p>{{ item.route ? Math.ceil(item.route.length) || 100 : "-" }} 米</p>
+        <i>{{ item.route ? Math.ceil(item.route.length / 200) : "-" }} 分钟</i>
       </li>
     </ul>
   </div>

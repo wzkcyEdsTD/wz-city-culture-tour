@@ -1,6 +1,6 @@
 <template>
   <div class="people-area-heat">
-    <GetGeohashByGeometry
+    <GetGeohashByGeometryForGrid
       :BUS_EVENT_TAG="BUS_EVENT_TAG_GRID_DRAW"
       :isLoading="isGridDrawLoading"
     />
@@ -14,10 +14,10 @@
 
 <script>
 import { ServiceUrl } from "config/server/mapConfig";
-import { getHeatMapByCode } from "api/getuiAPI";
+import { getHeatMapByCode, getHeatMapByGeometry } from "api/getuiAPI";
 import { doGridMap, doGridLabel } from "./tools/GridMap";
 import GetGeohashByCodeForGrid from "./components/GetGeohashByCodeForGrid";
-import GetGeohashByGeometry from "./components/GetGeohashByGeometry";
+import GetGeohashByGeometryForGrid from "./components/GetGeohashByGeometryForGrid";
 const LAYERS = ServiceUrl.WZBaimo_OBJ;
 const _GRIDMAP_INDEX_ = "getui_gridmap_index";
 const _GRIDLABEL_INDEX_ = "getui_gridlabel_index";
@@ -35,7 +35,7 @@ export default {
       isGridDrawLoading: false,
     };
   },
-  components: { GetGeohashByCodeForGrid, GetGeohashByGeometry },
+  components: { GetGeohashByCodeForGrid, GetGeohashByGeometryForGrid },
   created() {
     this.initS3MScene();
   },
@@ -51,6 +51,10 @@ export default {
     eventRegsiter() {
       this.$bus.$off(BUS_EVENT_TAG_GRID_CODE);
       this.$bus.$on(BUS_EVENT_TAG_GRID_CODE, (code) => this.initGridMap(code));
+      this.$bus.$off(BUS_EVENT_TAG_GRID_DRAW);
+      this.$bus.$on(BUS_EVENT_TAG_GRID_DRAW, (ranges) =>
+        this.initHeatMapByGeometry(ranges)
+      );
       this.$bus.$off(BUS_EVENT_TAG_CLICK);
       this.$bus.$on(BUS_EVENT_TAG_CLICK, (obj) => {
         this.doLabelGrid(obj);
@@ -71,6 +75,18 @@ export default {
       } catch (e) {
       } finally {
         this.isGridCodeLoading = false;
+      }
+    },
+    async initHeatMapByGeometry(ranges) {
+      this.resetAreaGrid();
+      try {
+        this.isGridDrawLoading = true;
+        const { data } = await getHeatMapByGeometry(ranges);
+        this.doCameraMove(data.heatmap[parseInt(data.heatmap.length / 2)]);
+        this.doAreaGrid(data);
+      } catch (e) {
+      } finally {
+        this.isGridDrawLoading = false;
       }
     },
     /**

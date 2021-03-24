@@ -108,13 +108,16 @@ const SOURCE_TOPIC = [
     type: 'model'
   },
 ];
-//  经济专题
+//  重点项目
 const KEY_PROJECTS = [
-  { label: "企业用电", dataset: "company_electricity", hiddenLabel: true },
   { label: "地块", dataset: "ZhengWuData_DiKuai" },
   { label: "道路交通", dataset: "ZhengWuData_DaoLuJiaoTong" },
   { label: "水系", dataset: "ZhengWuData_ShuiXi" }
 ]
+//  企业专题
+const COMPANY_TOPIC = [
+  { label: "企业用电", dataset: "company_electricity", hiddenLabel: true },
+];
 //  交通专题
 const TRAFFIC_TOPIC = [
   {
@@ -281,9 +284,23 @@ export const CESIUM_TREE_OPTION = [
     })
   },
   {
-    id: "经济专题",
-    label: "经济专题",
+    id: "重点项目",
+    label: "重点项目",
     children: KEY_PROJECTS.map(v => {
+      return {
+        ...v,
+        id: v.label,
+        icon: v.label,
+        url: SERVER_DEFAULT_DATA,
+        type: "mvt",
+        dataSource: `${SW_DATA_NAME}${v.dataset}`
+      };
+    })
+  },
+  {
+    id: "企业专题",
+    label: "企业专题",
+    children: COMPANY_TOPIC.map(v => {
       return {
         ...v,
         id: v.label,

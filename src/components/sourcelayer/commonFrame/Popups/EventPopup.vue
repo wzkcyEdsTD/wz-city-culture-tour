@@ -118,6 +118,7 @@ export default {
       this.buffer = null;
       this.$bus.$emit("cesium-3d-population-circle", { doDraw: false });
       this.$bus.$emit("cesium-3d-rtmpFetch-cb");
+      this.doAroundSourceAnalyse();
     },
     /**
      *  框体移动
@@ -248,6 +249,7 @@ export default {
       text-overflow: ellipsis;
     }
     > .btns-body {
+      margin-bottom: 1.4vh;
       > span {
         display: inline-block;
         cursor: pointer;
@@ -256,10 +258,14 @@ export default {
         padding: 1vh 0.6vh;
         border-radius: 0.4vh;
         text-align: center;
+        width: 18%;
         > img {
           width: 2vh;
           height: 2vh;
           display: inline-block;
+        }
+        > p {
+          font-size: 1.2vh;
         }
       }
       > .btns-body-disable {

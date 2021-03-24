@@ -77,7 +77,7 @@ export default {
         this.forceNode = node || {};
         this.searchClear();
         this.$nextTick(() => {
-          this.checkedOne(this.extraSearchList[0], 0);
+          this.extraSearchList.length && this.checkedOne(this.extraSearchList[0], 0);
         });
       });
     },

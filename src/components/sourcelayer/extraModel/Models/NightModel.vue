@@ -17,7 +17,7 @@ import {
   mapBaimoLayerInit,
   mapRoadLampLayerTurn,
   changeSkyBox,
-} from "components/sourcelayer/cesium_map_init";
+} from "components/sourcelayer/mapInit/cesium_map_init";
 const LAYERS = ServiceUrl.WZBaimo_OBJ;
 export default {
   name: "nightModel",
@@ -36,7 +36,7 @@ export default {
       window.earth.scene.bloomEffect.show = true;
       this.initImageLayer();
       changeSkyBox("night");
-      // await this.initS3MModel();
+      await this.initS3MModel();
       //  路灯、光源叠加
         // mapRoadLampLayerTurn(true);
     },

@@ -14,42 +14,42 @@ export const ServiceUrl = {
     {
       KEY: 'WZBaimo_POINT_AROUND',
       URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-BaiMo/rest/realspace/datas/BaiMo/config",
-      FLOW: true,
+      // FLOW: true,
     },
     {
       KEY: "WZBaimo_WITHOUT_FIX",
       URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-BaiMoQiTaModel/rest/realspace/datas/BaiMoQiTaModel/config",
       withoutFix: true,
     },
-    {
-      KEY: 'WZBaimo_POINT_JZ',
-      URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb4/rest/realspace/datas/JZ/config",
-      FLOW: false,
-    },
-    {
-      KEY: 'WZBaimo_POINT_QT',
-      URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb4/rest/realspace/datas/QT/config",
-      FLOW: false,
-      d: 2200
-    },
-    {
-      KEY: 'WZBaimo_POINT_DX',
-      URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb4/rest/realspace/datas/DX/config",
-      FLOW: false,
-      d: 2400
-    },
-    {
-      KEY: 'WZBaimo_POINT_DL',
-      URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb4/rest/realspace/datas/DL/config",
-      FLOW: false,
-      d: 3000
-    },
-    {
-      KEY: 'WZBaimo_POINT_ZB',
-      URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb4/rest/realspace/datas/ZB/config",
-      FLOW: false,
-      d: 2200
-    }
+    // {
+    //   KEY: 'WZBaimo_POINT_JZ',
+    //   URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb4/rest/realspace/datas/JZ/config",
+    //   FLOW: false,
+    // },
+    // {
+    //   KEY: 'WZBaimo_POINT_QT',
+    //   URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb4/rest/realspace/datas/QT/config",
+    //   FLOW: false,
+    //   d: 2200
+    // },
+    // {
+    //   KEY: 'WZBaimo_POINT_DX',
+    //   URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb4/rest/realspace/datas/DX/config",
+    //   FLOW: false,
+    //   d: 2400
+    // },
+    // {
+    //   KEY: 'WZBaimo_POINT_DL',
+    //   URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb4/rest/realspace/datas/DL/config",
+    //   FLOW: false,
+    //   d: 3000
+    // },
+    // {
+    //   KEY: 'WZBaimo_POINT_ZB',
+    //   URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb4/rest/realspace/datas/ZB/config",
+    //   FLOW: false,
+    //   d: 2200
+    // }
   ],
   //  动态水面模型
   RIVER: "https://ditu.wzcitybrain.com/iserver/services/3D-River_CityBrain/rest/realspace/datas/River_CityBrain/config",

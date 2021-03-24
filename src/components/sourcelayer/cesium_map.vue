@@ -32,16 +32,17 @@
 
 <script>
 import { ServiceUrl } from "config/server/mapConfig";
-import LayerHub from "components/sourcelayer/layerHub/layerHub";
-import CityIndex from "components/sourcelayer/CityIndex/index";
-import Roulette from "components/sourcelayer/roulette/roulette";
-import PopupHub from "components/sourcelayer/commonFrame/Popups/PopupHub";
-import ExtraModel from "components/sourcelayer/extraModel/ExtraModel";
-import DayModel from "components/sourcelayer/extraModel/Models/DayModel";
-import NightModel from "components/sourcelayer/extraModel/Models/NightModel";
-import AuthFailPopup from "components/sourcelayer/commonFrame/AuthFailPopup/AuthFailPopup";
+import LayerHub from "./layerHub/layerHub";
+import CityIndex from "./CityIndex/index";
+import Roulette from "./roulette/roulette";
+import PopupHub from "./commonFrame/Popups/PopupHub";
+import ExtraModel from "./extraModel/ExtraModel";
+import DayModel from "./extraModel/Models/DayModel";
+import NightModel from "./extraModel/Models/NightModel";
+import AuthFailPopup from "./commonFrame/AuthFailPopup/AuthFailPopup";
 import { CenterPoint } from "mock/overview.js";
-import { mapConfigInit, mapMvtLayerInit } from "components/sourcelayer/cesium_map_init";
+import { mapConfigInit, mapMvtLayerInit } from "./mapInit/cesium_map_init";
+import { initHandler } from "./mapInit/cesium_map_handler";
 import { doValidation } from "api/validation/validation";
 import { mapGetters } from "vuex";
 
@@ -85,7 +86,7 @@ export default {
       await this.validate();
       if (!this.authFailshallPop) {
         this.initScene();
-        this.initHandler();
+        initHandler(this);
       }
     });
     this.eventRegsiter();
@@ -97,59 +98,6 @@ export default {
       // const res = await doValidation(authorCode);
       // res ? (this.validated = true) : (this.authFailshallPop = true);
       this.validated = true;
-    },
-
-    initHandler() {
-      const handler = new Cesium.ScreenSpaceEventHandler(window.earth.scene.canvas);
-      // 监听左键点击事件
-      handler.setInputAction((e) => {
-        const pick = window.earth.scene.pick(e.position);
-        if (!pick && !pick.primitive && !pick.id) return;
-        if (typeof pick.id == "object") {
-          //  *****[videoCircle]  监控视频点*****
-          if (pick.id.id && ~pick.id.id.indexOf("videopoint_")) {
-            this.$bus.$emit("cesium-3d-videoPointClick", {
-              mp_id: pick.id.id,
-              mp_name: pick.id.name,
-            });
-          }
-          if (pick.id.id && ~pick.id.id.indexOf("normalpoint_")) {
-            this.$bus.$emit("cesium-3d-normalPointClick", {
-              mp_id: pick.id.id,
-              mp_name: pick.id.name,
-            });
-          }
-        } else if (typeof pick.id == "string") {
-          const [_TYPE_, _SMID_, _NODEID_, _LOCATION_] = pick.id.split("@");
-          if (_TYPE_.includes("eventLayer_")) {
-            this.$bus.$emit("cesium-3d-pick-to-event", {
-              ...window.featureMap[_NODEID_][_SMID_],
-              position: pick.primitive.position,
-            });
-          } else {
-            //  *****[detailPopup]  资源详情点*****
-            if (~["label", "billboard"].indexOf(_TYPE_)) {
-              const isLocated = ~["location"].indexOf(_LOCATION_);
-              this.$bus.$emit(`cesium-3d-pick-to-${isLocated ? "locate" : "detail"}`, {
-                ...window.featureMap[_NODEID_][_SMID_],
-                position: pick.primitive.position,
-                isLocated,
-              });
-            }
-          }
-        }
-        //  网格分析点击
-        if (
-          pick.primitive &&
-          pick.primitive._instanceIds.length &&
-          pick.primitive._instanceIds[0]
-        ) {
-          const [BUS_EVENT_TAG_CLICK, x, y, count] = pick.primitive._instanceIds[0].split(
-            "@"
-          );
-          BUS_EVENT_TAG_CLICK && this.$bus.$emit(BUS_EVENT_TAG_CLICK, { x, y, count });
-        }
-      }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
     },
     /**
      * 事件注册
