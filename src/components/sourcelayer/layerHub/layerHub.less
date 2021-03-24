@@ -6,7 +6,7 @@
   width: 100%;
 
   .bottom-layers-container {
-    width: 100vh;
+    width: 88vh;
     height: auto;
     margin: 0 auto;
     padding: 2vh 3vh;
@@ -121,7 +121,7 @@
   }
 
   .bottom-topics-container {
-    width: 94vh;
+    width: 84vh;
     margin: 0 auto;
     position: relative;
 
@@ -212,39 +212,94 @@
       }
     }
 
+    .lay-hub {
+      display: flex;
+
+      .swiper-layerhub-buttons {
+        outline: none;
+        cursor: pointer;
+        margin: 1vh 0;
+        width: 2vh;
+        background-image: url("/static/images/common/page-extra@2x.png");
+        background-size: 100% 100%;
+      }
+
+      .swiper-layerhub-button-left {
+        left: unset;
+      }
+
+      .swiper-layerhub-button-right {
+        right: unset;
+        transform: rotate(180deg);
+      }
+    }
+
     .labels {
+      flex: 1;
       display: flex;
       justify-content: center;
       box-sizing: border-box;
       padding: 0;
+      position: relative;
+      margin: 0 1vh;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 2vh;
+        height: 100%;
+        z-index: 2;
+        background: linear-gradient(to left, #031d38,
+            rgba(0, 0, 0, 0));
+        /* transparent keyword is broken in Safari */
+        pointer-events: none;
+      }
+
+      &::before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 2vh;
+        height: 100%;
+        z-index: 2;
+        background: linear-gradient(to right, #031d38,
+            rgba(0, 0, 0, 0));
+        /* transparent keyword is broken in Safari */
+        pointer-events: none;
+      }
+
 
       .item {
         cursor: pointer;
-        width: 12.5%;
+        // width: 12.5%;
         height: 4.6vh;
         line-height: 4.6vh;
         text-align: center;
         .bg-image('/static/images/common/label-bg');
 
         >i {
-          font-size: 1.8vh;
+          font-size: 1.7vh;
           color: #fff;
           font-style: normal;
           opacity: 0.5;
           text-shadow: 5px 4px 4px #000000;
           vertical-align: top;
-          font-family: fz;
-          font-weight: 100;
+          // font-family: fz;
+          // font-weight: 300;
         }
 
         &.active {
           .bg-image('/static/images/common/label-bg-sel');
 
           >i {
-            font-size: 2vh;
+            font-size: 1.9vh;
             color: #fff;
             font-style: normal;
             opacity: 1;
+            font-weight: bold;
           }
         }
       }

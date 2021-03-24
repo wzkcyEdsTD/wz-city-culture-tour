@@ -13,7 +13,7 @@
       v-show="isSourceLayer && forceTreeLabel != '城市总览' && forceTreeTopic.length"
     >
       <div class="swiper-buttons swiper-button-left" />
-      <swiper ref="mySwiper" class="layers" :options="swiperOptions">
+      <swiper ref="mySwiper1" class="layers" :options="swiperOptions">
         <swiper-slide
           v-for="(item, i) in forceTreeTopic"
           :key="i"
@@ -44,7 +44,7 @@
       v-show="!isSourceLayer && forceTreeEventTopic.length"
     >
       <div class="swiper-buttons swiper-button-left" />
-      <swiper ref="mySwiper" class="layers" :options="swiperOptions">
+      <swiper ref="mySwiper2" class="layers" :options="swiperOptions">
         <swiper-slide
           v-for="(item, i) in forceTreeEventTopic"
           :key="i"
@@ -81,20 +81,30 @@
           TREE_OPTION
         }}</span>
       </div>
-      <ul class="labels" v-show="isSourceLayer">
-        <li
-          v-for="(item, i) in CESIUM_TREE_OPTION"
-          :key="i"
-          :class="{
-            item: true,
-            active: item.id == forceTreeLabel,
-            disabled: item.disabled,
-          }"
-          @click="!item.disabled ? SetForceTreeLabel(item.id) : undefined"
+      <div class="lay-hub">
+        <div class="swiper-layerhub-buttons swiper-layerhub-button-left" />
+        <swiper
+          ref="mySwiper3"
+          class="labels"
+          v-show="isSourceLayer"
+          :options="swiperExtraOptions"
         >
-          <i>{{ item.label }}</i>
-        </li>
-      </ul>
+          <swiper-slide v-for="(item, i) in CESIUM_TREE_OPTION" :key="i">
+            <div
+              :class="{
+                item: true,
+                active: item.id == forceTreeLabel,
+              }"
+              @click="doSetForceTreeLabel(item.id)"
+            >
+              <i>{{ item.label }}</i>
+            </div>
+          </swiper-slide>
+        </swiper>
+        <div class="swiper-layerhub-buttons swiper-layerhub-button-right" />
+      </div>
+
+      <!-- <ul class="labels"></ul> -->
       <ul class="labels" v-show="false">
         <li
           v-for="(item, i) in CESIUM_TREE_EVENT_OPTION"
@@ -102,9 +112,8 @@
           :class="{
             item: true,
             active: item.id == forceTreeEventLabel,
-            disabled: item.disabled,
           }"
-          @click="!item.disabled ? SetForceTreeEventLabel(item.id) : undefined"
+          @click="doSetForceTreeEventLabel(item.id)"
         >
           <i>{{ item.label }}</i>
         </li>
@@ -159,10 +168,18 @@ export default {
       forceTreeEventTopic: [],
       //  资源选中层
       swiperOptions: {
-        slidesPerView: 8,
+        slidesPerView: 6,
         navigation: {
           nextEl: ".swiper-button-right",
           prevEl: ".swiper-button-left",
+        },
+      },
+      //  专题图层
+      swiperExtraOptions: {
+        slidesPerView: 8,
+        navigation: {
+          nextEl: ".swiper-layerhub-button-right",
+          prevEl: ".swiper-layerhub-button-left",
         },
       },
       //  tile layers
@@ -236,6 +253,17 @@ export default {
       this.$bus.$on("cesium-3d-event-form-update", () => {
         this.eventFromUpdate();
       });
+    },
+    /**
+     * 专题切换
+     */
+    doSetForceTreeLabel(id) {
+      this.clearForceTopic();
+      this.SetForceTreeLabel(id);
+    },
+    doSetForceTreeEventLabel(id) {
+      this.clearForceTopic();
+      this.SetForceTreeEventLabel(id);
     },
     /**
      * 清除图层
@@ -475,6 +503,7 @@ export default {
     changeLayer(layer) {
       const _IS_SOURCE_ = layer == "source";
       if (_IS_SOURCE_ == this.isSourceLayer) return;
+      this.clearForceTopic();
       this.SetIsSourceLayer(_IS_SOURCE_);
       if (_IS_SOURCE_) {
         const Topics = this.CESIUM_TREE_OPTION.filter(
