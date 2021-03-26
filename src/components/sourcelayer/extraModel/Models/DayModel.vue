@@ -35,8 +35,8 @@ export default {
       window.earth.scene.bloomEffect.show = false;
       this.initImageLayer();
       changeSkyBox("day");
-      this.initS3MModel();
-      await this.initRiver();
+      // this.initS3MModel();
+      // await this.initRiver();
     },
     //  开启精模
     initS3MModel() {
@@ -52,14 +52,17 @@ export default {
             name: v.key,
           });
         });
-        Cesium.when(PROMISES[PROMISES.length - 1], async ([forceLayer, ...oLayer]) => {
-          LAYERS.map((v) => {
-            const V_LAYER = window.earth.scene.layers.find(v.key);
-            // v.s && (V_LAYER.shadowType = 2);
-            V_LAYER.visibleDistanceMax = v.d || 1400;
-            // V_LAYER.lodRangeScale = 0.01;
-          });
-        });
+        Cesium.when(
+          PROMISES[PROMISES.length - 1],
+          async ([forceLayer, ...oLayer]) => {
+            LAYERS.map((v) => {
+              const V_LAYER = window.earth.scene.layers.find(v.key);
+              // v.s && (V_LAYER.shadowType = 2);
+              V_LAYER.visibleDistanceMax = v.d || 1400;
+              // V_LAYER.lodRangeScale = 0.01;
+            });
+          }
+        );
       }
     },
     //  开启影像底图
@@ -82,14 +85,15 @@ export default {
     //  关闭模块
     resetDayModel() {
       //  关闭精模
-      LAYERS.map((v) => {
-        const V_LAYER = window.earth.scene.layers.find(v.key);
-        V_LAYER.visible = false;
-      });
+      // LAYERS.map((v) => {
+      //   const V_LAYER = window.earth.scene.layers.find(v.key);
+      //   V_LAYER.visible = false;
+      // });
       //  关闭影像图
       window.imagelayer.show = false;
       //  关闭河流
-      window.earth.scene.layers.find("RIVER").visible = false;
+      window.earth.scene.layers.find("RIVER") &&
+        (window.earth.scene.layers.find("RIVER").visible = false);
     },
   },
 };

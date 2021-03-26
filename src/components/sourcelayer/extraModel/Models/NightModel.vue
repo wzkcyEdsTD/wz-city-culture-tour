@@ -38,10 +38,11 @@ export default {
       changeSkyBox("night");
       await this.initS3MModel();
       //  路灯、光源叠加
-      mapRoadLampLayerTurn(true);
+      // mapRoadLampLayerTurn(true);
     },
-    //  开启精模
+    //  开启白膜
     async initS3MModel() {
+      if (!LAYERS.length) return;
       const _LAYER_ = window.earth.scene.layers.find(LAYERS[0].KEY);
       if (_LAYER_) {
         LAYERS.map(({ KEY }) => {
@@ -82,11 +83,11 @@ export default {
     },
     //  关闭模块
     resetNightModel() {
-      LAYERS.map(({ KEY }) => {
-        window.earth.scene.layers.find(KEY).visible = false;
-      });
+      // LAYERS.map(({ KEY }) => {
+      //   window.earth.scene.layers.find(KEY).visible = false;
+      // });
       //  光源清除
-      mapRoadLampLayerTurn(false);
+      // mapRoadLampLayerTurn(false);
     },
   },
 };

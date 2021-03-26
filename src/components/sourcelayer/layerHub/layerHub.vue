@@ -10,7 +10,9 @@
   <div class="bottom-wrapper">
     <div
       class="bottom-layers-container bottom-line-left"
-      v-show="isSourceLayer && forceTreeLabel != '城市总览' && forceTreeTopic.length"
+      v-show="
+        isSourceLayer && forceTreeLabel != '城市总览' && forceTreeTopic.length
+      "
     >
       <div class="swiper-buttons swiper-button-left" />
       <swiper ref="mySwiper1" class="layers" :options="swiperOptions">
@@ -143,6 +145,7 @@ import { mapGetters, mapActions } from "vuex";
 import SourceLegend from "./components/SourceLegend";
 import ClearLayer from "./components/ClearLayer";
 import EventForm from "./components/EventForm";
+import { parseQueryString } from "common/js/util";
 import { treeDrawTool, treeDrawEventTool } from "./TreeDrawTool";
 import { getIserverFields } from "api/iServerAPI";
 import {
@@ -151,7 +154,8 @@ import {
 } from "config/server/sourceTreeOption";
 import { getEventData } from "api/cityBrainAPI";
 const TREE_OPTION_HUB = {};
-const TREE_OPTION = CESIUM_TREE_OPTION.map((v) => v.children).flat(2).length - 1;
+const TREE_OPTION =
+  CESIUM_TREE_OPTION.map((v) => v.children).flat(2).length - 1;
 CESIUM_TREE_OPTION.concat(CESIUM_TREE_EVENT_OPTION)
   .map((v) => v.children)
   .flat(2)
@@ -176,7 +180,7 @@ export default {
       },
       //  专题图层
       swiperExtraOptions: {
-        slidesPerView: 8,
+        slidesPerView: 7,
         navigation: {
           nextEl: ".swiper-layerhub-button-right",
           prevEl: ".swiper-layerhub-button-left",
@@ -217,6 +221,12 @@ export default {
   created() {
     this.initForceTreeTopic();
     this.eventRegsiter();
+  },
+  mounted() {
+    const topic = decodeURIComponent(
+      parseQueryString(window.location.href).topic
+    );
+    this.doSetForceTreeLabel(topic);
   },
   methods: {
     ...mapActions("map", [
@@ -421,7 +431,9 @@ export default {
       if (checked) {
         if (node.type == "mvt" && node.id) {
           if (node.id && window.billboardMap[node.id]) {
-            window.billboardMap[node.id]._billboards.map((v) => (v.show = true));
+            window.billboardMap[node.id]._billboards.map(
+              (v) => (v.show = true)
+            );
             window.labelMap[node.id].setAllLabelsVisible(true);
           } else {
             if (this.isSourceLayer) {
@@ -443,7 +455,9 @@ export default {
           if (this.tileLayers[node.id]) {
             this.tileLayers[node.id].show = true;
           } else {
-            this.tileLayers[node.id] = window.earth.imageryLayers.addImageryProvider(
+            this.tileLayers[
+              node.id
+            ] = window.earth.imageryLayers.addImageryProvider(
               new Cesium.SuperMapImageryProvider({
                 url: node.url,
                 name: node.id,
@@ -464,7 +478,8 @@ export default {
           window.billboardMap[node.id]._billboards.map((v) => (v.show = false));
           window.labelMap[node.id].setAllLabelsVisible(false);
         }
-        node.componentEvent && this.$bus.$emit(node.componentEvent, { value: null });
+        node.componentEvent &&
+          this.$bus.$emit(node.componentEvent, { value: null });
       }
     },
     //  事件传递，重新查询、渲染页面
@@ -473,7 +488,8 @@ export default {
         //  消除featureMap
         delete window.featureMap[node.id];
         //  消除label、billboard
-        window.billboardMap[node.id] && window.billboardMap[node.id].removeAll();
+        window.billboardMap[node.id] &&
+          window.billboardMap[node.id].removeAll();
         delete window.billboardMap[node.id];
         window.labelMap[node.id] && window.labelMap[node.id].removeAll();
         delete window.labelMap[node.id];

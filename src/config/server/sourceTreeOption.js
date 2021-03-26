@@ -283,62 +283,62 @@ export const CESIUM_TREE_OPTION = [
       };
     })
   },
-  {
-    id: "重点项目",
-    label: "重点项目",
-    children: KEY_PROJECTS.map(v => {
-      return {
-        ...v,
-        id: v.label,
-        icon: v.label,
-        url: SERVER_DEFAULT_DATA,
-        type: "mvt",
-        dataSource: `${SW_DATA_NAME}${v.dataset}`
-      };
-    })
-  },
-  {
-    id: "企业专题",
-    label: "企业专题",
-    children: COMPANY_TOPIC.map(v => {
-      return {
-        ...v,
-        id: v.label,
-        icon: v.label,
-        url: SERVER_DEFAULT_DATA,
-        type: "mvt",
-        dataSource: `${SW_DATA_NAME}${v.dataset}`
-      };
-    })
-  },
-  {
-    id: "公共专题",
-    label: "公共专题",
-    children: SOURCE_TOPIC.map(v => {
-      return {
-        ...v,
-        id: v.label,
-        icon: v.label,
-        url: SERVER_DEFAULT_DATA,
-        type: v.type || "mvt",
-        dataSource: `${SW_DATA_NAME}${v.dataset}`
-      };
-    })
-  },
-  {
-    id: "交通专题",
-    label: "交通专题",
-    children: TRAFFIC_TOPIC.map(v => {
-      return {
-        ...v,
-        id: v.label,
-        icon: v.label,
-        url: SERVER_DEFAULT_DATA,
-        type: v.type || "mvt",
-        dataSource: `${SW_DATA_NAME}${v.dataset}`
-      };
-    })
-  },
+  // {
+  //   id: "重点项目",
+  //   label: "重点项目",
+  //   children: KEY_PROJECTS.map(v => {
+  //     return {
+  //       ...v,
+  //       id: v.label,
+  //       icon: v.label,
+  //       url: SERVER_DEFAULT_DATA,
+  //       type: "mvt",
+  //       dataSource: `${SW_DATA_NAME}${v.dataset}`
+  //     };
+  //   })
+  // },
+  // {
+  //   id: "企业专题",
+  //   label: "企业专题",
+  //   children: COMPANY_TOPIC.map(v => {
+  //     return {
+  //       ...v,
+  //       id: v.label,
+  //       icon: v.label,
+  //       url: SERVER_DEFAULT_DATA,
+  //       type: "mvt",
+  //       dataSource: `${SW_DATA_NAME}${v.dataset}`
+  //     };
+  //   })
+  // },
+  // {
+  //   id: "公共专题",
+  //   label: "公共专题",
+  //   children: SOURCE_TOPIC.map(v => {
+  //     return {
+  //       ...v,
+  //       id: v.label,
+  //       icon: v.label,
+  //       url: SERVER_DEFAULT_DATA,
+  //       type: v.type || "mvt",
+  //       dataSource: `${SW_DATA_NAME}${v.dataset}`
+  //     };
+  //   })
+  // },
+  // {
+  //   id: "交通专题",
+  //   label: "交通专题",
+  //   children: TRAFFIC_TOPIC.map(v => {
+  //     return {
+  //       ...v,
+  //       id: v.label,
+  //       icon: v.label,
+  //       url: SERVER_DEFAULT_DATA,
+  //       type: v.type || "mvt",
+  //       dataSource: `${SW_DATA_NAME}${v.dataset}`
+  //     };
+  //   })
+  // },
   {
     id: "规划专题",
     label: "规划专题",

@@ -93,13 +93,15 @@ export default {
         27.99677579868321,
         36.12973
       );
-      console.log(this.heading.toFixed(0));
+      // console.log(this.heading.toFixed(0));
       this.heading.toFixed(0) == 50
         ? (this.toRight = true)
         : this.heading.toFixed(0) == -50
         ? (this.toRight = false)
         : undefined;
-      this.heading = this.toRight ? (this.heading -= 0.1) : (this.heading += 0.1);
+      this.heading = this.toRight
+        ? (this.heading -= 0.1)
+        : (this.heading += 0.1);
       const heading = Cesium.Math.toRadians(this.heading);
       const pitch = Cesium.Math.toRadians(-29.2);
       const range = 2217.0;
