@@ -223,10 +223,8 @@ export default {
     this.eventRegsiter();
   },
   mounted() {
-    const topic = decodeURIComponent(
-      parseQueryString(window.location.href).topic
-    );
-    this.doSetForceTreeLabel(topic);
+    const topic = parseQueryString(window.location.href).topic;
+    topic && this.doSetForceTreeLabel(decodeURIComponent(topic));
   },
   methods: {
     ...mapActions("map", [
