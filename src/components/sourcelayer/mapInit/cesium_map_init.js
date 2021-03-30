@@ -6,7 +6,7 @@ import window_array from "config/local/windowPositions";
  * 地图参数调节
  */
 export const mapConfigInit = () => {
-    window.earth.scene.globe.depthTestAgainstTerrain = false;
+    // window.earth.scene.globe.depthTestAgainstTerrain = false;
     // window.earth.scene.debugShowFramesPerSecond = true;
     window.earth.clock.currentTime.secondsOfDay = 51830.97475229357
     // window.earth.scene.fxaa = true;
@@ -27,7 +27,7 @@ export const mapConfigInit = () => {
 
 /**
  * 改天空盒子
- * @param {*} boxType 
+ * @param {*} boxType
  */
 export const changeSkyBox = (boxType) => {
     window.earth.scene.skyBox =
@@ -47,7 +47,7 @@ export const changeSkyBox = (boxType) => {
 
 /**
  * 大数据底图叠加
- * @param {*} url 
+ * @param {*} url
  */
 export const mapImageLayerInit = (url) => {
     return window.earth.imageryLayers.addImageryProvider(
@@ -57,8 +57,8 @@ export const mapImageLayerInit = (url) => {
 
 /**
  * Mvt服务叠加
- * @param {*} name 
- * @param {*} url 
+ * @param {*} name
+ * @param {*} url
  */
 export const mapMvtLayerInit = (name, url) => {
     window.earth.scene.addVectorTilesMap({ url, name, viewer: window.earth });
@@ -66,8 +66,8 @@ export const mapMvtLayerInit = (name, url) => {
 
 /**
  * 水面叠加
- * @param {*} name 
- * @param {*} url 
+ * @param {*} name
+ * @param {*} url
  */
 export const mapRiverLayerInit = (name, url) => {
     return new Promise((resolve, reject) => {
@@ -83,8 +83,8 @@ export const mapRiverLayerInit = (name, url) => {
 
 /**
  * 路灯图层,玻璃3d模型叠加
- * @param {*} name 
- * @param {*} url 
+ * @param {*} name
+ * @param {*} url
  */
 export const mapRoadLampLayerInit = (...params) => {
     //  路灯
@@ -129,7 +129,7 @@ export const mapRoadLampLayerInit = (...params) => {
 
 /**
  * 开关路灯/窗户
- * @param {*} boolean 
+ * @param {*} boolean
  */
 export const mapRoadLampLayerTurn = (boolean) => {
     if (!window.earth.scene.lightSource.pointLight._array.length && boolean) {
@@ -153,7 +153,7 @@ export const mapShadowInit = () => {
 
 /**
  * 白模叠加初始化
- * @param {*} arrURL 
+ * @param {*} arrURL
  */
 export const mapBaimoLayerInit = (arrURL) => {
     return new Promise((resolve, reject) => {
