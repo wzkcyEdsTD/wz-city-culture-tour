@@ -29,7 +29,9 @@
           :key="`sitem-${i}`"
           @click="checkedOne(item, i)"
         >
-          <p class="name" :title="item.name">{{ i + 1 }}. {{ item.name }}</p>
+          <p class="name" :title="item.attributes.eventPlaceName || item.name">
+            {{ i + 1 }}. {{ item.attributes.eventPlaceName || item.name }}
+          </p>
           <p class="event-time" v-show="item.attributes.eventTime">
             {{ item.attributes.eventTime }}
           </p>
@@ -77,7 +79,8 @@ export default {
         this.forceNode = node || {};
         this.searchClear();
         this.$nextTick(() => {
-          this.extraSearchList.length && this.checkedOne(this.extraSearchList[0], 0);
+          this.extraSearchList.length &&
+            this.checkedOne(this.extraSearchList[0], 0);
         });
       });
     },
@@ -102,7 +105,10 @@ export default {
           allSearchList.push(item);
         }
       }
-      allSearchList = allSearchList.sort(arrayCompareWithParam("eventTime")).reverse();
+      allSearchList = allSearchList
+        .sort(arrayCompareWithParam("eventTime"))
+        .reverse();
+      console.log(this.searchText);
       this.extraSearchList = this.searchText
         ? allSearchList.filter((item) => ~item.name.indexOf(this.searchText))
         : allSearchList;
