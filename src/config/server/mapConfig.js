@@ -19,7 +19,7 @@ export const ServiceUrl = {
     {
       KEY: "WZBaimo_WITHOUT_FIX",
       URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-BaiMoQiTaModel/rest/realspace/datas/BaiMoQiTaModel/config",
-      withoutFix: true
+      withoutFix: true,
     },
     {
       KEY: 'WZBaimo_POINT_JZ',
@@ -104,6 +104,10 @@ export const ExtraSourceURL = {
   S1:
     "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-S1/rest/realspace/datas/S1/config",
 };
+
+export const PathURL = {
+  findPathWz: "https://ditu.wzcitybrain.com/iserver/services/transportationAnalyst-tra/rest/networkanalyst/tra@tra"
+}
 
 
 export const BimSourceURL = {

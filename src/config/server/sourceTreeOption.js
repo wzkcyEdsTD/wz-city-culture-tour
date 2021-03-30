@@ -14,8 +14,8 @@ const SERVER_DEFAULT_DATA = SERVER_HOST + SW_DATA;
 const MEDICAL_TOPIC = [
   {
     label: "医疗场所",
-    // dataset: "JZJZNL_YLJH_JHCS_LC",
-    dataset: "JZJZNL_YLJH_JHCS",
+    // dataset: "JZJZNL_YLJH_JHCS_LC",  //  鹿城区范围
+    dataset: "JZJZNL_YLJH_JHCS",        //  全市域范围
     withExtraData: "medicalList",
     withExtraDataGeometry: "medicalListWithGeometry",
     saveExtraDataByGeometry: "setMedicalListWithGeometry",
@@ -37,6 +37,7 @@ const TOUR_TOPIC = [
   { label: "温州民宿", dataset: "温州民宿" },
   { label: "森林康养基地", dataset: "温州市森林康养基地" },
   { label: "夜光经济", dataset: "夜景" },
+  { label: "市场商场", dataset: "market_mall" },
   {
     label: "AAA级景区村庄",
     dataset: "AAAJiFengJingQuCunZhuang"
@@ -75,6 +76,8 @@ const CULTURE_TOPIC = [
   { label: "文化生活", dataset: "温州文化生活" },
   { label: "百姓健身房", dataset: "百姓健身房" },
   { label: "文化场所", dataset: "D_HAZARDS_CULTURALPLACE" },
+  { label: "娱乐场所", dataset: "entertainment_place" },
+  { label: "体育运动场馆", dataset: "sports_gymnasium" }
 ];
 //  应急专题
 const EMERGENCY_TOPIC = [
@@ -86,16 +89,24 @@ const EMERGENCY_TOPIC = [
   { label: "消防站", dataset: "JZJZNL_XFJYNL_XFZ" },
   { label: "消防栓", dataset: "JZJZNL_XFJYNL_XFS" }
 ];
-//  资源专题
+//  公共专题
 const SOURCE_TOPIC = [
   { label: "农贸市场点", dataset: "FarmersMarket_SiQu_P" },
-  { label: "企业用电", dataset: "company_electricity", hiddenLabel: true },
   { label: "派出所", dataset: "PoliceStation" },
-  { label: "市场商场", dataset: "market_mall" },
   { label: "社会福利机构", dataset: "D_HAZARDS_BEADHOUSESHP" },
   { label: "高层建筑", dataset: "high_buildings_P" },
-  { label: "娱乐场所", dataset: "entertainment_place" },
-  { label: "体育运动场馆", dataset: "sports_gymnasium" }
+  {
+    label: "人口密集分析",
+    componentEvent: "cesium-3d-hub-event",
+    componentKey: "3d20",
+    type: 'model'
+  },
+  {
+    label: "人口网格分析",
+    componentEvent: "cesium-3d-hub-event",
+    componentKey: "3d21",
+    type: 'model'
+  },
 ];
 //  重点项目
 const KEY_PROJECTS = [
@@ -103,6 +114,10 @@ const KEY_PROJECTS = [
   { label: "道路交通", dataset: "ZhengWuData_DaoLuJiaoTong" },
   { label: "水系", dataset: "ZhengWuData_ShuiXi" }
 ]
+//  企业专题
+const COMPANY_TOPIC = [
+  { label: "企业用电", dataset: "company_electricity", hiddenLabel: true },
+];
 //  交通专题
 const TRAFFIC_TOPIC = [
   {
@@ -113,6 +128,18 @@ const TRAFFIC_TOPIC = [
     saveExtraDataByGeometry: "setBayonetListWithGeometry",
     withExtraKey: "MC",
     hiddenIcon: true
+  },
+  {
+    label: "交通路况分析",
+    componentEvent: "cesium-3d-hub-event",
+    componentKey: "3d10",
+    type: 'model'
+  },
+  {
+    label: "交通车辆检测",
+    componentEvent: "cesium-3d-hub-event",
+    componentKey: "3d11",
+    type: 'model'
   },
   {
     label: "S1线路",
@@ -140,6 +167,14 @@ const TRAFFIC_TOPIC = [
   { label: "收费站", dataset: "ShouFeiZhan" },
 ];
 
+//  事件专题
+const EVENT_TOPIC = [
+  { label: "消防火灾事件", event: "eventLayer_fire" },
+  { label: "水位超警事件", event: "eventLayer_water" },
+  { label: "突发公共卫生事件", event: "eventLayer_public" },
+  { label: "矛盾调解事件", event: "eventLayer_contradiction" },
+];
+
 const CITY_TOPIC = [
   {
     label: "城市总览",
@@ -147,6 +182,14 @@ const CITY_TOPIC = [
     componentKey: "3d1",
     type: 'model'
   },
+]
+
+const AROUND_ANALYSE_TOPIC = [
+  { label: "医疗场所", resourceType: "medical_care", dataset: "JZJZNL_YLJH_JHCS", },
+  { label: "消防站", resourceType: "fire_station", dataset: "JZJZNL_XFJYNL_XFZ" },
+  { label: "消防栓", resourceType: "fire_hydrant", dataset: "JZJZNL_XFJYNL_XFS", hiddenLabel: true },
+  { label: "交通卡口", resourceType: "bayonet", dataset: "KaKouDianWei" },
+  { label: "救援队伍", resourceType: "rescue_team", dataset: "JZJZNL_YJDW" }
 ]
 
 /**
@@ -180,7 +223,7 @@ export const CESIUM_TREE_OPTION = [
         icon: v.label,
         url: SERVER_DEFAULT_DATA,
         type: "mvt",
-        newdataset: `${SW_DATA_NAME}${v.dataset}`
+        dataSource: `${SW_DATA_NAME}${v.dataset}`
       };
     })
   },
@@ -194,7 +237,7 @@ export const CESIUM_TREE_OPTION = [
         icon: v.label,
         url: SERVER_DEFAULT_DATA,
         type: "mvt",
-        newdataset: `${SW_DATA_NAME}${v.dataset}`
+        dataSource: `${SW_DATA_NAME}${v.dataset}`
       };
     })
   },
@@ -208,7 +251,7 @@ export const CESIUM_TREE_OPTION = [
         icon: v.label,
         url: SERVER_DEFAULT_DATA,
         type: "mvt",
-        newdataset: `${SW_DATA_NAME}${v.dataset}`
+        dataSource: `${SW_DATA_NAME}${v.dataset}`
       };
     })
   },
@@ -222,7 +265,7 @@ export const CESIUM_TREE_OPTION = [
         icon: v.label,
         url: SERVER_DEFAULT_DATA,
         type: "mvt",
-        newdataset: `${SW_DATA_NAME}${v.dataset}`
+        dataSource: `${SW_DATA_NAME}${v.dataset}`
       };
     })
   },
@@ -236,7 +279,7 @@ export const CESIUM_TREE_OPTION = [
         icon: v.label,
         url: SERVER_DEFAULT_DATA,
         type: "mvt",
-        newdataset: `${SW_DATA_NAME}${v.dataset}`
+        dataSource: `${SW_DATA_NAME}${v.dataset}`
       };
     })
   },
@@ -250,21 +293,35 @@ export const CESIUM_TREE_OPTION = [
         icon: v.label,
         url: SERVER_DEFAULT_DATA,
         type: "mvt",
-        newdataset: `${SW_DATA_NAME}${v.dataset}`
+        dataSource: `${SW_DATA_NAME}${v.dataset}`
       };
     })
   },
   {
-    id: "资源专题",
-    label: "资源专题",
-    children: SOURCE_TOPIC.map(v => {
+    id: "企业专题",
+    label: "企业专题",
+    children: COMPANY_TOPIC.map(v => {
       return {
         ...v,
         id: v.label,
         icon: v.label,
         url: SERVER_DEFAULT_DATA,
         type: "mvt",
-        newdataset: `${SW_DATA_NAME}${v.dataset}`
+        dataSource: `${SW_DATA_NAME}${v.dataset}`
+      };
+    })
+  },
+  {
+    id: "公共专题",
+    label: "公共专题",
+    children: SOURCE_TOPIC.map(v => {
+      return {
+        ...v,
+        id: v.label,
+        icon: v.label,
+        url: SERVER_DEFAULT_DATA,
+        type: v.type || "mvt",
+        dataSource: `${SW_DATA_NAME}${v.dataset}`
       };
     })
   },
@@ -278,7 +335,7 @@ export const CESIUM_TREE_OPTION = [
         icon: v.label,
         url: SERVER_DEFAULT_DATA,
         type: v.type || "mvt",
-        newdataset: `${SW_DATA_NAME}${v.dataset}`
+        dataSource: `${SW_DATA_NAME}${v.dataset}`
       };
     })
   },
@@ -292,11 +349,24 @@ export const CESIUM_TREE_OPTION = [
         icon: v.label,
         url: v.url || SERVER_DEFAULT_DATA,
         type: v.type || "mvt",
-        newdataset: `${SW_DATA_NAME}${v.dataset}`
+        dataSource: `${SW_DATA_NAME}${v.dataset}`
       };
     })
   },
 ];
+export const CESIUM_TREE_EVENT_OPTION = [{
+  id: "事件专题",
+  label: "事件专题",
+  children: EVENT_TOPIC.map(v => {
+    return {
+      ...v,
+      id: v.label,
+      icon: v.label,
+      url: SERVER_DEFAULT_DATA,
+      type: v.type || "mvt",
+    };
+  })
+}]
 export const CESIUM_TREE_TRAFFIC_OPTION = [{
   id: "交通专题",
   label: "交通专题",
@@ -307,7 +377,21 @@ export const CESIUM_TREE_TRAFFIC_OPTION = [{
       icon: v.label,
       url: SERVER_DEFAULT_DATA,
       type: v.type || "mvt",
-      newdataset: `${SW_DATA_NAME}${v.dataset}`
+      dataSource: `${SW_DATA_NAME}${v.dataset}`
     };
   })
 }]
+
+export const CESIUM_TREE_AROUND_ANALYSE_OPTION = {
+  id: "周边查询",
+  label: "周边查询",
+  children: AROUND_ANALYSE_TOPIC.map(v => {
+    return {
+      ...v,
+      id: v.label,
+      icon: v.label,
+      url: SERVER_DEFAULT_DATA,
+      dataSource: `${SW_DATA_NAME}${v.dataset}`
+    };
+  })
+}

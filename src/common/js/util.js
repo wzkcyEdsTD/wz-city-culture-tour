@@ -1,9 +1,24 @@
+const START_TIME_TYPE = {
+  1: () => getDate(new Date(new Date(new Date().toLocaleDateString()))),
+  3: () => getDate(new Date().setDate(1)),
+  4: () => getDate(new Date(new Date().getTime() - 1 * 24 * 3600 * 1000)),
+  5: () => getDate(new Date(new Date().getTime() - 3 * 24 * 3600 * 1000)),
+  6: () => getDate(new Date(new Date().getTime() - 7 * 24 * 3600 * 1000)),
+  7: () => getDate(new Date(new Date().getTime() - 30 * 24 * 3600 * 1000))
+}
+/**
+ * 获取开始时间
+ * @param {*} type 
+ */
+export const getStartTime = type => {
+  return START_TIME_TYPE[type]();
+}
 /**
  * 返回日期
  * @returns {string}
  */
-export function getDate() {
-  var myDate = new Date()
+export function getDate(date) {
+  var myDate = date ? (typeof date == "number" ? new Date(date) : date) : new Date();
   // 获取当前年
   var year = myDate.getFullYear()
   // 获取当前月
@@ -18,19 +33,11 @@ export function getDate() {
 }
 
 /**
- * 返回日期
- * @returns {string}
+ * 是否一天之内
+ * @param {*} eventTime 
  */
-export function getYesterdayWithoutChar() {
-  var myDate = new Date(+new Date() - 24 * 3600 * 1000)
-  // 获取当前年
-  var year = myDate.getFullYear()
-  // 获取当前月
-  var month = myDate.getMonth() + 1
-  // 获取当前日
-  var date = myDate.getDate()
-  // 获取当前时间
-  return year + conver(month) + conver(date)
+export function isDayOff(eventTime) {
+  return (+new Date() - +new Date(eventTime)) < 24 * 3600 * 1000;
 }
 
 function conver(s) {
@@ -147,4 +154,38 @@ export function parseQueryString(url) {
     }
   }
   return ret;
+}
+
+/**
+ * 按数组元素排序
+ * @param {*} propertyName 
+ */
+export function arrayCompareWithParam(propertyName) {
+  return function (object1, object2) {
+    var value1 = object1[propertyName];
+    var value2 = object2[propertyName];
+    if (value2 < value1) {
+      return 1;
+    } else if (value2 > value1) {
+      return -1;
+    } else {
+      return 0;
+    }
+  };
+}
+
+/**
+ * 返回日期
+ * @returns {string}
+ */
+export function getYesterdayWithoutChar() {
+  var myDate = new Date(+new Date() - 24 * 3600 * 1000)
+  // 获取当前年
+  var year = myDate.getFullYear()
+  // 获取当前月
+  var month = myDate.getMonth() + 1
+  // 获取当前日
+  var date = myDate.getDate()
+  // 获取当前时间
+  return year + conver(month) + conver(date)
 }

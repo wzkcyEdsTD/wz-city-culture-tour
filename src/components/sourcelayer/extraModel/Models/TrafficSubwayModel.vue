@@ -10,7 +10,7 @@ const LAYERS = [{ name: "S1", url: ExtraSourceURL.S1 }];
 export default {
   name: "TrafficSubwayModel",
   async mounted() {
-    this.initBimScene();
+    this.initScene();
     this.eventRegsiter();
     this.cameraMove();
   },
@@ -23,7 +23,7 @@ export default {
       const that = this;
     },
     //  初始化BIM场景
-    initBimScene(fn) {
+    initScene(fn) {
       const _LAYER_ = window.earth.scene.layers.find(LAYERS[0].name);
       if (_LAYER_) {
         LAYERS.map((v) => {
@@ -58,7 +58,7 @@ export default {
       this.clearTrafficSubwayModel();
       this.$bus.$emit("cesium-3d-hub-event", { value: null });
     },
-    //  清除BIM模块
+    //  清除模块
     clearTrafficSubwayModel() {
       LAYERS.map((v) => {
         const V_LAYER = window.earth.scene.layers.find(v.name);

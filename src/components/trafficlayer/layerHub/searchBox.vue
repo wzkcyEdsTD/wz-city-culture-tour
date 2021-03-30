@@ -39,7 +39,7 @@
         <li
           class="result-item"
           :class="{
-            checked: ~hospitalChecked.indexOf(item.name),
+            checked: ~searchChecked.indexOf(item.name),
           }"
           v-for="(item, i) in extraSearchList"
           :key="`sitem-${i}`"
@@ -55,7 +55,7 @@
           <div class="right">
             <input
               type="checkbox"
-              :checked="hospitalChecked.indexOf(item.name) >= 0"
+              :checked="searchChecked.indexOf(item.name) >= 0"
               @click="checkedOne(item)"
             />
           </div>
@@ -84,7 +84,7 @@ export default {
       searchText: "",
       forceNode: {},
       extraSearchList: [],
-      hospitalChecked: [],
+      searchChecked: [],
       menuImg: "/static/images/common/menu-un.png",
       menuSelImg: "/static/images/common/menu-sel.png",
     };
@@ -114,7 +114,7 @@ export default {
     searchClear() {
       this.searchText = "";
       this.extraSearchList = [];
-      this.hospitalChecked = [];
+      this.searchChecked = [];
       this.searchFilter();
     },
     searchFilter() {
@@ -132,14 +132,14 @@ export default {
     },
     checkedOne(item) {
       this.$bus.$emit("cesium-3d-detail-pop-clear");
-      let idIndex = this.hospitalChecked.indexOf(item.name);
+      let idIndex = this.searchChecked.indexOf(item.name);
       if (idIndex >= 0) {
         // 如果已经包含了该id, 则去除(单选按钮由选中变为非选中状态)
-        this.hospitalChecked.splice(idIndex, 1);
+        this.searchChecked.splice(idIndex, 1);
       } else {
         // 选中该checkbox
-        this.hospitalChecked = [];
-        this.hospitalChecked.push(item.name);
+        this.searchChecked = [];
+        this.searchChecked.push(item.name);
         // 移动到对应实例位置
         const { x, y } = item.geometry;
         window.earth.camera.flyTo({

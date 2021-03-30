@@ -101,15 +101,39 @@ const mutations = {
   [types.SET_FORCE_TREE_LABEL](state, data) {
     state.forceTreeLabel = data
   },
+  [types.SET_FORCE_TREE_EVENT_LABEL](state, data) {
+    state.forceTreeEventLabel = data
+  },
   [types.SET_FORCE_TRUE_TOPIC_LABEL](state, data) {
     state.forceTrueTopicLabels = [...data];
   },
   [types.SET_FORCE_TRUE_TOPIC_LABEL_ID](state, data) {
     state.forceTrueTopicLabelId = data;
   },
+  [types.SET_FORCE_EVENT_TOPIC_LABEL](state, data) {
+    state.forceEventTopicLabels = [...data];
+  },
+  [types.SET_FORCE_EVENT_TOPIC_LABEL_ID](state, data) {
+    state.forceEventTopicLabelId = data;
+  },
   [types.SET_IS_SOURCE_LAYER](state, data) {
     state.isSourceLayer = data;
-  }
+  },
+  [types.SET_EVENT_FORM_PARAMS](state, data) {
+    state.eventFormParams = data
+  },
+  [types.SET_SEARCH_BOX_VISIBLE](state, data) {
+    state.searchBoxVisible = data;
+  },
+  [types.SET_SEARCH_BOX_MODEL](state, data) {
+    state.searchBoxModel = data;
+  },
+  [types.SET_SUB_MODEL](state, data) {
+    state.subModel = data;
+  },
+  [types.SET_AREA_CODE_LIST](state, data) {
+    state.areaCodeList = data;
+  },
 };
 
 export default mutations;

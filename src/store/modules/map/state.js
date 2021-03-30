@@ -49,9 +49,27 @@ const state = {
   forceIndex: '城市总览',
   //  tab下标
   forceTreeLabel: "城市总览",
-  forceTrueTopicLabels: [],
-  forceTrueTopicLabelId: "",
+  forceTreeEventLabel: "事件专题",
+  //  树选择类型
+  forceTrueTopicLabels: [], //  资源图层选中子节点
+  forceTrueTopicLabelId: "",//  资源图层当前选中节点
+  forceEventTopicLabels: [], //  事件图层选中子节点
+  forceEventTopicLabelId: "",//  事件图层当前选中节点
+  //  搜索框是否展示
+  searchBoxVisible: false,
+  //  搜索框模式 1资源 2事件 3地名地址
+  searchBoxModel: 1,
   //  图层模式
-  isSourceLayer: true
+  isSourceLayer: true,
+  //  事件条件
+  eventFormParams: {
+    timeType: 1,
+    areaCode: -1,
+    status: -1
+  },
+  //  唯一 模块
+  subModel: '3d1',
+  //  区县街镇
+  areaCodeList: []
 };
 export default state;

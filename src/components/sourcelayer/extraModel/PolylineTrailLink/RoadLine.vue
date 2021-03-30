@@ -12,7 +12,6 @@
 
 <script>
 const Cesium = window.Cesium;
-import PolylineTrailLinkMaterialProperty from "./PolylineTrailLink";
 import lines from "mock/Routes_data_YJ_FeaturesToJSO.json";
 import walls from "mock/XZQH_LuCheng_FeaturesTo.json";
 export default {
@@ -162,5 +161,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

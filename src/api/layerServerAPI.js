@@ -7,8 +7,11 @@
  * @FilePath: \wz-city-culture-tour\src\api\layerServerAPI.js
  */
 import axios from "axios";
+import qs from 'qs';
 const BASEURL = "https://sourceserver.wzcitybrain.com";
-const serverInstanec = axios.create();
+const serverInstanec = axios.create({
+  headers: { 'Content-type': 'application/x-www-form-urlencoded;charset=utf-8' }
+});
 serverInstanec.defaults.baseURL = BASEURL;
 
 /**
@@ -16,8 +19,10 @@ serverInstanec.defaults.baseURL = BASEURL;
  * @param {*} url
  * @param {*} data
  */
-const getAxios = (url = "", data = {}) => {
-  return serverInstanec.request({ url, data, method: "get" }).then(res => {
+const getAxios = (url = "", data = {}, method = 'get') => {
+  const option = { url, method };
+  method == 'get' ? option.params = data : option.data = qs.stringify(data);
+  return serverInstanec.request(option).then(res => {
     return res.data ? Promise.resolve(res.data) : Promise.reject(res);
   });
 };
@@ -44,7 +49,13 @@ const getWzKindsData = (type) => {
 export const getMedicalList = () => {
   return getAxios("/statistics/getDataDic");
 };
-
+/**
+ * 获取周边分析点位 100021005
+ * @param {*} obj 
+ */
+export const getAroundSourceAnalyse = (obj) => {
+  return getAxios("/api/v1/resource/distance", obj, 'post');
+};
 /**
  * 获取卡口各类数据
  */

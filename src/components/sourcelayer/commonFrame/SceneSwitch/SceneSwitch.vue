@@ -47,7 +47,7 @@ export default {
   },
   watch: {
     nightMode(n) {
-      this.$bus.$emit("cesium-3d-switch", { value: n });
+      this.$bus.$emit("cesium-3d-event", n);
     },
     cameraMode(n) {
       this.doCameraAction(n);
@@ -69,15 +69,15 @@ export default {
       this.cameraMove(this.CenterPoint);
       //  相机转动 1500ms后执行
       // setTimeout(() => {
-        if (n) {
-          that.cameraTimer = setInterval(() => {
-            this.cameraMode && this.cameraFlyTo();
-          }, 100); // RATE * 1000
-          this.cameraFlyTo();
-        } else {
-          clearInterval(that.cameraTimer);
-          this.heading = 0;
-        }
+      if (n) {
+        that.cameraTimer = setInterval(() => {
+          this.cameraMode && this.cameraFlyTo();
+        }, 100); // RATE * 1000
+        this.cameraFlyTo();
+      } else {
+        clearInterval(that.cameraTimer);
+        this.heading = 0;
+      }
       // }, 0);
     },
     cameraFlyTo() {
@@ -99,9 +99,7 @@ export default {
         : this.heading.toFixed(0) == -50
         ? (this.toRight = false)
         : undefined;
-      this.heading = this.toRight
-        ? (this.heading -= 0.1)
-        : (this.heading += 0.1);
+      this.heading = this.toRight ? (this.heading -= 0.1) : (this.heading += 0.1);
       const heading = Cesium.Math.toRadians(this.heading);
       const pitch = Cesium.Math.toRadians(-29.2);
       const range = 2217.0;

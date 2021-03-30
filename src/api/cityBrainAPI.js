@@ -8,19 +8,23 @@
  */
 import { getYesterdayWithoutChar } from "common/js/util"
 import axios from "axios";
+import { getDate, getStartTime, getYesterdayWithoutChar } from 'common/js/util'
+import eventLayerMock from "mock/eventLayer_mock"
 const BASEURL = "https://sourceserver.wzcitybrain.com/statistics/ProxyGetCityBraainData";
 const instance = axios.create();
 instance.defaults.baseURL = BASEURL;
 instance.defaults.method = "get";
+
 /**
  * axios default
- * @param {*} url
- * @param {*} data
+ * @param {*} code 
+ * @param {*} data 
+ * @param {*} method 
  */
-const getAxios = (code = "", data = {}) => {
+const getAxios = (code = "", data = {}, method = "POST") => {
   return instance.request({
     url: "",
-    params: { params: JSON.stringify(data), code, systype: 1 }
+    params: { params: JSON.stringify(data), code, systype: 1, method }
   }).then(res => {
     return res.data ? Promise.resolve(JSON.parse(res.data.result)) : Promise.reject(res);
   });
@@ -93,4 +97,44 @@ export const getWzAllMedicalInsuranceInstitution = () => {
  */
 export const getWzAllMedicalInsurancePayment = () => {
   return getAxios("100004125");
+};
+/**
+ * [事件] 获取时间段内事件信息 EVENT_TYPE
+ * @param {*} eventType 
+ * @param {*} type 
+ * @returns 
+ */
+const EVENT_TYPE = {
+  eventLayer_fire: "100027001",
+  eventLayer_water: undefined,
+  eventLayer_public: undefined,
+  eventLayer_contradiction: undefined
+}
+export const getEventData = (eventType, eventFormParams = {}, type = 1) => {
+  const _API_CODE_ = EVENT_TYPE[eventType];
+  if (_API_CODE_) {
+    const option = {
+      startTime: getStartTime(type),
+      endTime: getDate(endTime),
+      onlyCount: false
+    }
+    for (let key in eventFormParams) {
+      if (eventFormParams[key] != -1) option[key] = eventFormParams[key]
+    }
+    const endTime = new Date();
+    return getAxios("100027001", option, "GET");
+  } else {
+    return eventLayerMock[eventType];
+  }
+};
+/**
+ * [事件] 获取时间段内事件数量 100027001
+ */
+export const getEventCount = (type) => {
+  const endTime = new Date();
+  return getAxios("100027001", {
+    startTime: getStartTime(type),
+    endTime: getDate(endTime),
+    onlyCount: true
+  }, "GET");
 };

@@ -17,7 +17,7 @@ import createLogger from "vuex/dist/logger";
 import login from "./modules/login";
 import map from "./modules/map";
 import traffic from "./modules/traffic";
-import stateM from "./modules/stateM/index";
+import option from "./modules/option";
 
 Vue.use(Vuex);
 
@@ -34,6 +34,6 @@ export default new Vuex.Store({
     login,
     map,
     traffic,
-    stateM
+    option
   }
 });

@@ -1,9 +1,9 @@
 <template>
   <div class="target-wrapper">
-    <span class="header">资源体征</span>
+    <span class="header">公共专题</span>
     <ul class="content">
       <li class="item">
-        <img src="/static/images/index/unknowns.png" />
+        <img src="/static/images/index/public/万元gdp用水.png" />
         <div>
           <div class="title">
             万元GDP用水量
@@ -19,7 +19,7 @@
         </div>
       </li>
       <li class="item">
-        <img src="/static/images/index/unknowns.png" />
+        <img src="/static/images/index/public/总用水.png" />
         <div>
           <div class="title">
             用水总量
@@ -35,7 +35,7 @@
         </div>
       </li>
       <li class="item">
-        <img src="/static/images/index/unknowns.png" />
+        <img src="/static/images/index/public/水资源.png" />
         <div>
           <div class="title">
             水资源总量
@@ -47,6 +47,38 @@
           </div>
           <div class="number">
             <DynamicNum :value="WzSourceData.水资源总量" />
+          </div>
+        </div>
+      </li>
+      <li class="item">
+        <img src="/static/images/index/public/工作人口.png" />
+        <div>
+          <div class="title">
+            全市工作人口
+            <span class="small">(万人)</span>
+          </div>
+          <div class="desc">
+            温州全市 /
+            <span>当月</span>
+          </div>
+          <div class="number">
+            <DynamicNum :value="WzSourceData.work_count/10000" />
+          </div>
+        </div>
+      </li>
+      <li class="item">
+        <img src="/static/images/index/public/居住人口.png" />
+        <div>
+          <div class="title">
+            全市居住人口
+            <span class="small">(万人)</span>
+          </div>
+          <div class="desc">
+            温州全市 /
+            <span>当月</span>
+          </div>
+          <div class="number">
+            <DynamicNum :value="WzSourceData.home_count/10000" />
           </div>
         </div>
       </li>

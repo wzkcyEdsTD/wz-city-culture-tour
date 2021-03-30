@@ -13,9 +13,6 @@ export default {};
 
 <style scoped lang="less">
 .kg-legend {
-  position: fixed;
-  right: -1vh;
-  bottom: 0;
   height: 30vh;
   width: 22vh;
   box-sizing: border-box;

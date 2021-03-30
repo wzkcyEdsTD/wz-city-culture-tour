@@ -11,13 +11,15 @@ import Vue from "vue";
 import App from "./App";
 import router from "./router";
 import store from "./store";
-import "./font/YouSheBiaoTiHei.css";
-import "./font/DIN.css";
 import * as filters from "./filters"; // 全局过滤器
 import ElementUI from "element-ui";
 import VueBus from "vue-bus";
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/css/swiper.css'
+//  font
+import "./font/font.css";
+//  material
+import "./material/PolylineTrailLink";
 
 Vue.use(VueAwesomeSwiper, /* { default options with global component } */)
 

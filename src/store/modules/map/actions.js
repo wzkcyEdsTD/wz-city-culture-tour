@@ -11,6 +11,8 @@ import {
   getMedicalList, getBayonetList, getStationList, getTourPointList, fetchWzOverviewData, fetchWzTrafficData,
   fetchMedicalData, fetchTourData, fetchCultureData, fetchSourceData, fetchBasicData, fetchWzPeopleData, fetchEmergencyData
 } from "api/layerServerAPI";
+import { getDashboardStat, getWorkData } from "api/getuiAPI"
+import { getEventCount } from "api/cityBrainAPI"
 
 /**
  * 对象下所有值相加
@@ -49,8 +51,9 @@ export const SetWzTourData = async ({ commit, state }) => {
 //  获取全市资源数据
 export const SetWzSourceData = async ({ commit, state }) => {
   if (!Object.keys(state.WzSourceData).length) {
+    const { data } = await getWorkData();
     const { result } = await fetchSourceData();
-    commit(types.SET_WZ_SOURCE_DATA, result.全市);
+    commit(types.SET_WZ_SOURCE_DATA, { ...result.全市, ...data });
   }
 }
 
@@ -89,17 +92,18 @@ export const SetWzCultureData = async ({ commit, state }) => {
 //  获取全市交通数据
 export const SetTrafficData = async ({ commit, state }) => {
   if (!Object.keys(state.WzTrafficData).length) {
-    const { result } = await fetchWzTrafficData();
+    const { data } = await getDashboardStat();
+    // const { result } = await fetchWzTrafficData();
     const _result_ = {};
-    for (let key in result) {
-      const obj = result[key];
-      let num = 0;
-      for (let i in obj) {
-        num += parseInt(obj[i]);
-      }
-      _result_[key] = (num / 10000).toFixed(2)
-    }
-    commit(types.SET_WZ_TRAFFIC_DATA, _result_);
+    // for (let key in result) {
+    //   const obj = result[key];
+    //   let num = 0;
+    //   for (let i in obj) {
+    //     num += parseInt(obj[i]);
+    //   }
+    //   _result_[key] = (num / 10000).toFixed(2)
+    // }
+    commit(types.SET_WZ_TRAFFIC_DATA, { ..._result_, ...data });
   }
 }
 
@@ -113,7 +117,9 @@ export const SetWzMedicalData = async ({ commit, state }) => {
 
 //  获取全市事件总数
 export const SetWzEventData = async ({ commit, state }) => {
-  commit(types.SET_WZ_EVENT_DATA, {});
+  const day = await getEventCount(1);
+  const week = await getEventCount(3);
+  commit(types.SET_WZ_EVENT_DATA, { day, week });
 }
 
 //  设置医院数据
@@ -229,7 +235,12 @@ export const SetCameraMode = ({ commit }, data) => {
 //  设置tab下标
 export const SetForceTreeLabel = ({ commit }, data) => {
   commit(types.SET_FORCE_TREE_LABEL, data);
+  commit(types.SET_IS_SOURCE_LAYER, true);
 };
+export const SetForceTreeEventLabel = ({ commit }, data) => {
+  commit(types.SET_FORCE_TREE_EVENT_LABEL, data);
+  commit(types.SET_IS_SOURCE_LAYER, false);
+}
 //  设置tab子菜单下标数组
 export const SetForceTrueTopicLabels = ({ commit }, data) => {
   commit(types.SET_FORCE_TRUE_TOPIC_LABEL, data);
@@ -238,7 +249,32 @@ export const SetForceTrueTopicLabels = ({ commit }, data) => {
 export const SetForceTrueTopicLabelId = ({ commit }, data) => {
   commit(types.SET_FORCE_TRUE_TOPIC_LABEL_ID, data);
 };
+//  设置tab子菜单下标数组
+export const SetForceEventTopicLabels = ({ commit }, data) => {
+  commit(types.SET_FORCE_EVENT_TOPIC_LABEL, data);
+};
+//  设置tab子菜单下标
+export const SetForceEventTopicLabelId = ({ commit }, data) => {
+  commit(types.SET_FORCE_EVENT_TOPIC_LABEL_ID, data);
+};
 //  设置图层模式
 export const SetIsSourceLayer = ({ commit }, data) => {
   commit(types.SET_IS_SOURCE_LAYER, data);
+  commit(types.SET_SEARCH_BOX_MODEL, data ? 1 : 2);
 };
+//  设置事件搜索参数
+export const SetEventFormParams = ({ commit }, data) => {
+  commit(types.SET_EVENT_FORM_PARAMS, data)
+};
+//  设置搜索框显隐
+export const SetSearchBoxVisible = ({ commit }, data) => {
+  commit(types.SET_SEARCH_BOX_VISIBLE, data);
+}
+//  设置搜索框模式
+export const SetSearchBoxModel = ({ commit }, data) => {
+  commit(types.SET_SEARCH_BOX_MODEL, data);
+}
+//  设置唯一场景
+export const SetSubModel = ({ commit }, data) => {
+  commit(types.SET_SUB_MODEL, data);
+}

@@ -6,6 +6,28 @@
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\components\sourcelayer\treeTool\TreeDrawTool.js
  */
+import { isDayOff } from "common/js/util";
+import { EVENT_FIELDS } from "config/local/eventFields"
+// 标识配置
+const labelConfig = {
+  fillColor: Cesium.Color.WHITE,
+  outlineColor: Cesium.Color.BLACK,
+  style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+  font: "10px",
+  scale: 1,
+  outlineWidth: 4,
+  showBackground: true,
+  backgroundColor: Cesium.Color(0.165, 0.165, 0.165, 0.1),
+  distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 2000),
+  pixelOffset: new Cesium.Cartesian2(0, -30),
+  disableDepthTestDistance: Number.POSITIVE_INFINITY,
+}
+//  图像配置
+const billboardConfig = {
+  width: 30,
+  height: 30,
+  disableDepthTestDistance: Number.POSITIVE_INFINITY,
+}
 
 /**
  * 取面中心点
@@ -35,7 +57,7 @@ const fixFieldsByArr = fields => {
 };
 
 /**
- * 属性名替换中文别名
+ * 属性名替换中文别名 - 资源图层
  * @param {*} attributes
  * @param {*} fields
  */
@@ -47,6 +69,24 @@ const fixAttributesByOrigin = (attributes, fields) => {
   }
   return fixAttributes;
 };
+
+/**
+ * 属性名替换中文别名 - 事件图层
+ * @param {*} attributes 
+ * @param {*} event 
+ */
+const fixAttributesByEvent = (attributes, event) => {
+  const fields = EVENT_FIELDS[event];
+  if (fields) {
+    const fixAttributes = {};
+    for (let v in attributes) {
+      fields[v] ? (fixAttributes[fields[v]] = attributes[v]) : undefined;
+    }
+    return fixAttributes;
+  } else {
+    return attributes;
+  }
+}
 
 /**
  * 从feature数组里剔除有信息的个例，并返回新的两个数组
@@ -80,10 +120,6 @@ export const fixTreeWithExtra = (gArr, eObj, node, context) => {
  */
 export const treeDrawTool = (context, { result }, node, fields = [], fn) => {
   const fieldHash = fixFieldsByArr(fields);
-  // const poiEntityCollection = new Cesium.CustomDataSource(node.id);
-  // window.earth.dataSources.add(poiEntityCollection).then(datasource => {
-  //   window.entityMap[node.id] = datasource;
-  // });
   //  hash赋值
   window.billboardMap[node.id] = window.earth.scene.primitives.add(new Cesium.BillboardCollection());
   window.labelMap[node.id] = window.earth.scene.primitives.add(new Cesium.LabelCollection());
@@ -97,44 +133,89 @@ export const treeDrawTool = (context, { result }, node, fields = [], fn) => {
     }
     const name = v.attributes.SHORTNAME || v.attributes.NAME || v.attributes.MC || v.attributes.JC || v.attributes[node.withExtraKey] || v.attributes["项目名称"] || v.attributes.SMID;
     !window.featureMap[node.id] && (window.featureMap[node.id] = {});
+    const billboardId = `billboard@${v.attributes.SMID}@${node.id}`;
     name && (window.featureMap[node.id][v.attributes.SMID] = {
       name,
       attributes: v.attributes,
       geometry: v.geometry,
+      billboardId,
+      node,
       fix_data: fixAttributesByOrigin(v.attributes, fieldHash),
       dataSet: node.dataset
     })
-  })
-  result.features.map(item => {
+    //  叠加
     const position = Cesium.Cartesian3.fromDegrees(
-      item.geometry.x,
-      item.geometry.y,
+      v.geometry.x,
+      v.geometry.y,
       4
     );
     !node.hiddenIcon && !node.hiddenLabel && window.labelMap[node.id].add({
-      id: `label@${item.attributes.SMID}@${node.id}`,
-      text: item.attributes.SHORTNAME || item.attributes[node.withExtraKey] || item.attributes.NAME,
-      fillColor: Cesium.Color.WHITE,
-      outlineColor: Cesium.Color.BLACK,
-      style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-      font: "10px",
-      scale: 1,
-      outlineWidth: 4,
-      showBackground: true,
-      backgroundColor: Cesium.Color(0.165, 0.165, 0.165, 0.1),
-      distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 2000),
-      pixelOffset: new Cesium.Cartesian2(0, -30),
-      disableDepthTestDistance: Number.POSITIVE_INFINITY,
-      position
+      id: `label@${v.attributes.SMID}@${node.id}`,
+      text: v.attributes.SHORTNAME || v.attributes[node.withExtraKey] || v.attributes.NAME,
+      position,
+      ...labelConfig
     });
     !node.hiddenIcon && window.billboardMap[node.id].add({
-      id: `billboard@${item.attributes.SMID}@${node.icon}`,
+      id: billboardId,
       image: `/static/images/map-ico/${node.icon}.png`,
-      width: 34,
-      height: 34,
-      disableDepthTestDistance: Number.POSITIVE_INFINITY,
-      position
+      position,
+      ...billboardConfig,
     })
-  });
+  })
+  fn && fn();
+};
+
+/**
+ * 画事件点、面
+ * @param {*} context
+ * @param {*} param1
+ * @param {*} node
+ * @param {*} fields 别名数组
+ * @param {function} fn 回调
+ */
+export const treeDrawEventTool = ({ result }, node, fn) => {
+  const eventTag = "eventLayer_";
+  //  hash赋值
+  window.billboardMap[node.id] = window.earth.scene.primitives.add(new Cesium.BillboardCollection());
+  window.labelMap[node.id] = window.earth.scene.primitives.add(new Cesium.LabelCollection());
+  //  属性赋值
+  result.features.map(v => {
+    const name = v.attributes.NAME;
+    const eventTime = v.attributes.eventTime;
+    const superviseStatus = v.attributes.superviseStatus;
+    const dayOff = eventTime && isDayOff(eventTime) ? '_today' : '';
+    const statusOff = superviseStatus && superviseStatus == 0 ? '_off' : '';
+    const extraSuffix = statusOff || dayOff || '';
+    !window.featureMap[node.id] && (window.featureMap[node.id] = {});
+    const billboardId = `${eventTag}billboard@${v.attributes.SMID}@${node.id}`
+    window.featureMap[node.id][v.attributes.SMID] = {
+      name,
+      attributes: v.attributes,
+      geometry: v.geometry,
+      eventTime: v.attributes.eventTime,
+      billboardId,
+      node,
+      fix_data: fixAttributesByEvent(v.attributes, node.event),
+    }
+    //  叠加
+    const position = Cesium.Cartesian3.fromDegrees(
+      v.geometry.x,
+      v.geometry.y,
+      4
+    );
+
+    !node.hiddenIcon && !node.hiddenLabel && window.labelMap[node.id].add({
+      id: `${eventTag}label@${v.attributes.SMID}@${node.id}`,
+      text: v.attributes.NAME,
+      position,
+      ...labelConfig
+    });
+    !node.hiddenIcon && window.billboardMap[node.id].add({
+      id: billboardId,
+      image: `/static/images/map-ico/${node.icon}${extraSuffix}.png`,
+      position,
+      ...billboardConfig,
+    })
+  })
   fn && fn();
 };

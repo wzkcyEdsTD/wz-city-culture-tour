@@ -11,7 +11,8 @@
     <!-- 事件不加入fixForceIndex判断，来回切换保持原先force -->
     <div v-if="forceTime == 'now'">
       <component v-if="isSourceLayer" :is="fixForceIndex" />
-      <eventIndex v-else />
+      <!-- 拿数据 -->
+      <eventIndex v-show="!isSourceLayer" />
     </div>
     <div v-if="forceTime == 'pass'">
       <cityIndexPass />
@@ -29,9 +30,9 @@ const indexHash = {
   文化专题: "cultureIndex",
   应急专题: "emergencyIndex",
   规划专题: "basicIndex",
-  资源专题: "sourceIndex",
+  公共专题: "sourceIndex",
   交通专题: "trafficIndex",
-  重点项目: "keyIndex",
+  经济专题: "keyIndex",
 };
 import { mapGetters } from "vuex";
 import SceneSwitch from "../commonFrame/SceneSwitch/SceneSwitch";

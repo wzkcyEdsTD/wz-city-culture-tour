@@ -7,7 +7,7 @@
  * @FilePath: \wz-city-culture-tour\src\components\sourcelayer\commonFrame\DetailPopup\DetailPopup.vue
 -->
 <template>
-  <div id="forcePopUp" v-show="forcePosition.x && forcePosition.y">
+  <div id="detail-force-popup" v-show="forcePosition.x && forcePosition.y">
     <div
       id="forcePopUpContent"
       class="leaflet-popup"
@@ -33,6 +33,9 @@
               </li>
             </ul>
           </div>
+          <div class="around-analyse" @click="doAroundSourceAnalyse">
+            <img src="/static/images/common/navigation-around.png" />周边分析
+          </div>
         </div>
         <div class="extra-tab to-rtmp-video" @click="doVideoRtmp">直达现场</div>
         <div class="extra-tab to-around-people" @click="doCircleBuffer">周边人口</div>
@@ -47,13 +50,16 @@
             </div>
           </div>
         </div>
+        <Navigation />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { updateBillboard, lowerCaseIcon } from "./tools/updateBillboard";
 import { getCompanyElectricity } from "@/api/cityBrainAPI";
+import Navigation from "./components/Navigation";
 export default {
   data() {
     return {
@@ -63,28 +69,34 @@ export default {
       filterKey: ["永久固定码", "唯一码", "分类代码"],
     };
   },
+  components: { Navigation },
   async mounted() {
     this.eventRegsiter();
   },
   methods: {
     eventRegsiter() {
-      this.$bus.$on("cesium-3d-around-people", ({ id, result }) => {
-        this.buffer = result;
+      this.$bus.$on("cesium-3d-around-people", ({ id, result, type }) => {
+        if (type == "detail") this.buffer = result;
       });
       this.$bus.$on("cesium-3d-detail-pop-clear", () => {
         this.closePopup();
+      });
+      this.$bus.$on("cesium-3d-pick-to-detail", (forceEntity) => {
+        this.getForceEntity(forceEntity);
       });
     },
     /**
      *  详情点赋值
      *  @param {object} forceEntity 详情点信息
      */
-    getForceEntity(forceEntity) {
-      this.forceEntity = forceEntity;
+    async getForceEntity(newForceEntity) {
+      await updateBillboard(this.forceEntity, newForceEntity);
+      this.forceEntity = newForceEntity;
       this.buffer = null;
       this.$bus.$emit("cesium-3d-population-circle", { doDraw: false });
       this.$bus.$emit("cesium-3d-rtmpFetch-cb");
-      this.fetchExtraData(forceEntity);
+      this.$bus.$emit("cesium-3d-navigation-clear");
+      this.fetchExtraData(newForceEntity);
     },
     /**
      * 获取额外信息
@@ -112,8 +124,9 @@ export default {
           forceEntity.position
         );
         if (
-          this.forcePosition.x !== pointToWindow.x ||
-          this.forcePosition.y !== pointToWindow.y
+          pointToWindow &&
+          (this.forcePosition.x !== pointToWindow.x ||
+            this.forcePosition.y !== pointToWindow.y)
         ) {
           this.forcePosition = {
             x:
@@ -138,6 +151,7 @@ export default {
           lng: geometry.x,
           lat: geometry.y,
         },
+        type: "detail",
       });
     },
 
@@ -153,12 +167,22 @@ export default {
         geometry: { lng: x, lat: y },
       });
     },
+    //  周边分析
+    doAroundSourceAnalyse() {
+      this.$bus.$emit("cesium-3d-event-pop-clear");
+      const { geometry, fix_data } = this.forceEntity;
+      const { x, y } = geometry;
+      this.$bus.$emit("cesium-3d-around-analyse-pick", { lng: x, lat: y, fix_data });
+    },
     closePopup() {
+      lowerCaseIcon(this.forceEntity);
       this.forcePosition = {};
       this.forceEntity = {};
       this.buffer = null;
       this.$bus.$emit("cesium-3d-population-circle", { doDraw: false });
       this.$bus.$emit("cesium-3d-rtmpFetch-cb");
+      this.$bus.$emit("cesium-3d-around-analyse-clear");
+      this.$bus.$emit("cesium-3d-navigation-clear");
     },
   },
 };
@@ -166,12 +190,13 @@ export default {
 
 <style lang="less" scoped>
 @import url("./aroundPeople.less");
-#forcePopUp {
+#detail-force-popup {
   .leaflet-popup {
     top: 0;
     left: 0;
     position: absolute;
     text-align: center;
+    z-index: 2;
   }
 
   .leaflet-popup-close-button {
@@ -274,6 +299,17 @@ export default {
           width: 9vh;
         }
       }
+    }
+  }
+
+  .around-analyse {
+    line-height: 4vh;
+    text-decoration: underline;
+    cursor: pointer;
+    > img {
+      height: 2.4vh;
+      display: inline;
+      vertical-align: middle;
     }
   }
 }
