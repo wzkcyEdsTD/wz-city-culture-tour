@@ -6,7 +6,6 @@
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\api\cityBrainAPI.js
  */
-import { getYesterdayWithoutChar } from "common/js/util"
 import axios from "axios";
 import { getDate, getStartTime, getYesterdayWithoutChar } from 'common/js/util'
 import eventLayerMock from "mock/eventLayer_mock"
