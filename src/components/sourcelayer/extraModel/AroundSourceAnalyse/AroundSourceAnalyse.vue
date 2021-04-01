@@ -44,7 +44,7 @@
             <img
               class="around-source-list-icon"
               :src="`/static/images/map-ico/${item.title}.png`"
-            /><span>{{ `${item.title} (${item.list.length})` }}</span>
+            /><span style="color:#1492ff">{{ `${item.title} (${item.list.length})` }}</span>
             <el-select
               class="around-source-select-distance el-event-select"
               v-model="aroundDistance[item.key]"

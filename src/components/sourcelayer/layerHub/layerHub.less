@@ -6,12 +6,14 @@
   width: 100%;
 
   .bottom-layers-container {
-    width: 88vh;
+    // width: 88vh;
+    width: 68vh;
     height: auto;
     margin: 0 auto;
     padding: 2vh 3vh;
     overflow: hidden;
     position: relative;
+    height: 12vh;
 
     // &::after {
     //   content: "";
@@ -41,9 +43,10 @@
     .swiper-buttons {
       outline: none;
       cursor: pointer;
-      margin-top: 14px;
+      // margin-top: 14px;
       width: 34px;
-      height: 34px;
+      // height: 34px;
+      height: 100%;
       background-image: url("/static/images/common/page@2x.png");
       background-size: 100% 100%;
     }
@@ -63,7 +66,9 @@
       width: calc(100% - 68px);
       display: flex;
       justify-content: center;
-      background-size: 100% 100%;
+      // background-size: 100% 100%;
+      .bg-image('/static/images/common/layer-bg');
+      height: 100%;
 
       .item {
         cursor: pointer;
@@ -75,7 +80,7 @@
 
         &.active {
           p {
-            color: #ffffff;
+            color: #000;
             opacity: 1;
           }
 

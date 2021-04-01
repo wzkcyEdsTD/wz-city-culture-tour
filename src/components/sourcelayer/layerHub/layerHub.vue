@@ -30,11 +30,11 @@
               @click="doForceTrueTopicLabels(item.id)"
             />
             <!-- 先不用::after 伪类绑定 -->
-            <div
+            <!-- <div
               class="rings"
               v-if="~forceTrueTopicLabels.indexOf(item.id)"
               @click="doForceTrueTopicLabels(item.id)"
-            />
+            /> -->
             <p>{{ item.label }}</p>
           </div>
         </swiper-slide>

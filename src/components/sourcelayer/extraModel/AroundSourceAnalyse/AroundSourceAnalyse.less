@@ -6,7 +6,8 @@
     width: 42vh;
 
     >div {
-        background: rgba(0, 0, 0, 0.2);
+        // background: rgba(0, 0, 0, 0.2);
+        background-color: #0064c0;
     }
 
     .header {
@@ -28,7 +29,7 @@
             width: 14vh;
             height: 1.6vh;
             z-index: -1;
-            background-image: linear-gradient(90deg, #2acbfe 0%, transparent 100%);
+            background-image: linear-gradient(90deg, #0064C0 0%, transparent 100%);
             transform: skewX(-30deg);
         }
 
@@ -43,7 +44,10 @@
     .around-content-body {
         box-sizing: border-box;
         padding: 0.6vh 1vh;
-        background: rgba(18, 145, 255, 0.2);
+        // background: rgba(18, 145, 255, 0.2);
+        background-color: #fff;
+        // background-color: #1492FF;
+        // opacity: 0.2;
         border-radius: 1vh;
         overflow-y: auto;
         height: 13vh;
@@ -55,7 +59,8 @@
             float: left;
             width: 100%;
             display: flex;
-            color: white;
+            // color: white;
+            color: #666;
 
             // border-bottom: 1px rgba(255,255,255,0.6) solid;
             >span {
@@ -79,7 +84,8 @@
     }
 
     .around-source-pick {
-        padding-top: 1vh;
+        // padding-top: 1vh;
+        margin-top: 1vh;
         display: flex;
 
         &/deep/ .around-source-select-source {
@@ -104,7 +110,8 @@
             background: transparent;
             font-size: 1.6vh;
             font-weight: bold;
-            color: white;
+            // color: white;
+            color: #333;
         }
 
         &/deep/ .el-tag.el-tag--info {
@@ -116,7 +123,8 @@
     }
 
     .around-source-list {
-        padding-top: 1vh;
+        // padding-top: 1vh;
+        margin-top: 1vh;
 
         .around-source-list-icon {
             width: 4vh;
@@ -133,7 +141,8 @@
             background: transparent;
             font-size: 1.6vh;
             font-weight: bold;
-            color: white;
+            // color: white;
+            color: #333;
         }
 
         &/deep/ .el-tag.el-tag--info {
@@ -144,7 +153,8 @@
         }
 
         &/deep/ .el-collapse-item__wrap {
-            background: rgba(49, 99, 173, 0.2);
+            // background: rgba(49, 99, 173, 0.2);
+            background-color: #F2F3F5;
 
             .el-collapse-item__content {
                 overflow-y: auto;
@@ -183,10 +193,12 @@
                         text-overflow: ellipsis;
                         overflow: hidden;
                         word-break: break-all;
+                        color: #333;
                     }
 
                     .single-distance {
                         float: right;
+                        color: #333;
                     }
                 }
             }
@@ -197,7 +209,8 @@
             padding-left: 1vh;
             color: white;
             font-size: 1.6vh;
-            background: linear-gradient(to right, rgba(25, 113, 201, 0.84) 0%, rgba(0, 36, 72, 0.55) 70%, rgba(0, 19, 38, 0) 100%);
+            background-color: #fff;
+            // background: linear-gradient(to right, rgba(25, 113, 201, 0.84) 0%, rgba(0, 36, 72, 0.55) 70%, rgba(0, 19, 38, 0) 100%);
         }
     }
 }
