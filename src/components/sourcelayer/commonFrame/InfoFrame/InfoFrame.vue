@@ -10,7 +10,7 @@
   <div class="bimframe">
     <div class="_bimframe_">
       <i class="close" @click="closeBimFrame"></i>
-      <div>
+      <div style="background-color: #1492ff;opacity: 0.8;">
         <header>
           <span class="title">{{ attributes.SHORTNAME || "" }}</span>
         </header>

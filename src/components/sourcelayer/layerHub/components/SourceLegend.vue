@@ -2,7 +2,7 @@
   <div class="all-legend">
     <HeatVisualBar v-if="~forceTrueTopicLabels.indexOf('人口密集分析')" />
     <GridVisualBar v-if="~forceTrueTopicLabels.indexOf('人口网格分析')" />
-    <ul>
+    <ul v-show="showNomalLegend">
       <li v-for="(val, i) in forceTrueTopicLabels" :key="`s_${i}`" class="source-legend">
         <div v-if="!~filterKey.indexOf(val)">
           <img :src="`/static/images/map-ico/${val}.png`" />
@@ -11,7 +11,8 @@
       </li>
       <li v-for="(val, i) in forceEventTopicLabels" :key="`e_${i}`" class="event-legend">
         <div>
-          <i>{{ val }} - 24小时内</i><img :src="`/static/images/map-ico/${val}_today.png`" />
+          <i>{{ val }} - 24小时内</i
+          ><img :src="`/static/images/map-ico/${val}_today.png`" />
         </div>
       </li>
       <li v-for="(val, i) in forceEventTopicLabels" :key="`ed_${i}`" class="event-legend">
@@ -51,6 +52,7 @@ export default {
         "人口密集分析",
         "人口网格分析",
       ],
+      showNomalLegend: false,
     };
   },
   components: {
@@ -62,6 +64,20 @@ export default {
   },
   computed: {
     ...mapGetters("map", ["forceTrueTopicLabels", "forceEventTopicLabels"]),
+  },
+  watch: {
+    forceTrueTopicLabels(val) {
+      console.log('456')
+      let temp = val.slice();
+      this.filterKey.forEach((j) => {
+        temp.forEach((item, index) => {
+          if (j == item) {
+            temp.splice(index, 1);
+          }
+        });
+      });
+      temp.length ? this.showNomalLegend = true : this.showNomalLegend = false;
+    },
   },
 };
 </script>
@@ -75,7 +91,7 @@ export default {
   width: 15vh;
   box-sizing: border-box;
   padding: 0 10px;
-  
+
   > header {
     height: 4.8vh;
     line-height: 4.8vh;
@@ -89,7 +105,7 @@ export default {
     box-sizing: border-box;
     padding: 0.6vh 0;
     overflow-y: auto;
-    .bg-image('/static/images/common/legend-bg');
+    .bg-image("/static/images/common/legend-bg");
     display: flex;
     flex-direction: column;
     align-items: center;

@@ -271,13 +271,17 @@ export default {
       });
       //  图层选择
       this.$bus.$off("cesium-3d-topic-pick");
-      this.$bus.$on("cesium-3d-topic-pick", () => {
-        console.log('ONcesium-3d-topic-pick', this.queryTopic)
-        if (this.queryTopic) {
-          this.doSetForceTreeLabel(this.queryTopic);
-        } else {
-          this.doSetForceTreeLabel(this.CESIUM_TREE_OPTION[0].id);
+      this.$bus.$on("cesium-3d-topic-pick", ({ value }) => {
+        this.clearForceTopic();
+        if (value == 'now') {
+          console.log(6666)
+          if (this.queryTopic) {
+            this.SetForceTreeLabel(this.queryTopic);
+          } else {
+            this.SetForceTreeLabel(this.CESIUM_TREE_OPTION[0].id);
+          }
         }
+        console.log('999', this.forceTreeLabel)
       });
     },
     /**
@@ -301,6 +305,7 @@ export default {
       this.forceTrueTopicLabels.map((v) =>
         this.nodeCheckChange(TREE_OPTION_HUB[v], false, "source")
       );
+      this.SetForceTreeLabel("")
       this.SetForceTrueTopicLabelId("");
       this.SetForceTrueTopicLabels([]);
       //  事件图层
@@ -510,7 +515,6 @@ export default {
         delete window.billboardMap[node.id];
         window.labelMap[node.id] && window.labelMap[node.id].removeAll();
         delete window.labelMap[node.id];
-        console.log();
         if (~this.forceEventTopicLabels.indexOf(node.id)) {
           //  选择已勾选的label重新叠加点位
           this.nodeCheckChange(node, true, "event");

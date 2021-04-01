@@ -12,7 +12,7 @@
     v-show="
       ((forceTreeLabel && forceTreeLabel != '城市总览') ||
         forceTreeEventLabel) &&
-      searchBoxVisible
+      searchBoxVisible && forceTime=='now'
     "
   >
     <div class="header">
@@ -41,6 +41,7 @@ export default {
       "searchBoxModel",
       "forceTreeLabel",
       "forceTreeEventLabel",
+      "forceTime"
     ]),
     doSource() {
       return this.searchBoxModel == 1;
@@ -71,6 +72,9 @@ export default {
       this.SetSearchBoxModel(type);
     },
   },
+  mounted() {
+    console.log('fuckckckckck', this.searchBoxVisible)
+  }
 };
 </script>
 

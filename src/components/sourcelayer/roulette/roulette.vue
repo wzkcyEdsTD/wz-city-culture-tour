@@ -43,7 +43,7 @@ export default {
             : "future"
           : "now";
       if (this.forceTreeLabel != "城市总览")
-        this.$bus.$emit("cesium-3d-topic-pick");
+        this.$bus.$emit("cesium-3d-topic-pick", {value});
 
       setTimeout(() => {
         this.SetForceTime(value);
