@@ -18,7 +18,7 @@ export const mapConfigInit = () => {
     window.earth.scene.skyAtmosphere.show = false;
     window.earth.scene.globe.atmosphereSaturationShift = 0.5
     window.earth.scene.globe.baseColor = new Cesium.Color.fromCssColorString(
-        "rgba(13,24,45, 1)"
+        "rgba(255,255,255, 1)"
     );
     // window.earth.scene.globe.enableLighting = true;
     window.earth.scene.shadowMap.darkness = 0.35;
