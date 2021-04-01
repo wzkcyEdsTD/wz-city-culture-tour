@@ -7,7 +7,7 @@
  * @FilePath: \wz-city-culture-tour\src\components\m-bottom\m-bottom.vue
 -->
 <template>
-  <div class="bottom-wrapper">
+  <div class="bottom-wrapper" v-show="forceTime == 'now'">
     <div
       class="bottom-layers-container bottom-line-left"
       v-show="
@@ -208,6 +208,8 @@ export default {
       "WzEventData",
       //  事件下方筛选条件
       "eventFormParams",
+      //  时间轴
+      "forceTime",
     ]),
   },
   watch: {
