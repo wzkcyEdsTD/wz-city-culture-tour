@@ -3,11 +3,11 @@
     <div class="cesium-map">
       <cesium-map ref="cesiumMap" />
     </div>
-    <div class="mask-wrapper">
+    <!-- <div class="mask-wrapper">
       <div class="left"></div>
       <div class="right"></div>
       <div class="bottom"></div>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>

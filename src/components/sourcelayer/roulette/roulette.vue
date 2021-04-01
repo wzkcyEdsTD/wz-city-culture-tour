@@ -35,8 +35,8 @@ export default {
       const value =
         this.forceTime == "now"
           ? index == 1
-            ? "future"
-            : "pass"
+            ? "pass"
+            : "future"
           : this.forceTime == (index == 1 ? "future" : "pass")
           ? index == 1
             ? "pass"
