@@ -46,9 +46,11 @@ const state = {
   //  相机转动
   cameraMode: false,
   //  指标下表
-  forceIndex: '城市总览',
+  // forceIndex: '城市总览',
+  forceIndex: '',
   //  tab下标
-  forceTreeLabel: "城市总览",
+  // forceTreeLabel: "城市总览",
+  forceTreeLabel: "",
   forceTreeEventLabel: "事件专题",
   //  树选择类型
   forceTrueTopicLabels: [], //  资源图层选中子节点
@@ -68,8 +70,10 @@ const state = {
     status: -1
   },
   //  唯一 模块
-  subModel: '3d1',
+  subModel: '',
   //  区县街镇
-  areaCodeList: []
+  areaCodeList: [],
+  //  url参数中带的topic值
+  queryTopic: "",
 };
 export default state;

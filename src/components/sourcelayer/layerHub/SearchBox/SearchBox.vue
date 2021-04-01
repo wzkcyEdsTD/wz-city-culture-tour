@@ -18,8 +18,8 @@
     <div class="header">
       <p :class="{ active: doSource }" @click="searchSwitch(1)">资源</p>
       <p>/</p>
-      <p :class="{ active: doEvent }" @click="searchSwitch(2)">事件</p>
-      <p>/</p>
+      <!-- <p :class="{ active: doEvent }" @click="searchSwitch(2)">事件</p> -->
+      <!-- <p>/</p> -->
       <p :class="{ active: doAddress }" @click="searchSwitch(3)">地名地址</p>
     </div>
     <SearchSource v-show="doSource" />

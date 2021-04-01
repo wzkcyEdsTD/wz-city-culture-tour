@@ -5,14 +5,13 @@
     <ul>
       <li v-for="(val, i) in forceTrueTopicLabels" :key="`s_${i}`" class="source-legend">
         <div v-if="!~filterKey.indexOf(val)">
-          <i>{{ val }}</i
-          ><img :src="`/static/images/map-ico/${val}.png`" />
+          <img :src="`/static/images/map-ico/${val}.png`" />
+          <i>{{ val }}</i>
         </div>
       </li>
       <li v-for="(val, i) in forceEventTopicLabels" :key="`e_${i}`" class="event-legend">
         <div>
-          <i>{{ val }} - 24小时内</i
-          ><img :src="`/static/images/map-ico/${val}_today.png`" />
+          <i>{{ val }} - 24小时内</i><img :src="`/static/images/map-ico/${val}_today.png`" />
         </div>
       </li>
       <li v-for="(val, i) in forceEventTopicLabels" :key="`ed_${i}`" class="event-legend">
@@ -72,9 +71,11 @@ export default {
   position: fixed;
   right: 2vh;
   bottom: 8vh;
-  width: 26vh;
+  // width: 26vh;
+  width: 15vh;
   box-sizing: border-box;
   padding: 0 10px;
+  
   > header {
     height: 4.8vh;
     line-height: 4.8vh;
@@ -83,17 +84,24 @@ export default {
   }
   > ul {
     max-height: 24vh;
+    min-height: 10vh;
     width: 100%;
     box-sizing: border-box;
     padding: 0.6vh 0;
     overflow-y: auto;
+    .bg-image('/static/images/common/legend-bg');
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     > li {
       > div {
         height: 3.2vh;
         padding: 0.2vh 0;
         box-sizing: border-box;
         width: 100%;
-        text-align: right;
+        // text-align: right;
+        text-align: center;
         color: white;
         flex: 1;
         margin-right: 1vh;

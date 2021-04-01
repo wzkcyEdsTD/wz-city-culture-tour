@@ -134,6 +134,9 @@ const mutations = {
   [types.SET_AREA_CODE_LIST](state, data) {
     state.areaCodeList = data;
   },
+  [types.SET_QUERY_TOPIC](state, data) {
+    state.queryTopic = data;
+  },
 };
 
 export default mutations;

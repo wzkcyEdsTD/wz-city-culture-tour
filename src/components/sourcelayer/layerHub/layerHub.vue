@@ -72,7 +72,7 @@
       </swiper>
       <div class="swiper-buttons swiper-button-right" />
     </div>
-    <div class="bottom-topics-container">
+    <!-- <div class="bottom-topics-container">
       <div
         class="layer-btn source"
         :class="{ active: isSourceLayer }"
@@ -106,7 +106,6 @@
         <div class="swiper-layerhub-buttons swiper-layerhub-button-right" />
       </div>
 
-      <!-- <ul class="labels"></ul> -->
       <ul class="labels" v-show="false">
         <li
           v-for="(item, i) in CESIUM_TREE_EVENT_OPTION"
@@ -131,7 +130,7 @@
           WzEventData.day || 0
         }}</span>
       </div>
-    </div>
+    </div> -->
     <!-- extra Components -->
     <transition name="fade">
       <SourceLegend />
@@ -209,6 +208,7 @@ export default {
       "eventFormParams",
       //  时间轴
       "forceTime",
+      "queryTopic"
     ]),
   },
   watch: {
@@ -226,7 +226,12 @@ export default {
   },
   mounted() {
     const topic = parseQueryString(window.location.href).topic;
-    topic && this.doSetForceTreeLabel(decodeURIComponent(topic));
+    if (topic) {
+      this.SetQueryTopic(decodeURIComponent(topic))
+      this.doSetForceTreeLabel(decodeURIComponent(topic));
+    } else {
+      this.doSetForceTreeLabel(this.CESIUM_TREE_OPTION[0].id);
+    }
   },
   methods: {
     ...mapActions("map", [
@@ -244,6 +249,7 @@ export default {
         "SetForceEventTopicLabelId",
         //  tab模块
         "SetIsSourceLayer",
+        "SetQueryTopic"
       ],
     ]),
     /**
@@ -266,7 +272,12 @@ export default {
       //  图层选择
       this.$bus.$off("cesium-3d-topic-pick");
       this.$bus.$on("cesium-3d-topic-pick", () => {
-        this.doSetForceTreeLabel(this.CESIUM_TREE_OPTION[0].id);
+        console.log('ONcesium-3d-topic-pick', this.queryTopic)
+        if (this.queryTopic) {
+          this.doSetForceTreeLabel(this.queryTopic);
+        } else {
+          this.doSetForceTreeLabel(this.CESIUM_TREE_OPTION[0].id);
+        }
       });
     },
     /**

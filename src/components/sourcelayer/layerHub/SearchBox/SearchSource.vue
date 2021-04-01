@@ -18,7 +18,7 @@
       </div>
     </div>
     <div class="search-count">共找到 {{ extraSearchList.length }} 个结果</div>
-    <div class="result-wrapper" v-show="searchBoxResult">
+    <div class="result-wrapper" v-show="extraSearchList.length">
       <ul class="result-list">
         <li
           class="result-item"
@@ -44,7 +44,7 @@ export default {
   name: "SearchSource",
   data() {
     return {
-      searchBoxResult: true,
+      // searchBoxResult: true,
       searchText: "",
       forceNode: {},
       extraSearchList: [],
@@ -74,9 +74,9 @@ export default {
         this.searchClear();
       });
     },
-    toogleVisible() {
-      this.searchBoxResult = !this.searchBoxResult;
-    },
+    // toogleVisible() {
+    //   this.searchBoxResult = !this.searchBoxResult;
+    // },
     searchClear() {
       this.searchText = "";
       this.extraSearchList = [];

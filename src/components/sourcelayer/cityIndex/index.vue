@@ -17,7 +17,7 @@
     <div v-if="forceTime == 'pass'">
       <cityIndexPass />
     </div>
-    <scene-switch />
+    <!-- <scene-switch /> -->
   </div>
 </template>
 
@@ -58,7 +58,8 @@ export default {
   computed: {
     ...mapGetters("map", ["forceTime", "forceIndex", "isSourceLayer"]),
     fixForceIndex() {
-      return indexHash[this.forceIndex] || "cityIndex";
+      // return indexHash[this.forceIndex] || "cityIndex";
+      return indexHash[this.forceIndex];
     },
   },
   watch: {

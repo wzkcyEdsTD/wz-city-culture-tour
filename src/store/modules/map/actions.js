@@ -278,3 +278,7 @@ export const SetSearchBoxModel = ({ commit }, data) => {
 export const SetSubModel = ({ commit }, data) => {
   commit(types.SET_SUB_MODEL, data);
 }
+//  设置url参数中带的topic值
+export const SetQueryTopic = ({ commit }, data) => {
+  commit(types.SET_QUERY_TOPIC, data);
+}

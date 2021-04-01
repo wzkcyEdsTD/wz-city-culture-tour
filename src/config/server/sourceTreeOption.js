@@ -202,17 +202,17 @@ export const SET_CESIUM_TREE_EXTRA_DATA_WITH_GEOMETRY = [
 export const CESIUM_TREE_EXTRA_DATA_WITH_GEOMETRY = ["medicalListWithGeometry", "bayonetListWithGeometry", "stationListWithGeometry", "tourPointListWithGeometry"];
 export const CESIUM_TREE_EXTRA_DATA = ["medicalList", "bayonetList", "stationList", "tourPointList"];
 export const CESIUM_TREE_OPTION = [
-  {
-    id: "城市总览",
-    label: "城市总览",
-    children: CITY_TOPIC.map(v => {
-      return {
-        ...v,
-        id: v.label,
-        icon: v.label,
-      };
-    })
-  },
+  // {
+  //   id: "城市总览",
+  //   label: "城市总览",
+  //   children: CITY_TOPIC.map(v => {
+  //     return {
+  //       ...v,
+  //       id: v.label,
+  //       icon: v.label,
+  //     };
+  //   })
+  // },
   {
     id: "医疗专题",
     label: "医疗专题",
