@@ -27,7 +27,7 @@ import { mapGetters, mapActions } from "vuex";
 export default {
   name: "roulette",
   computed: {
-    ...mapGetters("map", ["forceTime"]),
+    ...mapGetters("map", ["forceTime", "forceTreeLabel"]),
   },
   methods: {
     ...mapActions("map", ["SetForceTime", "SetForceTreeLabel"]),
@@ -42,7 +42,9 @@ export default {
             ? "pass"
             : "future"
           : "now";
-      this.SetForceTreeLabel("城市总览");
+      if (this.forceTreeLabel != "城市总览")
+        this.$bus.$emit("cesium-3d-topic-pick");
+
       setTimeout(() => {
         this.SetForceTime(value);
       }, 500);

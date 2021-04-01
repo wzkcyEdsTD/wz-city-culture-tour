@@ -54,7 +54,9 @@
         </div>
       </li>
       <li class="item">
-        <img src="/static/images/index/city/数字经济核心产业制造业增加值增速.png" />
+        <img
+          src="/static/images/index/city/数字经济核心产业制造业增加值增速.png"
+        />
         <div>
           <div class="title">
             工业增加值
@@ -246,10 +248,12 @@ export default {
   },
   beforeDestroy() {
     //  关历史影像
-    Object.keys(window.passImages).map((key) => (window.passImages[key].show = false));
+    Object.keys(window.passImages).map(
+      (key) => (window.passImages[key].show = false)
+    );
     //  开底图
     window.datalayer && (window.datalayer.show = true);
-    window.earth.scene.bloomEffect.show = true;
+    window.earth.scene.bloomEffect.show = false;
     //  开白模
     this.baimoSwitcher(true);
   },
@@ -299,11 +303,15 @@ export default {
         if (_year_ == year) {
           window.passImages[year]
             ? (window.passImages[year].show = true)
-            : (window.passImages[year] = window.earth.imageryLayers.addImageryProvider(
+            : (window.passImages[
+                year
+              ] = window.earth.imageryLayers.addImageryProvider(
                 new Cesium.SuperMapImageryProvider({ url })
               ));
         } else {
-          window.passImages[year] ? (window.passImages[year].show = false) : undefined;
+          window.passImages[year]
+            ? (window.passImages[year].show = false)
+            : undefined;
         }
       });
     },

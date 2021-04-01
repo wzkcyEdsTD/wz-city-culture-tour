@@ -7,7 +7,14 @@
  * @FilePath: \wz-city-culture-tour\src\components\sourcelayer\treeTool\searchBox.vue
 -->
 <template>
-  <div class="search-box" v-show="searchBoxVisible">
+  <div
+    class="search-box"
+    v-show="
+      ((forceTreeLabel && forceTreeLabel != '城市总览') ||
+        forceTreeEventLabel) &&
+      searchBoxVisible
+    "
+  >
     <div class="header">
       <p :class="{ active: doSource }" @click="searchSwitch(1)">资源</p>
       <p>/</p>
@@ -29,7 +36,12 @@ import SearchAddress from "./SearchAddress";
 export default {
   name: "SearchBox",
   computed: {
-    ...mapGetters("map", ["searchBoxVisible", "searchBoxModel"]),
+    ...mapGetters("map", [
+      "searchBoxVisible",
+      "searchBoxModel",
+      "forceTreeLabel",
+      "forceTreeEventLabel",
+    ]),
     doSource() {
       return this.searchBoxModel == 1;
     },
@@ -38,6 +50,14 @@ export default {
     },
     doAddress() {
       return this.searchBoxModel == 3;
+    },
+  },
+  watch: {
+    forceTreeLabel(n) {
+      console.log("forceTreeLabel", n);
+    },
+    forceTreeEventLabel(n) {
+      console.log("forceTreeEventLabel", n);
     },
   },
   components: { SearchSource, SearchEvent, SearchAddress },

@@ -17,23 +17,23 @@ function PolylineTrailLinkMaterialProperty(color, duration) {
 
 Object.defineProperties(PolylineTrailLinkMaterialProperty.prototype, {
   isConstant: {
-    get: function() {
+    get: function () {
       return false;
     }
   },
   definitionChanged: {
-    get: function() {
+    get: function () {
       return this._definitionChanged;
     }
   },
   color: Cesium.createPropertyDescriptor("color")
 });
 
-PolylineTrailLinkMaterialProperty.prototype.getType = function(time) {
+PolylineTrailLinkMaterialProperty.prototype.getType = function (time) {
   return "PolylineTrailLink";
 };
 
-PolylineTrailLinkMaterialProperty.prototype.getValue = function(time, result) {
+PolylineTrailLinkMaterialProperty.prototype.getValue = function (time, result) {
   if (!Cesium.defined(result)) {
     result = {};
   }
@@ -49,7 +49,7 @@ PolylineTrailLinkMaterialProperty.prototype.getValue = function(time, result) {
   return result;
 };
 
-PolylineTrailLinkMaterialProperty.prototype.equals = function(other) {
+PolylineTrailLinkMaterialProperty.prototype.equals = function (other) {
   return (
     this === other ||
     (other instanceof PolylineTrailLinkMaterialProperty &&
@@ -83,7 +83,7 @@ Cesium.Material._materialCache.addMaterial(
       },
       source: Cesium.Material.PolylineTrailLinkSource
     },
-    translucent: function(material) {
+    translucent: function (material) {
       return true;
     }
   }
@@ -133,7 +133,7 @@ window.baimoLoader = () => {
       analysisMode: Cesium.HypsometricSettingEnum.AnalysisRegionMode.ARM_ALL
     };
   });
-  window.earth.scene.bloomEffect.show = true;
+  window.earth.scene.bloomEffect.show = false;
   const linePoints = window.lines.geometries.map(v => v.coordinates);
   linePoints.map((v, index) =>
     window.drawPolyline(

@@ -10,6 +10,7 @@ export const mapConfigInit = () => {
     // window.earth.scene.debugShowFramesPerSecond = true;
     window.earth.clock.currentTime.secondsOfDay = 51830.97475229357
     // window.earth.scene.fxaa = true;
+    window.earth.scene.globe.maximumScreenSpaceError = 2
     window.earth.scene.sun.show = true;
     window.earth.scene.bloomEffect.bloomIntensity = 1.05;
     window.earth.scene.bloomEffect.show = true;

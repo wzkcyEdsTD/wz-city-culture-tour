@@ -33,7 +33,7 @@ export default {
     eventRegsiter() {},
     //  初始化BIM场景
     async initScene() {
-      window.earth.scene.bloomEffect.show = true;
+      window.earth.scene.bloomEffect.show = false;
       this.initImageLayer();
       changeSkyBox("night");
       await this.initS3MModel();

@@ -7,7 +7,7 @@
  * @FilePath: \wz-city-culture-tour\src\components\m-bottom\m-bottom.vue
 -->
 <template>
-  <div class="bottom-wrapper">
+  <div class="bottom-wrapper" v-show="forceTime == 'now'">
     <div
       class="bottom-layers-container bottom-line-left"
       v-show="
@@ -207,6 +207,8 @@ export default {
       "WzEventData",
       //  事件下方筛选条件
       "eventFormParams",
+      //  时间轴
+      "forceTime",
     ]),
   },
   watch: {
@@ -261,6 +263,11 @@ export default {
       this.$bus.$on("cesium-3d-event-form-update", () => {
         this.eventFromUpdate();
       });
+      //  图层选择
+      this.$bus.$off("cesium-3d-topic-pick");
+      this.$bus.$on("cesium-3d-topic-pick", () => {
+        this.doSetForceTreeLabel(this.CESIUM_TREE_OPTION[0].id);
+      });
     },
     /**
      * 专题切换
@@ -268,6 +275,7 @@ export default {
     doSetForceTreeLabel(id) {
       this.clearForceTopic();
       this.SetForceTreeLabel(id);
+      console.log(this.forceTreeLabel);
     },
     doSetForceTreeEventLabel(id) {
       this.clearForceTopic();
