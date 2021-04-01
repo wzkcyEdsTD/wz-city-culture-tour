@@ -10,14 +10,18 @@
   <div class="bimframe">
     <div class="_bimframe_">
       <i class="close" @click="closeBimFrame"></i>
-      <div style="background-color: #1492ff;opacity: 0.8;">
+      <div style="background-color: white">
         <header>
           <span class="title">{{ attributes.SHORTNAME || "" }}</span>
         </header>
         <section v-for="(item, index) in indexEnums" :key="index">
           <span class="section-title">{{ item.label }}</span>
           <div class="block-outside">
-            <div class="block" v-for="(_item, _index) in item.data" :key="_index">
+            <div
+              class="block"
+              v-for="(_item, _index) in item.data"
+              :key="_index"
+            >
               <table>
                 <tbody>
                   <tr>
@@ -53,13 +57,16 @@
         </section>
         <section class="desc-wrapper">
           <span class="section-title">医院简介</span>
-          <div>
+          <div style="color: #5f5f5f">
             <p class="address">地址：{{ attributes.ADDRESS || `暂无地址` }}</p>
             <p class="summary">{{ attributes.SUMMARY || `暂无简介` }}</p>
           </div>
           <div class="imgs">
             <ul>
-              <li v-for="(item, index) in imgHash[attributes.SHORTNAME]" :key="index">
+              <li
+                v-for="(item, index) in imgHash[attributes.SHORTNAME]"
+                :key="index"
+              >
                 <img :src="`/static/images/医院/${item}`" />
               </li>
             </ul>
@@ -106,8 +113,18 @@ export default {
                 ratio: 0,
                 unit: "次",
               },
-              { label: "急诊床位总数", num: n.应急床位总数, ratio: 0, unit: "张" },
-              { label: "急诊床位剩余", num: n.应急床位剩余数, ratio: 0, unit: "张" },
+              {
+                label: "急诊床位总数",
+                num: n.应急床位总数,
+                ratio: 0,
+                unit: "张",
+              },
+              {
+                label: "急诊床位剩余",
+                num: n.应急床位剩余数,
+                ratio: 0,
+                unit: "张",
+              },
             ],
           },
 

@@ -3,26 +3,44 @@
     <HeatVisualBar v-if="~forceTrueTopicLabels.indexOf('人口密集分析')" />
     <GridVisualBar v-if="~forceTrueTopicLabels.indexOf('人口网格分析')" />
     <ul v-show="showNomalLegend">
-      <li v-for="(val, i) in forceTrueTopicLabels" :key="`s_${i}`" class="source-legend">
+      <li
+        v-for="(val, i) in forceTrueTopicLabels"
+        :key="`s_${i}`"
+        class="source-legend"
+      >
         <div v-if="!~filterKey.indexOf(val)">
           <img :src="`/static/images/map-ico/${val}.png`" />
           <i>{{ val }}</i>
         </div>
       </li>
-      <li v-for="(val, i) in forceEventTopicLabels" :key="`e_${i}`" class="event-legend">
+      <li
+        v-for="(val, i) in forceEventTopicLabels"
+        :key="`e_${i}`"
+        class="event-legend"
+      >
         <div>
           <i>{{ val }} - 24小时内</i
           ><img :src="`/static/images/map-ico/${val}_today.png`" />
         </div>
       </li>
-      <li v-for="(val, i) in forceEventTopicLabels" :key="`ed_${i}`" class="event-legend">
+      <li
+        v-for="(val, i) in forceEventTopicLabels"
+        :key="`ed_${i}`"
+        class="event-legend"
+      >
         <div>
-          <i>{{ val }} - 24小时前</i><img :src="`/static/images/map-ico/${val}.png`" />
+          <i>{{ val }} - 24小时前</i
+          ><img :src="`/static/images/map-ico/${val}.png`" />
         </div>
       </li>
-      <li v-for="(val, i) in forceEventTopicLabels" :key="`eo_${i}`" class="event-legend">
+      <li
+        v-for="(val, i) in forceEventTopicLabels"
+        :key="`eo_${i}`"
+        class="event-legend"
+      >
         <div>
-          <i>{{ val }} - 已处理</i><img :src="`/static/images/map-ico/${val}_off.png`" />
+          <i>{{ val }} - 已处理</i
+          ><img :src="`/static/images/map-ico/${val}_off.png`" />
         </div>
       </li>
     </ul>
@@ -67,7 +85,7 @@ export default {
   },
   watch: {
     forceTrueTopicLabels(val) {
-      console.log('456')
+      console.log("456");
       let temp = val.slice();
       this.filterKey.forEach((j) => {
         temp.forEach((item, index) => {
@@ -76,7 +94,9 @@ export default {
           }
         });
       });
-      temp.length ? this.showNomalLegend = true : this.showNomalLegend = false;
+      temp.length
+        ? (this.showNomalLegend = true)
+        : (this.showNomalLegend = false);
     },
   },
 };
@@ -100,7 +120,7 @@ export default {
   }
   > ul {
     max-height: 24vh;
-    min-height: 10vh;
+    min-height: 6vh;
     width: 100%;
     box-sizing: border-box;
     padding: 0.6vh 0;
