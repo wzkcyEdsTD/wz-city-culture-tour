@@ -18,14 +18,14 @@ const router = new Router({
       path: "/",
       redirect: "sourcelayer"
     },
-    {
-      path: "/map", // 文旅
-      name: "Map",
-      meta: {
-        title: "城市大脑·文化旅游"
-      },
-      component: resolve => require(["page/map/map"], resolve)
-    },
+    // {
+    //   path: "/map", // 文旅
+    //   name: "Map",
+    //   meta: {
+    //     title: "城市大脑·文化旅游"
+    //   },
+    //   component: resolve => require(["page/map/map"], resolve)
+    // },
     {
       path: "/sourcelayer", // 医疗
       name: "sourcelayer",
@@ -34,14 +34,14 @@ const router = new Router({
       },
       component: resolve => require(["page/sourcelayer/sourcelayer"], resolve)
     },
-    {
-      path: "/trafficlayer", // 交通
-      name: "trafficlayer",
-      meta: {
-        title: "城市大脑·交通图层"
-      },
-      component: resolve => require(["page/trafficlayer/trafficlayer"], resolve)
-    },
+    // {
+    //   path: "/trafficlayer", // 交通
+    //   name: "trafficlayer",
+    //   meta: {
+    //     title: "城市大脑·交通图层"
+    //   },
+    //   component: resolve => require(["page/trafficlayer/trafficlayer"], resolve)
+    // },
   ]
 });
 

@@ -7,7 +7,7 @@
   color: white;
   box-sizing: border-box;
   padding: 10px;
-  z-index: 2;
+  z-index: 9;
 
   ._bimframe_ {
     position: relative;
@@ -31,40 +31,45 @@
       }
     }
 
-    .title {
-      display: block;
-      height: 4vh;
-      line-height: 4vh;
-      font-family: YouSheBiaoTiHei;
-      font-size: 3.2vh;
-      letter-spacing: 0px;
-      color: #ffffff;
-      text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.64);
-      position: relative;
-      margin-bottom: 10px;
-      padding-left: 1.6vh;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      word-break: break-all;
+    header {
+      background-color: rgb(51, 170, 250);
+
+      .title {
+        display: block;
+        height: 4vh;
+        line-height: 4vh;
+        font-family: YouSheBiaoTiHei;
+        font-size: 2.8vh;
+        letter-spacing: 0px;
+        color: #ffffff;
+        text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.64);
+        position: relative;
+        padding-left: 1.6vh;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        word-break: break-all;
+      }
+
+      .title::before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0.6vh;
+        width: 14vh;
+        height: 1.6vh;
+        z-index: -1;
+        background-image: linear-gradient(90deg,
+            #2acbfe 0%,
+            transparent 100%);
+        transform: skewX(-30deg);
+      }
     }
 
-    .title::before {
-      content: "";
-      position: absolute;
-      bottom: 0;
-      left: 0.6vh;
-      width: 14vh;
-      height: 1.6vh;
-      z-index: -1;
-      background-image: linear-gradient(90deg,
-          #2acbfe 0%,
-          transparent 100%);
-      transform: skewX(-30deg);
-    }
+
 
     section {
-      margin-bottom: 10px;
+      padding: 1vh;
     }
 
     .section-title {
@@ -72,8 +77,8 @@
       font-family: YouSheBiaoTiHei;
       font-size: 2.2vh;
       letter-spacing: 0px;
-      color: #ffffff;
-      text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.64);
+      color: #5f5f5f;
+      text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.64);
       margin-bottom: 6px;
     }
 
@@ -100,6 +105,7 @@
 
           tr:first-child td:first-child {
             width: 56%;
+            color: #5f5f5f;
           }
 
           // tr:first-child td:last-child {

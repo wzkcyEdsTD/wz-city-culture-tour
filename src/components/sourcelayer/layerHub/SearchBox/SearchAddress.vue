@@ -29,7 +29,9 @@
           :key="`sitem-${i}`"
           @click="checkedOne(item, i)"
         >
-          <p class="name" :title="item.result">{{ i + 1 }}. {{ item.result }}</p>
+          <p class="name" :title="item.result">
+            {{ i + 1 }}. {{ item.result }}
+          </p>
         </li>
       </ul>
     </div>
@@ -73,16 +75,15 @@ export default {
       this.searchText = "";
       window.earth.entities.removeById(iconId);
     },
-    checkedOne({ lng, lat, result },i) {
+    checkedOne({ lng, lat, result }, i) {
       this.searchChecked = i;
       window.earth.camera.flyTo({
-        destination: Cesium.Cartesian3.fromDegrees(lng, lat - 0.005, 450),
+        destination: Cesium.Cartesian3.fromDegrees(lng, lat, 2000),
         orientation: {
-          heading: 0.003336768850279448,
-          pitch: -0.5808830390057418,
+          heading: 0,
+          pitch: -1.547577341226372,
           roll: 0.0,
         },
-        maximumHeight: 450,
         duration: 1,
       });
       window.earth.entities.removeById(iconId);

@@ -112,13 +112,12 @@ export default {
         // 移动到对应实例位置
         window.earth.camera.flyTo({
           // window.earth.scene.camera.setView({
-          destination: Cesium.Cartesian3.fromDegrees(x, y - 0.005, 450),
+          destination: Cesium.Cartesian3.fromDegrees(x, y, 1000),
           orientation: {
-            heading: 0.003336768850279448,
-            pitch: -0.5808830390057418,
+            heading: 0,
+            pitch: -1.547577341226372,
             roll: 0.0,
           },
-          maximumHeight: 450,
         });
       }
     },

@@ -135,7 +135,7 @@
     <transition name="fade">
       <SourceLegend />
     </transition>
-    <ClearLayer />
+    <ClearLayer v-if="false" />
   </div>
 </template>
 
@@ -208,7 +208,7 @@ export default {
       "eventFormParams",
       //  时间轴
       "forceTime",
-      "queryTopic"
+      "queryTopic",
     ]),
   },
   watch: {
@@ -227,7 +227,7 @@ export default {
   mounted() {
     const topic = parseQueryString(window.location.href).topic;
     if (topic) {
-      this.SetQueryTopic(decodeURIComponent(topic))
+      this.SetQueryTopic(decodeURIComponent(topic));
       this.doSetForceTreeLabel(decodeURIComponent(topic));
     } else {
       this.doSetForceTreeLabel(this.CESIUM_TREE_OPTION[0].id);
@@ -249,7 +249,7 @@ export default {
         "SetForceEventTopicLabelId",
         //  tab模块
         "SetIsSourceLayer",
-        "SetQueryTopic"
+        "SetQueryTopic",
       ],
     ]),
     /**
@@ -273,15 +273,15 @@ export default {
       this.$bus.$off("cesium-3d-topic-pick");
       this.$bus.$on("cesium-3d-topic-pick", ({ value }) => {
         this.clearForceTopic();
-        if (value == 'now') {
-          console.log(6666)
+        if (value == "now") {
+          console.log(6666);
           if (this.queryTopic) {
             this.SetForceTreeLabel(this.queryTopic);
           } else {
             this.SetForceTreeLabel(this.CESIUM_TREE_OPTION[0].id);
           }
         }
-        console.log('999', this.forceTreeLabel)
+        console.log("999", this.forceTreeLabel);
       });
     },
     /**
@@ -305,7 +305,7 @@ export default {
       this.forceTrueTopicLabels.map((v) =>
         this.nodeCheckChange(TREE_OPTION_HUB[v], false, "source")
       );
-      this.SetForceTreeLabel("")
+      this.SetForceTreeLabel("");
       this.SetForceTrueTopicLabelId("");
       this.SetForceTrueTopicLabels([]);
       //  事件图层

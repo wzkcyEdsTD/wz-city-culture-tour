@@ -77,7 +77,8 @@ export default {
         this.forceNode = node || {};
         this.searchClear();
         this.$nextTick(() => {
-          this.extraSearchList.length && this.checkedOne(this.extraSearchList[0], 0);
+          this.extraSearchList.length &&
+            this.checkedOne(this.extraSearchList[0], 0);
         });
       });
     },
@@ -102,7 +103,9 @@ export default {
           allSearchList.push(item);
         }
       }
-      allSearchList = allSearchList.sort(arrayCompareWithParam("eventTime")).reverse();
+      allSearchList = allSearchList
+        .sort(arrayCompareWithParam("eventTime"))
+        .reverse();
       this.extraSearchList = this.searchText
         ? allSearchList.filter((item) => ~item.name.indexOf(this.searchText))
         : allSearchList;
@@ -123,13 +126,12 @@ export default {
         // 移动到对应实例位置
         window.earth.camera.flyTo({
           // window.earth.scene.camera.setView({
-          destination: Cesium.Cartesian3.fromDegrees(x, y - 0.005, 450),
+          destination: Cesium.Cartesian3.fromDegrees(x, y, 1000),
           orientation: {
-            heading: 0.003336768850279448,
-            pitch: -0.5808830390057418,
+            heading: 0,
+            pitch: -1.547577341226372,
             roll: 0.0,
           },
-          maximumHeight: 450,
         });
       }
     },

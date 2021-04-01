@@ -65,11 +65,16 @@
             :key="subIndex"
             @click="forceAnalyseSingle(item.key, value)"
           >
-            <img class="single-location" src="/static/images/common/location.png" />
+            <img
+              class="single-location"
+              src="/static/images/common/location.png"
+            />
             <span class="single-title" :title="value.resourceName">{{
               value.resourceName
             }}</span>
-            <span class="single-distance">{{ (+value.distance).toFixed(2) }}m</span>
+            <span class="single-distance"
+              >{{ (+value.distance).toFixed(2) }}m</span
+            >
           </div>
         </el-collapse-item>
       </el-collapse>
@@ -235,14 +240,12 @@ export default {
         position: new Cesium.Cartesian3.fromDegrees(x, y, 4),
       });
       window.earth.camera.flyTo({
-        destination: Cesium.Cartesian3.fromDegrees(x, y - 0.005, 450),
+        destination: Cesium.Cartesian3.fromDegrees(x, y, 1000),
         orientation: {
-          heading: 0.003336768850279448,
-          pitch: -0.5808830390057418,
+          heading: 0,
+          pitch: -1.547577341226372,
           roll: 0.0,
         },
-        maximumHeight: 450,
-        duration: 1,
       });
     },
     //  关闭周边分析
