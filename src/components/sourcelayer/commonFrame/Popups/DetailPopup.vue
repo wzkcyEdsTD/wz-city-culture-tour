@@ -33,12 +33,25 @@
               </li>
             </ul>
           </div>
-          <div class="around-analyse" @click="doAroundSourceAnalyse">
-            <img src="/static/images/common/navigation-around.png" />周边分析
+          <div class="around-analyse">
+            <span @click="doAroundSourceAnalyse"
+              ><img
+                src="/static/images/common/navigation-around.png"
+              />周边分析</span
+            >
+            <span
+              v-if="forceEntity.node && forceEntity.node.id == '单兵设备'"
+              @click="doVideoChat"
+              ><img
+                src="/static/images/common/navigation-around.png"
+              />视频通话</span
+            >
           </div>
         </div>
         <div class="extra-tab to-rtmp-video" @click="doVideoRtmp">直达现场</div>
-        <div class="extra-tab to-around-people" @click="doCircleBuffer">周边人口</div>
+        <div class="extra-tab to-around-people" @click="doCircleBuffer">
+          周边人口
+        </div>
         <div class="around-people" v-if="buffer && buffer.success">
           <!-- <img src="/static/images/common/frameline@2x.png" /> -->
           <div>
@@ -107,7 +120,9 @@ export default {
         forceEntity.dataSet === "company_electricity" &&
         forceEntity.attributes.CREDITCODE
       ) {
-        const { data } = await getCompanyElectricity(forceEntity.attributes.CREDITCODE);
+        const { data } = await getCompanyElectricity(
+          forceEntity.attributes.CREDITCODE
+        );
         this.forceEntity.fix_data["昨日用电量"] =
           data.length && data[0].electricity ? data[0].electricity : "-";
       }
@@ -132,7 +147,10 @@ export default {
             x:
               pointToWindow.x -
               (($(".leaflet-popup-content-wrapper").width() || 0) * 1.2) / 2,
-            y: pointToWindow.y - ($(".leaflet-popup-content-wrapper").height() || 0) - 90,
+            y:
+              pointToWindow.y -
+              ($(".leaflet-popup-content-wrapper").height() || 0) -
+              90,
           };
         }
       }
@@ -172,7 +190,15 @@ export default {
       this.$bus.$emit("cesium-3d-event-pop-clear");
       const { geometry, fix_data } = this.forceEntity;
       const { x, y } = geometry;
-      this.$bus.$emit("cesium-3d-around-analyse-pick", { lng: x, lat: y, fix_data });
+      this.$bus.$emit("cesium-3d-around-analyse-pick", {
+        lng: x,
+        lat: y,
+        fix_data,
+      });
+    },
+    //  视频通话
+    doVideoChat() {
+      this.$bus.$emit("cesium-3d-video-chat-on");
     },
     closePopup() {
       lowerCaseIcon(this.forceEntity);
@@ -183,6 +209,7 @@ export default {
       this.$bus.$emit("cesium-3d-rtmpFetch-cb");
       this.$bus.$emit("cesium-3d-around-analyse-clear");
       this.$bus.$emit("cesium-3d-navigation-clear");
+      this.$bus.$emit("cesium-3d-video-chat-clear");
     },
   },
 };
@@ -304,12 +331,15 @@ export default {
 
   .around-analyse {
     line-height: 4vh;
-    text-decoration: underline;
-    cursor: pointer;
-    > img {
-      height: 2.4vh;
-      display: inline;
-      vertical-align: middle;
+    > span {
+      display: inline-block;
+      text-decoration: underline;
+      cursor: pointer;
+      > img {
+        height: 2.4vh;
+        display: inline;
+        vertical-align: middle;
+      }
     }
   }
 }

@@ -10,6 +10,7 @@
     </div>
     <div id="extra-object-components">
       <AroundSourceAnalyse ref="aroundSourceAnalyse" />
+      <VideoChat ref="videoChat" />
       <RtmpVideo />
       <Population />
       <!-- 搜索框 -->
@@ -28,6 +29,7 @@ import CarLineCount from "components/sourcelayer/extraModel/GeTuiAnalyse/CarLine
 import PeopleAreaHeat from "components/sourcelayer/extraModel/GeTuiAnalyse/PeopleAreaHeat";
 import PeopleAreaGrid from "components/sourcelayer/extraModel/GeTuiAnalyse/PeopleAreaGrid";
 import AroundSourceAnalyse from "components/sourcelayer/extraModel/AroundSourceAnalyse/AroundSourceAnalyse";
+import VideoChat from "components/sourcelayer/extraModel/VideoChat/VideoChat";
 import RtmpVideo from "components/sourcelayer/extraModel/RtmpVideo/RtmpVideo";
 import Population from "components/sourcelayer/extraModel/Population/Population";
 import SearchBox from "components/sourcelayer/layerHub/SearchBox/SearchBox";
@@ -42,6 +44,7 @@ export default {
     PeopleAreaHeat,
     PeopleAreaGrid,
     AroundSourceAnalyse,
+    VideoChat,
     RtmpVideo,
     Population,
     SearchBox,

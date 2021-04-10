@@ -8,6 +8,7 @@
  */
 import axios from "axios";
 import { getDate, getStartTime, getYesterdayWithoutChar } from 'common/js/util'
+import { danbin } from "mock/sourceMock";
 import eventLayerMock from "mock/eventLayer_mock"
 const BASEURL = "https://sourceserver.wzcitybrain.com/statistics/ProxyGetCityBraainData";
 const instance = axios.create();
@@ -97,6 +98,12 @@ export const getWzAllMedicalInsuranceInstitution = () => {
 export const getWzAllMedicalInsurancePayment = () => {
   return getAxios("100004125");
 };
+
+export const getSourceData = ({ label, url }) => {
+  if (label == '单兵设备') {
+    return danbin;
+  }
+}
 /**
  * [事件] 获取时间段内事件信息 EVENT_TYPE
  * @param {*} eventType 

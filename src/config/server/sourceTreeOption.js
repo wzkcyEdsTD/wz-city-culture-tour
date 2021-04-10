@@ -20,7 +20,8 @@ const MEDICAL_TOPIC = [
     withExtraDataGeometry: "medicalListWithGeometry",
     saveExtraDataByGeometry: "setMedicalListWithGeometry",
     withExtraKey: "SHORTNAME",
-  }
+  },
+  { label: "单兵设备", type: "xhr", url: "" },
 ];
 //  旅游专题
 const TOUR_TOPIC = [
@@ -222,7 +223,7 @@ export const CESIUM_TREE_OPTION = [
         id: v.label,
         icon: v.label,
         url: SERVER_DEFAULT_DATA,
-        type: "mvt",
+        type: v.type || "mvt",
         dataSource: `${SW_DATA_NAME}${v.dataset}`
       };
     })

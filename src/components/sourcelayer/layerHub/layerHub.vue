@@ -153,7 +153,7 @@ import {
   CESIUM_TREE_OPTION,
   CESIUM_TREE_EVENT_OPTION,
 } from "config/server/sourceTreeOption";
-import { getEventData } from "api/cityBrainAPI";
+import { getEventData, getSourceData } from "api/cityBrainAPI";
 const TREE_OPTION_HUB = {};
 const TREE_OPTION =
   CESIUM_TREE_OPTION.map((v) => v.children).flat(2).length - 1;
@@ -401,11 +401,43 @@ export default {
       getFeatureBySQLService.processAsync(getFeatureBySQLParams);
     },
     /**
+     * 动态获取资源数据
+     * @param {object} node 节点数据
+     * @param {function} fn 回调钩子
+     */
+    async getSourceAPIFeature(node, fn) {
+      let res = await getSourceData(node);
+      let features = [];
+      res.forEach((item) => {
+        features.push({
+          attributes: item,
+          geometry: {
+            x: +item.eventCoordinate.split(",")[0],
+            y: +item.eventCoordinate.split(",")[1],
+          },
+        });
+      });
+      treeDrawTool(
+        this,
+        { result: { features } },
+        node,
+        [
+          { name: "title", caption: "号码" },
+          { name: "speed", caption: "速度" },
+          { name: "direction", caption: "方向" },
+          { name: "height", caption: "高度" },
+          { name: "startTime", caption: "定位上报时间" },
+          { name: "endTime", caption: "定位点离开时间" },
+        ],
+        fn
+      );
+    },
+    /**
      * 动态获取事件数据
      * @param {object} node 节点数据
      * @param {function} fn 回调钩子
      */
-    async getAPIFeature(node, fn) {
+    async getEventAPIFeature(node, fn) {
       const { timeType, areaCode, status } = this.eventFormParams;
       let res = await getEventData(node.event, { areaCode, status }, timeType);
       let features = [];
@@ -426,7 +458,7 @@ export default {
     },
     nodeCheckChange(node, checked, type) {
       if (checked) {
-        if (node.type == "mvt" && node.id) {
+        if (~["mvt", "xhr"].indexOf(node.type) && node.id) {
           if (node.id && window.billboardMap[node.id]) {
             window.billboardMap[node.id]._billboards.map(
               (v) => (v.show = true)
@@ -434,11 +466,19 @@ export default {
             window.labelMap[node.id].setAllLabelsVisible(true);
           } else {
             if (this.isSourceLayer) {
-              this.getPOIPickedFeature(node, () => {
-                this.switchSearchBox(node, type);
-              });
+              node.type == "mvt"
+                ? this.getPOIPickedFeature(node, () => {
+                    this.switchSearchBox(node, type);
+                  })
+                : this.getSourceAPIFeature(
+                    node,
+                    () => {
+                      this.switchSearchBox(node, type);
+                    },
+                    node
+                  );
             } else {
-              this.getAPIFeature(node, () => {
+              this.getEventAPIFeature(node, () => {
                 this.switchSearchBox(node, type);
               });
             }
@@ -504,7 +544,7 @@ export default {
      */
     switchSearchBox(node, type) {
       this.$bus.$emit(`cesium-3d-switch-searchBox-${type}`, {
-        shall: node.type == "mvt" && node.id ? true : false,
+        shall: ~["mvt", "xhr"].indexOf(node.type) && node.id ? true : false,
         node,
       });
     },
