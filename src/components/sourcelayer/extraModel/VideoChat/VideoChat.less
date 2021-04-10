@@ -9,9 +9,6 @@
     box-sizing: border-box;
     padding: 1.5vh;
 
-    >div {
-        background: rgba(0, 0, 0, 0.3);
-    }
 
     .header {
         display: block;
@@ -44,7 +41,50 @@
         }
     }
 
+    .link {
+        height: 4vh;
+        line-height: 4vh;
+        color: white;
+
+        >i {
+            font-style: normal;
+            float: left;
+
+            &:last-child {
+                float: right;
+            }
+        }
+    }
+
+    .operation {
+        height: 4vh;
+        line-height: 4vh;
+        margin-bottom: 1vh;
+
+        >span {
+            border-radius: 1vh;
+            display: inline-block;
+            height: 3vh;
+            line-height: 3vh;
+            padding: 0 1vh;
+            border: 1px solid;
+            cursor: pointer;
+
+            &:first-child {
+                color: rgb(0, 132, 255);
+                border-color: rgb(0, 132, 255);
+            }
+
+            &:last-child {
+                margin-left: 1vh;
+                color: gold;
+                border-color: gold;
+            }
+        }
+    }
+
     .video-chat-container {
+        background: rgba(0, 0, 0, 0.3);
         width: 100%;
         height: 30vh;
     }

@@ -21,7 +21,7 @@ const MEDICAL_TOPIC = [
     saveExtraDataByGeometry: "setMedicalListWithGeometry",
     withExtraKey: "SHORTNAME",
   },
-  { label: "单兵设备", type: "xhr", url: "" },
+  { label: "单兵设备", type: "xhr", url: "http://10.36.217.144:18080/userGPSInfo/getList" },
 ];
 //  旅游专题
 const TOUR_TOPIC = [
@@ -222,7 +222,7 @@ export const CESIUM_TREE_OPTION = [
         ...v,
         id: v.label,
         icon: v.label,
-        url: SERVER_DEFAULT_DATA,
+        url: v.url || SERVER_DEFAULT_DATA,
         type: v.type || "mvt",
         dataSource: `${SW_DATA_NAME}${v.dataset}`
       };

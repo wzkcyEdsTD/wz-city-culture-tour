@@ -153,7 +153,8 @@ import {
   CESIUM_TREE_OPTION,
   CESIUM_TREE_EVENT_OPTION,
 } from "config/server/sourceTreeOption";
-import { getEventData, getSourceData } from "api/cityBrainAPI";
+import { getEventData } from "api/cityBrainAPI";
+import { getSourceData } from "api/normalAPI";
 const TREE_OPTION_HUB = {};
 const TREE_OPTION =
   CESIUM_TREE_OPTION.map((v) => v.children).flat(2).length - 1;
@@ -410,10 +411,10 @@ export default {
       let features = [];
       res.forEach((item) => {
         features.push({
-          attributes: item,
+          attributes: { ...item, title: item.dn, SMID: item.dn },
           geometry: {
-            x: +item.eventCoordinate.split(",")[0],
-            y: +item.eventCoordinate.split(",")[1],
+            x: item.longitude,
+            y: item.latitude,
           },
         });
       });

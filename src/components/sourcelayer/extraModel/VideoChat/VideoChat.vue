@@ -4,9 +4,9 @@
       >视频通话
       <i class="video-chat-close" @click="closeVideoChat">x</i>
     </span>
-    <div class="video-chat-container">
-      <div><span></span><span></span></div>
-    </div>
+    <div class="link"><i>联系人: -</i><i>联系方式: -</i></div>
+    <div class="operation"><span>拨号</span><span>断开</span></div>
+    <div class="video-chat-container"></div>
   </div>
 </template>
 
