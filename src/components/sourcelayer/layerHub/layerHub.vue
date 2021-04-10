@@ -153,8 +153,7 @@ import {
   CESIUM_TREE_OPTION,
   CESIUM_TREE_EVENT_OPTION,
 } from "config/server/sourceTreeOption";
-import { getEventData } from "api/cityBrainAPI";
-import { getSourceData } from "api/normalAPI";
+import { getEventData, getDNList } from "api/cityBrainAPI";
 const TREE_OPTION_HUB = {};
 const TREE_OPTION =
   CESIUM_TREE_OPTION.map((v) => v.children).flat(2).length - 1;
@@ -407,11 +406,11 @@ export default {
      * @param {function} fn 回调钩子
      */
     async getSourceAPIFeature(node, fn) {
-      let res = await getSourceData(node);
+      let res = await getDNList(node);
       let features = [];
-      res.forEach((item) => {
+      res.data.forEach((item) => {
         features.push({
-          attributes: { ...item, title: item.dn, SMID: item.dn },
+          attributes: { ...item, SMID: `设备号[${item.dn}]` },
           geometry: {
             x: item.longitude,
             y: item.latitude,

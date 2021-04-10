@@ -14,6 +14,7 @@ import store from "./store";
 import * as filters from "./filters"; // 全局过滤器
 import ElementUI from "element-ui";
 import VueBus from "vue-bus";
+import { initPlugin, SingleVideoCall } from "common/js/ws/wsplugin";
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/css/swiper.css'
 //  font
@@ -22,13 +23,16 @@ import "./font/font.css";
 import "./material/PolylineTrailLink";
 
 Vue.use(VueAwesomeSwiper, /* { default options with global component } */)
-
+Vue.prototype.$SingleVideoCall = SingleVideoCall;
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key]);
 });
 Vue.use(VueBus);
 Vue.use(ElementUI);
 Vue.config.productionTip = false;
+
+//  ws
+initPlugin();
 
 /* eslint-disable no-new */
 new Vue({

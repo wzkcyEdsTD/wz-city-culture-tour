@@ -29,7 +29,7 @@ const getAxios = (url = "", data = {}, method = "GET") => {
 
 export const getSourceData = ({ label, url }) => {
     if (label == '单兵设备') {
-        // return getAxios(url);
-        return danbin;
+        return getAxios(url);
+        // return danbin;
     }
 }

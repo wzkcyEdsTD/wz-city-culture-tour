@@ -99,6 +99,13 @@ export const getWzAllMedicalInsurancePayment = () => {
   return getAxios("100004125");
 };
 
+/**
+ * [概览]	医保支付额	100004125
+ */
+export const getDNList = () => {
+  return getAxios("100033000");
+};
+
 export const getSourceData = ({ label, url }) => {
   if (label == '单兵设备') {
     return danbin;

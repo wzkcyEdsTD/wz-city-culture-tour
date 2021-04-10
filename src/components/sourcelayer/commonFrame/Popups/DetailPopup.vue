@@ -198,7 +198,7 @@ export default {
     },
     //  视频通话
     doVideoChat() {
-      this.$bus.$emit("cesium-3d-video-chat-on");
+      this.$SingleVideoCall(this.forceEntity.attributes.dn);
     },
     closePopup() {
       lowerCaseIcon(this.forceEntity);
@@ -209,7 +209,6 @@ export default {
       this.$bus.$emit("cesium-3d-rtmpFetch-cb");
       this.$bus.$emit("cesium-3d-around-analyse-clear");
       this.$bus.$emit("cesium-3d-navigation-clear");
-      this.$bus.$emit("cesium-3d-video-chat-clear");
     },
   },
 };
