@@ -8,6 +8,7 @@
  */
 import axios from "axios";
 import { getDate, getStartTime, getYesterdayWithoutChar } from 'common/js/util'
+import getDistance from 'common/js/lonlatTool'
 import { danbin } from "mock/sourceMock";
 import eventLayerMock from "mock/eventLayer_mock"
 const BASEURL = "https://sourceserver.wzcitybrain.com/statistics/ProxyGetCityBraainData";
@@ -100,17 +101,43 @@ export const getWzAllMedicalInsurancePayment = () => {
 };
 
 /**
- * [概览]	医保支付额	100004125
+ * [概览]	获取单兵设备信息	100033000
  */
 export const getDNList = () => {
   return getAxios("100033000");
 };
 
-export const getSourceData = ({ label, url }) => {
-  if (label == '单兵设备') {
-    return danbin;
-  }
-}
+/**
+ * 单兵设备周边分析
+ * @param {*} lng 
+ * @param {*} lat 
+ * @param {*} distane 
+ * @returns 
+ */
+export const getDNListWithDeal = async (lng, lat, d) => {
+  const { data } = await getAxios("100033000");
+  return data.map(v => {
+    const distance = getDistance(lng, lat, v.longitude, v.latitude);
+    const fieldNames = [];
+    const fieldValues = [];
+    for (let key in v) {
+      fieldNames.push(key);
+      fieldValues.push(v[key])
+    }
+    return {
+      distance,
+      resourceName: `设备号[${v.dn}]`,
+      lng: v.longitude,
+      lat: v.latitude,
+      originalData: {
+        fieldNames,
+        fieldValues,
+      },
+      smid: v.dn
+    }
+  }).filter(v => v.distance <= d);
+};
+
 /**
  * [事件] 获取时间段内事件信息 EVENT_TYPE
  * @param {*} eventType 

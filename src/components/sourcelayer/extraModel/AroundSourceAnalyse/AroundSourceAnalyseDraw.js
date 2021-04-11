@@ -4,6 +4,8 @@ const _ENTITY_CIRCLE_ID_ = "aroundSourceAnalyseCircle";
 const _ENTITY_CIRCLE_RANGE_ID_ = "aroundSourceAnalyseRange"
 const _ENTITY_CIRCLE_RANGE_ = [250, 500, 1000]
 const _ENTITY_METER_ID_ = _ENTITY_CIRCLE_RANGE_.map(v => `aroundSourceAnalyseMeter_${v}`)
+import dnFields from "config/local/dnFields";
+
 /**
  * 地图画点
  * @param {*} param0 
@@ -13,7 +15,7 @@ export const aroundSourceAnalyseDraw = ({ key, list, title, node }) => {
     list.length &&
         list.map((v) => {
             const position = Cesium.Cartesian3.fromDegrees(+v.lng, +v.lat, 4);
-            const smid = v.originalData.fieldValues[0]
+            const smid = v.smid;
             initFeatureMap(node, KEY, v, smid);
             !node.hiddenLabel && window.labelMap[KEY].add({
                 id: `label@${smid}@${KEY}@location`,
@@ -125,7 +127,7 @@ export const initPrimitivesCollection = (key) => {
  * @param {object} data
  */
 const initFeatureMap = async ({ url, dataSource }, KEY, data, smid) => {
-    const fields = await getIserverFields(url, dataSource);
+    const fields = dataSource ? await getIserverFields(url, dataSource) : dnFields;
     const fieldHash = fixFieldsByArr(fields);
     const attributes = doObjFromArr(data.originalData);
     const name = data.resourceName;

@@ -65,11 +65,16 @@
             :key="subIndex"
             @click="forceAnalyseSingle(item.key, value)"
           >
-            <img class="single-location" src="/static/images/common/location.png" />
+            <img
+              class="single-location"
+              src="/static/images/common/location.png"
+            />
             <span class="single-title" :title="value.resourceName">{{
               value.resourceName
             }}</span>
-            <span class="single-distance">{{ (+value.distance).toFixed(2) }}m</span>
+            <span class="single-distance"
+              >{{ (+value.distance).toFixed(2) }}m</span
+            >
           </div>
         </el-collapse-item>
       </el-collapse>
@@ -88,6 +93,7 @@ import {
 } from "./AroundSourceAnalyseDraw";
 import { arrayCompareWithParam } from "common/js/util";
 import { getAroundSourceAnalyse } from "@/api/layerServerAPI";
+import * as cityBrainAPI from "@/api/cityBrainAPI";
 const RANGE_DISTANCE = 1050;
 const DEFAULT_DISTANCE = 100000;
 const aroundDistance = {};
@@ -167,7 +173,11 @@ export default {
         result.map(({ data, value, label }) => {
           let list = data
             .map((v) => {
-              return { ...v, distance: parseFloat(v.distance) };
+              return {
+                ...v,
+                distance: parseFloat(v.distance),
+                smid: v.smid || v.originalData.fieldValues[0],
+              };
             })
             .sort(arrayCompareWithParam("distance"));
           if (this.aroundDistance[value] == 100000) {
@@ -201,19 +211,33 @@ export default {
      */
     fetchSourceSingle(lng, lat, value, label) {
       return new Promise(async (resolve) => {
-        const { data } = await getAroundSourceAnalyse({
-          resourceType: value,
-          lng,
-          lat,
-          distance: this.aroundDistance[value],
-        });
-        resolve({ data, value, label });
+        const single = CESIUM_TREE_AROUND_ANALYSE_OPTION.children.filter(
+          (v) => v.resourceType == value
+        )[0];
+        if (single.type == "xhr") {
+          //  线上请求
+          const data = await cityBrainAPI[single.api](
+            lng,
+            lat,
+            this.aroundDistance[value]
+          );
+          resolve({ data, value, label });
+        } else {
+          //  服务请求
+          const { data } = await getAroundSourceAnalyse({
+            resourceType: value,
+            lng,
+            lat,
+            distance: this.aroundDistance[value],
+          });
+          resolve({ data, value, label });
+        }
       });
     },
     initSelectSourceLayer() {
       this.selectSourceLayer = aroundOption
         .map((v) => v.value)
-        .filter((v) => v != "fire_hydrant");
+        .filter((v) => !~["fire_hydrant", "bayonet"].indexOf(v));
     },
     //  重新分析
     sourceUpdateHandler() {
@@ -228,7 +252,7 @@ export default {
     //  点击单个点位
     forceAnalyseSingle(key, item) {
       const KEY = `eventAround_${key}`;
-      const point = window.featureMap[KEY][item.originalData.fieldValues[0]];
+      const point = window.featureMap[KEY][item.smid];
       const { x, y } = point.geometry;
       this.$bus.$emit("cesium-3d-pick-to-locate", {
         ...point,
@@ -253,6 +277,7 @@ export default {
       this.selectSourceLayer = [];
       this.aroundSourceAnalyseList = [];
       this.$bus.$emit("cesium-3d-navigation-clear");
+      this.$bus.$emit("cesium-3d-locate-pop-clear");
     },
   },
 };

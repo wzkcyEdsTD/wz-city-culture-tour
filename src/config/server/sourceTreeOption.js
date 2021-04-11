@@ -190,7 +190,8 @@ const AROUND_ANALYSE_TOPIC = [
   { label: "消防站", resourceType: "fire_station", dataset: "JZJZNL_XFJYNL_XFZ" },
   { label: "消防栓", resourceType: "fire_hydrant", dataset: "JZJZNL_XFJYNL_XFS", hiddenLabel: true },
   { label: "交通卡口", resourceType: "bayonet", dataset: "KaKouDianWei" },
-  { label: "救援队伍", resourceType: "rescue_team", dataset: "JZJZNL_YJDW" }
+  { label: "救援队伍", resourceType: "rescue_team", dataset: "JZJZNL_YJDW" },
+  { label: "单兵设备", resourceType: "soldier_device", type: "xhr", api: "getDNListWithDeal" },
 ]
 
 /**
@@ -391,8 +392,8 @@ export const CESIUM_TREE_AROUND_ANALYSE_OPTION = {
       ...v,
       id: v.label,
       icon: v.label,
-      url: SERVER_DEFAULT_DATA,
-      dataSource: `${SW_DATA_NAME}${v.dataset}`
+      url: v.url || SERVER_DEFAULT_DATA,
+      dataSource: v.dataset ? `${SW_DATA_NAME}${v.dataset}` : undefined
     };
   })
 }

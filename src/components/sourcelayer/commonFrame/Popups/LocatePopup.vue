@@ -33,12 +33,25 @@
               </li>
             </ul>
           </div>
-          <div class="detail-location" @click="doLocation">
-            <img src="/static/images/common/navigation-icon.png" />路径分析
+          <div class="detail-location">
+            <span @click="doLocation"
+              ><img
+                src="/static/images/common/navigation-icon.png"
+              />路径分析</span
+            >
+            <span
+              v-if="forceEntity.attributes && forceEntity.attributes.dn"
+              @click="doVideoChat"
+              ><img
+                src="/static/images/common/navigation-around.png"
+              />视频通话</span
+            >
           </div>
         </div>
         <div class="extra-tab to-rtmp-video" @click="doVideoRtmp">直达现场</div>
-        <div class="extra-tab to-around-people" @click="doCircleBuffer">周边人口</div>
+        <div class="extra-tab to-around-people" @click="doCircleBuffer">
+          周边人口
+        </div>
         <div class="around-people" v-if="buffer && buffer.success">
           <!-- <img src="/static/images/common/frameline@2x.png" /> -->
           <div>
@@ -82,6 +95,7 @@ export default {
         this.closePopup();
       });
       this.$bus.$on("cesium-3d-pick-to-locate", (forceEntity) => {
+        console.log(forceEntity);
         this.getForceEntity(forceEntity);
       });
     },
@@ -108,7 +122,9 @@ export default {
         forceEntity.dataSet === "company_electricity" &&
         forceEntity.attributes.CREDITCODE
       ) {
-        const { data } = await getCompanyElectricity(forceEntity.attributes.CREDITCODE);
+        const { data } = await getCompanyElectricity(
+          forceEntity.attributes.CREDITCODE
+        );
         this.forceEntity.fix_data["昨日用电量"] =
           data.length && data[0].electricity ? data[0].electricity : "-";
       }
@@ -133,7 +149,10 @@ export default {
             x:
               pointToWindow.x -
               (($(".leaflet-popup-content-wrapper").width() || 0) * 1.2) / 2,
-            y: pointToWindow.y - ($(".leaflet-popup-content-wrapper").height() || 0) - 90,
+            y:
+              pointToWindow.y -
+              ($(".leaflet-popup-content-wrapper").height() || 0) -
+              90,
           };
         }
       }
@@ -174,7 +193,11 @@ export default {
     doLocation() {
       const sourceEntity = this.$parent.$refs.detailPopup.forceEntity;
       const eventEntity = this.$parent.$refs.eventPopup.forceEntity;
-      const end = sourceEntity.name ? sourceEntity : eventEntity.name ? eventEntity : {};
+      const end = sourceEntity.name
+        ? sourceEntity
+        : eventEntity.name
+        ? eventEntity
+        : {};
       const start = this.forceEntity;
       if (end.name) {
         this.$bus.$emit("cesium-3d-navigation", { start, end });
@@ -184,6 +207,10 @@ export default {
           message: "无事件目的地信息",
         });
       }
+    },
+    //  视频通话
+    doVideoChat() {
+      this.$SingleVideoCall(this.forceEntity.attributes.dn);
     },
     closePopup() {
       lowerCaseIcon(this.forceEntity);
@@ -314,12 +341,15 @@ export default {
 
   .detail-location {
     line-height: 4vh;
-    text-decoration: underline;
-    cursor: pointer;
-    > img {
-      height: 2.4vh;
-      display: inline;
-      vertical-align: middle;
+    > span {
+      display: inline-block;
+      text-decoration: underline;
+      cursor: pointer;
+      > img {
+        height: 2.4vh;
+        display: inline;
+        vertical-align: middle;
+      }
     }
   }
 }

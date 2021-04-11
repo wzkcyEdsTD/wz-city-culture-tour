@@ -153,6 +153,7 @@ import {
   CESIUM_TREE_OPTION,
   CESIUM_TREE_EVENT_OPTION,
 } from "config/server/sourceTreeOption";
+import dnFields from "config/local/dnFields";
 import { getEventData, getDNList } from "api/cityBrainAPI";
 const TREE_OPTION_HUB = {};
 const TREE_OPTION =
@@ -417,20 +418,7 @@ export default {
           },
         });
       });
-      treeDrawTool(
-        this,
-        { result: { features } },
-        node,
-        [
-          { name: "title", caption: "号码" },
-          { name: "speed", caption: "速度" },
-          { name: "direction", caption: "方向" },
-          { name: "height", caption: "高度" },
-          { name: "startTime", caption: "定位上报时间" },
-          { name: "endTime", caption: "定位点离开时间" },
-        ],
-        fn
-      );
+      treeDrawTool(this, { result: { features } }, node, dnFields, fn);
     },
     /**
      * 动态获取事件数据
