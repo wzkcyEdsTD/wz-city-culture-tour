@@ -48,10 +48,10 @@ export const initHandler = (context) => {
             pick.primitive._instanceIds.length &&
             typeof pick.primitive._instanceIds[0] == 'string'
         ) {
-            const [BUS_EVENT_TAG_CLICK, x, y, count] = pick.primitive._instanceIds[0].split(
+            const [BUS_EVENT_TAG_CLICK, x, y, count, id] = pick.primitive._instanceIds[0].split(
                 "@"
             );
-            BUS_EVENT_TAG_CLICK && context.$bus.$emit(BUS_EVENT_TAG_CLICK, { x, y, count });
+            BUS_EVENT_TAG_CLICK && context.$bus.$emit(BUS_EVENT_TAG_CLICK, { x, y, count, id });
         }
     }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 }

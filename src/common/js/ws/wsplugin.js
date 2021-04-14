@@ -768,7 +768,7 @@ export const initPlugin = () => {
                     waitVerifyCallback = false;
                     StartNewPoint();
                 }
-            }, 1000);
+            }, 10000);
         };
         ws.onclose = function () {
             $("#connStatus").css("background-color", "red");

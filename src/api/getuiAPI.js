@@ -87,6 +87,18 @@ export const getHeatMapByGeometry = (ranges, area_code = _AREA_CODE_) => {
 }
 
 /**
+ * 根据范围集返回
+ * @param {*} ranges 
+ * @param {*} area_code 
+ * @returns 
+ */
+export const getHeatMapByRanges = (ranges, area_code = _AREA_CODE_) => {
+    return getAxios("/population/count/getHeatMapByRanges", {
+        area_code, ranges
+    })
+}
+
+/**
  * 获取大屏统计
  * /vehicle/dashboard/getDashboardStat
  * @returns {Promise}

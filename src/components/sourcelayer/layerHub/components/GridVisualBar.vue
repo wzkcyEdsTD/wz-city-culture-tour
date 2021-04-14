@@ -2,7 +2,7 @@
   <div class="grid-visual-bar">
     <div class="grid-visual-map" />
     <div class="grid-visual-tag">
-      <p>2000 人</p>
+      <p>8000 人</p>
       <p>0 人</p>
     </div>
   </div>

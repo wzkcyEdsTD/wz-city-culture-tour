@@ -1,5 +1,5 @@
 <template>
-  <div class="people-area-heat">
+  <div class="people-area-grid">
     <GetGeohashByGeometryForGrid
       :BUS_EVENT_TAG="BUS_EVENT_TAG_GRID_DRAW"
       :isLoading="isGridDrawLoading"
@@ -137,7 +137,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.people-area-heat {
+.people-area-grid {
   position: fixed;
   top: 20vh;
   right: 4vh;

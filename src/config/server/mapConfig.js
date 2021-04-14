@@ -100,6 +100,11 @@ export const ImagesURL = [
   { year: 2012, url: "https://sourceserver.wzcitybrain.com/iserver/services/map-agscachev2-Layers2/rest/maps/Layers" },
 ]
 
+export const GridURL = {
+  url: "https://ditu.wzcitybrain.com/iserver/services/data-wz_wangge/rest/data",
+  dataSource: ["全市网格:wz_wangge"]
+}
+
 export const ExtraSourceURL = {
   S1:
     "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-S1/rest/realspace/datas/S1/config",

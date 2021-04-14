@@ -15,7 +15,7 @@ export const mapConfigInit = () => {
     window.earth.scene.bloomEffect.show = true;
     window.earth.imageryLayers.get(0).show = false;
     window.earth.scene.skyAtmosphere.show = false;
-    window.earth.scene.globe.atmosphereSaturationShift = 0.5
+    // window.earth.scene.globe.atmosphereSaturationShift = 0.5
     window.earth.scene.globe.baseColor = new Cesium.Color.fromCssColorString(
         "rgba(13,24,45, 1)"
     );
