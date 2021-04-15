@@ -43,7 +43,7 @@ export default {
   name: "getGeohashByCode",
   data() {
     return {
-      areaCode: "330302",
+      areaCode: "330300",
       streetCode: undefined,
     };
   },

@@ -36,7 +36,7 @@ export default {
       window.earth.scene.bloomEffect.show = true;
       this.initImageLayer();
       changeSkyBox("night");
-      // await this.initS3MModel();
+      await this.initS3MModel();
       //  路灯、光源叠加
       // mapRoadLampLayerTurn(true);
     },

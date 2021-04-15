@@ -16,27 +16,27 @@ export function PolylineTrailLinkMaterialProperty(color, duration, d) {
   this.duration = duration || 3000;
   this._time = new Date().getTime();
   this._d = d;
-  this.isTranslucent = function() {
+  this.isTranslucent = function () {
     return true;
   };
 }
 Object.defineProperties(PolylineTrailLinkMaterialProperty.prototype, {
   isConstant: {
-    get: function() {
+    get: function () {
       return false;
     }
   },
   definitionChanged: {
-    get: function() {
+    get: function () {
       return this._definitionChanged;
     }
   },
   color: Cesium.createPropertyDescriptor("color")
 });
-PolylineTrailLinkMaterialProperty.prototype.getType = function(time) {
+PolylineTrailLinkMaterialProperty.prototype.getType = function (time) {
   return "PolylineTrailLink";
 };
-PolylineTrailLinkMaterialProperty.prototype.getValue = function(time, result) {
+PolylineTrailLinkMaterialProperty.prototype.getValue = function (time, result) {
   if (!Cesium.defined(result)) {
     result = {};
   }
@@ -52,7 +52,7 @@ PolylineTrailLinkMaterialProperty.prototype.getValue = function(time, result) {
     this._d;
   return result;
 };
-PolylineTrailLinkMaterialProperty.prototype.equals = function(other) {
+PolylineTrailLinkMaterialProperty.prototype.equals = function (other) {
   return (
     this === other ||
     (other instanceof PolylineTrailLinkMaterialProperty &&
@@ -79,13 +79,13 @@ Cesium.Material._materialCache.addMaterial(
     fabric: {
       type: Cesium.Material.PolylineTrailLinkType,
       uniforms: {
-        color: new Cesium.Color(0.0, 0.0, 1.0, 0.5),
+        color: new Cesium.Color(0.0, 0.0, 1.0, 1),
         image: Cesium.Material.PolylineTrailLinkImage,
         time: -20
       },
       source: Cesium.Material.PolylineTrailLinkSource
     },
-    translucent: function(material) {
+    translucent: function (material) {
       return true;
     }
   }

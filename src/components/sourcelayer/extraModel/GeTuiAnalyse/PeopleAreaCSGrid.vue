@@ -9,6 +9,10 @@
 </template>
 
 <script>
+const _TAG_ = "getui_car_line_speed_";
+import { getRoadsData } from "api/getuiAPI";
+import { gcj02towgs84 } from "common/js/coordinateTransfer";
+
 import { ServiceUrl, GridURL } from "config/server/mapConfig";
 import { getHeatMapByRanges } from "api/getuiAPI";
 import { doGridMap, doGridLabel } from "./tools/GridCSMap";
@@ -25,11 +29,14 @@ export default {
     return {
       BUS_EVENT_TAG_GRID_CODE,
       isGridCodeLoading: false,
+      roadIds: [],
     };
   },
   components: { GetGeohashByCodeForGrid },
-  created() {
+  async created() {
     this.initS3MScene();
+    const { data } = await getRoadsData();
+    this.doCountRoute(data);
   },
   async mounted() {
     this.eventRegsiter();
@@ -40,6 +47,7 @@ export default {
   beforeDestroy() {
     this.resetAreaGrid();
     this.resetS3MScene();
+    this.resetRoads();
   },
   methods: {
     eventRegsiter() {
@@ -170,6 +178,40 @@ export default {
         },
         maximumHeight: 450,
       });
+    },
+    /**
+     * 画道路
+     * @param {array} lines 道路数组
+     */
+    doCountRoute(lines) {
+      const linePoints = lines.map(({ path }) =>
+        path.map(([x, y]) => gcj02towgs84(x, y).concat([4]))
+      );
+      this.roadIds = linePoints.map((v, index) => {
+        const singeLine = v.reduce((a, b) => a.concat(b));
+        const tag = _TAG_ + lines[index].road_id + index;
+        window.earth.entities.add({
+          name: lines[index].name,
+          id: tag,
+          polyline: {
+            positions: Cesium.Cartesian3.fromDegreesArrayHeights(singeLine),
+            width: lines[index].type > 40 ? 3 : lines[index].num > 20 ? 12 : 20,
+            material: new Cesium.PolylineTrailLinkMaterialProperty(
+              lines[index].speed < 15
+                ? Cesium.Color.INDIANRED
+                : lines[index].speed < 30
+                ? Cesium.Color.ORANGE
+                : Cesium.Color.LIGHTGREEN,
+              (1 / lines[index].speed) * 250000
+            ),
+          },
+        });
+        return tag;
+      });
+    },
+    resetRoads() {
+      this.roadIds.map((v) => window.earth.entities.removeById(v));
+      this.roadIds = [];
     },
     //  清除图层
     resetAreaGrid() {

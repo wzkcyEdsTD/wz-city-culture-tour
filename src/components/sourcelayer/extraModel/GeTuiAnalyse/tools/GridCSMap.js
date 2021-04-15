@@ -1,18 +1,18 @@
 const TOP_COUNT = 8000;
 const DENOMINATOR = 100;
-const DEFAULT_COLOR = Cesium.Color.fromCssColorString("rgb(166,0,21)")
+const DEFAULT_COLOR = Cesium.Color.fromCssColorString("rgba(166,0,21,0.55)")
 const ColorHash = {
-    0: Cesium.Color.fromCssColorString("rgb(27,29,41)"),
-    1: Cesium.Color.fromCssColorString("rgb(0,73,135)"),
-    2: Cesium.Color.fromCssColorString("rgb(26,116,192)"),
-    3: Cesium.Color.fromCssColorString("rgb(139,185,227)"),
-    4: Cesium.Color.fromCssColorString("rgb(220,238,255)"),
-    5: Cesium.Color.fromCssColorString("rgb(255,255,255)"),
-    6: Cesium.Color.fromCssColorString("rgb(232,232,189)"),
-    7: Cesium.Color.fromCssColorString("rgb(243,208,139)"),
-    8: Cesium.Color.fromCssColorString("rgb(249,172,98)"),
-    9: Cesium.Color.fromCssColorString("rgb(229,80,56)"),
-    10: Cesium.Color.fromCssColorString("rgb(166,0,21)"),
+    0: Cesium.Color.fromCssColorString("rgba(27,29,41,0.55)"),
+    1: Cesium.Color.fromCssColorString("rgba(0,73,135,0.55)"),
+    2: Cesium.Color.fromCssColorString("rgba(26,116,192,0.55)"),
+    3: Cesium.Color.fromCssColorString("rgba(139,185,227,0.55)"),
+    4: Cesium.Color.fromCssColorString("rgba(220,238,255,0.55)"),
+    5: Cesium.Color.fromCssColorString("rgba(255,255,255,0.55)"),
+    6: Cesium.Color.fromCssColorString("rgba(232,232,189,0.55)"),
+    7: Cesium.Color.fromCssColorString("rgba(243,208,139,0.55)"),
+    8: Cesium.Color.fromCssColorString("rgba(249,172,98,0.55)"),
+    9: Cesium.Color.fromCssColorString("rgba(229,80,56,0.55)"),
+    10: Cesium.Color.fromCssColorString("rgba(166,0,21,0.55)"),
 }
 // 标识配置
 const labelConfig = {
@@ -40,9 +40,9 @@ export const doGridMap = ({ id, list, center, count }, _GRIDMAP_INDEX_, BUS_EVEN
                         Cesium.Cartesian3.fromDegreesArray(list.flat(2))
                     ),
                     vertexFormat: Cesium.PerInstanceColorAppearance.VERTEX_FORMAT,
-                    height: 0,
-                    // rotation: Cesium.Math.toRadians(0),
-                    extrudedHeight: count / DENOMINATOR
+                    height: 1,
+                    // extrudedHeight: count / DENOMINATOR
+                    extrudedHeight: 1,
                 }),
                 attributes: {
                     color: Cesium.ColorGeometryInstanceAttribute.fromColor(ColorHash[Math.round((count / TOP_COUNT) * 10)] || DEFAULT_COLOR)
@@ -50,7 +50,7 @@ export const doGridMap = ({ id, list, center, count }, _GRIDMAP_INDEX_, BUS_EVEN
             })
         ],
         appearance: new Cesium.PerInstanceColorAppearance({
-            translucent: false,
+            translucent: true,
             closed: true
         })
     }))
@@ -67,7 +67,7 @@ export const doGridLabel = ({ x, y, count, id }, _GRIDLABEL_INDEX_) => {
     }
     window.extraPrimitiveMap[_GRIDLABEL_INDEX_].add({
         id: +new Date(),
-        text: `${id ? `${id} ` : ``}${count}`,
+        text: `${id ? `[${id.split('（')[1].split('）')[0]}] ` : ``}${count}人`,
         fillColor: ColorHash[Math.round((count / TOP_COUNT) * 10)] || DEFAULT_COLOR,
         position: Cesium.Cartesian3.fromDegrees(
             +x,
