@@ -1,18 +1,18 @@
 const TOP_COUNT = 8000;
 const DENOMINATOR = 100;
-const DEFAULT_COLOR = Cesium.Color.fromCssColorString("rgba(166,0,21,0.55)")
+const DEFAULT_COLOR = Cesium.Color.fromCssColorString("rgba(166,0,21,0.4)")
 const ColorHash = {
-    0: Cesium.Color.fromCssColorString("rgba(27,29,41,0.55)"),
-    1: Cesium.Color.fromCssColorString("rgba(0,73,135,0.55)"),
-    2: Cesium.Color.fromCssColorString("rgba(26,116,192,0.55)"),
-    3: Cesium.Color.fromCssColorString("rgba(139,185,227,0.55)"),
-    4: Cesium.Color.fromCssColorString("rgba(220,238,255,0.55)"),
-    5: Cesium.Color.fromCssColorString("rgba(255,255,255,0.55)"),
-    6: Cesium.Color.fromCssColorString("rgba(232,232,189,0.55)"),
-    7: Cesium.Color.fromCssColorString("rgba(243,208,139,0.55)"),
-    8: Cesium.Color.fromCssColorString("rgba(249,172,98,0.55)"),
-    9: Cesium.Color.fromCssColorString("rgba(229,80,56,0.55)"),
-    10: Cesium.Color.fromCssColorString("rgba(166,0,21,0.55)"),
+    0: Cesium.Color.fromCssColorString("rgba(27,29,41,0.4)"),
+    1: Cesium.Color.fromCssColorString("rgba(0,73,135,0.4)"),
+    2: Cesium.Color.fromCssColorString("rgba(26,116,192,0.4)"),
+    3: Cesium.Color.fromCssColorString("rgba(139,185,227,0.4)"),
+    4: Cesium.Color.fromCssColorString("rgba(220,238,255,0.4)"),
+    5: Cesium.Color.fromCssColorString("rgba(255,255,255,0.4)"),
+    6: Cesium.Color.fromCssColorString("rgba(232,232,189,0.4)"),
+    7: Cesium.Color.fromCssColorString("rgba(243,208,139,0.4)"),
+    8: Cesium.Color.fromCssColorString("rgba(249,172,98,0.4)"),
+    9: Cesium.Color.fromCssColorString("rgba(229,80,56,0.4)"),
+    10: Cesium.Color.fromCssColorString("rgba(166,0,21,0.4)"),
 }
 // 标识配置
 const labelConfig = {
@@ -58,24 +58,57 @@ export const doGridMap = ({ id, list, center, count }, _GRIDMAP_INDEX_, BUS_EVEN
 
 /**
  * 画标签
- * @param {*} obj 
+ * @param {*} param0 
  * @param {*} _GRIDLABEL_INDEX_ 
  */
 export const doGridLabel = ({ x, y, count, id }, _GRIDLABEL_INDEX_) => {
     if (!window.extraPrimitiveMap[_GRIDLABEL_INDEX_]) {
         window.extraPrimitiveMap[_GRIDLABEL_INDEX_] = window.earth.scene.primitives.add(new Cesium.LabelCollection())
     }
+    //  draw label
     window.extraPrimitiveMap[_GRIDLABEL_INDEX_].add({
         id: +new Date(),
-        text: `${id ? `[${id.split('（')[1].split('）')[0]}] ` : ``}${count}人`,
+        text: `${id ? `[${id}] ` : ``}${count}人`,
         fillColor: ColorHash[Math.round((count / TOP_COUNT) * 10)] || DEFAULT_COLOR,
         position: Cesium.Cartesian3.fromDegrees(
             +x,
             +y,
-            parseInt(+count / DENOMINATOR) + 10
+            // parseInt(+count / DENOMINATOR) + 10
+            10
         ),
         ...labelConfig,
         distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 10000),
         disableDepthTestDistance: Number.POSITIVE_INFINITY,
+    });
+}
+
+/**
+ * 画呼吸壁
+ * @param {*} param0 
+ * @param {*} context 
+ * @param {*} WALL_ID 
+ */
+export const doGridWall = ({ id }, context, WALL_ID) => {
+    const geometry = context.gridHash[id].list;
+    let alp = 1, num = 0;
+    window.earth.entities.removeById(WALL_ID)
+    window.earth.entities.add({
+        name: WALL_ID,
+        id: WALL_ID,
+        wall: {
+            show: true,
+            positions: Cesium.Cartesian3.fromDegreesArrayHeights(
+                geometry.map((v) => [...v, 60]).flat(2)
+            ),
+            material: new Cesium.ImageMaterialProperty({
+                image: "/static/images/area/1.png",
+                transparent: true,
+                color: new Cesium.CallbackProperty(() => {
+                    num % 2 === 0 ? (alp -= 0.01) : (alp += 0.01);
+                    alp <= 0.5 || alp >= 1 ? num++ : undefined;
+                    return Cesium.Color.WHITE.withAlpha(alp);
+                }, false),
+            }),
+        },
     });
 }

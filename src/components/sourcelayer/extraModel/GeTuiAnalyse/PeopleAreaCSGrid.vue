@@ -9,19 +9,19 @@
 </template>
 
 <script>
-const _TAG_ = "getui_car_line_speed_";
-import { getRoadsData } from "api/getuiAPI";
-import { gcj02towgs84 } from "common/js/coordinateTransfer";
-
-import { ServiceUrl, GridURL } from "config/server/mapConfig";
-import { getHeatMapByRanges } from "api/getuiAPI";
-import { doGridMap, doGridLabel } from "./tools/GridCSMap";
+import { GridURL } from "config/server/mapConfig";
+import { getHeatMapByRanges, getRoadsData } from "api/getuiAPI";
+import { doCountRoute, doRoadLabel } from "./tools/GridCsRoad";
+import { doGridMap, doGridLabel, doGridWall } from "./tools/GridCSMap";
 import GetGeohashByCodeForGrid from "./components/GetGeohashByCodeForGrid";
-const LAYERS = ServiceUrl.WZBaimo_OBJ;
 const _GRIDMAP_INDEX_ = "getui_gridmap_index";
 const _GRIDLABEL_INDEX_ = "getui_gridlabel_index";
+const _GRIDROAD_INDEX_ = "getui_gridroad_index";
+const _GRIDROADLABEL_INDEX_ = "getui_gridroadlabel_index";
 const BUS_EVENT_TAG_GRID_CODE = "cesium-getui-area-grid-code";
 const BUS_EVENT_TAG_CLICK = "cesium-getui-area-grid-click";
+const BUS_EVENT_TAG_ROAD_CLICK = "cesium-getui-area-road-click";
+const WALL_ID = "CESIUM_PEOPLE_GRID_WALL";
 
 export default {
   name: "PeopleAreaCSGrid",
@@ -30,13 +30,17 @@ export default {
       BUS_EVENT_TAG_GRID_CODE,
       isGridCodeLoading: false,
       roadIds: [],
+      gridHash: {},
     };
   },
   components: { GetGeohashByCodeForGrid },
   async created() {
-    this.initS3MScene();
     const { data } = await getRoadsData();
-    this.doCountRoute(data);
+    this.roadIds = doCountRoute(
+      data,
+      _GRIDROAD_INDEX_,
+      BUS_EVENT_TAG_ROAD_CLICK
+    );
   },
   async mounted() {
     this.eventRegsiter();
@@ -46,8 +50,8 @@ export default {
   },
   beforeDestroy() {
     this.resetAreaGrid();
-    this.resetS3MScene();
     this.resetRoads();
+    this.resetWall();
   },
   methods: {
     eventRegsiter() {
@@ -57,11 +61,10 @@ export default {
       this.$bus.$on(BUS_EVENT_TAG_CLICK, (obj) => {
         this.doLabelGrid(obj);
       });
-    },
-    initS3MScene() {
-      // LAYERS.map(({ KEY }) => {
-      //   window.earth.scene.layers.find(KEY).visible = false;
-      // });
+      this.$bus.$off(BUS_EVENT_TAG_ROAD_CLICK);
+      this.$bus.$on(BUS_EVENT_TAG_ROAD_CLICK, (obj) => {
+        this.doLabelRoad(obj);
+      });
     },
     /**
      * 初始化网格场景
@@ -69,19 +72,21 @@ export default {
      */
     async initGridMap(code) {
       this.resetAreaGrid();
+      this.resetWall();
       try {
         this.isGridCodeLoading = true;
         this.getAreaGeometryByCode(code.slice(0, 9), async (res) => {
           const ranges = [];
           res.result.features.map((item, i) => {
-            ranges.push({
-              id: item.attributes.NAME,
-              center: res.originResult.features[i].geometry.center,
-              list: res.originResult.features[i].geometry.points.map((v) => [
-                v.x,
-                v.y,
-              ]),
-            });
+            item.attributes.NAME &&
+              ranges.push({
+                id: item.attributes.NAME,
+                center: res.originResult.features[i].geometry.center,
+                list: res.originResult.features[i].geometry.points.map((v) => [
+                  v.x,
+                  v.y,
+                ]),
+              });
           });
           await this.doAreaGridWithFragments(ranges, code);
           // this.doCameraMove(data.heatmap[parseInt(data.heatmap.length / 2)]);
@@ -122,18 +127,21 @@ export default {
      */
     async doAreaGridWithFragments(ranges, area_code) {
       const fragments = [];
+      const gridHash = {};
       const fragmentLength = 50;
       ranges.map((item, i) => {
         const index = parseInt(i / fragmentLength);
         if (!fragments[index]) fragments[index] = [];
         fragments[index].push(item);
+        gridHash[item.id] = item;
       });
       //  clear extra primitivemap
       window.extraPrimitiveMap[
         _GRIDMAP_INDEX_
       ] = window.earth.scene.primitives.add(new Cesium.PrimitiveCollection());
+      //  do grid hash
+      this.gridHash = gridHash;
       //  do grid draw [async]
-      // for (let i = 0; i < fragments.length; i++) {}
       Promise.all(
         fragments.map(
           (item) =>
@@ -155,7 +163,6 @@ export default {
             })
         )
       ).then((res) => {
-        console.log(res);
         this.isGridCodeLoading = false;
       });
     },
@@ -164,6 +171,10 @@ export default {
      */
     doLabelGrid(obj) {
       doGridLabel(obj, _GRIDLABEL_INDEX_);
+      doGridWall(obj, this, WALL_ID);
+    },
+    doLabelRoad(obj) {
+      doRoadLabel(obj, _GRIDROADLABEL_INDEX_);
     },
     /**
      * @param {object} 中间点位
@@ -179,39 +190,14 @@ export default {
         maximumHeight: 450,
       });
     },
-    /**
-     * 画道路
-     * @param {array} lines 道路数组
-     */
-    doCountRoute(lines) {
-      const linePoints = lines.map(({ path }) =>
-        path.map(([x, y]) => gcj02towgs84(x, y).concat([4]))
-      );
-      this.roadIds = linePoints.map((v, index) => {
-        const singeLine = v.reduce((a, b) => a.concat(b));
-        const tag = _TAG_ + lines[index].road_id + index;
-        window.earth.entities.add({
-          name: lines[index].name,
-          id: tag,
-          polyline: {
-            positions: Cesium.Cartesian3.fromDegreesArrayHeights(singeLine),
-            width: lines[index].type > 40 ? 3 : lines[index].num > 20 ? 12 : 20,
-            material: new Cesium.PolylineTrailLinkMaterialProperty(
-              lines[index].speed < 15
-                ? Cesium.Color.INDIANRED
-                : lines[index].speed < 30
-                ? Cesium.Color.ORANGE
-                : Cesium.Color.LIGHTGREEN,
-              (1 / lines[index].speed) * 250000
-            ),
-          },
-        });
-        return tag;
-      });
-    },
+    //  清除道路
     resetRoads() {
       this.roadIds.map((v) => window.earth.entities.removeById(v));
       this.roadIds = [];
+      if (window.extraPrimitiveMap[_GRIDROADLABEL_INDEX_]) {
+        window.extraPrimitiveMap[_GRIDROADLABEL_INDEX_].removeAll();
+        delete window.extraPrimitiveMap[_GRIDROADLABEL_INDEX_];
+      }
     },
     //  清除图层
     resetAreaGrid() {
@@ -224,10 +210,9 @@ export default {
         delete window.extraPrimitiveMap[_GRIDLABEL_INDEX_];
       }
     },
-    resetS3MScene() {
-      // LAYERS.map(({ KEY }) => {
-      //   window.earth.scene.layers.find(KEY).visible = true;
-      // });
+    //  清除呼吸灯
+    resetWall() {
+      window.earth.entities.removeById(WALL_ID);
     },
   },
 };

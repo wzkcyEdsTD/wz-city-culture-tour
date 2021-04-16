@@ -3,9 +3,12 @@
 </template>
 
 <script>
-const _TAG_ = "getui_car_line_count_";
 import { getRoadsData } from "api/getuiAPI";
-import { gcj02towgs84 } from "common/js/coordinateTransfer";
+import { doCountRouteByCount, doRoadLabel } from "./tools/GridCsRoad";
+const _GRIDROAD_INDEX_ = "getui_gridroad_index";
+const _GRIDROADLABEL_INDEX_ = "getui_gridroadlabel_index";
+const BUS_EVENT_TAG_ROAD_CLICK = "cesium-getui-area-road-click";
+
 export default {
   name: "CarLineCount",
   data() {
@@ -15,7 +18,11 @@ export default {
   },
   async created() {
     const { data } = await getRoadsData();
-    this.doCountRoute(data);
+    this.roadIds = doCountRouteByCount(
+      data,
+      _GRIDROAD_INDEX_,
+      BUS_EVENT_TAG_ROAD_CLICK
+    );
   },
   mounted() {
     this.eventRegsiter();
@@ -24,40 +31,22 @@ export default {
     this.resetRoads();
   },
   methods: {
-    eventRegsiter() {},
-    /**
-     * 画道路
-     * @param {array} lines 道路数组
-     */
-    doCountRoute(lines) {
-      const linePoints = lines.map(({ path }) =>
-        path.map(([x, y]) => gcj02towgs84(x, y).concat([4]))
-      );
-      this.roadIds = linePoints.map((v, index) => {
-        const singeLine = v.reduce((a, b) => a.concat(b));
-        const tag = _TAG_ + lines[index].road_id + index;
-        window.earth.entities.add({
-          name: lines[index].name,
-          id: tag,
-          polyline: {
-            positions: Cesium.Cartesian3.fromDegreesArrayHeights(singeLine),
-            width: 10,
-            material: new Cesium.PolylineTrailLinkMaterialProperty(
-              lines[index].num > 40
-                ? Cesium.Color.INDIANRED
-                : lines[index].num > 20
-                ? Cesium.Color.ORANGE
-                : Cesium.Color.LIGHTGREEN,
-              10000
-            ),
-          },
-        });
-        return tag;
+    eventRegsiter() {
+      this.$bus.$off(BUS_EVENT_TAG_ROAD_CLICK);
+      this.$bus.$on(BUS_EVENT_TAG_ROAD_CLICK, (obj) => {
+        this.doLabelRoad(obj);
       });
+    },
+    doLabelRoad(obj) {
+      doRoadLabel(obj, _GRIDROADLABEL_INDEX_, false);
     },
     resetRoads() {
       this.roadIds.map((v) => window.earth.entities.removeById(v));
       this.roadIds = [];
+      if (window.extraPrimitiveMap[_GRIDROADLABEL_INDEX_]) {
+        window.extraPrimitiveMap[_GRIDROADLABEL_INDEX_].removeAll();
+        delete window.extraPrimitiveMap[_GRIDROADLABEL_INDEX_];
+      }
     },
   },
 };

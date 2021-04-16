@@ -22,6 +22,10 @@ export const initHandler = (context) => {
                     mp_name: pick.id.name,
                 });
             }
+            if (pick.id.id && ~pick.id.id.indexOf("cesium-getui-area-road-click")) {
+                const [BUS_EVENT_TAG_ROAD_CLICK, index] = pick.id.id.split("@");
+                BUS_EVENT_TAG_ROAD_CLICK && context.$bus.$emit(BUS_EVENT_TAG_ROAD_CLICK, { index });
+            }
         } else if (typeof pick.id == "string") {
             const [_TYPE_, _SMID_, _NODEID_, _LOCATION_] = pick.id.split("@");
             if (_TYPE_.includes("eventLayer_")) {
