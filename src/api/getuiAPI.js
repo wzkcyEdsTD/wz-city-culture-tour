@@ -10,7 +10,7 @@ import axios from "axios";
 import { sha256 } from 'js-sha256'
 import md5 from 'js-md5';
 import { _BBOX_, _AREA_CODE_ } from "config/local/getuiInterfaceConfig"
-const BASEURL = "https://webapi.getui.com/api";
+const BASEURL = "https://sourcelayer.wzcitybrain.com/getui/api";
 const instance = axios.create();
 instance.defaults.baseURL = BASEURL;
 instance.defaults.method = "post";
