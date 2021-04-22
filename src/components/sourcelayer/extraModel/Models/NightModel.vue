@@ -38,7 +38,7 @@ export default {
       changeSkyBox("night");
       await this.initS3MModel();
       //  路灯、光源叠加
-      // mapRoadLampLayerTurn(true);
+      mapRoadLampLayerTurn(true);
     },
     //  开启精模
     async initS3MModel() {
