@@ -29,7 +29,7 @@ export const gdpOption = {
     },
     xAxis: {
         type: "category",
-        data: [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019],
+        data: [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020],
         axisLine: {
             lineStyle: {
                 color: "rgba(255, 255, 255, 0.5)",
@@ -80,6 +80,7 @@ export const gdpOption = {
             5412.13,
             6039.77,
             6606.11,
+            6870.86
         ],
         barWidth: "55%",
         itemStyle: {
@@ -126,7 +127,7 @@ export const populationOption = {
     },
     xAxis: {
         type: "category",
-        data: [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019],
+        data: [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020],
         axisLine: {
             lineStyle: {
                 color: "rgba(255, 255, 255, 0.5)",
@@ -143,8 +144,8 @@ export const populationOption = {
     },
     yAxis: {
         name: "单位：万人",
-        min: (value) => value.min - 10,
-        max: (value) => value.max + 10,
+        // min: (value) => value.min - 10,
+        // max: (value) => value.max + 10,
         nameTextStyle: {
             color: "#fff",
             fontFamily: "DIN",
@@ -179,6 +180,7 @@ export const populationOption = {
             921.5,
             925.0,
             930.0,
+            833.7
         ],
         barWidth: "55%",
         itemStyle: {
@@ -226,7 +228,7 @@ export const threeIndustriesOption = {
     xAxis: {
         type: "category",
         boundaryGap: false,
-        data: [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019],
+        data: [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020],
         axisLine: {
             lineStyle: {
                 color: "rgba(255, 255, 255, 0.5)",
@@ -277,6 +279,7 @@ export const threeIndustriesOption = {
             2935.12,
             3259.49,
             3642.46,
+            3876.56
         ],
         symbol: "none",
         label: {
@@ -313,6 +316,7 @@ export const threeIndustriesOption = {
             2336.69,
             2638.06,
             2811.93,
+            2834.53
         ],
         symbol: "none",
         label: {
@@ -349,6 +353,7 @@ export const threeIndustriesOption = {
             140.33,
             142.22,
             151.72,
+            159.77
         ],
         symbol: "none",
         label: {
@@ -405,7 +410,7 @@ export const revenuesOption = {
     xAxis: {
         type: "category",
         boundaryGap: false,
-        data: [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019],
+        data: [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020],
         axisLine: {
             lineStyle: {
                 color: "rgba(255, 255, 255, 0.5)",
@@ -456,6 +461,7 @@ export const revenuesOption = {
             465.35,
             547.58,
             578.97,
+            601.98
         ],
         symbol: "none",
         label: {

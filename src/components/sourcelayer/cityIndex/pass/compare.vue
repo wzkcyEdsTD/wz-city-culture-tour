@@ -1,6 +1,6 @@
 <template>
   <div class="compare">
-    <p>2019年同比</p>
+    <p>2020年同比</p>
     <p :class="data >= 0 ? 'pos' : 'neg'">
       {{ data >= 0 ? "+" : "-" }}{{ fixData }}
     </p>
