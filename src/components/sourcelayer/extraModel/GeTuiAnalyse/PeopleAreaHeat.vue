@@ -48,12 +48,12 @@ export default {
         this.initHeatMapByGeometry(ranges)
       );
     },
-    async initHeatMap(code) {
+    async initHeatMap(code = "330302") {
       this.resetAreaHeat();
       try {
         this.isHeatCodeLoading = true;
         const { data } = await getHeatMapByCode(code);
-        this.doCameraMove(data.heatmap[parseInt(data.heatmap.length / 2)]);
+        // this.doCameraMove(data.heatmap[parseInt(data.heatmap.length / 2)]);
         this.doAreaHeat(data);
       } catch (e) {
       } finally {

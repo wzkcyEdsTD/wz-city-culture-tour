@@ -44,8 +44,8 @@ export default {
   data() {
     return {
       areaCode: "330302",
-      streetCode: "330302030000",
-      // streetCode: undefined,
+      // streetCode: "330302030000",
+      streetCode: undefined,
     };
   },
   props: ["BUS_EVENT_TAG", "isLoading"],
