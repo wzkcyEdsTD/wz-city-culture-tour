@@ -30,7 +30,10 @@ export default {
   },
   methods: {
     initHandlerPolygon() {
-      handlerPolygon = new Cesium.DrawHandler(window.earth, Cesium.DrawMode.Polygon);
+      handlerPolygon = new Cesium.DrawHandler(
+        window.earth,
+        Cesium.DrawMode.Polygon
+      );
       handlerPolygon.activeEvt.addEventListener((isActive) => {});
       handlerPolygon.movingEvt.addEventListener((windowPosition) => {});
       handlerPolygon.drawEvt.addEventListener((result) => {
@@ -46,7 +49,7 @@ export default {
             Cesium.Math.toDegrees(cartographic.latitude),
           ]);
         }
-        this.doWithArea(ranges);
+        // this.doWithArea(ranges);
       });
     },
     doDrawPolygon() {
