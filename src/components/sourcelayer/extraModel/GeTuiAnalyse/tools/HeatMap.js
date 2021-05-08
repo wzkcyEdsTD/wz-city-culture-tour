@@ -22,7 +22,7 @@ export const doHeatMap = (heatArr) => {
             radius: 3,
             maxOpacity: 0.6,
             minOpacity: 0,
-            blur: 1
+            blur: 0.8
         }
     );
 

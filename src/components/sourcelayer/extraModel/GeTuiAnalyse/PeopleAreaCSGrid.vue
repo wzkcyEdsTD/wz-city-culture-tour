@@ -35,12 +35,7 @@ export default {
   },
   components: { GetGeohashByCodeForGrid },
   async created() {
-    const { data } = await getRoadsData();
-    this.roadIds = doCountRoute(
-      data,
-      _GRIDROAD_INDEX_,
-      BUS_EVENT_TAG_ROAD_CLICK
-    );
+    await this.doRoadInit();
   },
   async mounted() {
     this.eventRegsiter();
@@ -94,6 +89,14 @@ export default {
       } catch (e) {
       } finally {
       }
+    },
+    async doRoadInit() {
+      const { data } = await getRoadsData();
+      this.roadIds = doCountRoute(
+        data,
+        _GRIDROAD_INDEX_,
+        BUS_EVENT_TAG_ROAD_CLICK
+      );
     },
     /**
      * area fetch

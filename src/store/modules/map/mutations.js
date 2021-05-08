@@ -1,4 +1,3 @@
-import { type } from "jquery";
 /*
  * @Author: eds
  * @Date: 2020-07-01 15:22:07

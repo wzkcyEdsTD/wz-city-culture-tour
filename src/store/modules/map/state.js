@@ -38,7 +38,7 @@ const state = {
   WzSourceData: {},     //  城市资源指标
   WzTrafficData: {},    //  城市交通指标
   WzEmergencyData: {},  //  城市应急指标
-  WzEventData: {},
+  WzEventData: {},      //  城市事件指标
   //  时间轮盘
   forceTime: 'now',
   //  白天黑夜
