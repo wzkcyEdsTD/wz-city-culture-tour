@@ -100,14 +100,19 @@ export const ImagesURL = [
   { year: 2012, url: "https://sourceserver.wzcitybrain.com/iserver/services/map-agscachev2-Layers2/rest/maps/Layers" },
 ]
 
-export const GridURL = {
+/*export const GridURL = {
   url: "https://ditu.wzcitybrain.com/iserver/services/data-wz_wangge/rest/data",
   dataSource: ["全市网格:wz_wangge"]
+}*/
+
+export const GridURL = {
+  url: "https://ditu.wzcitybrain.com/iserver/services/data-wz_jiezhen/rest/data",
+  dataSource: ["wz_jiezhen:wz_wangge_simp"]
 }
 
 export const StreetURL = {
-  url: "http://172.20.83.205:8090/iserver/services/data-zfwdata/rest/data",
-  dataSource: ["GIS:wz_jiezhen"]
+  url: "https://ditu.wzcitybrain.com/iserver/services/data-wz_jiezhen/rest/data",
+  dataSource: ["wz_jiezhen:wz_jiezhen_simp"]
 }
 
 export const ExtraSourceURL = {

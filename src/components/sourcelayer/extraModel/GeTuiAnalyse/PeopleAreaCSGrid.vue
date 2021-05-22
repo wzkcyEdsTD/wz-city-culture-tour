@@ -54,7 +54,7 @@ export default {
       this.$bus.$on(BUS_EVENT_TAG_GRID_CODE, (code) => this.initGridMap(code));
       this.$bus.$off(BUS_EVENT_TAG_CLICK);
       this.$bus.$on(BUS_EVENT_TAG_CLICK, (obj) => {
-        this.doLabelGrid(obj);
+        this.doLabelGrid(obj, true);
       });
       this.$bus.$off(BUS_EVENT_TAG_ROAD_CLICK);
       this.$bus.$on(BUS_EVENT_TAG_ROAD_CLICK, (obj) => {
@@ -155,13 +155,14 @@ export default {
                 hash[id] = 0;
                 heatmap.map((d) => (hash[id] += d.count));
               });
-              item.map((v) =>
+              item.map((v) => {
                 doGridMap(
                   { ...v, count: hash[v.id] },
                   _GRIDMAP_INDEX_,
                   BUS_EVENT_TAG_CLICK
-                )
-              );
+                );
+                this.doLabelGrid({ ...v, count: hash[v.id], ...v.center });
+              });
               resolve(true);
             })
         )
@@ -172,9 +173,9 @@ export default {
     /**
      * 展示标签
      */
-    doLabelGrid(obj) {
+    doLabelGrid(obj, doWall = false) {
       doGridLabel(obj, _GRIDLABEL_INDEX_);
-      doGridWall(obj, this, WALL_ID);
+      doWall && doGridWall(obj, this, WALL_ID);
     },
     doLabelRoad(obj) {
       doRoadLabel(obj, _GRIDROADLABEL_INDEX_);

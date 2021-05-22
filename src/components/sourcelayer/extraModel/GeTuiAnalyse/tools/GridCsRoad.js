@@ -21,7 +21,7 @@ const labelConfig = {
 export const doCountRoute = (lines, _GRIDROAD_INDEX_, BUS_EVENT_TAG_ROAD_CLICK) => {
     roadData = lines;
     const linePoints = lines.map(({ path }) =>
-        path.map(([x, y]) => gcj02towgs84(x, y).concat([5]))
+        path.map(([x, y]) => gcj02towgs84(x, y).concat([6]))
     );
     return linePoints.map((v, index) => {
         const singeLine = v.flat(2);
@@ -56,7 +56,7 @@ export const doCountRoute = (lines, _GRIDROAD_INDEX_, BUS_EVENT_TAG_ROAD_CLICK) 
 export const doCountRouteByCount = (lines, _GRIDROAD_INDEX_, BUS_EVENT_TAG_ROAD_CLICK) => {
     roadData = lines;
     const linePoints = lines.map(({ path }) =>
-        path.map(([x, y]) => gcj02towgs84(x, y).concat([5]))
+        path.map(([x, y]) => gcj02towgs84(x, y).concat([6]))
     );
     return linePoints.map((v, index) => {
         const singeLine = v.flat(2);

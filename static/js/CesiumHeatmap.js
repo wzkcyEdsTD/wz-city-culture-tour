@@ -18,10 +18,13 @@
 				minOpacity: 0.1,              // the minimum opacity used if not given in the heatmap options object
 				blur: 0.85,                   // the blur used if not given in the heatmap options object
 				gradient: {                   // the gradient used if not given in the heatmap options object
-					'.3': 'blue',
-					'.65': 'yellow',
+					'.4': '#EEE8AA',
+					'.6': 'yellow',
 					'.8': 'orange',
 					'.95': 'red'
+					// '.5': 'yellow',
+					// '.8': 'orange',
+					// '.98': 'red'
 				},
 			}
 		};

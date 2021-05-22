@@ -4,17 +4,17 @@ const DEFAULT_COLOR = Cesium.Color.fromCssColorString("rgba(166,0,21,0.4)")
 const WITHOUT_COLOR = Cesium.Color.fromCssColorString("rgba(0,0,0,0.1)");
 const WHITE_COLOR = Cesium.Color.fromCssColorString("rgba(255,255,255,0.8)");
 const ColorHash = {
-    0: Cesium.Color.fromCssColorString("rgba(27,29,41,0.4)"),
-    1: Cesium.Color.fromCssColorString("rgba(0,73,135,0.4)"),
-    2: Cesium.Color.fromCssColorString("rgba(26,116,192,0.4)"),
-    3: Cesium.Color.fromCssColorString("rgba(139,185,227,0.4)"),
-    4: Cesium.Color.fromCssColorString("rgba(220,238,255,0.4)"),
-    5: Cesium.Color.fromCssColorString("rgba(255,255,255,0.4)"),
-    6: Cesium.Color.fromCssColorString("rgba(232,232,189,0.4)"),
-    7: Cesium.Color.fromCssColorString("rgba(243,208,139,0.4)"),
-    8: Cesium.Color.fromCssColorString("rgba(249,172,98,0.4)"),
-    9: Cesium.Color.fromCssColorString("rgba(229,80,56,0.4)"),
-    10: Cesium.Color.fromCssColorString("rgba(166,0,21,0.4)"),
+    0: Cesium.Color.fromCssColorString("rgba(27,29,41,1)"),
+    1: Cesium.Color.fromCssColorString("rgba(0,73,135,1)"),
+    2: Cesium.Color.fromCssColorString("rgba(26,116,192,1)"),
+    3: Cesium.Color.fromCssColorString("rgba(139,185,227,1)"),
+    4: Cesium.Color.fromCssColorString("rgba(220,238,255,1)"),
+    5: Cesium.Color.fromCssColorString("rgba(255,255,255,1)"),
+    6: Cesium.Color.fromCssColorString("rgba(232,232,189,1)"),
+    7: Cesium.Color.fromCssColorString("rgba(243,208,139,1)"),
+    8: Cesium.Color.fromCssColorString("rgba(249,172,98,1)"),
+    9: Cesium.Color.fromCssColorString("rgba(229,80,56,1)"),
+    10: Cesium.Color.fromCssColorString("rgba(166,0,21,1)"),
 }
 // 标识配置
 const labelConfig = {
@@ -33,7 +33,7 @@ const labelConfig = {
  * @param {*} _GRIDMAP_INDEX_ 
  */
 export const doGridMap = ({ id, list, center, count }, _GRIDMAP_INDEX_, BUS_EVENT_TAG_CLICK) => {
-    count && window.extraPrimitiveMap[_GRIDMAP_INDEX_].add(new Cesium.Primitive({
+    /*count && window.extraPrimitiveMap[_GRIDMAP_INDEX_].add(new Cesium.Primitive({
         geometryInstances: [
             new Cesium.GeometryInstance({
                 id: `${BUS_EVENT_TAG_CLICK}@${center.x}@${center.y}@${count}@${id}`,
@@ -47,13 +47,31 @@ export const doGridMap = ({ id, list, center, count }, _GRIDMAP_INDEX_, BUS_EVEN
                     extrudedHeight: 1,
                 }),
                 attributes: {
-                    color: Cesium.ColorGeometryInstanceAttribute.fromColor(ColorHash[Math.round((count / TOP_COUNT) * 10)] || DEFAULT_COLOR)
+                    // color: Cesium.ColorGeometryInstanceAttribute.fromColor(ColorHash[Math.round((count / TOP_COUNT) * 10)] || DEFAULT_COLOR)
+                    color: Cesium.ColorGeometryInstanceAttribute.fromColor(WITHOUT_COLOR)
                 }
             })
         ],
         appearance: new Cesium.PerInstanceColorAppearance({
             translucent: true,
             closed: true
+        })
+    }))*/
+    count && window.extraPrimitiveMap[_GRIDMAP_INDEX_].add(new Cesium.Primitive({
+        geometryInstances: new Cesium.GeometryInstance({
+            geometry: new Cesium.PolylineGeometry({
+                id: `${BUS_EVENT_TAG_CLICK}@${center.x}@${center.y}@${count}@${id}@line`,
+                positions: Cesium.Cartesian3.fromDegreesArrayHeights(list.map(v => [...v, 4]).flat(2)),
+                width: 6,
+                vertexFormat: Cesium.PolylineColorAppearance.VERTEX_FORMAT
+            }),
+            attributes: {
+                color: Cesium.ColorGeometryInstanceAttribute.fromColor(ColorHash[Math.round((count / TOP_COUNT) * 10)] || DEFAULT_COLOR)
+            }
+        }),
+        appearance: new Cesium.PolylineColorAppearance({
+            translucent: true,
+            aboveGround: false,
         })
     }))
 }
@@ -64,7 +82,7 @@ export const doGridMap = ({ id, list, center, count }, _GRIDMAP_INDEX_, BUS_EVEN
  * @param {*} _GRIDMAP_INDEX_ 
  */
 export const doGridPolygon = ({ id, list, center, count }, _GRIDMAP_INDEX_, BUS_EVENT_TAG_CLICK) => {
-    count && window.extraPrimitiveMap[_GRIDMAP_INDEX_].add(new Cesium.Primitive({
+    /*count && window.extraPrimitiveMap[_GRIDMAP_INDEX_].add(new Cesium.Primitive({
         geometryInstances: [
             new Cesium.GeometryInstance({
                 id: `${BUS_EVENT_TAG_CLICK}@${center.x}@${center.y}@${count}@${id}`,
@@ -85,12 +103,12 @@ export const doGridPolygon = ({ id, list, center, count }, _GRIDMAP_INDEX_, BUS_
             translucent: true,
             closed: true
         })
-    }))
+    }))*/
     count && window.extraPrimitiveMap[_GRIDMAP_INDEX_].add(new Cesium.Primitive({
         geometryInstances: new Cesium.GeometryInstance({
             geometry: new Cesium.PolylineGeometry({
                 id: `${BUS_EVENT_TAG_CLICK}@${center.x}@${center.y}@${count}@${id}@line`,
-                positions: Cesium.Cartesian3.fromDegreesArrayHeights(list.map(v => [...v, 3]).flat(2)),
+                positions: Cesium.Cartesian3.fromDegreesArrayHeights(list.map(v => [...v, 4]).flat(2)),
                 width: 4,
                 vertexFormat: Cesium.PolylineColorAppearance.VERTEX_FORMAT
             }),
@@ -126,7 +144,7 @@ export const doGridLabel = ({ x, y, count, id }, _GRIDLABEL_INDEX_) => {
             10
         ),
         ...labelConfig,
-        distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 10000),
+        distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 2000),
         disableDepthTestDistance: Number.POSITIVE_INFINITY,
     });
 }

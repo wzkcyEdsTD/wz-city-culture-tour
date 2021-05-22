@@ -92,11 +92,11 @@ export default {
         // this.doCameraMove(data.heatmap[parseInt(data.heatmap.length / 2)]);
         this.doAreaHeat(data);
         //  全市域查不了
-        if (code == "300300") {
-          this.isHeatCodeLoading = false;
-        } else {
-          this.initStreetGrid(code);
-        }
+        // if (code == "330300") {
+        //   this.isHeatCodeLoading = false;
+        // } else {
+        this.initStreetGrid(code);
+        // }
       } catch (e) {
       } finally {
       }
@@ -160,7 +160,8 @@ export default {
     getStreetAreaGeometryByCode(code, isGrid = false) {
       return new Promise((resolve, reject) => {
         const dataSource = isGrid ? GridURL : StreetURL;
-        const SQL = "ADCODE like '%" + code + "%'";
+        const SQL =
+          code == "330300" ? "SMID > -1" : "ADCODE like '%" + code + "%'";
         var getFeatureParam, getFeatureBySQLService, getFeatureBySQLParams;
         getFeatureParam = new SuperMap.REST.FilterParameter({
           attributeFilter: SQL,
@@ -189,7 +190,7 @@ export default {
     async doAreaGridWithFragments(ranges, area_code, isGrid) {
       const fragments = [];
       const gridHash = {};
-      const fragmentLength = 50;
+      const fragmentLength = isGrid ? 50 : 10;
       ranges.map((item, i) => {
         const index = parseInt(i / fragmentLength);
         if (!fragments[index]) fragments[index] = [];
