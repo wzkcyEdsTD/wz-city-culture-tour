@@ -39,9 +39,12 @@ export default {
           width: "100%",
           height: "100%",
           autoplay: true,
+          isLive: true,
+          rePlay: false,
+          playsinline: true,
+          preload: true,
           controlBarVisibility: "hover",
-          useFlashPrism: !this.type || false,
-          useH5Prism: this.type || true,
+          useH5Prism: true,
         },
         (player) => {
           console.log(this.type ? "[h5]" : "[flash]", "播放器创建");

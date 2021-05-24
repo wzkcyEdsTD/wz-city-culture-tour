@@ -105,6 +105,7 @@
 const Cesium = window.Cesium;
 import { mapGetters, mapActions } from "vuex";
 import { getRtmpVideoList, getRtmpVideoURL } from "api/cityBrainAPI";
+import { xlHLS } from "api/xlAPI";
 import flv from "./Flv";
 
 export default {
@@ -199,13 +200,16 @@ export default {
      */
     async openRtmpVideoFrame({ mp_name, mp_id }) {
       this.forceRtmpVideo = mp_name;
-      const { data } = await getRtmpVideoURL(mp_id);
+      const data = await xlHLS(mp_id);
       this.RtmpVideoURL = undefined;
       this.RtmpVideoMode = "flash";
       data &&
         this.$nextTick(() => {
-          this.RtmpVideoURL = data.flv;
-          this.RtmpVideoMode = data.play_mode;
+          this.RtmpVideoURL = data.url.replace(
+            "http://10.36.194.26",
+            "https://sourcelayer.wzcitybrain.com:8010/xlv"
+          );
+          this.RtmpVideoMode = true;
         });
     },
     async refreshRtmpVideoList() {
