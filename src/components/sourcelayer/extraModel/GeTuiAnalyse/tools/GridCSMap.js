@@ -144,7 +144,7 @@ export const doGridLabel = ({ x, y, count, id }, _GRIDLABEL_INDEX_) => {
             10
         ),
         ...labelConfig,
-        distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 2000),
+        distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 1600),
         disableDepthTestDistance: Number.POSITIVE_INFINITY,
     });
 }

@@ -44,6 +44,7 @@ export default {
   data() {
     return {
       areaCode: "330302",
+      level: "area",
       // streetCode: "330302030000",
       streetCode: undefined,
     };
@@ -52,7 +53,9 @@ export default {
   computed: {
     ...mapGetters("option", ["areaCodeList"]),
     areaCodeListFixed() {
-      return this.areaCodeList;
+      return [{ children: [], label: "全市域", value: "330300" }].concat(
+        this.areaCodeList
+      );
     },
     streetCodeListFixed() {
       const forceItem = this.areaCodeListFixed.filter(
@@ -71,7 +74,12 @@ export default {
     },
     doWithAreaStreetCode() {
       const code = this.streetCode || this.areaCode;
-      this.$bus.$emit(this.BUS_EVENT_TAG, code);
+      const mapLevel = this.streetCode
+        ? "street"
+        : this.areaCode == "330300"
+        ? "city"
+        : "area";
+      this.$bus.$emit(this.BUS_EVENT_TAG, { code, mapLevel });
     },
   },
 };

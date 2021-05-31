@@ -5,6 +5,13 @@
       :BUS_EVENT_TAG="BUS_EVENT_TAG_GRID_CODE"
       :isLoading="isGridCodeLoading"
     />
+    <GetGeohashByLevel
+      ref="level"
+      :BUS_EVENT_TAG="BUS_EVENT_TAG_GRID_BY_LEVEL"
+      :isLoading="isGridCodeLoading"
+      :forceLevels="forceLevels"
+      :forceLevel="forceLevel"
+    />
   </div>
 </template>
 
@@ -14,6 +21,7 @@ import { getHeatMapByRanges, getRoadsData } from "api/getuiAPI";
 import { doCountRoute, doRoadLabel } from "./tools/GridCsRoad";
 import { doGridMap, doGridLabel, doGridWall } from "./tools/GridCSMap";
 import GetGeohashByCodeForGrid from "./components/GetGeohashByCodeForGrid";
+import GetGeohashByLevel from "./components/GetGeohashByLevel";
 const _GRIDMAP_INDEX_ = "getui_gridmap_index";
 const _GRIDLABEL_INDEX_ = "getui_gridlabel_index";
 const _GRIDROAD_INDEX_ = "getui_gridroad_index";
@@ -21,27 +29,35 @@ const _GRIDROADLABEL_INDEX_ = "getui_gridroadlabel_index";
 const BUS_EVENT_TAG_GRID_CODE = "cesium-getui-area-grid-code";
 const BUS_EVENT_TAG_CLICK = "cesium-getui-area-grid-click";
 const BUS_EVENT_TAG_ROAD_CLICK = "cesium-getui-area-road-click";
+const BUS_EVENT_TAG_GRID_BY_LEVEL = "cesium-getui-area-grid-by-level";
 const WALL_ID = "CESIUM_PEOPLE_GRID_WALL";
+const LEVEL_HASH = {
+  city: ["area", "street"],
+  area: ["street", "estate"],
+  street: ["estate", "grid"],
+};
 
 export default {
   name: "PeopleAreaCSGrid",
   data() {
     return {
       BUS_EVENT_TAG_GRID_CODE,
+      BUS_EVENT_TAG_GRID_BY_LEVEL,
       isGridCodeLoading: false,
       roadIds: [],
       gridHash: {},
+      forceLevels: ["street", "estate"],
+      forceLevel: "street",
+      forceAreaCode: "330302",
     };
   },
-  components: { GetGeohashByCodeForGrid },
+  components: { GetGeohashByCodeForGrid, GetGeohashByLevel },
   async created() {
     await this.doRoadInit();
   },
   async mounted() {
     this.eventRegsiter();
-    await this.initGridMap(
-      this.$refs.codeForGrid.streetCode || this.$refs.codeForGrid.areaCode
-    );
+    await this.initGridMap(this.forceAreaCode, this.forceLevel);
   },
   beforeDestroy() {
     this.resetAreaGrid();
@@ -51,7 +67,15 @@ export default {
   methods: {
     eventRegsiter() {
       this.$bus.$off(BUS_EVENT_TAG_GRID_CODE);
-      this.$bus.$on(BUS_EVENT_TAG_GRID_CODE, (code) => this.initGridMap(code));
+      this.$bus.$on(BUS_EVENT_TAG_GRID_CODE, ({ code, mapLevel }) => {
+        this.forceAreaCode = code;
+        this.forceLevels = LEVEL_HASH[mapLevel];
+        this.forceLevel = LEVEL_HASH[mapLevel][0];
+        this.$nextTick(() => {
+          console.log(code, mapLevel, this.forceLevels, this.forceLevel);
+          this.initGridMap(code, this.forceLevel);
+        });
+      });
       this.$bus.$off(BUS_EVENT_TAG_CLICK);
       this.$bus.$on(BUS_EVENT_TAG_CLICK, (obj) => {
         this.doLabelGrid(obj, true);
@@ -60,35 +84,42 @@ export default {
       this.$bus.$on(BUS_EVENT_TAG_ROAD_CLICK, (obj) => {
         this.doLabelRoad(obj);
       });
+      this.$bus.$off(BUS_EVENT_TAG_GRID_BY_LEVEL);
+      this.$bus.$on(BUS_EVENT_TAG_GRID_BY_LEVEL, (forceLevel) => {
+        this.forceLevel = forceLevel;
+        this.initGridMap(this.forceAreaCode, forceLevel);
+      });
     },
     /**
      * 初始化网格场景
      * @param {number} code 区域编码
+     * @param {string} level 分析粒度
      */
-    async initGridMap(code) {
+    async initGridMap(code, level) {
       this.resetAreaGrid();
       this.resetWall();
-      try {
-        this.isGridCodeLoading = true;
-        this.getAreaGeometryByCode(code.slice(0, 9), async (res) => {
-          const ranges = [];
-          res.result.features.map((item, i) => {
-            item.attributes.NAME &&
-              ranges.push({
-                id: item.attributes.NAME,
-                center: res.originResult.features[i].geometry.center,
-                list: res.originResult.features[i].geometry.points.map((v) => [
-                  v.x,
-                  v.y,
-                ]),
-              });
-          });
-          await this.doAreaGridWithFragments(ranges, code);
-          // this.doCameraMove(data.heatmap[parseInt(data.heatmap.length / 2)]);
-        });
-      } catch (e) {
-      } finally {
-      }
+      console.log(code, level);
+      // try {
+      //   this.isGridCodeLoading = true;
+      //   this.getAreaGeometryByCode(code.slice(0, 9), async (res) => {
+      //     const ranges = [];
+      //     res.result.features.map((item, i) => {
+      //       item.attributes.NAME &&
+      //         ranges.push({
+      //           id: item.attributes.NAME,
+      //           center: res.originResult.features[i].geometry.center,
+      //           list: res.originResult.features[i].geometry.points.map((v) => [
+      //             v.x,
+      //             v.y,
+      //           ]),
+      //         });
+      //     });
+      //     await this.doAreaGridWithFragments(ranges, code);
+      //     // this.doCameraMove(data.heatmap[parseInt(data.heatmap.length / 2)]);
+      //   });
+      // } catch (e) {
+      // } finally {
+      // }
     },
     async doRoadInit() {
       const { data } = await getRoadsData();
