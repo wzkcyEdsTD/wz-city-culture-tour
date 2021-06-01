@@ -22,8 +22,8 @@ export default {
       level: [
         { key: "area", label: "县市区" },
         { key: "street", label: "街镇" },
-        { key: "estate", label: "小区" },
         { key: "grid", label: "网格" },
+        { key: "estate", label: "小区" },
       ],
     };
   },

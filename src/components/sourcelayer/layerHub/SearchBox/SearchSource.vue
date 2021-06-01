@@ -39,7 +39,16 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import { CESIUM_TREE_EXTRA_DATA } from "config/server/sourceTreeOption";
-
+const TOP_TRAVEL = [
+  "南麂列岛",
+  "雁荡山风景区",
+  "楠溪江风景区",
+  "江心屿景区",
+  "中共浙江省一大纪念园",
+  "印象南塘景区",
+  "中雁荡山",
+  "南雁荡山风景名胜区",
+];
 export default {
   name: "SearchSource",
   data() {
@@ -86,15 +95,25 @@ export default {
     searchFilter() {
       if (!this.searchBoxVisible) return;
       const featureMap = window.featureMap[this.forceNode.id];
-      // const withExtraData = this[this.forceNode.withExtraData];
       const allSearchList = [];
       for (let key in featureMap) {
         const item = window.featureMap[this.forceNode.id][key];
         allSearchList.push(item);
       }
-      this.extraSearchList = this.searchText
+      const extraSearchList = this.searchText
         ? allSearchList.filter((item) => ~item.name.indexOf(this.searchText))
         : allSearchList;
+      console.log(this.forceNode);
+      if (this.forceNode.id == "旅游景点") {
+        const top = [];
+        const sub = [];
+        extraSearchList.map((v) =>
+          ~TOP_TRAVEL.indexOf(v.name) ? top.push(v) : sub.push(v)
+        );
+        this.extraSearchList = top.concat(sub);
+      } else {
+        this.extraSearchList = extraSearchList;
+      }
     },
     checkedOne(item, i) {
       this.$bus.$emit("cesium-3d-detail-pop-clear");

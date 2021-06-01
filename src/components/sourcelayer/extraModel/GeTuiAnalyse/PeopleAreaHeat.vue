@@ -12,7 +12,9 @@
 </template>
 
 <script>
-import { GridURL, StreetURL } from "config/server/mapConfig";
+import { NORMAL_POLYGON, BUFFER_POLYGON } from "config/server/mapConfig";
+const { StreetURL } = NORMAL_POLYGON;
+const { GridURL } = BUFFER_POLYGON;
 import {
   getHeatMapByCode,
   getHeatMapByGeometry,

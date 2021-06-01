@@ -16,7 +16,8 @@
 </template>
 
 <script>
-import { GridURL } from "config/server/mapConfig";
+import { BUFFER_POLYGON } from "config/server/mapConfig";
+const { AreaURL, StreetURL, GridURL } = BUFFER_POLYGON;
 import { getHeatMapByRanges, getRoadsData } from "api/getuiAPI";
 import { doCountRoute, doRoadLabel } from "./tools/GridCsRoad";
 import { doGridMap, doGridLabel, doGridWall } from "./tools/GridCSMap";
@@ -33,8 +34,13 @@ const BUS_EVENT_TAG_GRID_BY_LEVEL = "cesium-getui-area-grid-by-level";
 const WALL_ID = "CESIUM_PEOPLE_GRID_WALL";
 const LEVEL_HASH = {
   city: ["area", "street"],
-  area: ["street", "estate"],
-  street: ["estate", "grid"],
+  area: ["street", "grid" /*"estate"*/],
+  street: ["grid" /*"estate"*/],
+};
+const FORCE_LEVEL_URL = {
+  area: AreaURL,
+  street: StreetURL,
+  grid: GridURL,
 };
 
 export default {
@@ -46,7 +52,7 @@ export default {
       isGridCodeLoading: false,
       roadIds: [],
       gridHash: {},
-      forceLevels: ["street", "estate"],
+      forceLevels: LEVEL_HASH["area"],
       forceLevel: "street",
       forceAreaCode: "330302",
     };
@@ -95,31 +101,34 @@ export default {
      * @param {number} code 区域编码
      * @param {string} level 分析粒度
      */
-    async initGridMap(code, level) {
+    async initGridMap(code, forceLevel) {
       this.resetAreaGrid();
       this.resetWall();
-      console.log(code, level);
-      // try {
-      //   this.isGridCodeLoading = true;
-      //   this.getAreaGeometryByCode(code.slice(0, 9), async (res) => {
-      //     const ranges = [];
-      //     res.result.features.map((item, i) => {
-      //       item.attributes.NAME &&
-      //         ranges.push({
-      //           id: item.attributes.NAME,
-      //           center: res.originResult.features[i].geometry.center,
-      //           list: res.originResult.features[i].geometry.points.map((v) => [
-      //             v.x,
-      //             v.y,
-      //           ]),
-      //         });
-      //     });
-      //     await this.doAreaGridWithFragments(ranges, code);
-      //     // this.doCameraMove(data.heatmap[parseInt(data.heatmap.length / 2)]);
-      //   });
-      // } catch (e) {
-      // } finally {
-      // }
+      try {
+        this.isGridCodeLoading = true;
+        this.getAreaGeometryByCode(
+          code.slice(0, 9),
+          forceLevel,
+          async (res) => {
+            const ranges = [];
+            res.result.features.map((item, i) => {
+              const id = item.attributes.NAME || item.attributes.FNAME;
+              id &&
+                ranges.push({
+                  id,
+                  center: res.originResult.features[i].geometry.center,
+                  list: res.originResult.features[
+                    i
+                  ].geometry.points.map((v) => [v.x, v.y]),
+                });
+            });
+            await this.doAreaGridWithFragments(ranges, code, forceLevel);
+            // this.doCameraMove(data.heatmap[parseInt(data.heatmap.length / 2)]);
+          }
+        );
+      } catch (e) {
+      } finally {
+      }
     },
     async doRoadInit() {
       const { data } = await getRoadsData();
@@ -134,7 +143,8 @@ export default {
      * @param {object} code
      * @param {function} fn callback hook
      */
-    getAreaGeometryByCode(code, fn) {
+    getAreaGeometryByCode(code, forceLevel, fn) {
+      const URL = FORCE_LEVEL_URL[forceLevel];
       var getFeatureParam, getFeatureBySQLService, getFeatureBySQLParams;
       getFeatureParam = new SuperMap.REST.FilterParameter({
         attributeFilter: "ADCODE like '%" + code + "%'",
@@ -142,10 +152,10 @@ export default {
       getFeatureBySQLParams = new SuperMap.REST.GetFeaturesBySQLParameters({
         queryParameter: getFeatureParam,
         toIndex: -1,
-        datasetNames: GridURL.dataSource,
+        datasetNames: URL.dataSource,
       });
       getFeatureBySQLService = new SuperMap.REST.GetFeaturesBySQLService(
-        GridURL.url,
+        URL.url,
         {
           eventListeners: {
             processCompleted: async (res) => fn(res),

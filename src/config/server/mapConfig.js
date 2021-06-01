@@ -21,35 +21,35 @@ export const ServiceUrl = {
       URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb-BaiMoQiTaModel/rest/realspace/datas/BaiMoQiTaModel/config",
       withoutFix: true,
     },
-    // {
-    //   KEY: 'WZBaimo_POINT_JZ',
-    //   URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb4/rest/realspace/datas/JZ/config",
-    //   FLOW: false,
-    // },
-    // {
-    //   KEY: 'WZBaimo_POINT_QT',
-    //   URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb4/rest/realspace/datas/QT/config",
-    //   FLOW: false,
-    //   d: 2200
-    // },
-    // {
-    //   KEY: 'WZBaimo_POINT_DX',
-    //   URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb4/rest/realspace/datas/DX/config",
-    //   FLOW: false,
-    //   d: 2400
-    // },
-    // {
-    //   KEY: 'WZBaimo_POINT_DL',
-    //   URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb4/rest/realspace/datas/DL/config",
-    //   FLOW: false,
-    //   d: 3000
-    // },
-    // {
-    //   KEY: 'WZBaimo_POINT_ZB',
-    //   URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb4/rest/realspace/datas/ZB/config",
-    //   FLOW: false,
-    //   d: 2200
-    // }
+    {
+      KEY: 'WZBaimo_POINT_JZ',
+      URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb4/rest/realspace/datas/JZ/config",
+      FLOW: false,
+    },
+    {
+      KEY: 'WZBaimo_POINT_QT',
+      URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb4/rest/realspace/datas/QT/config",
+      FLOW: false,
+      d: 2200
+    },
+    {
+      KEY: 'WZBaimo_POINT_DX',
+      URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb4/rest/realspace/datas/DX/config",
+      FLOW: false,
+      d: 2400
+    },
+    {
+      KEY: 'WZBaimo_POINT_DL',
+      URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb4/rest/realspace/datas/DL/config",
+      FLOW: false,
+      d: 3000
+    },
+    {
+      KEY: 'WZBaimo_POINT_ZB',
+      URL: "https://ditu.wzcitybrain.com/iserver/services/3D-mongodb4/rest/realspace/datas/ZB/config",
+      FLOW: false,
+      d: 2200
+    }
   ],
   //  动态水面模型
   RIVER: "https://ditu.wzcitybrain.com/iserver/services/3D-River_CityBrain/rest/realspace/datas/River_CityBrain/config",
@@ -100,19 +100,36 @@ export const ImagesURL = [
   { year: 2012, url: "https://sourceserver.wzcitybrain.com/iserver/services/map-agscachev2-Layers2/rest/maps/Layers" },
 ]
 
-/*export const GridURL = {
-  url: "https://ditu.wzcitybrain.com/iserver/services/data-wz_wangge/rest/data",
-  dataSource: ["全市网格:wz_wangge"]
-}*/
-
-export const GridURL = {
-  url: "https://ditu.wzcitybrain.com/iserver/services/data-wz_jiezhen/rest/data",
-  dataSource: ["wz_jiezhen:wz_wangge_simp"]
+/**
+ * 无内卷
+ */
+export const NORMAL_POLYGON = {
+  StreetURL: {
+    url: "https://ditu.wzcitybrain.com/iserver/services/data-wz_jiezhen/rest/data",
+    dataSource: ["wz_jiezhen:wz_jiezhen_simp"]
+  },
+  GridURL: {
+    url: "https://ditu.wzcitybrain.com/iserver/services/data-wz_wangge/rest/data",
+    dataSource: ["全市网格:wz_wangge"]
+  }
 }
 
-export const StreetURL = {
-  url: "https://ditu.wzcitybrain.com/iserver/services/data-wz_jiezhen/rest/data",
-  dataSource: ["wz_jiezhen:wz_jiezhen_simp"]
+/**
+ * 内卷面
+ */
+export const BUFFER_POLYGON = {
+  AreaURL: {
+    url: "https://ditu.wzcitybrain.com/iserver/services/data-wz_jiezhen/rest/data",
+    dataSource: ["wz_jiezhen:wz_quxian_simp_buffer"]
+  },
+  StreetURL: {
+    url: "https://ditu.wzcitybrain.com/iserver/services/data-wz_jiezhen/rest/data",
+    dataSource: ["wz_jiezhen:wz_jiezhen_simp_buffer"]
+  },
+  GridURL: {
+    url: "https://ditu.wzcitybrain.com/iserver/services/data-wz_jiezhen/rest/data",
+    dataSource: ["wz_jiezhen:wz_wangge_simp"]
+  }
 }
 
 export const ExtraSourceURL = {
