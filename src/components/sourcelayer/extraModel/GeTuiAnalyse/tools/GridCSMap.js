@@ -4,21 +4,21 @@ const DEFAULT_COLOR = Cesium.Color.fromCssColorString("rgba(166,0,21,0.4)")
 const WITHOUT_COLOR = Cesium.Color.fromCssColorString("rgba(0,0,0,0.1)");
 const WHITE_COLOR = Cesium.Color.fromCssColorString("rgba(255,255,255,0.8)");
 const ColorHash = {
-    0: Cesium.Color.fromCssColorString("rgba(27,29,41,1)"),
-    1: Cesium.Color.fromCssColorString("rgba(0,73,135,1)"),
-    2: Cesium.Color.fromCssColorString("rgba(26,116,192,1)"),
-    3: Cesium.Color.fromCssColorString("rgba(139,185,227,1)"),
-    4: Cesium.Color.fromCssColorString("rgba(220,238,255,1)"),
-    5: Cesium.Color.fromCssColorString("rgba(255,255,255,1)"),
-    6: Cesium.Color.fromCssColorString("rgba(232,232,189,1)"),
-    7: Cesium.Color.fromCssColorString("rgba(243,208,139,1)"),
-    8: Cesium.Color.fromCssColorString("rgba(249,172,98,1)"),
-    9: Cesium.Color.fromCssColorString("rgba(229,80,56,1)"),
-    10: Cesium.Color.fromCssColorString("rgba(166,0,21,1)"),
+    0: Cesium.Color.fromCssColorString("rgba(77, 104, 239,1)"),
+    1: Cesium.Color.fromCssColorString("rgba(77, 141, 255,1)"),
+    2: Cesium.Color.fromCssColorString("rgba(98, 180, 250,1)"),
+    3: Cesium.Color.fromCssColorString("rgba(145, 200, 203,1)"),
+    4: Cesium.Color.fromCssColorString("rgba(203, 217, 141,1)"),
+    5: Cesium.Color.fromCssColorString("rgba(246, 221, 91,1)"),
+    6: Cesium.Color.fromCssColorString("rgba(253, 203, 70,1)"),
+    7: Cesium.Color.fromCssColorString("rgba(253, 170, 65,1)"),
+    8: Cesium.Color.fromCssColorString("rgba(253, 133, 60,1)"),
+    9: Cesium.Color.fromCssColorString("rgba(242, 79, 32,1)"),
+    10: Cesium.Color.fromCssColorString("rgba(211, 25, 0,1)"),
 }
 const FORCE_LEVEL_LIMIT = {
     area: 1500000,
-    street: 100000,
+    street: 150000,
     grid: 8000,
     estate: 8000,
 };
@@ -26,7 +26,7 @@ const FORCE_LEVEL_DISTANCEC = {
     area: 1000000,
     street: 30000,
     grid: 1800,
-    estate: 2000,
+    estate: 1800,
 };
 // 标识配置
 const labelConfig = {
