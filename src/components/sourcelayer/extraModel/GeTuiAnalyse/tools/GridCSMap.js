@@ -16,6 +16,18 @@ const ColorHash = {
     9: Cesium.Color.fromCssColorString("rgba(229,80,56,1)"),
     10: Cesium.Color.fromCssColorString("rgba(166,0,21,1)"),
 }
+const FORCE_LEVEL_LIMIT = {
+    area: 1500000,
+    street: 100000,
+    grid: 8000,
+    estate: 8000,
+};
+const FORCE_LEVEL_DISTANCEC = {
+    area: 1000000,
+    street: 30000,
+    grid: 1800,
+    estate: 2000,
+};
 // 标识配置
 const labelConfig = {
     outlineColor: Cesium.Color.BLACK,
@@ -32,7 +44,7 @@ const labelConfig = {
  * @param {*} heatArr 
  * @param {*} _GRIDMAP_INDEX_ 
  */
-export const doGridMap = ({ id, list, center, count }, _GRIDMAP_INDEX_, BUS_EVENT_TAG_CLICK) => {
+export const doGridMap = ({ id, list, center, count }, _GRIDMAP_INDEX_, BUS_EVENT_TAG_CLICK, forceLevel) => {
     /*count && window.extraPrimitiveMap[_GRIDMAP_INDEX_].add(new Cesium.Primitive({
         geometryInstances: [
             new Cesium.GeometryInstance({
@@ -66,7 +78,7 @@ export const doGridMap = ({ id, list, center, count }, _GRIDMAP_INDEX_, BUS_EVEN
                 vertexFormat: Cesium.PolylineColorAppearance.VERTEX_FORMAT
             }),
             attributes: {
-                color: Cesium.ColorGeometryInstanceAttribute.fromColor(ColorHash[Math.round((count / TOP_COUNT) * 10)] || DEFAULT_COLOR)
+                color: Cesium.ColorGeometryInstanceAttribute.fromColor(ColorHash[Math.round((count / FORCE_LEVEL_LIMIT[forceLevel]) * 10)] || DEFAULT_COLOR)
             }
         }),
         appearance: new Cesium.PolylineColorAppearance({
@@ -128,7 +140,7 @@ export const doGridPolygon = ({ id, list, center, count }, _GRIDMAP_INDEX_, BUS_
  * @param {*} param0 
  * @param {*} _GRIDLABEL_INDEX_ 
  */
-export const doGridLabel = ({ x, y, count, id }, _GRIDLABEL_INDEX_) => {
+export const doGridLabel = ({ x, y, count, id }, _GRIDLABEL_INDEX_, forceLevel) => {
     if (!window.extraPrimitiveMap[_GRIDLABEL_INDEX_]) {
         window.extraPrimitiveMap[_GRIDLABEL_INDEX_] = window.earth.scene.primitives.add(new Cesium.LabelCollection())
     }
@@ -136,7 +148,7 @@ export const doGridLabel = ({ x, y, count, id }, _GRIDLABEL_INDEX_) => {
     window.extraPrimitiveMap[_GRIDLABEL_INDEX_].add({
         id: +new Date(),
         text: `${id ? `[${id}] ` : ``}${count}人`,
-        fillColor: ColorHash[Math.round((count / TOP_COUNT) * 10)] || DEFAULT_COLOR,
+        fillColor: ColorHash[Math.round((count / FORCE_LEVEL_LIMIT[forceLevel]) * 10)] || DEFAULT_COLOR,
         position: Cesium.Cartesian3.fromDegrees(
             +x,
             +y,
@@ -144,7 +156,7 @@ export const doGridLabel = ({ x, y, count, id }, _GRIDLABEL_INDEX_) => {
             10
         ),
         ...labelConfig,
-        distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 1600),
+        distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, FORCE_LEVEL_DISTANCEC[forceLevel]),
         disableDepthTestDistance: Number.POSITIVE_INFINITY,
     });
 }

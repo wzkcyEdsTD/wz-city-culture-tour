@@ -118,7 +118,13 @@ export default {
       }
     }
     &/deep/ .el-button {
-      background: rgba(255, 255, 255, 0.2);
+      border: 2px rgb(76, 151, 227) solid;
+      background-color: transparent;
+      background-image: linear-gradient(
+        to top,
+        rgba(42, 203, 254, 1),
+        rgba(42, 203, 254, 0.4)
+      );
       color: white;
     }
   }

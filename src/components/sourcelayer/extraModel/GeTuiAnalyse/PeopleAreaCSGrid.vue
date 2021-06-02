@@ -17,7 +17,7 @@
 
 <script>
 import { BUFFER_POLYGON } from "config/server/mapConfig";
-const { AreaURL, StreetURL, GridURL } = BUFFER_POLYGON;
+const { AreaURL, StreetURL, GridURL, EstateURL } = BUFFER_POLYGON;
 import { getHeatMapByRanges, getRoadsData } from "api/getuiAPI";
 import { doCountRoute, doRoadLabel } from "./tools/GridCsRoad";
 import { doGridMap, doGridLabel, doGridWall } from "./tools/GridCSMap";
@@ -34,13 +34,14 @@ const BUS_EVENT_TAG_GRID_BY_LEVEL = "cesium-getui-area-grid-by-level";
 const WALL_ID = "CESIUM_PEOPLE_GRID_WALL";
 const LEVEL_HASH = {
   city: ["area", "street"],
-  area: ["street", "grid" /*"estate"*/],
-  street: ["grid" /*"estate"*/],
+  area: ["street", "grid", "estate"],
+  street: ["grid", "estate"],
 };
 const FORCE_LEVEL_URL = {
   area: AreaURL,
   street: StreetURL,
   grid: GridURL,
+  estate: EstateURL,
 };
 
 export default {
@@ -59,7 +60,7 @@ export default {
   },
   components: { GetGeohashByCodeForGrid, GetGeohashByLevel },
   async created() {
-    await this.doRoadInit();
+    // await this.doRoadInit();
   },
   async mounted() {
     this.eventRegsiter();
@@ -67,7 +68,7 @@ export default {
   },
   beforeDestroy() {
     this.resetAreaGrid();
-    this.resetRoads();
+    // this.resetRoads();
     this.resetWall();
   },
   methods: {
@@ -86,10 +87,10 @@ export default {
       this.$bus.$on(BUS_EVENT_TAG_CLICK, (obj) => {
         this.doLabelGrid(obj, true);
       });
-      this.$bus.$off(BUS_EVENT_TAG_ROAD_CLICK);
-      this.$bus.$on(BUS_EVENT_TAG_ROAD_CLICK, (obj) => {
-        this.doLabelRoad(obj);
-      });
+      // this.$bus.$off(BUS_EVENT_TAG_ROAD_CLICK);
+      // this.$bus.$on(BUS_EVENT_TAG_ROAD_CLICK, (obj) => {
+      //   this.doLabelRoad(obj);
+      // });
       this.$bus.$off(BUS_EVENT_TAG_GRID_BY_LEVEL);
       this.$bus.$on(BUS_EVENT_TAG_GRID_BY_LEVEL, (forceLevel) => {
         this.forceLevel = forceLevel;
@@ -145,9 +146,11 @@ export default {
      */
     getAreaGeometryByCode(code, forceLevel, fn) {
       const URL = FORCE_LEVEL_URL[forceLevel];
+      const attQ = "1=1";
+      const attNoraml = `ADCODE like '%${code}%'`;
       var getFeatureParam, getFeatureBySQLService, getFeatureBySQLParams;
       getFeatureParam = new SuperMap.REST.FilterParameter({
-        attributeFilter: "ADCODE like '%" + code + "%'",
+        attributeFilter: code == "330300" ? attQ : attNoraml,
       });
       getFeatureBySQLParams = new SuperMap.REST.GetFeaturesBySQLParameters({
         queryParameter: getFeatureParam,
@@ -169,10 +172,10 @@ export default {
      * 画热力图
      * @param {array} points 热力图点
      */
-    async doAreaGridWithFragments(ranges, area_code) {
+    async doAreaGridWithFragments(ranges, area_code, forceLevel) {
       const fragments = [];
       const gridHash = {};
-      const fragmentLength = 50;
+      const fragmentLength = forceLevel == "area" ? 1 : 30;
       ranges.map((item, i) => {
         const index = parseInt(i / fragmentLength);
         if (!fragments[index]) fragments[index] = [];
@@ -200,9 +203,14 @@ export default {
                 doGridMap(
                   { ...v, count: hash[v.id] },
                   _GRIDMAP_INDEX_,
-                  BUS_EVENT_TAG_CLICK
+                  BUS_EVENT_TAG_CLICK,
+                  forceLevel
                 );
-                this.doLabelGrid({ ...v, count: hash[v.id], ...v.center });
+                this.doLabelGrid({
+                  ...v,
+                  count: hash[v.id],
+                  ...v.center,
+                });
               });
               resolve(true);
             })
@@ -215,7 +223,7 @@ export default {
      * 展示标签
      */
     doLabelGrid(obj, doWall = false) {
-      doGridLabel(obj, _GRIDLABEL_INDEX_);
+      doGridLabel(obj, _GRIDLABEL_INDEX_, this.forceLevel);
       doWall && doGridWall(obj, this, WALL_ID);
     },
     doLabelRoad(obj) {

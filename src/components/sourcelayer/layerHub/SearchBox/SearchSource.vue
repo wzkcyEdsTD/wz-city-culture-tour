@@ -103,7 +103,6 @@ export default {
       const extraSearchList = this.searchText
         ? allSearchList.filter((item) => ~item.name.indexOf(this.searchText))
         : allSearchList;
-      console.log(this.forceNode);
       if (this.forceNode.id == "旅游景点") {
         const top = [];
         const sub = [];

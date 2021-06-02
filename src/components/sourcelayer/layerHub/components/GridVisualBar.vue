@@ -2,8 +2,8 @@
   <div class="grid-visual-legend">
     <div class="grid-visual-bar">
       <div class="grid-visual-tag">
-        <p>8000 人</p>
-        <p>0 人</p>
+        <p>密集</p>
+        <p>稀疏</p>
       </div>
       <div class="grid-visual-map" />
     </div>

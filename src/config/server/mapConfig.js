@@ -129,6 +129,10 @@ export const BUFFER_POLYGON = {
   GridURL: {
     url: "https://ditu.wzcitybrain.com/iserver/services/data-wz_jiezhen/rest/data",
     dataSource: ["wz_jiezhen:wz_wangge_simp"]
+  },
+  EstateURL: {
+    url: "https://ditu.wzcitybrain.com/iserver/services/data-wz_jiezhen/rest/data",
+    dataSource: ["wz_jiezhen:poi_polygon"]
   }
 }
 
