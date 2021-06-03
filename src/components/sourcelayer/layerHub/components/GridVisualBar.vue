@@ -7,7 +7,7 @@
       </div>
       <div class="grid-visual-map" />
     </div>
-    <ul class="car-line-speed-legend">
+    <!-- <ul class="car-line-speed-legend">
       <li>
         <div>
           <i>阻塞道路</i
@@ -26,7 +26,7 @@
           ><img :src="`/static/images/map-ico/道路车辆分析_low.png`" />
         </div>
       </li>
-    </ul>
+    </ul> -->
   </div>
 </template>
 

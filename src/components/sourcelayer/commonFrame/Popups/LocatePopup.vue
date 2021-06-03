@@ -46,6 +46,13 @@
                 src="/static/images/common/navigation-around.png"
               />视频通话</span
             >
+            <span
+              v-if="forceEntity.attributes && forceEntity.attributes.vr"
+              @click="doVRFrame"
+              ><img
+                src="/static/images/common/navigation-around.png"
+              />全景展示</span
+            >
           </div>
         </div>
         <div class="extra-tab to-rtmp-video" @click="doVideoRtmp">直达现场</div>
@@ -186,6 +193,12 @@ export default {
         shortname: name,
         geometry: { lng: x, lat: y },
       });
+    },
+    /**
+     * 全景展示
+     */
+    doVRFrame() {
+      this.$bus.$emit("cesium-iframe", this.forceEntity.attributes);
     },
     /**
      * 路径分析

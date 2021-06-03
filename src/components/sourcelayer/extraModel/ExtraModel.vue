@@ -12,6 +12,7 @@
       <AroundSourceAnalyse ref="aroundSourceAnalyse" />
       <RtmpVideo />
       <Population />
+      <VRFrame />
       <!-- 搜索框 -->
       <SearchBox ref="searchBox" v-show="subModel != '3d1'" />
     </div>
@@ -29,6 +30,7 @@ import PeopleAreaHeat from "components/sourcelayer/extraModel/GeTuiAnalyse/Peopl
 import PeopleAreaCSGrid from "components/sourcelayer/extraModel/GeTuiAnalyse/PeopleAreaCSGrid";
 import AroundSourceAnalyse from "components/sourcelayer/extraModel/AroundSourceAnalyse/AroundSourceAnalyse";
 import RtmpVideo from "components/sourcelayer/extraModel/RtmpVideo/RtmpVideo";
+import VRFrame from "components/sourcelayer/extraModel/VRFrame/VRFrame";
 import Population from "components/sourcelayer/extraModel/Population/Population";
 import SearchBox from "components/sourcelayer/layerHub/SearchBox/SearchBox";
 
@@ -43,6 +45,7 @@ export default {
     PeopleAreaCSGrid,
     AroundSourceAnalyse,
     RtmpVideo,
+    VRFrame,
     Population,
     SearchBox,
   },
