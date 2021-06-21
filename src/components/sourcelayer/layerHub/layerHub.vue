@@ -274,7 +274,6 @@ export default {
       this.$bus.$on("cesium-3d-topic-pick", ({ value }) => {
         this.clearForceTopic();
         if (value == "now") {
-          console.log(6666);
           if (this.queryTopic) {
             this.SetForceTreeLabel(this.queryTopic);
           } else {
@@ -477,14 +476,13 @@ export default {
           if (this.tileLayers[node.id]) {
             this.tileLayers[node.id].show = true;
           } else {
-            this.tileLayers[
-              node.id
-            ] = window.earth.imageryLayers.addImageryProvider(
-              new Cesium.SuperMapImageryProvider({
-                url: node.url,
-                name: node.id,
-              })
-            );
+            this.tileLayers[node.id] =
+              window.earth.imageryLayers.addImageryProvider(
+                new Cesium.SuperMapImageryProvider({
+                  url: node.url,
+                  name: node.id,
+                })
+              );
           }
         }
         this.switchSearchBox(node, type);
