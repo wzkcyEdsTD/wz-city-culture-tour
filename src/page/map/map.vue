@@ -20,7 +20,7 @@ export default {
   data() {
     return {
       mapTollBar: {}, // 地图按钮操作
-      currentBaseMapType:""
+      currentBaseMapType: "",
     };
   },
   computed: {

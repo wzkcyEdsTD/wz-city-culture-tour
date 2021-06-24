@@ -6,27 +6,24 @@
  * @Description:
  * @FilePath: \wz-city-culture-tour\src\main.js
  */
-import "element-ui/lib/theme-chalk/index.css";
 import Vue from "vue";
 import App from "./App";
 import router from "./router";
 import store from "./store";
-import * as filters from "./filters"; // 全局过滤器
 import ElementUI from "element-ui";
 import VueBus from "vue-bus";
-import { initPlugin, SingleVideoCall } from "common/js/ws/wsplugin";
 import VueAwesomeSwiper from 'vue-awesome-swiper'
-import 'swiper/css/swiper.css'
-//  font
-import "./font/font.css";
-//  material
+import { initPlugin, SingleVideoCall } from "common/js/ws/wsplugin";
+
+//  地图材质
 import "./material/PolylineTrailLink";
 
+//  第三方样式库
+import "element-ui/lib/theme-chalk/index.css";
+import 'swiper/css/swiper.css'
+
+//  第三方库
 Vue.use(VueAwesomeSwiper, /* { default options with global component } */)
-Vue.prototype.$SingleVideoCall = SingleVideoCall;
-Object.keys(filters).forEach(key => {
-  Vue.filter(key, filters[key]);
-});
 Vue.use(VueBus);
 Vue.use(ElementUI);
 Vue.config.productionTip = false;
